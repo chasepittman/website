@@ -5,15 +5,16 @@
   <title>Chase Pittman | Portfolio</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
     /* =========================
-       Body and space for sticky navbar
+       Body and sticky navbar space
        ========================= */
     body {
       margin: 0;
-      padding-top: 0px; /* space for sticky navbar */
+      padding-top: 0;
       font-family: 'Poppins', Arial, sans-serif;
       background-color: #f4f4f4;
       text-align: center;
@@ -31,21 +32,19 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      position: relative; /* needed so absolute children are positioned correctly */
+      position: relative;
     }
 
     .navbar .logo {
       color: white;
       font-size: 20px;
       font-weight: bold;
+      font-family: 'Cormorant Garamond', serif;
     }
 
-    /* Apply Cormorant Garamond to headings and logo */
-    h1, h2, h3, .navbar .logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 600; /* optional: makes headers bold but elegant */
-    }
-    
+    /* =========================
+       Navigation links
+       ========================= */
     .nav-links {
       list-style: none;
       margin: 0;
@@ -73,37 +72,57 @@
       flex-direction: column;
       cursor: pointer;
       gap: 5px;
-      z-index: 1100; /* ensures it's above nav-links */
+      z-index: 1100; /* above nav-links */
     }
 
     .hamburger div {
       width: 25px;
       height: 3px;
       background-color: white;
-      transition: transform 0.3s;
+      transition: all 0.3s ease;
     }
 
+    /* Transform hamburger into X */
+    .hamburger.active div:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.active div:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active div:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* =========================
+       Media query for mobile
+       ========================= */
     @media (max-width: 600px) {
       .nav-links {
         flex-direction: column;
         background-color: #222;
         position: absolute;
-        top: 70px; /* below navbar */
+        top: 55px; /* height of navbar */
         right: 0;
         width: 100%;
-        overflow: hidden;        /* hide when collapsed */
-        max-height: 0;           /* collapsed state */
+        overflow: hidden;
+        max-height: 0;
         transition: max-height 0.3s ease-out;
       }
 
       .nav-links.active {
-        max-height: 500px;       /* expanded state, adjust if many links */
+        max-height: 500px; /* expanded menu */
         transition: max-height 0.3s ease-in;
       }
 
       .hamburger {
         display: flex;
-        margin-right: 15px; /* optional, pushes it slightly left from the edge */ 
+      }
+
+      .navbar .logo {
+        margin-left: 10px;
+        flex: 1; /* logo takes remaining space */
       }
     }
 
@@ -121,6 +140,11 @@
       max-width: 100%;
       height: auto;
       margin-top: 20px;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
     }
 
   </style>
@@ -158,7 +182,8 @@
     const navLinks = document.getElementById('nav-links');
 
     hamburger.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
+      navLinks.classList.toggle('active'); // slide menu
+      hamburger.classList.toggle('active'); // animate X
     });
   </script>
 
