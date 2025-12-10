@@ -1,16 +1,155 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Site</title>
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <title>Chase Pittman | Portfolio</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <style>
+    /* =========================
+       Body and space for sticky navbar
+       ========================= */
+    body {
+      margin: 0;
+      padding-top: 70px; /* space for sticky navbar */
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      text-align: center;
+    }
+
+    /* =========================
+       Navbar
+       ========================= */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: #222;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar .logo {
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .nav-links {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 25px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #FFD700; /* golden highlight */
+    }
+
+    /* =========================
+       Hamburger menu (mobile)
+       ========================= */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      transition: transform 0.3s;
+    }
+
+    @media (max-width: 600px) {
+      .nav-links {
+        flex-direction: column;
+        background-color: #222;
+        position: absolute;
+        top: 70px; /* below navbar */
+        right: 0;
+        width: 100%;
+        overflow: hidden;        /* hide when collapsed */
+        max-height: 0;           /* collapsed state */
+        transition: max-height 0.3s ease-out;
+      }
+
+      .nav-links.active {
+        max-height: 500px;       /* expanded state, adjust if many links */
+        transition: max-height 0.3s ease-in;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
+
+    /* =========================
+       Content wrapper
+       ========================= */
+    .content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .content img {
+      max-width: 100%;
+      height: auto;
+      margin-top: 20px;
+    }
+
+  </style>
 </head>
 <body>
-  <h1>Stay tuned...</h1>
 
-  <img src="CRP_Logo.png" alt="My Personal Logo" width="100">
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">Chase Pittman</div>
 
-  <p>Chase R. Pittman</p>
-  
+    <!-- Hamburger for mobile -->
+    <div class="hamburger" id="hamburger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main content -->
+  <div class="content">
+    <h1>Stay tuned...</h1>
+    <img src="CRP_Logo.png" alt="My Personal Logo" width="100">
+    <p>Chase R. Pittman</p>
+  </div>
+
+  <!-- Hamburger menu toggle script -->
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+  </script>
+
 </body>
 </html>
