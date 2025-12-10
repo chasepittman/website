@@ -31,6 +31,7 @@
       position: sticky;
       top: 0;
       z-index: 1000;
+      position: relative; /* needed so absolute children are positioned correctly */
     }
 
     .navbar .logo {
@@ -72,6 +73,7 @@
       flex-direction: column;
       cursor: pointer;
       gap: 5px;
+      z-index: 1100; /* ensures it's above nav-links */
     }
 
     .hamburger div {
