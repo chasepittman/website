@@ -56,7 +56,7 @@
 
     /* Page Content */
     .content {
-      max-width: 800px;
+      max-width: 900px;
       margin: 80px auto;
       padding: 0 20px;
     }
@@ -108,51 +108,7 @@
       background-color: #148f77;
     }
 
-    /* Timeline */
-    .timeline {
-      max-width: 700px;
-      margin: 0 auto;
-      text-align: left;
-    }
-
-    .timeline-item {
-      margin-bottom: 35px;
-      padding-left: 60px;
-      position: relative;
-    }
-
-    .timeline-item::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 50px;
-      height: 50px;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      border-radius: 50%;
-    }
-
-    .timeline-item h3 {
-      margin: 0;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 22px;
-      color: #ffffff;
-    }
-
-    .timeline-item span {
-      font-size: 14px;
-      color: #bbbbbb;
-    }
-
-    .timeline-item p {
-      margin-top: 8px;
-      font-size: 16px;
-      color: #e0e0e0;
-    }
-
-    /* Skill Section */
+    /* Skills Section */
     .skills {
       display: flex;
       flex-wrap: wrap;
@@ -179,6 +135,7 @@
     .dots {
       display: flex;
       gap: 3px;
+      margin-top: 4px;
     }
 
     .dot {
@@ -192,24 +149,74 @@
       background-color: #1abc9c;
     }
 
-    /* Mobile */
+    /* Horizontal Timeline */
+    .timeline-container {
+      position: relative;
+      margin: 60px 0;
+      overflow-x: auto;
+      padding-bottom: 40px;
+    }
+
+    .timeline-axis {
+      position: relative;
+      height: 4px;
+      background-color: #1abc9c;
+      margin: 50px 0 30px;
+    }
+
+    .timeline-item {
+      position: relative;
+      display: inline-block;
+      text-align: center;
+      width: 150px;
+      margin-right: 40px;
+      cursor: pointer;
+    }
+
+    .timeline-item img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      border-radius: 50%;
+      border: 2px solid #1abc9c;
+      background-color: #222;
+      margin-bottom: 8px;
+    }
+
+    .timeline-item span {
+      display: block;
+      font-size: 14px;
+      color: #bbbbbb;
+      margin-bottom: 4px;
+    }
+
+    .timeline-tooltip {
+      display: none;
+      position: absolute;
+      bottom: 75px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #222;
+      color: #f4f4f4;
+      padding: 10px;
+      border-radius: 8px;
+      width: 180px;
+      font-size: 14px;
+      z-index: 10;
+    }
+
+    /* Show tooltip on hover (desktop) */
+    .timeline-item:hover .timeline-tooltip {
+      display: block;
+    }
+
+    /* Mobile click */
     @media (max-width: 600px) {
-      h1 {
-        font-size: 34px;
-      }
-      h2 {
-        font-size: 24px;
-      }
-      .nav-links {
-        gap: 15px;
-      }
-      .timeline-item {
-        padding-left: 60px;
-      }
-      .skills {
-        gap: 15px;
+      .timeline-axis {
+        margin: 60px 0 50px;
       }
     }
+
   </style>
 </head>
 <body>
@@ -251,145 +258,96 @@
       <div class="skill">
         <img src="/assets/logos/asana.png" alt="Asana">
         <span>Asana</span>
-        <div class="dots">
-          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
-        </div>
-      </div>
-      <div class="skill">
-        <img src="/assets/logos/larta.png" alt="Larta">
-        <span>Larta</span>
-        <div class="dots">
-          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span>
-        </div>
+        <div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span></div>
       </div>
       <div class="skill">
         <img src="/assets/logos/sap.png" alt="SAP">
         <span>SAP</span>
-        <div class="dots">
-          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
-        </div>
-      </div>
-      <div class="skill">
-        <img src="/assets/logos/specialolympics.png" alt="Special Olympics">
-        <span>Special Olympics</span>
-        <div class="dots">
-          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span>
-        </div>
-      </div>
-      <div class="skill">
-        <img src="/assets/logos/umich.png" alt="UMich">
-        <span>UMich</span>
-        <div class="dots">
-          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
-        </div>
-      </div>
-      <div class="skill">
-        <img src="/assets/logos/xpanse.png" alt="Xpanse AI">
-        <span>Xpanse AI</span>
-        <div class="dots">
-          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span>
-        </div>
+        <div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span></div>
       </div>
       <div class="skill">
         <img src="/assets/logos/ga4.png" alt="GA4">
         <span>GA4</span>
-        <div class="dots">
-          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span>
-        </div>
+        <div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span></div>
       </div>
       <div class="skill">
         <img src="/assets/logos/office.png" alt="Microsoft Office">
         <span>Microsoft Office</span>
-        <div class="dots">
-          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
-        </div>
+        <div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span></div>
       </div>
       <div class="skill">
         <img src="/assets/logos/smartsheet.png" alt="Smartsheet">
         <span>Smartsheet</span>
-        <div class="dots">
-          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
-        </div>
+        <div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span></div>
       </div>
       <div class="skill">
         <img src="/assets/logos/sql.png" alt="SQL">
         <span>SQL</span>
-        <div class="dots">
-          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span>
-        </div>
-      </div>
-      <div class="skill">
-        <img src="/assets/logos/waterworks.png" alt="Waterworks">
-        <span>Waterworks</span>
-        <div class="dots">
-          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
-        </div>
+        <div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span></div>
       </div>
     </div>
 
-    <!-- Timeline -->
+    <!-- Horizontal Timeline -->
     <h2>Experience & Leadership</h2>
-    <div class="timeline">
-      <!-- Work Experience -->
-      <div class="timeline-item" style="--logo:'/assets/logos/waterworks.png'">
-        <h3>Waterworks</h3>
-        <span>Associate Product Manager | Apr 2025 – Present</span>
-        <p>
-          Lead weekly business performance reviews across seven product categories by synthesizing KPIs and dashboard analytics, delivering strategic insights contributing to a 21% increase in revenue growth since promotion.
-        </p>
+    <div class="timeline-container">
+      <div class="timeline-axis"></div>
+
+      <!-- Timeline Items -->
+      <div class="timeline-item" data-tooltip="Lead weekly product reviews across seven categories, driving 21% revenue growth.">
+        <img src="/assets/logos/waterworks.png" alt="Waterworks">
+        <span>Associate PM<br>Apr 2025 – Present</span>
+        <div class="timeline-tooltip"></div>
       </div>
 
-      <div class="timeline-item" style="--logo:'/assets/logos/waterworks.png'">
-        <h3>Waterworks</h3>
-        <span>Product Management Coordinator | Jun 2022 – Apr 2025</span>
-        <p>
-          Built dynamic dashboards to track performance across 20+ product collections, maintaining 100K+ product data points with 99%+ accuracy to ensure seamless digital e-commerce experiences.
-        </p>
+      <div class="timeline-item" data-tooltip="Built dashboards for 20+ collections, maintaining 100K+ product records with 99% accuracy.">
+        <img src="/assets/logos/waterworks.png" alt="Waterworks">
+        <span>Product Mgmt Coordinator<br>Jun 2022 – Apr 2025</span>
+        <div class="timeline-tooltip"></div>
       </div>
 
-      <div class="timeline-item" style="--logo:'/assets/logos/larta.png'">
-        <h3>Larta Institute</h3>
-        <span>Program Management Intern | May 2021 – Sep 2021</span>
-        <p>
-          Tracked KPIs and market data for 1,000+ startups, streamlining reports using Excel, Asana, and HubSpot.
-        </p>
+      <div class="timeline-item" data-tooltip="Tracked KPIs for 1,000+ startups, streamlining reports with Excel, Asana, and HubSpot.">
+        <img src="/assets/logos/larta.png" alt="Larta Institute">
+        <span>Program Mgmt Intern<br>May 2021 – Sep 2021</span>
+        <div class="timeline-tooltip"></div>
       </div>
 
-      <div class="timeline-item" style="--logo:'/assets/logos/xpanse.png'">
-        <h3>Xpanse AI</h3>
-        <span>Business Operations Intern | Jun 2020 – Sep 2020</span>
-        <p>
-          Researched 70+ companies to uncover predictive analytics opportunities in sports and shape product strategy.
-        </p>
+      <div class="timeline-item" data-tooltip="Researched 70+ companies to identify predictive analytics opportunities in sports.">
+        <img src="/assets/logos/xpanse.png" alt="Xpanse AI">
+        <span>Business Ops Intern<br>Jun 2020 – Sep 2020</span>
+        <div class="timeline-tooltip"></div>
       </div>
 
-      <!-- Leadership -->
-      <div class="timeline-item" style="--logo:'/assets/logos/waterworks.png'">
-        <h3>Waterworks Early Career Group</h3>
-        <span>Founder | Apr 2024 – Present</span>
-        <p>
-          Foster an internal community of 20+ early-career professionals by organizing three+ speaker events, launching a mentorship program with 30+ participants, and leading networking initiatives to boost engagement.
-        </p>
+      <div class="timeline-item" data-tooltip="Founded internal community, hosted events, and launched mentorship for 20+ professionals.">
+        <img src="/assets/logos/waterworks.png" alt="Waterworks Early Career Group">
+        <span>Founder, EGC<br>Apr 2024 – Present</span>
+        <div class="timeline-tooltip"></div>
       </div>
 
-      <div class="timeline-item" style="--logo:'/assets/logos/umich.png'">
-        <h3>University of Michigan Alumni Club of NYC</h3>
-        <span>Sports Committee Chair & Associate Board Member | Mar 2023 – Present</span>
-        <p>
-          Oversee a team organizing alumni outings with eight+ local sports partners, negotiate exclusive viewing contracts with five partner bars, and support club-wide programs including fitness events and monthly board initiatives.
-        </p>
+      <div class="timeline-item" data-tooltip="Organized alumni sports outings, negotiated exclusive partnerships, and supported monthly programs.">
+        <img src="/assets/logos/umich.png" alt="UMich Alumni Club NYC">
+        <span>Sports Chair & Board<br>Mar 2023 – Present</span>
+        <div class="timeline-tooltip"></div>
       </div>
 
-      <div class="timeline-item" style="--logo:'/assets/logos/specialolympics.png'">
-        <h3>Special Olympics NY</h3>
-        <span>Peer Mentor & Leadership Council Member | Jun 2023 – Present</span>
-        <p>
-          Mentor a Special Olympics athlete one-on-one, focusing on personal storytelling, communication, and life skills, and support council-led fundraising goals of $150K+.
-        </p>
+      <div class="timeline-item" data-tooltip="Mentored Special Olympics athlete one-on-one and supported statewide fundraising efforts.">
+        <img src="/assets/logos/specialolympics.png" alt="Special Olympics NY">
+        <span>Peer Mentor & Council<br>Jun 2023 – Present</span>
+        <div class="timeline-tooltip"></div>
       </div>
     </div>
-
   </div>
+
+  <script>
+    // Tooltip click toggle for mobile
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    timelineItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const tooltip = item.querySelector('.timeline-tooltip');
+        tooltip.textContent = item.dataset.tooltip;
+        tooltip.style.display = tooltip.style.display === 'block' ? 'none' : 'block';
+      });
+    });
+  </script>
 
 </body>
 </html>
