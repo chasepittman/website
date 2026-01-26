@@ -56,10 +56,9 @@
 
     /* Page Content */
     .content {
-      max-width: 950px;
+      max-width: 900px;
       margin: 80px auto;
       padding: 0 20px;
-      text-align: center;
     }
 
     h1 {
@@ -71,8 +70,8 @@
     h2 {
       font-family: 'Cormorant Garamond', serif;
       font-size: 28px;
-      margin-top: 60px;
-      margin-bottom: 20px;
+      margin-top: 50px;
+      margin-bottom: 15px;
     }
 
     p {
@@ -109,20 +108,60 @@
       background-color: #148f77;
     }
 
-    /* ===== Timeline ===== */
-
-    .timeline {
-      max-width: 900px;
-      margin: 0 auto;
-      text-align: left;
-      position: relative;
-      padding-left: 90px;
+    /* Skills */
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 25px;
+      margin-top: 25px;
     }
 
+    .skill {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100px;
+      text-align: center;
+    }
+
+    .skill img {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 6px;
+    }
+
+    .dots {
+      display: flex;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #555;
+    }
+
+    .dot.filled {
+      background-color: #1abc9c;
+    }
+
+    /* ===== Vertical Timeline ===== */
+
+    .timeline {
+      position: relative;
+      max-width: 900px;
+      margin: 60px auto;
+      padding-left: 140px;
+    }
+
+    /* Axis line */
     .timeline::before {
       content: "";
       position: absolute;
-      left: 55px;
+      left: 80px;
       top: 0;
       bottom: 0;
       width: 3px;
@@ -131,117 +170,109 @@
 
     .timeline-item {
       position: relative;
+      margin-bottom: 55px;
       display: flex;
-      gap: 25px;
-      margin-bottom: 50px;
       align-items: flex-start;
-      cursor: pointer;
+      gap: 25px;
     }
 
     /* Date column */
     .timeline-date {
-      width: 70px;
+      position: absolute;
+      left: -140px;
+      width: 120px;
       text-align: right;
-      font-weight: 600;
     }
 
-    .timeline-date small {
-      display: block;
-      font-weight: 400;
-      font-size: 12px;
-      color: #9a9a9a;
-      margin-top: 2px;
+    .timeline-date .year {
+      font-size: 16px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .timeline-date .month {
+      font-size: 13px;
+      color: #aaaaaa;
     }
 
     /* Logo notch */
     .timeline-logo {
       position: absolute;
-      left: 37px;
+      left: 52px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
       background-color: #222;
       border: 2px solid #1abc9c;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
     }
 
     .timeline-logo img {
-      width: 22px;
-      height: 22px;
+      width: 36px;
+      height: 36px;
       object-fit: contain;
     }
 
     /* Content */
     .timeline-content {
-      margin-left: 40px;
-      max-width: 600px;
+      padding-left: 40px;
+      text-align: left;
     }
 
     .timeline-content b {
-      font-size: 16px;
+      font-size: 17px;
     }
 
     .timeline-content span {
       display: block;
       font-size: 14px;
-      color: #cfcfcf;
+      color: #bbbbbb;
       margin-top: 3px;
     }
 
     /* Tooltip */
     .timeline-tooltip {
       display: none;
-      margin-top: 8px;
+      position: absolute;
+      left: 120px;
+      top: 5px;
       background-color: #222;
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-size: 13px;
-      color: #e6e6e6;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      width: 220px;
+      z-index: 10;
     }
 
-    .timeline-item:hover .timeline-tooltip {
+    .timeline-logo:hover .timeline-tooltip {
       display: block;
     }
 
-    /* Mobile tap */
+    /* Mobile */
     @media (max-width: 700px) {
-      .timeline-item:hover .timeline-tooltip {
-        display: none;
+      .timeline {
+        padding-left: 110px;
       }
-    }
-
-    /* ===== Tools Used Card ===== */
-
-    .tools-card {
-      background-color: #222;
-      border: 1px solid #333;
-      border-radius: 12px;
-      padding: 20px;
-      max-width: 600px;
-      margin: 30px auto 0;
-    }
-
-    .tools-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 18px;
-      margin-top: 15px;
-    }
-
-    .tools-grid img {
-      width: 36px;
-      height: 36px;
-      object-fit: contain;
-      opacity: 0.9;
+      .timeline::before {
+        left: 60px;
+      }
+      .timeline-logo {
+        left: 32px;
+      }
+      .timeline-tooltip {
+        left: 90px;
+      }
     }
 
   </style>
 </head>
+
 <body>
 
+<!-- Navbar -->
 <nav class="navbar">
   <div class="logo">Chase Pittman | Portfolio</div>
   <ul class="nav-links">
@@ -254,7 +285,8 @@
 <div class="content">
 
   <h1>About Me</h1>
-  <img src="/assets/photos/headshot.jpg" class="profile-pic">
+
+  <img src="/assets/photos/headshot.jpg" class="profile-pic" alt="Chase Pittman">
 
   <p>
     I’m Chase Pittman, a product analyst and aspiring product manager who believes the best way to learn is by building and using your own product. This site started as a blank file with no template. I wanted to get scrappy, teach myself the fundamentals, and understand what it really takes to bring a digital product to life.
@@ -265,123 +297,202 @@
   </p>
 
   <p>
-    Through building and launching this project, I’ve gained a deeper appreciation for the end-to-end experience of shipping a product, from ideation and design to development, deployment, and iteration.
+    Through building and launching this project, I’ve gained a deeper appreciation for the end-to-end experience of shipping a product — from ideation and design to development, deployment, and iteration.
   </p>
 
   <a href="/assets/files/Chase_Pittman_Resume.pdf" class="resume-button" target="_blank">Download Resume</a>
   <a href="https://www.credly.com/badges/782f64ae-289b-4d80-b0fb-34d0ff8e6f04" class="resume-button" target="_blank">Smartsheet Certification</a>
 
+  <!-- Skills -->
+  <h2>Skills</h2>
+
+  <div class="skills">
+    <!-- Repeat for each skill -->
+    <div class="skill">
+      <img src="/assets/logos/skills/asana.png">
+      <span>Asana</span>
+      <div class="dots">
+        <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
+      </div>
+    </div>
+
+    <div class="skill">
+      <img src="/assets/logos/skills/sap.png">
+      <span>SAP BO</span>
+      <div class="dots">
+        <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
+      </div>
+    </div>
+
+    <div class="skill">
+      <img src="/assets/logos/skills/ga4.png">
+      <span>GA4</span>
+      <div class="dots">
+        <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span>
+      </div>
+    </div>
+
+    <div class="skill">
+      <img src="/assets/logos/skills/office.png">
+      <span>MS Office</span>
+      <div class="dots">
+        <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
+      </div>
+    </div>
+
+    <div class="skill">
+      <img src="/assets/logos/skills/smartsheet.png">
+      <span>Smartsheet</span>
+      <div class="dots">
+        <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
+      </div>
+    </div>
+
+    <div class="skill">
+      <img src="/assets/logos/skills/sql.png">
+      <span>SQL</span>
+      <div class="dots">
+        <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
   <h2>Experience & Leadership</h2>
 
   <div class="timeline">
 
-    <!-- Waterworks PM -->
-    <div class="timeline-item" data-tooltip="Lead weekly product reviews across seven categories, driving measurable revenue growth.">
-      <div class="timeline-date">2025<small>Apr – Present</small></div>
-      <div class="timeline-logo"><img src="/assets/logos/waterworks.png"></div>
+    <div class="timeline-item">
+      <div class="timeline-date">
+        <div class="year">2025</div>
+        <div class="month">Apr – Present</div>
+      </div>
+      <div class="timeline-logo">
+        <img src="/assets/logos/timeline/waterworks.png">
+        <div class="timeline-tooltip">
+          Lead weekly product reviews across seven categories, driving revenue growth.
+        </div>
+      </div>
       <div class="timeline-content">
         <b>Waterworks</b>
         <span>Associate Product Manager</span>
-        <div class="timeline-tooltip"></div>
       </div>
     </div>
 
-    <!-- Waterworks Coordinator -->
-    <div class="timeline-item" data-tooltip="Built and maintained dashboards for 20+ collections supporting 100K+ product records.">
-      <div class="timeline-date">2022<small>Jun – Apr 2025</small></div>
-      <div class="timeline-logo"><img src="/assets/logos/waterworks.png"></div>
+    <div class="timeline-item">
+      <div class="timeline-date">
+        <div class="year">2022</div>
+        <div class="month">Jun 2022 – Apr 2025</div>
+      </div>
+      <div class="timeline-logo">
+        <img src="/assets/logos/timeline/waterworks.png">
+        <div class="timeline-tooltip">
+          Built analytics dashboards supporting 20+ product collections.
+        </div>
+      </div>
       <div class="timeline-content">
         <b>Waterworks</b>
         <span>Product Management Coordinator</span>
-        <div class="timeline-tooltip"></div>
       </div>
     </div>
 
-    <!-- Larta -->
-    <div class="timeline-item" data-tooltip="Tracked KPIs for 1,000+ startups and streamlined reporting workflows.">
-      <div class="timeline-date">2021<small>May – Sep</small></div>
-      <div class="timeline-logo"><img src="/assets/logos/larta.png"></div>
+    <div class="timeline-item">
+      <div class="timeline-date">
+        <div class="year">2024</div>
+        <div class="month">Apr – Present</div>
+      </div>
+      <div class="timeline-logo">
+        <img src="/assets/logos/timeline/waterworks.png">
+        <div class="timeline-tooltip">
+          Founded Waterworks’ Early Career Group community.
+        </div>
+      </div>
+      <div class="timeline-content">
+        <b>Waterworks Early Career Group</b>
+        <span>Founder</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">
+        <div class="year">2023</div>
+        <div class="month">Mar – Present</div>
+      </div>
+      <div class="timeline-logo">
+        <img src="/assets/logos/timeline/umich.png">
+        <div class="timeline-tooltip">
+          Lead alumni sports programming in NYC.
+        </div>
+      </div>
+      <div class="timeline-content">
+        <b>UMich Alumni Club of NYC</b>
+        <span>Sports Chair & Board Member</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">
+        <div class="year">2023</div>
+        <div class="month">Jun – Present</div>
+      </div>
+      <div class="timeline-logo">
+        <img src="/assets/logos/timeline/specialolympics.png">
+        <div class="timeline-tooltip">
+          Mentor Special Olympics athletes one-on-one.
+        </div>
+      </div>
+      <div class="timeline-content">
+        <b>Special Olympics NY</b>
+        <span>Peer Mentor</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">
+        <div class="year">2021</div>
+        <div class="month">May – Sep</div>
+      </div>
+      <div class="timeline-logo">
+        <img src="/assets/logos/timeline/larta.png">
+        <div class="timeline-tooltip">
+          Tracked KPIs for 1,000+ startups.
+        </div>
+      </div>
       <div class="timeline-content">
         <b>Larta Institute</b>
         <span>Program Management Intern</span>
-        <div class="timeline-tooltip"></div>
       </div>
     </div>
 
-    <!-- Xpanse -->
-    <div class="timeline-item" data-tooltip="Researched predictive analytics opportunities across sports technology markets.">
-      <div class="timeline-date">2020<small>Jun – Sep</small></div>
-      <div class="timeline-logo"><img src="/assets/logos/xpanse.png"></div>
+    <div class="timeline-item">
+      <div class="timeline-date">
+        <div class="year">2020</div>
+        <div class="month">Jun – Sep</div>
+      </div>
+      <div class="timeline-logo">
+        <img src="/assets/logos/timeline/xpanse.png">
+        <div class="timeline-tooltip">
+          Researched sports analytics opportunities.
+        </div>
+      </div>
       <div class="timeline-content">
         <b>Xpanse AI</b>
         <span>Business Operations Intern</span>
-        <div class="timeline-tooltip"></div>
       </div>
     </div>
 
-    <!-- Waterworks ECG -->
-    <div class="timeline-item" data-tooltip="Founded and scaled an internal early-career community with mentorship and events.">
-      <div class="timeline-date">2024<small>Apr – Present</small></div>
-      <div class="timeline-logo"><img src="/assets/logos/waterworks.png"></div>
-      <div class="timeline-content">
-        <b>Waterworks</b>
-        <span>Founder, Early Career Group</span>
-        <div class="timeline-tooltip"></div>
-      </div>
-    </div>
-
-    <!-- UMich -->
-    <div class="timeline-item" data-tooltip="Organize alumni programming and partnerships for the NYC Michigan community.">
-      <div class="timeline-date">2023<small>Mar – Present</small></div>
-      <div class="timeline-logo"><img src="/assets/logos/umich.png"></div>
-      <div class="timeline-content">
-        <b>University of Michigan</b>
-        <span>NYC Alumni Club Board Member</span>
-        <div class="timeline-tooltip"></div>
-      </div>
-    </div>
-
-    <!-- Special Olympics -->
-    <div class="timeline-item" data-tooltip="Mentor Special Olympics athletes and support statewide community initiatives.">
-      <div class="timeline-date">2023<small>Jun – Present</small></div>
-      <div class="timeline-logo"><img src="/assets/logos/specialolympics.png"></div>
-      <div class="timeline-content">
-        <b>Special Olympics NY</b>
-        <span>Peer Mentor & Council Member</span>
-        <div class="timeline-tooltip"></div>
-      </div>
-    </div>
-
-  </div>
-
-  <h2>Tools Used to Build This Site</h2>
-
-  <div class="tools-card">
-    <p>A hands-on project built from scratch using modern creative and technical tools.</p>
-    <div class="tools-grid">
-      <img src="/assets/logos/tools/chatgpt.png">
-      <img src="/assets/logos/tools/canva.png">
-      <img src="/assets/logos/tools/photopea.png">
-      <img src="/assets/logos/tools/figma.png">
-      <img src="/assets/logos/tools/github.png">
-      <img src="/assets/logos/tools/cloudflare.png">
-    </div>
   </div>
 
 </div>
 
+<!-- Mobile tap tooltip -->
 <script>
-  // Inject tooltip text & mobile tap toggle
-  document.querySelectorAll('.timeline-item').forEach(item => {
-    const tooltip = item.querySelector('.timeline-tooltip');
-    tooltip.textContent = item.dataset.tooltip;
-
-    item.addEventListener('click', () => {
-      if (window.innerWidth <= 700) {
-        tooltip.style.display = tooltip.style.display === 'block' ? 'none' : 'block';
-      }
-    });
+document.querySelectorAll('.timeline-logo').forEach(logo => {
+  logo.addEventListener('click', () => {
+    const tooltip = logo.querySelector('.timeline-tooltip');
+    tooltip.style.display = tooltip.style.display === 'block' ? 'none' : 'block';
   });
+});
 </script>
 
 </body>
