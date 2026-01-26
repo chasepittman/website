@@ -148,122 +148,162 @@
       background-color: #1abc9c;
     }
 
-    /* ===== Vertical Timeline ===== */
-
-    .timeline {
-      position: relative;
-      max-width: 900px;
-      margin: 60px auto;
-      padding-left: 140px;
-    }
-
-    /* Axis line */
-    .timeline::before {
-      content: "";
-      position: absolute;
-      left: 80px;
-      top: 0;
-      bottom: 0;
-      width: 3px;
-      background-color: #1abc9c;
-    }
-
-    .timeline-item {
-      position: relative;
-      margin-bottom: 55px;
+     /* Tools Used Card */
+    .tools-card {
+      background-color: #2e3740;
+      padding: 20px;
+      margin: 40px auto;
+      border-radius: 12px;
       display: flex;
-      align-items: flex-start;
-      gap: 25px;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      max-width: 700px;
     }
 
-    /* Date column */
-    .timeline-date {
-      position: absolute;
-      left: -140px;
-      width: 120px;
-      text-align: right;
+    .tool {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 80px;
+      text-align: center;
+      font-size: 14px;
+      color: #e0e0e0;
     }
 
-    .timeline-date .year {
-      font-size: 16px;
-      font-weight: 600;
-      color: #ffffff;
+    .tool img {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 8px;
+    }
+    
+    /* Gantt-style Timeline */
+    .timeline-container {
+      background-color: #2e3740;
+      padding: 30px;
+      border-radius: 12px;
+      margin-top: 40px;
+      overflow-x: auto;
     }
 
-    .timeline-date .month {
-      font-size: 13px;
-      color: #aaaaaa;
+    .timeline-header {
+      display: flex;
+      justify-content: flex-start;
+      font-size: 14px;
+      color: #bbbbbb;
+      margin-bottom: 10px;
+      position: relative;
     }
 
-    /* Logo notch */
+    .timeline-header span {
+      margin-right: 60px;
+      text-align: center;
+      display: inline-block;
+    }
+
+    .timeline-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
     .timeline-logo {
-      position: absolute;
-      left: 52px;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background-color: #222;
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      margin-right: 20px;
+      border-radius: 8px;
       border: 2px solid #1abc9c;
+      background-color: #222;
+      flex-shrink: 0;
+    }
+
+    .timeline-bars {
+      position: relative;
+      flex-grow: 1;
+      height: 40px;
+    }
+
+    .timeline-bar {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      border-radius: 6px;
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
+      color: #fff;
+      font-size: 12px;
+      padding: 0 5px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
-    .timeline-logo img {
-      width: 36px;
-      height: 36px;
-      object-fit: contain;
-    }
-
-    /* Content */
-    .timeline-content {
-      padding-left: 40px;
-      text-align: left;
-    }
-
-    .timeline-content b {
-      font-size: 17px;
-    }
-
-    .timeline-content span {
+    /* Hover tooltip */
+    .timeline-bar:hover .tooltip,
+    .timeline-bar:focus .tooltip {
       display: block;
-      font-size: 14px;
-      color: #bbbbbb;
-      margin-top: 3px;
     }
 
-    /* Tooltip */
-    .timeline-tooltip {
+    .tooltip {
       display: none;
       position: absolute;
-      left: 120px;
-      top: 5px;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
       background-color: #222;
-      padding: 10px 12px;
-      border-radius: 8px;
+      color: #f4f4f4;
+      padding: 6px 10px;
+      border-radius: 6px;
       font-size: 14px;
-      width: 220px;
+      white-space: normal;
+      width: 200px;
       z-index: 10;
     }
 
-    .timeline-logo:hover .timeline-tooltip {
-      display: block;
+    /* Grid lines */
+    .timeline-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
     }
 
-    /* Mobile */
-    @media (max-width: 700px) {
-      .timeline {
-        padding-left: 110px;
+    .grid-line-vertical {
+      position: absolute;
+      width: 1px;
+      height: 100%;
+      background-color: #555;
+    }
+
+    .grid-line-horizontal {
+      position: absolute;
+      height: 1px;
+      width: 100%;
+      background-color: #555;
+    }
+
+    /* Responsive */
+    @media (max-width: 800px) {
+      .timeline-row {
+        flex-direction: column;
+        align-items: flex-start;
       }
-      .timeline::before {
-        left: 60px;
+      .timeline-bars {
+        width: 100%;
+        margin-top: 10px;
+        height: 30px;
+      }
+      .timeline-bar {
+        font-size: 11px;
       }
       .timeline-logo {
-        left: 32px;
-      }
-      .timeline-tooltip {
-        left: 90px;
+        margin-bottom: 5px;
       }
     }
 
@@ -357,143 +397,95 @@
     </div>
   </div>
 
-  <!-- Timeline -->
-  <h2>Experience & Leadership</h2>
+  <!-- Tools Used -->
+  <h2>Tools Used</h2>
+  <div class="tools-card">
+    <div class="tool"><img src="/assets/logos/tools/chatgpt.png" alt="ChatGPT"><span>ChatGPT</span></div>
+    <div class="tool"><img src="/assets/logos/tools/canva.png" alt="Canva"><span>Canva</span></div>
+    <div class="tool"><img src="/assets/logos/tools/photopea.png" alt="Photopea"><span>Photopea</span></div>
+    <div class="tool"><img src="/assets/logos/tools/github.png" alt="GitHub"><span>GitHub</span></div>
+    <div class="tool"><img src="/assets/logos/tools/cloudflare.png" alt="CloudFlare"><span>CloudFlare</span></div>
+    <div class="tool"><img src="/assets/logos/tools/figma.png" alt="Figma"><span>Figma</span></div>
+  </div>
+  
+  <!-- Timeline Gantt -->
+    <h2>Experience & Leadership</h2>
+    <div class="timeline-container">
+      <div class="timeline-grid"></div>
 
-  <div class="timeline">
-
-    <div class="timeline-item">
-      <div class="timeline-date">
-        <div class="year">2025</div>
-        <div class="month">Apr – Present</div>
-      </div>
-      <div class="timeline-logo">
-        <img src="/assets/logos/timeline/waterworks.png">
-        <div class="timeline-tooltip">
-          Lead weekly product reviews across seven categories, driving revenue growth.
+      <!-- Waterworks -->
+      <div class="timeline-row">
+        <img src="/assets/logos/waterworks.png" class="timeline-logo" alt="Waterworks">
+        <div class="timeline-bars">
+          <div class="timeline-bar" style="background-color:#1abc9c; left:0%; width:10%;" tabindex="0">
+            Associate PM
+            <div class="tooltip">Lead weekly product reviews across seven categories, driving 21% revenue growth.</div>
+          </div>
+          <div class="timeline-bar" style="background-color:#16a085; left:0%; width:15%;" tabindex="0">
+            PM Coordinator
+            <div class="tooltip">Built dashboards for 20+ collections, maintaining 100K+ product records with 99% accuracy.</div>
+          </div>
         </div>
       </div>
-      <div class="timeline-content">
-        <b>Waterworks</b>
-        <span>Associate Product Manager</span>
-      </div>
-    </div>
 
-    <div class="timeline-item">
-      <div class="timeline-date">
-        <div class="year">2022</div>
-        <div class="month">Jun 2022 – Apr 2025</div>
-      </div>
-      <div class="timeline-logo">
-        <img src="/assets/logos/timeline/waterworks.png">
-        <div class="timeline-tooltip">
-          Built analytics dashboards supporting 20+ product collections.
+      <!-- Waterworks Early Career Group -->
+      <div class="timeline-row">
+        <img src="/assets/logos/waterworks.png" class="timeline-logo" alt="Waterworks Early Career Group">
+        <div class="timeline-bars">
+          <div class="timeline-bar" style="background-color:#27ae60; left:0%; width:15%;" tabindex="0">
+            Founder, Early Career Group
+            <div class="tooltip">Founded internal community, hosted events, and launched mentorship for 20+ professionals.</div>
+          </div>
         </div>
       </div>
-      <div class="timeline-content">
-        <b>Waterworks</b>
-        <span>Product Management Coordinator</span>
-      </div>
-    </div>
 
-    <div class="timeline-item">
-      <div class="timeline-date">
-        <div class="year">2024</div>
-        <div class="month">Apr – Present</div>
-      </div>
-      <div class="timeline-logo">
-        <img src="/assets/logos/timeline/waterworks.png">
-        <div class="timeline-tooltip">
-          Founded Waterworks’ Early Career Group community.
+      <!-- UMich Alumni -->
+      <div class="timeline-row">
+        <img src="/assets/logos/umich.png" class="timeline-logo" alt="UMich Alumni Club NYC">
+        <div class="timeline-bars">
+          <div class="timeline-bar" style="background-color:#2980b9; left:0%; width:15%;" tabindex="0">
+            Sports Chair & Board Member
+            <div class="tooltip">Organized alumni sports outings, negotiated partnerships, and supported monthly programs.</div>
+          </div>
         </div>
       </div>
-      <div class="timeline-content">
-        <b>Waterworks Early Career Group</b>
-        <span>Founder</span>
-      </div>
-    </div>
 
-    <div class="timeline-item">
-      <div class="timeline-date">
-        <div class="year">2023</div>
-        <div class="month">Mar – Present</div>
-      </div>
-      <div class="timeline-logo">
-        <img src="/assets/logos/timeline/umich.png">
-        <div class="timeline-tooltip">
-          Lead alumni sports programming in NYC.
+      <!-- Special Olympics -->
+      <div class="timeline-row">
+        <img src="/assets/logos/specialolympics.png" class="timeline-logo" alt="Special Olympics NY">
+        <div class="timeline-bars">
+          <div class="timeline-bar" style="background-color:#8e44ad; left:0%; width:15%;" tabindex="0">
+            Peer Mentor & Council Member
+            <div class="tooltip">Mentored Special Olympics athlete one-on-one and supported statewide fundraising efforts.</div>
+          </div>
         </div>
       </div>
-      <div class="timeline-content">
-        <b>UMich Alumni Club of NYC</b>
-        <span>Sports Chair & Board Member</span>
-      </div>
-    </div>
 
-    <div class="timeline-item">
-      <div class="timeline-date">
-        <div class="year">2023</div>
-        <div class="month">Jun – Present</div>
-      </div>
-      <div class="timeline-logo">
-        <img src="/assets/logos/timeline/specialolympics.png">
-        <div class="timeline-tooltip">
-          Mentor Special Olympics athletes one-on-one.
+      <!-- Larta -->
+      <div class="timeline-row">
+        <img src="/assets/logos/larta.png" class="timeline-logo" alt="Larta Institute">
+        <div class="timeline-bars">
+          <div class="timeline-bar" style="background-color:#c0392b; left:0%; width:10%;" tabindex="0">
+            Program Mgmt Intern
+            <div class="tooltip">Tracked KPIs for 1,000+ startups, streamlining reports with Excel, Asana, and HubSpot.</div>
+          </div>
         </div>
       </div>
-      <div class="timeline-content">
-        <b>Special Olympics NY</b>
-        <span>Peer Mentor</span>
-      </div>
-    </div>
 
-    <div class="timeline-item">
-      <div class="timeline-date">
-        <div class="year">2021</div>
-        <div class="month">May – Sep</div>
-      </div>
-      <div class="timeline-logo">
-        <img src="/assets/logos/timeline/larta.png">
-        <div class="timeline-tooltip">
-          Tracked KPIs for 1,000+ startups.
+      <!-- Xpanse AI -->
+      <div class="timeline-row">
+        <img src="/assets/logos/xpanse.png" class="timeline-logo" alt="Xpanse AI">
+        <div class="timeline-bars">
+          <div class="timeline-bar" style="background-color:#d35400; left:0%; width:10%;" tabindex="0">
+            Business Ops Intern
+            <div class="tooltip">Researched 70+ companies to identify predictive analytics opportunities in sports.</div>
+          </div>
         </div>
       </div>
-      <div class="timeline-content">
-        <b>Larta Institute</b>
-        <span>Program Management Intern</span>
-      </div>
-    </div>
 
-    <div class="timeline-item">
-      <div class="timeline-date">
-        <div class="year">2020</div>
-        <div class="month">Jun – Sep</div>
-      </div>
-      <div class="timeline-logo">
-        <img src="/assets/logos/timeline/xpanse.png">
-        <div class="timeline-tooltip">
-          Researched sports analytics opportunities.
-        </div>
-      </div>
-      <div class="timeline-content">
-        <b>Xpanse AI</b>
-        <span>Business Operations Intern</span>
-      </div>
     </div>
 
   </div>
-
-</div>
-
-<!-- Mobile tap tooltip -->
-<script>
-document.querySelectorAll('.timeline-logo').forEach(logo => {
-  logo.addEventListener('click', () => {
-    const tooltip = logo.querySelector('.timeline-tooltip');
-    tooltip.style.display = tooltip.style.display === 'block' ? 'none' : 'block';
-  });
-});
-</script>
 
 </body>
 </html>
