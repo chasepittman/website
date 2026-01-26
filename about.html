@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>About | Chase Pittman</title>
-  <link rel="icon" type="image/x-icon" href="/assets/logos/personal/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
@@ -67,6 +67,13 @@
       margin-bottom: 10px;
     }
 
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      margin-top: 40px;
+      margin-bottom: 15px;
+    }
+
     p {
       font-size: 18px;
       line-height: 1.6;
@@ -84,10 +91,10 @@
       border: 3px solid #1abc9c;
     }
 
-    /* Resume Button */
+    /* Resume & Certification Buttons */
     .resume-button {
       display: inline-block;
-      margin: 20px 0 50px;
+      margin: 20px 10px 50px;
       padding: 10px 22px;
       background-color: #1abc9c;
       color: white;
@@ -110,8 +117,21 @@
 
     .timeline-item {
       margin-bottom: 35px;
-      padding-left: 20px;
-      border-left: 2px solid #1abc9c;
+      padding-left: 60px;
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 50px;
+      height: 50px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      border-radius: 50%;
     }
 
     .timeline-item h3 {
@@ -132,16 +152,64 @@
       color: #e0e0e0;
     }
 
+    /* Skill Section */
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 25px;
+      margin-top: 20px;
+    }
+
+    .skill {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100px;
+      text-align: center;
+      color: #e0e0e0;
+    }
+
+    .skill img {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 8px;
+    }
+
+    .dots {
+      display: flex;
+      gap: 3px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #555;
+    }
+
+    .dot.filled {
+      background-color: #1abc9c;
+    }
+
     /* Mobile */
     @media (max-width: 600px) {
       h1 {
         font-size: 34px;
       }
+      h2 {
+        font-size: 24px;
+      }
       .nav-links {
         gap: 15px;
       }
+      .timeline-item {
+        padding-left: 60px;
+      }
+      .skills {
+        gap: 15px;
+      }
     }
-
   </style>
 </head>
 <body>
@@ -158,7 +226,6 @@
 
   <!-- About Content -->
   <div class="content">
-
     <h1>About Me</h1>
 
     <img src="/assets/photos/headshot.jpg" alt="Chase Pittman headshot" class="profile-pic">
@@ -175,44 +242,151 @@
       Through building and launching this project, I’ve gained a deeper appreciation for the end-to-end experience of shipping a product, from ideation and design to development, deployment, and iteration.
     </p>
 
-    <a href="/assets/files/Chase_Pittman_Resume.pdf" class="resume-button" target="_blank">
-      Download Resume
-    </a>
+    <a href="/assets/files/Chase_Pittman_Resume.pdf" class="resume-button" target="_blank">Download Resume</a>
+    <a href="https://www.credly.com/badges/782f64ae-289b-4d80-b0fb-34d0ff8e6f04" class="resume-button" target="_blank">Smartsheet Certification</a>
 
+    <!-- Skills -->
+    <h2>Skills</h2>
+    <div class="skills">
+      <div class="skill">
+        <img src="/assets/icons/asana.png" alt="Asana">
+        <span>Asana</span>
+        <div class="dots">
+          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
+        </div>
+      </div>
+      <div class="skill">
+        <img src="/assets/icons/larta.png" alt="Larta">
+        <span>Larta</span>
+        <div class="dots">
+          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span>
+        </div>
+      </div>
+      <div class="skill">
+        <img src="/assets/icons/sap.png" alt="SAP">
+        <span>SAP</span>
+        <div class="dots">
+          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
+        </div>
+      </div>
+      <div class="skill">
+        <img src="/assets/icons/specialolympics.png" alt="Special Olympics">
+        <span>Special Olympics</span>
+        <div class="dots">
+          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span>
+        </div>
+      </div>
+      <div class="skill">
+        <img src="/assets/icons/umich.png" alt="UMich">
+        <span>UMich</span>
+        <div class="dots">
+          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
+        </div>
+      </div>
+      <div class="skill">
+        <img src="/assets/icons/xpanse.png" alt="Xpanse AI">
+        <span>Xpanse AI</span>
+        <div class="dots">
+          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span>
+        </div>
+      </div>
+      <div class="skill">
+        <img src="/assets/icons/ga4.png" alt="GA4">
+        <span>GA4</span>
+        <div class="dots">
+          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span>
+        </div>
+      </div>
+      <div class="skill">
+        <img src="/assets/icons/office.png" alt="Microsoft Office">
+        <span>Microsoft Office</span>
+        <div class="dots">
+          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
+        </div>
+      </div>
+      <div class="skill">
+        <img src="/assets/icons/smartsheet.png" alt="Smartsheet">
+        <span>Smartsheet</span>
+        <div class="dots">
+          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
+        </div>
+      </div>
+      <div class="skill">
+        <img src="/assets/icons/sql.png" alt="SQL">
+        <span>SQL</span>
+        <div class="dots">
+          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span>
+        </div>
+      </div>
+      <div class="skill">
+        <img src="/assets/icons/waterworks.png" alt="Waterworks">
+        <span>Waterworks</span>
+        <div class="dots">
+          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <h2>Experience & Leadership</h2>
     <div class="timeline">
-
-      <div class="timeline-item">
-        <h3>Product Strategy & Research</h3>
-        <span>Current Focus</span>
+      <!-- Work Experience -->
+      <div class="timeline-item" style="--logo:'/assets/logos/waterworks.png'">
+        <h3>Waterworks</h3>
+        <span>Associate Product Manager | Apr 2025 – Present</span>
         <p>
-          Leading customer research initiatives, conducting interviews with sales and leadership teams, and translating insights into actionable product direction.
+          Lead weekly business performance reviews across seven product categories by synthesizing KPIs and dashboard analytics, delivering strategic insights contributing to a 21% increase in revenue growth since promotion.
         </p>
       </div>
 
-      <div class="timeline-item">
-        <h3>Product Roadmapping & Launch Execution</h3>
-        <span>Recent Experience</span>
+      <div class="timeline-item" style="--logo:'/assets/logos/waterworks.png'">
+        <h3>Waterworks</h3>
+        <span>Product Management Coordinator | Jun 2022 – Apr 2025</span>
         <p>
-          Driving product roadmaps, coordinating cross-functional launches, and analyzing post-launch performance to guide iteration.
+          Built dynamic dashboards to track performance across 20+ product collections, maintaining 100K+ product data points with 99%+ accuracy to ensure seamless digital e-commerce experiences.
         </p>
       </div>
 
-      <div class="timeline-item">
-        <h3>Process Optimization & Analytics</h3>
-        <span>Ongoing</span>
+      <div class="timeline-item" style="--logo:'/assets/logos/larta.png'">
+        <h3>Larta Institute</h3>
+        <span>Program Management Intern | May 2021 – Sep 2021</span>
         <p>
-          Building internal tools and workflows to improve operational efficiency, measure performance trends, and support data-informed decision-making.
+          Tracked KPIs and market data for 1,000+ startups, streamlining reports using Excel, Asana, and HubSpot.
         </p>
       </div>
 
-      <div class="timeline-item">
-        <h3>Hands-On Digital Product Building</h3>
-        <span>This Website Project</span>
+      <div class="timeline-item" style="--logo:'/assets/logos/xpanse.png'">
+        <h3>Xpanse AI</h3>
+        <span>Business Operations Intern | Jun 2020 – Sep 2020</span>
         <p>
-          Designing, coding, deploying, and iterating on this site from scratch — gaining practical experience across design systems, front-end development, hosting, and user experience.
+          Researched 70+ companies to uncover predictive analytics opportunities in sports and shape product strategy.
         </p>
       </div>
 
+      <!-- Leadership -->
+      <div class="timeline-item" style="--logo:'/assets/logos/waterworks.png'">
+        <h3>Waterworks Early Career Group</h3>
+        <span>Founder | Apr 2024 – Present</span>
+        <p>
+          Foster an internal community of 20+ early-career professionals by organizing three+ speaker events, launching a mentorship program with 30+ participants, and leading networking initiatives to boost engagement.
+        </p>
+      </div>
+
+      <div class="timeline-item" style="--logo:'/assets/logos/umich.png'">
+        <h3>University of Michigan Alumni Club of NYC</h3>
+        <span>Sports Committee Chair & Associate Board Member | Mar 2023 – Present</span>
+        <p>
+          Oversee a team organizing alumni outings with eight+ local sports partners, negotiate exclusive viewing contracts with five partner bars, and support club-wide programs including fitness events and monthly board initiatives.
+        </p>
+      </div>
+
+      <div class="timeline-item" style="--logo:'/assets/logos/specialolympics.png'">
+        <h3>Special Olympics NY</h3>
+        <span>Peer Mentor & Leadership Council Member | Jun 2023 – Present</span>
+        <p>
+          Mentor a Special Olympics athlete one-on-one, focusing on personal storytelling, communication, and life skills, and support council-led fundraising goals of $150K+.
+        </p>
+      </div>
     </div>
 
   </div>
