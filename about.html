@@ -440,81 +440,165 @@
   
   <!-- Timeline Gantt -->
     <h2>Experience & Leadership</h2>
-    <div class="timeline-container">
-      <div class="timeline-grid"></div>
 
-      <!-- Waterworks -->
-      <div class="timeline-row">
-        <img src="/assets/logos/waterworks.png" class="timeline-logo" alt="Waterworks">
-        <div class="timeline-bars">
-          <div class="timeline-bar" style="background-color:#1abc9c; left:0%; width:10%;" tabindex="0">
-            Associate PM
-            <div class="tooltip">Lead weekly product reviews across seven categories, driving 21% revenue growth.</div>
-          </div>
-          <div class="timeline-bar" style="background-color:#16a085; left:0%; width:15%;" tabindex="0">
-            PM Coordinator
-            <div class="tooltip">Built dashboards for 20+ collections, maintaining 100K+ product records with 99% accuracy.</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Waterworks Early Career Group -->
-      <div class="timeline-row">
-        <img src="/assets/logos/waterworks.png" class="timeline-logo" alt="Waterworks Early Career Group">
-        <div class="timeline-bars">
-          <div class="timeline-bar" style="background-color:#27ae60; left:0%; width:15%;" tabindex="0">
-            Founder, Early Career Group
-            <div class="tooltip">Founded internal community, hosted events, and launched mentorship for 20+ professionals.</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- UMich Alumni -->
-      <div class="timeline-row">
-        <img src="/assets/logos/umich.png" class="timeline-logo" alt="UMich Alumni Club NYC">
-        <div class="timeline-bars">
-          <div class="timeline-bar" style="background-color:#2980b9; left:0%; width:15%;" tabindex="0">
-            Sports Chair & Board Member
-            <div class="tooltip">Organized alumni sports outings, negotiated partnerships, and supported monthly programs.</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Special Olympics -->
-      <div class="timeline-row">
-        <img src="/assets/logos/specialolympics.png" class="timeline-logo" alt="Special Olympics NY">
-        <div class="timeline-bars">
-          <div class="timeline-bar" style="background-color:#8e44ad; left:0%; width:15%;" tabindex="0">
-            Peer Mentor & Council Member
-            <div class="tooltip">Mentored Special Olympics athlete one-on-one and supported statewide fundraising efforts.</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Larta -->
-      <div class="timeline-row">
-        <img src="/assets/logos/larta.png" class="timeline-logo" alt="Larta Institute">
-        <div class="timeline-bars">
-          <div class="timeline-bar" style="background-color:#c0392b; left:0%; width:10%;" tabindex="0">
-            Program Mgmt Intern
-            <div class="tooltip">Tracked KPIs for 1,000+ startups, streamlining reports with Excel, Asana, and HubSpot.</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Xpanse AI -->
-      <div class="timeline-row">
-        <img src="/assets/logos/xpanse.png" class="timeline-logo" alt="Xpanse AI">
-        <div class="timeline-bars">
-          <div class="timeline-bar" style="background-color:#d35400; left:0%; width:10%;" tabindex="0">
-            Business Ops Intern
-            <div class="tooltip">Researched 70+ companies to identify predictive analytics opportunities in sports.</div>
-          </div>
-        </div>
-      </div>
-
+  <div class="timeline-container">
+  
+    <!-- Time Scale Header -->
+    <div class="timeline-scale">
+      <div></div>
+      <!-- Year labels -->
+      <div style="grid-column: span 12;">2020</div>
+      <div style="grid-column: span 12;">2021</div>
+      <div style="grid-column: span 12;">2022</div>
+      <div style="grid-column: span 12;">2023</div>
+      <div style="grid-column: span 12;">2024</div>
+      <div style="grid-column: span 12;">2025</div>
+      <div style="grid-column: span 12;">2026</div>
     </div>
-
+  
+    <!-- Vertical Month Grid -->
+    <div class="timeline-grid">
+      <!-- 72 thin month columns -->
+      <!-- (They auto-generate by CSS grid — empty divs below) -->
+      <!-- You don’t need to touch these -->
+      <!-- 72 divs -->
+      <div></div><div></div><div></div><div></div><div></div><div></div>
+      <div></div><div></div><div></div><div></div><div></div><div></div>
+  
+      <div></div><div></div><div></div><div></div><div></div><div></div>
+      <div></div><div></div><div></div><div></div><div></div><div></div>
+  
+      <div></div><div></div><div></div><div></div><div></div><div></div>
+      <div></div><div></div><div></div><div></div><div></div><div></div>
+  
+      <div></div><div></div><div></div><div></div><div></div><div></div>
+      <div></div><div></div><div></div><div></div><div></div><div></div>
+  
+      <div></div><div></div><div></div><div></div><div></div><div></div>
+      <div></div><div></div><div></div><div></div><div></div><div></div>
+  
+      <div></div><div></div><div></div><div></div><div></div><div></div>
+      <div></div><div></div><div></div><div></div><div></div><div></div>
+    </div>
+  
+    <!-- WATERWORKS CORE ROLES -->
+    <div class="timeline-row">
+      <img src="/assets/logos/waterworks.png" class="timeline-logo" alt="Waterworks">
+      <div class="timeline-bars">
+  
+        <!-- PM Coordinator -->
+        <!-- Jun 2022 → Apr 2025 -->
+        <!-- Month index: Jan 2020 = 0 -->
+        <!-- Jun 2022 = 29 -->
+        <!-- Apr 2025 = 63 -->
+        <div class="timeline-bar" style="left: calc(29 * 40px); width: calc((63 - 29) * 40px); background:#16a085;" tabindex="0">
+          Product Mgmt Coordinator
+          <div class="tooltip">
+            Built dashboards for 20+ product collections, maintaining 100K+ records with 99%+ accuracy.
+          </div>
+        </div>
+  
+        <!-- Associate PM -->
+        <!-- Apr 2025 → Present (assume end 2026) -->
+        <!-- Apr 2025 = 63 -->
+        <!-- End 2026 = 72 -->
+        <div class="timeline-bar" style="left: calc(63 * 40px); width: calc((72 - 63) * 40px); background:#1abc9c;" tabindex="0">
+          Associate Product Manager
+          <div class="tooltip">
+            Lead weekly business performance reviews across seven categories, contributing to 21% revenue growth.
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  
+    <!-- WATERWORKS EARLY CAREER GROUP -->
+    <div class="timeline-row">
+      <img src="/assets/logos/waterworks.png" class="timeline-logo" alt="Waterworks Early Career Group">
+      <div class="timeline-bars">
+  
+        <!-- Apr 2024 → Present -->
+        <!-- Apr 2024 = 51 -->
+        <div class="timeline-bar" style="left: calc(51 * 40px); width: calc((72 - 51) * 40px); background:#27ae60;" tabindex="0">
+          Founder — Early Career Group
+          <div class="tooltip">
+            Founded internal early-career community, launched mentorship program, and organized speaker events.
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  
+    <!-- UMICH ALUMNI -->
+    <div class="timeline-row">
+      <img src="/assets/logos/umich.png" class="timeline-logo" alt="UMich Alumni">
+      <div class="timeline-bars">
+  
+        <!-- Mar 2023 → Present -->
+        <!-- Mar 2023 = 38 -->
+        <div class="timeline-bar" style="left: calc(38 * 40px); width: calc((72 - 38) * 40px); background:#2980b9;" tabindex="0">
+          UMich Alumni Club — Board Member
+          <div class="tooltip">
+            Lead NYC alumni sports programming, partnerships, and club-wide initiatives.
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  
+    <!-- SPECIAL OLYMPICS -->
+    <div class="timeline-row">
+      <img src="/assets/logos/specialolympics.png" class="timeline-logo" alt="Special Olympics NY">
+      <div class="timeline-bars">
+  
+        <!-- Jun 2023 → Present -->
+        <!-- Jun 2023 = 41 -->
+        <div class="timeline-bar" style="left: calc(41 * 40px); width: calc((72 - 41) * 40px); background:#8e44ad;" tabindex="0">
+          Special Olympics NY — Peer Mentor
+          <div class="tooltip">
+            Mentor athlete one-on-one and support statewide fundraising initiatives.
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  
+    <!-- LARTA -->
+    <div class="timeline-row">
+      <img src="/assets/logos/larta.png" class="timeline-logo" alt="Larta">
+      <div class="timeline-bars">
+  
+        <!-- May 2021 → Sep 2021 -->
+        <!-- May 2021 = 16 -->
+        <!-- Sep 2021 = 20 -->
+        <div class="timeline-bar" style="left: calc(16 * 40px); width: calc((20 - 16) * 40px); background:#c0392b;" tabindex="0">
+          Larta Institute — Program Intern
+          <div class="tooltip">
+            Tracked KPIs for 1,000+ startups and streamlined reporting workflows.
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  
+    <!-- XPANSE AI -->
+    <div class="timeline-row">
+      <img src="/assets/logos/xpanse.png" class="timeline-logo" alt="Xpanse AI">
+      <div class="timeline-bars">
+  
+        <!-- Jun 2020 → Sep 2020 -->
+        <!-- Jun 2020 = 5 -->
+        <!-- Sep 2020 = 8 -->
+        <div class="timeline-bar" style="left: calc(5 * 40px); width: calc((8 - 5) * 40px); background:#d35400;" tabindex="0">
+          Xpanse AI — Business Ops Intern
+          <div class="tooltip">
+            Researched predictive analytics opportunities across 70+ sports organizations.
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  
   </div>
 
 </body>
