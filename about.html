@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About | Chase Pittman</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background-color: #384048;
+      color: #f4f4f4;
+      text-align: center;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: #222;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: white;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+    }
+
+    .nav-links a:hover {
+      color: #1abc9c;
+    }
+
+    /* Page Content */
+    .content {
+      max-width: 800px;
+      margin: 80px auto;
+      padding: 0 20px;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #e0e0e0;
+    }
+
+    /* Headshot */
+    .profile-pic {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 20px auto 10px;
+      display: block;
+      border: 3px solid #1abc9c;
+    }
+
+    /* Resume Button */
+    .resume-button {
+      display: inline-block;
+      margin: 20px 0 50px;
+      padding: 10px 22px;
+      background-color: #1abc9c;
+      color: white;
+      text-decoration: none;
+      border-radius: 25px;
+      font-size: 15px;
+      transition: background-color 0.3s;
+    }
+
+    .resume-button:hover {
+      background-color: #148f77;
+    }
+
+    /* Timeline */
+    .timeline {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .timeline-item {
+      margin-bottom: 35px;
+      padding-left: 20px;
+      border-left: 2px solid #1abc9c;
+    }
+
+    .timeline-item h3 {
+      margin: 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      color: #ffffff;
+    }
+
+    .timeline-item span {
+      font-size: 14px;
+      color: #bbbbbb;
+    }
+
+    .timeline-item p {
+      margin-top: 8px;
+      font-size: 16px;
+      color: #e0e0e0;
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 34px;
+      }
+      .nav-links {
+        gap: 15px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">Chase Pittman | Portfolio</div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- About Content -->
+  <div class="content">
+
+    <h1>About Me</h1>
+
+    <img src="headshot.jpg" alt="Chase Pittman headshot" class="profile-pic">
+
+    <p>
+      I’m Chase Pittman, a product strategist and aspiring product manager who believes the best way to learn is to build. This site started as a blank file with no template. I wanted to get scrappy, teach myself the fundamentals, and understand what it actually takes to bring a digital product to life.
+    </p>
+
+    <p>
+      Every logo and visual identity you see here began as my own concept and design. Along the way I’ve experimented with modern tools to refine ideas, but the direction, decisions, and creative intent have always been mine. This site is as much a portfolio as it is proof of process.
+    </p>
+
+    <p>
+      Through building and launching this project, I’ve gained a deeper appreciation for the end-to-end experience of shipping a product — from ideation and design to development, deployment, and iteration.
+    </p>
+
+    <a href="Chase_Pittman_Resume.pdf" class="resume-button" target="_blank">
+      Download Resume
+    </a>
+
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <h3>Product Strategy & Research</h3>
+        <span>Current Focus</span>
+        <p>
+          Leading customer research initiatives, conducting interviews with sales and leadership teams, and translating insights into actionable product direction.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <h3>Product Roadmapping & Launch Execution</h3>
+        <span>Recent Experience</span>
+        <p>
+          Driving product roadmaps, coordinating cross-functional launches, and analyzing post-launch performance to guide iteration.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <h3>Process Optimization & Analytics</h3>
+        <span>Ongoing</span>
+        <p>
+          Building internal tools and workflows to improve operational efficiency, measure performance trends, and support data-informed decision-making.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <h3>Hands-On Digital Product Building</h3>
+        <span>This Website Project</span>
+        <p>
+          Designing, coding, deploying, and iterating on this site from scratch — gaining practical experience across design systems, front-end development, hosting, and user experience.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
