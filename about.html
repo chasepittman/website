@@ -144,6 +144,47 @@
       margin-bottom: 6px;
     }
 
+    /* Credly badge overlay on skill */
+    .skill {
+      position: relative;
+    }
+    
+    .credly-badge {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      width: 22px;
+      height: 22px;
+      background-color: #fff;
+      border-radius: 50%;
+      padding: 2px;
+      box-shadow: 0 0 4px rgba(0,0,0,0.4);
+    }
+    
+    .credly-badge img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    
+    .credly-tooltip {
+      position: absolute;
+      top: -38px;
+      right: -10px;
+      background: #222;
+      color: #f4f4f4;
+      font-size: 11px;
+      padding: 4px 6px;
+      border-radius: 5px;
+      white-space: nowrap;
+      display: none;
+      z-index: 5;
+    }
+    
+    .credly-wrapper:hover .credly-tooltip {
+      display: block;
+    }
+    
     .dots {
       display: flex;
       gap: 4px;
@@ -423,6 +464,20 @@
   <div class="card-box skills">
     <!-- Repeat for each skill -->
     <div class="skill">
+      
+      <!-- Credly clickable badge -->
+      <a class="credly-wrapper"
+         href="https://www.credly.com/badges/782f64ae-289b-4d80-b0fb-34d0ff8e6f04"
+         target="_blank">
+    
+        <div class="credly-tooltip">Core Product Certified</div>
+    
+        <div class="credly-badge">
+          <img src="/assets/logos/skills/credly.png" alt="Credly">
+        </div>
+    
+      </a>
+      
       <img src="/assets/logos/skills/smartsheet.png">
       <span>Smartsheet</span>
       <div class="dots">
