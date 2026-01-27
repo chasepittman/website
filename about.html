@@ -223,10 +223,11 @@
     
     .timeline-months {
       display: grid;
-      grid-template-columns: repeat(72, 40px);
+      grid-template-columns: repeat(auto-fit, 40px);
+      grid-auto-flow: column;
       font-size: 10px;
       color: #888;
-      margin-top: 3px;
+      margin-top: 4px;
     }
     
     .timeline-months span {
