@@ -244,6 +244,26 @@
       padding: 12px 0;
     }
 
+    /* Make timeline and top bar stretch full width to fit all months and years */
+    .timeline-top-bar,
+    .timeline-container,
+    .timeline-row {
+      width: max-content;
+    }
+    
+    /* Ensure month grid lays out correctly with single Jan-Dec row */
+    .timeline-months {
+      display: grid;
+      grid-template-columns: repeat(84, 40px); /* 7 years × 12 months */
+      font-size: 10px;
+      color: #888;
+      margin-top: 4px;
+    }
+    
+    .timeline-months span {
+      text-align: center;
+    }
+
     /* Logo + Company name column */
     .timeline-logo-container {
       display: flex;
