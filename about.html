@@ -178,7 +178,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 80px;
+      width: 100px;
       text-align: center;
       font-size: 14px;
       color: #e0e0e0;
@@ -187,7 +187,7 @@
     .tool img {
       width: 40px;
       height: 40px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     /* ===== TIMELINE ===== */
@@ -213,17 +213,24 @@
 
     .timeline-years {
       display: flex;
-      justify-content: space-between;
       font-weight: 600;
       font-size: 14px;
     }
-
+    
+    .timeline-years span {
+      text-align: center;
+    }
+    
     .timeline-months {
-      display: flex;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: repeat(72, 40px);
       font-size: 10px;
       color: #888;
-      margin-top: 2px;
+      margin-top: 3px;
+    }
+    
+    .timeline-months span {
+      text-align: center;
     }
 
     /* Swimlane rows */
@@ -285,7 +292,8 @@
     .timeline-bar .tooltip-container {
       position: absolute;
       top: 115%;
-      left: 0;
+      left: 50%;
+      transform: translateX(-50%);
       background-color: #222;
       color: #f4f4f4;
       padding: 6px 10px;
@@ -295,6 +303,7 @@
       white-space: normal;
       display: none;
       z-index: 10;
+      text-align: center;
     }
 
     .timeline-bar:hover .tooltip-container,
@@ -457,13 +466,20 @@
 
     <!-- Years + Months -->
     <div class="timeline-top-bar">
+
+      <!-- Years -->
       <div class="timeline-years">
-        <span>2020</span><span>2021</span><span>2022</span><span>2023</span><span>2024</span><span>2025</span><span>2026</span>
+        <span style="width:480px;">2020</span>
+        <span style="width:480px;">2021</span>
+        <span style="width:480px;">2022</span>
+        <span style="width:480px;">2023</span>
+        <span style="width:480px;">2024</span>
+        <span style="width:480px;">2025</span>
+        <span style="width:480px;">2026</span>
       </div>
-      <div class="timeline-months">
-        <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span>
-        <span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span>
-      </div>
+    
+      <!-- Months -->
+      <div class="timeline-months"></div>
     </div>
 
     <!-- WATERWORKS -->
@@ -498,19 +514,36 @@
       </div>
     </div>
 
-    <!-- UMICH -->
+    <!-- UNIVERSITY OF MICHIGAN -->
     <div class="timeline-row">
       <div class="timeline-logo-container">
         <img src="/assets/logos/umich.png" class="timeline-logo">
-        <div class="company-name">UMich</div>
+        <div class="company-name">University of Michigan</div>
       </div>
+    
       <div class="timeline-bars">
+    
+        <!-- UMich Undergrad -->
+        <!-- Displayed portion: Jan 2020 → Apr 2022 -->
+        <div class="timeline-bar" style="left: calc(0 * 40px); width: calc((27 - 0) * 40px); background:#34495e;">
+          B.A. Economics, Minor in Entrepreneurship
+          <div class="tooltip-container">
+            GPA: 3.8/4.0<br>
+            University Honors (3x)<br>
+            President, Enactus Consulting Club<br>
+            Published in University of Michigan newsletter
+          </div>
+        </div>
+    
+        <!-- UMich Alumni Board -->
+        <!-- Mar 2023 = index 38 -->
         <div class="timeline-bar" style="left: calc(38 * 40px); width: calc((72 - 38) * 40px); background:#2980b9;">
           NYC Alumni Board Member & Sports Chair
           <div class="tooltip-container">
             Lead NYC alumni sports programming and partnerships.
           </div>
         </div>
+    
       </div>
     </div>
 
@@ -565,5 +598,20 @@
   </div>
 
 </div>
+
+<script>
+  const monthsContainer = document.querySelector('.timeline-months');
+  const monthLabels = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+  // total months = years × 12
+  const totalYears = document.querySelectorAll('.timeline-years span').length;
+  const totalMonths = totalYears * 12;
+
+  for (let i = 0; i < totalMonths; i++) {
+    const span = document.createElement('span');
+    span.textContent = monthLabels[i % 12];
+    monthsContainer.appendChild(span);
+  }
+</script>
 </body>
 </html>
