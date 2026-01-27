@@ -1,148 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Contact | Chase Pittman</title>
-  <link rel="icon" type="image/x-icon" href="/assets/logos/personal/favicon.ico">
+<meta charset="UTF-8">
+<title>Contact | Chase Pittman</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', Arial, sans-serif;
-      background-color: #384048;
-      color: #f4f4f4;
-      text-align: center;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #384048;
+  color: #f4f4f4;
+}
 
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 30px;
-      background-color: #222;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
+/* ===== NAVBAR ===== */
 
-    .logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 22px;
-      font-weight: 600;
-      color: white;
-    }
+.navbar {
+  display: grid;
+  grid-template-columns: 60px 1fr 120px;
+  align-items: center;
+  padding: 14px 24px;
+  background: #222;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
 
-    .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 25px;
-      margin: 0;
-      padding: 0;
-    }
+.nav-left {
+  font-size: 22px;
+  cursor: pointer;
+}
 
-    .nav-links a {
-      text-decoration: none;
-      color: white;
-      font-size: 16px;
-    }
+.nav-center {
+  text-align: center;
+}
 
-    .nav-links a:hover {
-      color: #1abc9c;
-    }
+.nav-center a {
+  margin: 0 18px;
+  text-decoration: none;
+  color: #f4f4f4;
+  font-size: 16px;
+}
 
-    .content {
-      max-width: 700px;
-      margin: 100px auto;
-      padding: 0 20px;
-    }
+.nav-center a:hover {
+  color: #1abc9c;
+}
 
-    h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 42px;
-      margin-bottom: 10px;
-    }
+.nav-right {
+  display: flex;
+  justify-content: flex-end;
+  gap: 18px;
+}
 
-    p {
-      font-size: 18px;
-      color: #e0e0e0;
-    }
+.nav-right img {
+  width: 22px;
+  height: 22px;
+  opacity: 0.9;
+  transition: opacity 0.2s, transform 0.2s;
+}
 
-    .contact-card {
-      background-color: #2e3740;
-      margin-top: 40px;
-      padding: 30px;
-      border-radius: 12px;
-    }
+.nav-right a:hover img {
+  opacity: 1;
+  transform: translateY(-2px);
+}
 
-    .contact-item {
-      margin: 20px 0;
-      font-size: 17px;
-    }
+/* ===== PAGE CONTENT ===== */
 
-    .contact-item a {
-      color: #1abc9c;
-      text-decoration: none;
-    }
+.content {
+  max-width: 720px;
+  margin: 90px auto;
+  padding: 0 20px;
+  text-align: center;
+}
 
-    .contact-item a:hover {
-      text-decoration: underline;
-    }
+h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 44px;
+  margin-bottom: 10px;
+}
 
-    .contact-icons {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin-top: 25px;
-    }
+.subtitle {
+  color: #cfcfcf;
+  font-size: 17px;
+  margin-bottom: 50px;
+}
 
-    .contact-icons img {
-      width: 36px;
-      height: 36px;
-      opacity: 0.9;
-      transition: transform 0.2s, opacity 0.2s;
-    }
+/* ===== CONTACT CARD ===== */
 
-    .contact-icons a:hover img {
-      transform: scale(1.1);
-      opacity: 1;
-    }
-  </style>
+.contact-card {
+  background: #2e3740;
+  padding: 40px;
+  border-radius: 14px;
+}
+
+form {
+  display: grid;
+  gap: 16px;
+}
+
+input, textarea {
+  background: #222;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 12px;
+  color: #f4f4f4;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+button {
+  background: #1abc9c;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #17a589;
+}
+
+/* bottom icon row */
+
+.contact-icons {
+  margin-top: 28px;
+  display: flex;
+  justify-content: center;
+  gap: 26px;
+}
+
+.contact-icons img {
+  width: 26px;
+  height: 26px;
+  opacity: 0.85;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.contact-icons a:hover img {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+</style>
 </head>
 
 <body>
 
-<nav class="navbar">
-  <div class="logo">Chase Pittman | Portfolio</div>
-  <ul class="nav-links">
-    <li><a href="/">Home</a></li>
-    <li><a href="/about">About</a></li>
-    <li><a href="/contact.html">Contact</a></li>
-  </ul>
-</nav>
+<!-- NAV -->
+<div class="navbar">
+  <div class="nav-left">☰</div>
 
+  <div class="nav-center">
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/contact.html">Contact</a>
+  </div>
+
+  <div class="nav-right">
+    <a href="https://www.linkedin.com/in/chasepittman" target="_blank">
+      <img src="/assets/logos/tools/linkedin.png" alt="LinkedIn">
+    </a>
+    <a href="mailto:YOURNAME@gmail.com">
+      <img src="/assets/logos/tools/gmail.png" alt="Email">
+    </a>
+  </div>
+</div>
+
+<!-- CONTENT -->
 <div class="content">
-  <h1>Get in Touch</h1>
-  <p>
-    Always happy to connect — whether it's product, design, or new opportunities.
-  </p>
+  <h1>Contact</h1>
+  <div class="subtitle">
+    Interested in product, design, or collaboration? Send a note below.
+  </div>
 
   <div class="contact-card">
-    <div class="contact-item">
-      📧 <a href="mailto:chase.pittman@email.com">chase.pittman@email.com</a>
-    </div>
-
-    <div class="contact-item">
-      💼 <a href="https://www.linkedin.com/in/chasepittman" target="_blank">LinkedIn</a>
-    </div>
+    <!-- Formspree or Netlify can power this later -->
+    <form>
+      <input type="text" placeholder="Name" required>
+      <input type="email" placeholder="Email" required>
+      <textarea placeholder="Message"></textarea>
+      <button type="submit">Send Message</button>
+    </form>
 
     <div class="contact-icons">
-      <a href="mailto:chase.pittman@email.com">
-        <img src="/assets/logos/tools/gmail.png" alt="Email">
-      </a>
       <a href="https://www.linkedin.com/in/chasepittman" target="_blank">
-        <img src="/assets/logos/tools/linkedin.png" alt="LinkedIn">
+        <img src="/assets/logos/tools/linkedin.png">
+      </a>
+      <a href="mailto:YOURNAME@gmail.com">
+        <img src="/assets/logos/tools/gmail.png">
       </a>
     </div>
   </div>
