@@ -152,6 +152,52 @@
       font-weight: 600;
     }
 
+    /* =========================
+       Spotify Widget (Bottom Right)
+       ========================= */
+    .spotify-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(20, 20, 20, 0.85);
+      border-radius: 14px;
+      padding: 10px 10px 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      opacity: 0.85;
+      transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      z-index: 900;
+    }
+    
+    .spotify-widget:hover {
+      opacity: 1;
+      transform: translateY(-3px);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+    }
+    
+    .spotify-label {
+      font-size: 12px;
+      color: #b5b5b5;
+      text-align: left;
+      margin-bottom: 6px;
+      padding-left: 6px;
+      font-family: 'Poppins', Arial, sans-serif;
+    }
+    
+    /* Make iframe match the card */
+    .spotify-widget iframe {
+      border-radius: 12px;
+      display: block;
+    }
+    
+    /* Mobile behavior */
+    @media (max-width: 600px) {
+      .spotify-widget {
+        right: 10px;
+        bottom: 10px;
+        transform: scale(0.95);
+      }
+    }
+    
   </style>
 </head>
 <body>
@@ -192,5 +238,18 @@
     });
   </script>
 
+  <!-- Spotify Music Widget -->
+  <div class="spotify-widget" aria-label="Background music">
+    <div class="spotify-label">Background music — optional</div>
+    <iframe
+      src="https://open.spotify.com/embed/playlist/3ufCxi5vsJNGcMVR1vTUev?utm_source=generator"
+      width="300"
+      height="152"
+      frameborder="0"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy">
+    </iframe>
+  </div>
+  
 </body>
 </html>
