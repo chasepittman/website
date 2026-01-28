@@ -12,13 +12,14 @@ body {
   font-family: 'Poppins', sans-serif;
   background-color: #384048;
   color: #f4f4f4;
+  text-align: center;
 }
 
 /* ===== NAVBAR ===== */
 
 .navbar {
   display: grid;
-  grid-template-columns: 60px 1fr 120px;
+  grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   padding: 14px 24px;
   background: #222;
@@ -27,26 +28,49 @@ body {
   z-index: 1000;
 }
 
+/* Left: Hamburger + Logo */
 .nav-left {
-  font-size: 22px;
-  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-self: start;
 }
 
+/* Hamburger icon */
+.nav-left .hamburger {
+  font-size: 22px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Logo text */
+.nav-left .logo {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Cormorant Garamond', serif;
+  color: white;
+  white-space: nowrap;
+}
+
+/* Center: Links */
 .nav-center {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 18px;
 }
 
 .nav-center a {
-  margin: 0 18px;
   text-decoration: none;
   color: #f4f4f4;
   font-size: 16px;
+  transition: color 0.3s;
 }
 
 .nav-center a:hover {
   color: #1abc9c;
 }
 
+/* Right: Social icons */
 .nav-right {
   display: flex;
   justify-content: flex-end;
@@ -54,15 +78,44 @@ body {
 }
 
 .nav-right img {
-  width: 22px;
-  height: 22px;
-  opacity: 0.9;
+  width: 26px;
+  height: auto;
+  opacity: 0.85;
   transition: opacity 0.2s, transform 0.2s;
 }
 
 .nav-right a:hover img {
   opacity: 1;
   transform: translateY(-2px);
+}
+
+/* Credly slightly bigger */
+.credly-icon {
+  width: 30px;
+  height: auto;
+}
+
+/* =========================
+   Hamburger menu for mobile
+   ========================= */
+@media (max-width: 600px) {
+  .nav-center {
+    flex-direction: column;
+    background-color: #222;
+    position: absolute;
+    top: 55px; /* navbar height */
+    right: 0;
+    width: 100%;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease-out;
+    z-index: 900;
+  }
+
+  .nav-center.active {
+    max-height: 500px;
+    transition: max-height 0.3s ease-in;
+  }
 }
 
 /* ===== PAGE CONTENT ===== */
@@ -145,15 +198,15 @@ button:hover {
   transition: opacity 0.2s, transform 0.2s;
 }
 
-/* Make Credly slightly bigger dynamically */
-.credly-icon {
-  width: 30px;  /* bigger than the others */
-  height: auto; /* keep aspect ratio */
-}
-
 .contact-icons a:hover img {
   opacity: 1;
   transform: translateY(-2px);
+}
+
+/* Make Credly slightly bigger dynamically */
+.contact-icons .credly-icon {
+  width: 30px;  /* bigger than the others */
+  height: auto; /* keep aspect ratio */
 }
 
 </style>
@@ -163,7 +216,10 @@ button:hover {
 
 <!-- NAV -->
 <div class="navbar">
-  <div class="nav-left">☰</div>
+  <div class="nav-left">
+    <div class="hamburger" id="hamburger">☰</div>
+    <div class="logo">Chase Pittman | Portfolio</div>
+  </div>
 
   <div class="nav-center">
     <a href="/">Home</a>
@@ -220,5 +276,15 @@ button:hover {
   </div>
 </div>
 
+<!-- Hamburger menu toggle script -->
+<script>
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('nav-links');
+
+hamburger.addEventListener('click', () => {
+  navLinks.classList.toggle('active'); // slide menu
+});
+</script>
+  
 </body>
 </html>
