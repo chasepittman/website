@@ -189,44 +189,70 @@
       z-index: 900;
     }
     
+    /* Spotify label inside widget */
+    .spotify-label {
+      display: block;
+      padding: 6px 10px;
+      font-size: 12px;
+      color: #b5b5b5;
+      text-align: left;
+      font-family: 'Poppins', Arial, sans-serif;
+    }
+    
+    /* Iframe inside widget */
+    .spotify-widget iframe {
+      width: 100%;
+      height: 120px;
+      border-radius: 12px;
+      display: block;
+      transition: opacity 0.5s ease;
+    }
+    
     /* Semicircle toggle */
     #spotify-toggle {
       position: absolute;
       top: 50%;
-      left: -20px; /* slightly outside the left edge */
+      right: -20px; /* only peeking out initially */
       transform: translateY(-50%);
       width: 40px;
-      height: 80px;
+      height: 40px;
       border: none;
-      border-radius: 40px 0 0 40px; /* semicircle on the left */
-      background-color: #1db954; /* Spotify green */
-      color: white;
-      font-size: 24px;
+      border-radius: 20px; /* semicircle */
+      background-color: #384048; /* dark grey same as background */
+      color: #f4f4f4;
+      font-size: 18px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: left 0.5s ease, transform 0.3s ease;
+      transition: right 0.5s ease, transform 0.3s ease;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     
-    /* Hover effect for toggle */
+    /* Hover effect */
     #spotify-toggle:hover {
       transform: translateY(-50%) scale(1.1);
     }
     
-    /* Collapsed state: slide player off screen */
+    /* Collapsed state: hide iframe and label, move toggle to right */
     .spotify-widget.collapsed {
-      transform: translateX(280px); /* move the entire widget to the right */
-      width: 320px; /* keeps semicircle size consistent */
+      width: 40px; /* only toggle visible */
+      height: 40px;
+      border-radius: 20px;
+      overflow: visible;
     }
     
-    /* Move the toggle to the right side when collapsed */
+    .spotify-widget.collapsed iframe,
+    .spotify-widget.collapsed .spotify-label {
+      opacity: 0;
+      pointer-events: none;
+      display: none;
+    }
+    
+    /* Move toggle fully visible on right side */
     .spotify-widget.collapsed #spotify-toggle {
-      left: auto;
-      right: -20px;
-      border-radius: 0 40px 40px 0;
-      transform: translateY(-50%) rotate(180deg); /* arrow points left now */
+      right: 0;
+      transform: rotate(180deg); /* arrow points left */
     }
     
   </style>
@@ -275,10 +301,9 @@
 
   <!-- Spotify Music Widget -->
   <div class="spotify-widget" id="spotify-widget">
+    <span class="spotify-label">Background music — optional</span>
     <iframe
       src="https://open.spotify.com/embed/album/3vhOUOy05eeQwq6EtxwnVW?utm_source=generator"
-      width="300"
-      height="152"
       frameborder="0"
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       loading="lazy">
