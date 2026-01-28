@@ -172,59 +172,61 @@
     /* =========================
    Spotify Widget Collapse (Sleek)
    ========================= */
+    /* =========================
+   Spotify Widget: floating semicircle toggle
+   ========================= */
     .spotify-widget {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background: rgba(20, 20, 20, 0.85);
-      border-radius: 14px;
-      padding: 10px 10px 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-      opacity: 0.85;
-      transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, width 0.3s ease, height 0.3s ease, padding 0.3s ease;
-      z-index: 900;
+      width: 320px;
+      height: 160px;
+      background: rgba(20,20,20,0.85);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
       overflow: hidden;
-      width: 320px; /* default width to fit iframe */
+      transition: transform 0.5s ease, width 0.5s ease;
+      z-index: 900;
     }
     
-    .spotify-widget:hover {
-      opacity: 1;
-      transform: translateY(-3px);
-      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
-    }
-    
-    .spotify-widget.collapsed {
-      width: 40px; /* shrink to arrow size */
-      height: 40px;
-      padding: 4px;
-      border-radius: 50%;
-    }
-    
-    .spotify-widget.collapsed iframe,
-    .spotify-widget.collapsed .spotify-label {
-      display: none; /* hide content */
-    }
-    
-    .spotify-widget.collapsed .spotify-header {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-    }
-    
+    /* Semicircle toggle */
     #spotify-toggle {
-      background: none;
+      position: absolute;
+      top: 50%;
+      left: -20px; /* slightly outside the left edge */
+      transform: translateY(-50%);
+      width: 40px;
+      height: 80px;
       border: none;
-      color: #b5b5b5;
-      font-size: 18px;
+      border-radius: 40px 0 0 40px; /* semicircle on the left */
+      background-color: #1db954; /* Spotify green */
+      color: white;
+      font-size: 24px;
       cursor: pointer;
-      transition: transform 0.3s ease;
-      padding: 0;
-      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: left 0.5s ease, transform 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     
-    #spotify-toggle.hide {
-      transform: rotate(-90deg);
+    /* Hover effect for toggle */
+    #spotify-toggle:hover {
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    /* Collapsed state: slide player off screen */
+    .spotify-widget.collapsed {
+      transform: translateX(280px); /* move the entire widget to the right */
+      width: 320px; /* keeps semicircle size consistent */
+    }
+    
+    /* Move the toggle to the right side when collapsed */
+    .spotify-widget.collapsed #spotify-toggle {
+      left: auto;
+      right: -20px;
+      border-radius: 0 40px 40px 0;
+      transform: translateY(-50%) rotate(180deg); /* arrow points left now */
     }
     
   </style>
@@ -272,11 +274,7 @@
   </div>
 
   <!-- Spotify Music Widget -->
-  <div class="spotify-widget" aria-label="Background music" id="spotify-widget">
-    <div class="spotify-header">
-      <span class="spotify-label">Background music — optional</span>
-      <button id="spotify-toggle" aria-label="Hide Spotify player">▼</button>
-    </div>
+  <div class="spotify-widget" id="spotify-widget">
     <iframe
       src="https://open.spotify.com/embed/album/3vhOUOy05eeQwq6EtxwnVW?utm_source=generator"
       width="300"
@@ -285,6 +283,9 @@
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       loading="lazy">
     </iframe>
+  
+    <!-- Semicircle toggle -->
+    <button id="spotify-toggle" aria-label="Toggle Spotify Player">▶</button>
   </div>
   
   <!-- Combined Hamburger & Spotify toggle script -->
@@ -302,10 +303,9 @@
     // Spotify toggle
     const spotifyWidget = document.getElementById('spotify-widget');
     const spotifyToggle = document.getElementById('spotify-toggle');
-  
+    
     spotifyToggle.addEventListener('click', () => {
       spotifyWidget.classList.toggle('collapsed');
-      spotifyToggle.classList.toggle('hide');
     });
   });
   </script>
