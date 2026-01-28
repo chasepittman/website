@@ -235,13 +235,62 @@
       transform: rotate(-90deg);
     }
     
-    /* Collapsed state */
-    .spotify-widget.collapsed iframe {
-      display: none;
+    /* =========================
+   Spotify Widget Collapse (Sleek)
+   ========================= */
+    .spotify-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(20, 20, 20, 0.85);
+      border-radius: 14px;
+      padding: 10px 10px 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      opacity: 0.85;
+      transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, width 0.3s ease, height 0.3s ease, padding 0.3s ease;
+      z-index: 900;
+      overflow: hidden;
+      width: 320px; /* default width to fit iframe */
     }
     
+    .spotify-widget:hover {
+      opacity: 1;
+      transform: translateY(-3px);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+    }
+    
+    .spotify-widget.collapsed {
+      width: 40px; /* shrink to arrow size */
+      height: 40px;
+      padding: 4px;
+      border-radius: 50%;
+    }
+    
+    .spotify-widget.collapsed iframe,
     .spotify-widget.collapsed .spotify-label {
-      opacity: 0.7;
+      display: none; /* hide content */
+    }
+    
+    .spotify-widget.collapsed .spotify-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+    
+    #spotify-toggle {
+      background: none;
+      border: none;
+      color: #b5b5b5;
+      font-size: 18px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      padding: 0;
+      line-height: 1;
+    }
+    
+    #spotify-toggle.hide {
+      transform: rotate(-90deg);
     }
     
   </style>
@@ -288,27 +337,6 @@
     <p>Chase R. Pittman</p>
   </div>
 
-  <!-- Hamburger menu toggle script -->
-  <script>
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('nav-links');
-
-    hamburger.addEventListener('click', () => {
-      navLinks.classList.toggle('active'); // slide menu
-      hamburger.classList.toggle('active'); // animate X
-    });
-  </script>
-
-  <script>
-    const spotifyWidget = document.getElementById('spotify-widget');
-    const spotifyToggle = document.getElementById('spotify-toggle');
-  
-    spotifyToggle.addEventListener('click', () => {
-      spotifyWidget.classList.toggle('collapsed');
-      spotifyToggle.classList.toggle('hide'); // rotates the arrow
-    });
-  </script>
-
   <!-- Spotify Music Widget -->
   <div class="spotify-widget" aria-label="Background music" id="spotify-widget">
     <div class="spotify-header">
@@ -324,6 +352,29 @@
       loading="lazy">
     </iframe>
   </div>
+  
+  <!-- Combined Hamburger & Spotify toggle script -->
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+  
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      hamburger.classList.toggle('active');
+    });
+  
+    // Spotify toggle
+    const spotifyWidget = document.getElementById('spotify-widget');
+    const spotifyToggle = document.getElementById('spotify-toggle');
+  
+    spotifyToggle.addEventListener('click', () => {
+      spotifyWidget.classList.toggle('collapsed');
+      spotifyToggle.classList.toggle('hide');
+    });
+  });
+  </script>
   
 </body>
 </html>
