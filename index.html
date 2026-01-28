@@ -211,55 +211,68 @@
       border: none;
     }
     
-    /* Toggle button - circle, half size, adjusted position */
+    /* Spotify toggle button */
     #spotify-toggle {
       position: absolute;
       top: 50%;
-      **left: -16px;**    /* negative to hang half off the player */
-      right: auto;         /* remove right offset */
-      width: 32px;
+      left: -20px; /* half off the player */
+      width: 32px;  /* smaller circle */
       height: 32px;
       border-radius: 50%;
-      background-color: **rgba(20, 20, 20, 0.95);**  /* match widget */
+      background-color: #222; /* match navbar */
       color: #f4f4f4;
-      font-size: 14px;
+      font-size: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      transform: translateY(-50%); /* keep vertically centered */
+      transform: translateY(-50%); /* center vertically */
       cursor: pointer;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       z-index: 1000;
+      transition: left 0.5s ease, transform 0.3s ease;
     }
     
-    /* Hover effect for toggle */
-    #spotify-toggle:hover {
-      transform: translate(-50%, -50%) scale(1.1);
+    /* Collapsed state */
+    .spotify-widget.collapsed #spotify-toggle {
+      left: -20px; /* same half-off positioning */
+      right: auto;
+      transform: translateY(-50%) rotate(180deg); /* keep arrow rotated */
+      background-color: #222; /* ensure color matches */
+    }
+    
+    /* Spotify widget container */
+    .spotify-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 340px;
+      height: 100px;
+      background: rgba(20, 20, 20, 0.95); /* slightly lighter than toggle */
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      overflow: hidden;
+      padding: 12px 16px 16px 56px; /* content padding */
+      transition: width 0.5s ease, right 0.5s ease;
+      z-index: 900;
     }
     
     /* Collapsed state */
     .spotify-widget.collapsed {
       width: 40px;
       height: 40px;
-      padding: 0;            /* remove padding when collapsed */
-      border-radius: 50%;    /* keep circle shape */
-      overflow: visible;
+      padding: 0;
+      border-radius: 50%;
+      overflow: hidden; /* remove extra ellipse artifacts */
       right: 0;
       box-shadow: none;
     }
     
+    /* Hide label and iframe when collapsed */
     .spotify-widget.collapsed iframe,
     .spotify-widget.collapsed .spotify-label {
       opacity: 0;
       pointer-events: none;
       display: none;
-    }
-    
-    .spotify-widget.collapsed #spotify-toggle {
-      left: -16px;       /* same half-off positioning */
-      right: auto;
-      transform: translateY(-50%) rotate(180deg);
-      background-color: rgba(20,20,20,0.95); /* match widget even when collapsed */
     }
     
   </style>
