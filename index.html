@@ -193,10 +193,10 @@
     /* Spotify label - smaller text and tighter padding */
     .spotify-label {
       display: block;
-      padding: 2px 10px 6px 0; /* less top and bottom padding */
+      padding: 2px 0 6px 0;
       font-size: 10px;
       color: #b5b5b5;
-      text-align: left;
+      text-align: center;
       font-family: 'Poppins', Arial, sans-serif;
     }
     
@@ -215,15 +215,16 @@
     #spotify-toggle {
       position: absolute;
       top: 50%;
-      left: 20px;                /* toggle circle peeking out */
+      left: auto;
+      right: 10px;
       transform: translate(-50%, -50%);
-      width: 40px;
-      height: 40px;
+      width: 30px;
+      height: 30px;
       border: none;
       border-radius: 50%;        /* full circle */
       background-color: #384048;
       color: #f4f4f4;
-      font-size: 18px;
+      font-size: 14px;
       cursor: pointer;
       display: flex;
       align-items: center;
