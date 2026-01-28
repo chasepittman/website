@@ -32,7 +32,7 @@
        ========================= */
     .navbar {
       display: grid;
-      grid-template-columns: 1fr auto 1fr; /* left, center, right */
+      grid-template-columns: 1fr 1fr 1fr; /* left, center, right */
       align-items: center;
       padding: 14px 24px;
       background-color: #222;
@@ -49,17 +49,6 @@
       font-size: 20px;
       font-weight: bold;
       font-family: 'Cormorant Garamond', serif;
-    }
-
-    /* Center: Links */
-    .nav-links {
-      grid-column: 2;         /* center column */
-      display: flex;
-      justify-content: center; /* center the links horizontally */
-      gap: 25px;
-      list-style: none;
-      margin: 0;
-      padding: 0;
     }
 
     .nav-links a {
@@ -80,6 +69,31 @@
       justify-content: flex-end;
       gap: 18px;
     }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      justify-self: start;
+    }
+    
+    .nav-right img {
+      width: 26px;
+      opacity: 0.85;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    
+    .nav-right a:hover img {
+      opacity: 1;
+      transform: translateY(-2px);
+    }
+
+    .nav-links {
+      grid-column: 2;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+    }
     
     /* =========================
        Hamburger menu (mobile)
@@ -90,6 +104,7 @@
       cursor: pointer;
       gap: 5px;
       z-index: 1100; /* above nav-links */
+      padding: 6px;
     }
 
     .hamburger div {
@@ -205,22 +220,37 @@
 <body>
 
   <!-- Navbar -->
-  <nav class="navbar">
-    <div class="logo">Chase Pittman | Portfolio</div>
-
-    <!-- Hamburger for mobile -->
-    <div class="hamburger" id="hamburger">
-      <div></div>
-      <div></div>
-      <div></div>
+  <div class="navbar">
+    <div class="nav-left">
+      <div class="hamburger" id="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div class="logo">Chase Pittman | Portfolio</div>
     </div>
-
-    <ul class="nav-links" id="nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/about">About</a></li>
-      <li><a href="/contact.html">Contact</a></li>
-    </ul>
-  </nav>
+  
+    <div class="nav-links" id="nav-links">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+  
+    <div class="nav-right">
+      <a href="https://www.linkedin.com/in/chasepittman" target="_blank">
+        <img src="/assets/logos/tools/linkedin.png" alt="LinkedIn">
+      </a>
+      <a href="https://www.credly.com/users/chase-pittman.017d3434/badges#credly" target="_blank">
+        <img src="/assets/logos/skills/credly.png" alt="Credly">
+      </a>
+      <a href="https://www.github.com/chasepittman" target="_blank">
+        <img src="/assets/logos/tools/github.png" alt="GitHub">
+      </a>
+      <a href="/contact.html">
+        <img src="/assets/logos/tools/gmail.png" alt="Contact Form">
+      </a>
+    </div>
+  </div>
 
   <!-- Main content -->
   <div class="content">
