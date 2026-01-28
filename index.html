@@ -268,19 +268,54 @@
     /* =========================
        Floating 3D Business Card Image
        ========================= */
-    .floating-card-img {
+    .floating-card-container {
       position: fixed;
-      top: 60px;          /* distance from top of viewport */
-      left: 50%;          /* center horizontally */
-      transform: translateX(-50%); /* adjust centering */
-      width: 220px;       /* adjust size as needed */
+      top: 140px;         /* moved down from header */
+      left: 50%;
+      transform: translateX(-50%);
+      perspective: 1000px; /* required for 3D rotation */
+      z-index: 950;
+    
+      /* Floating animation */
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    /* Keyframes for smooth up-and-down float */
+    @keyframes float {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-8px); }
+    }
+    
+    .floating-card {
+      width: 280px;       /* bigger */
       height: auto;
-      border-radius: 12px;   /* optional rounding */
-      box-shadow: 0 15px 30px rgba(0,0,0,0.6);
       cursor: pointer;
       transform-style: preserve-3d;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      z-index: 950;       /* above most content, below modals if any */
+      transition: transform 0.2s ease;
+      position: relative;
+    }
+    
+    .floating-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      display: block;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      backface-visibility: hidden; /* ensures proper 3D effect */
+    }
+    
+    .card-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      color: #f4f4f4;
+      font-size: 20px;
+      text-align: center;
+      pointer-events: none;
+      backface-visibility: hidden;
     }
 
   </style>
@@ -328,10 +363,17 @@
   </div>
 
   <!-- Floating 3D Business Card Image -->
-  <img src="/assets/logos/personal/business_card.png" 
-       alt="Chase Pittman Business Card" 
-       class="floating-card-img" 
-       id="floating-card-img">
+  <div class="floating-card-container" id="floating-card-container">
+    <div class="floating-card" id="floating-card">
+      <!-- Card Image -->
+      <img src="/assets/logos/personal/business_card.png" alt="Chase Pittman Business Card">
+  
+      <!-- Overlay text that always faces forward -->
+      <div class="card-text" id="card-text">
+        Chase R. Pittman
+      </div>
+    </div>
+  </div>
   
   <!-- Spotify Music Widget -->
   <div class="spotify-widget" id="spotify-widget">
@@ -368,35 +410,47 @@
     });
 
     // 3D tilt effect for floating PNG
-    const cardImg = document.getElementById('floating-card-img');
-
-    let autoRotation = 0;
+    const card = document.getElementById('floating-card');
+    const cardText = document.getElementById('card-text');
     
-    // Auto spin function
+    let rotation = 0;
+    
     function spinCard() {
-      autoRotation += 0.2; // degrees per frame
-      cardImg.style.transform = `translateX(-50%) rotateY(${autoRotation}deg)`;
+      // Calculate speed based on rotation angle
+      let angle = rotation % 360;
+      let speed = (Math.abs(Math.cos(angle * Math.PI / 180)) * 0.2) + 0.1;
+      // cos(angle)=1 => flat (slow), cos(angle)=0 => sideways (fast)
+      
+      rotation += speed;
+      
+      card.style.transform = `rotateY(${rotation}deg)`;
+      cardText.style.transform = `translate(-50%, -50%) rotateY(${-rotation}deg)`; 
+      // text always faces forward
+      
       requestAnimationFrame(spinCard);
     }
+    
     spinCard();
     
     // Mouse tilt effect
-    cardImg.addEventListener('mousemove', e => {
-      const rect = cardImg.getBoundingClientRect();
-      const x = e.clientX - rect.left; // mouse X within card
-      const y = e.clientY - rect.top;  // mouse Y within card
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
     
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
     
-      const rotateX = ((y - centerY) / centerY) * 10; // tilt intensity
+      const rotateX = ((y - centerY) / centerY) * 10;
       const rotateY = ((x - centerX) / centerX) * 10;
     
-      cardImg.style.transform = `translateX(-50%) rotateX(${-rotateX}deg) rotateY(${rotateY + autoRotation}deg) scale(1.05)`;
+      card.style.transform = `rotateX(${-rotateX}deg) rotateY(${rotation + rotateY}deg)`;
+      cardText.style.transform = `translate(-50%, -50%) rotateY(${-rotation - rotateY}deg)`;
     });
     
-    cardImg.addEventListener('mouseleave', () => {
-      cardImg.style.transform = `translateX(-50%) rotateY(${autoRotation}deg) scale(1)`;
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = `rotateY(${rotation}deg)`;
+      cardText.style.transform = `translate(-50%, -50%) rotateY(${-rotation}deg)`;
     });
   });
 
