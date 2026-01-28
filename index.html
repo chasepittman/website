@@ -179,17 +179,17 @@
       position: fixed;
       bottom: 20px;
       right: 20px;
-      width: 320px;
-      height: 160px;
-      background: rgba(20,20,20,0.85);
+      width: 280px;    /* narrower for compact player */
+      height: 80px;    /* shorter height */
+      background: rgba(20, 20, 20, 0.85);
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.4);
       overflow: hidden;
-      transition: transform 0.5s ease, width 0.5s ease;
+      transition: width 0.5s ease, right 0.5s ease;
       z-index: 900;
     }
     
-    /* Spotify label inside widget */
+    /* Spotify label styling */
     .spotify-label {
       display: block;
       padding: 6px 10px;
@@ -199,49 +199,54 @@
       font-family: 'Poppins', Arial, sans-serif;
     }
     
-    /* Iframe inside widget */
+    /* iframe for compact player */
     .spotify-widget iframe {
       width: 100%;
-      height: 120px;
+      height: 60px;  /* shorter height */
       border-radius: 12px;
       display: block;
       transition: opacity 0.5s ease;
+      pointer-events: auto;
     }
     
-    /* Semicircle toggle */
+    /* Toggle button: smaller semicircle on left */
     #spotify-toggle {
       position: absolute;
       top: 50%;
-      right: -20px; /* only peeking out initially */
+      left: -20px;  /* peek out on left when expanded */
       transform: translateY(-50%);
       width: 40px;
-      height: 40px;
+      height: 80px;
       border: none;
-      border-radius: 20px; /* semicircle */
-      background-color: #384048; /* dark grey same as background */
+      border-radius: 40px 0 0 40px;  /* semicircle on left side */
+      background-color: #384048; /* dark grey */
       color: #f4f4f4;
-      font-size: 18px;
+      font-size: 20px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: right 0.5s ease, transform 0.3s ease;
+      transition: left 0.5s ease, transform 0.3s ease;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      user-select: none;
     }
     
-    /* Hover effect */
+    /* Hover effect for toggle */
     #spotify-toggle:hover {
       transform: translateY(-50%) scale(1.1);
     }
     
-    /* Collapsed state: hide iframe and label, move toggle to right */
+    /* Collapsed state: hide iframe and label, narrow container */
     .spotify-widget.collapsed {
-      width: 40px; /* only toggle visible */
-      height: 40px;
-      border-radius: 20px;
+      width: 40px;  /* only the toggle visible */
+      height: 80px; /* same height as toggle */
       overflow: visible;
+      right: 0;     /* move to right edge */
+      border-radius: 0 40px 40px 0;  /* semicircle on right side */
+      box-shadow: none; /* remove shadow to remove the dark circle */
     }
     
+    /* Hide player and label on collapse */
     .spotify-widget.collapsed iframe,
     .spotify-widget.collapsed .spotify-label {
       opacity: 0;
@@ -249,10 +254,13 @@
       display: none;
     }
     
-    /* Move toggle fully visible on right side */
+    /* Move toggle to right and flip arrow */
     .spotify-widget.collapsed #spotify-toggle {
+      left: auto;
       right: 0;
-      transform: rotate(180deg); /* arrow points left */
+      border-radius: 0 40px 40px 0;
+      transform: translateY(-50%) rotate(180deg);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3); /* keep subtle shadow on button only */
     }
     
   </style>
