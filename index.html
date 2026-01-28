@@ -214,6 +214,35 @@
         transform: scale(0.95);
       }
     }
+
+    .spotify-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    
+    #spotify-toggle {
+      background: none;
+      border: none;
+      color: #b5b5b5;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    
+    #spotify-toggle.hide {
+      transform: rotate(-90deg);
+    }
+    
+    /* Collapsed state */
+    .spotify-widget.collapsed iframe {
+      display: none;
+    }
+    
+    .spotify-widget.collapsed .spotify-label {
+      opacity: 0.7;
+    }
     
   </style>
 </head>
@@ -270,9 +299,22 @@
     });
   </script>
 
+  <script>
+    const spotifyWidget = document.getElementById('spotify-widget');
+    const spotifyToggle = document.getElementById('spotify-toggle');
+  
+    spotifyToggle.addEventListener('click', () => {
+      spotifyWidget.classList.toggle('collapsed');
+      spotifyToggle.classList.toggle('hide'); // rotates the arrow
+    });
+  </script>
+
   <!-- Spotify Music Widget -->
-  <div class="spotify-widget" aria-label="Background music">
-    <div class="spotify-label">Background music — optional</div>
+  <div class="spotify-widget" aria-label="Background music" id="spotify-widget">
+    <div class="spotify-header">
+      <span class="spotify-label">Background music — optional</span>
+      <button id="spotify-toggle" aria-label="Hide Spotify player">▼</button>
+    </div>
     <iframe
       src="https://open.spotify.com/embed/album/3vhOUOy05eeQwq6EtxwnVW?utm_source=generator"
       width="300"
