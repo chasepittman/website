@@ -179,17 +179,13 @@
       position: fixed;
       bottom: 20px;
       right: 20px;
-      width: 320px;        /* wider for padding */
+      width: 340px;        /* wider for padding */
       height: 100px;       /* taller to accommodate padding */
       background: rgba(20, 20, 20, 0.95); /* slightly darker for stronger surround */
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.6); /* deeper shadow */
-      
       overflow: visible;    /* allow toggle button to overflow container */
-      
       padding: 12px 16px 16px 56px;   /* top, right, bottom, left */
-      /* 56px left padding leaves room for toggle circle */
-      
       transition: width 0.5s ease, right 0.5s ease;
       z-index: 900;
     }
@@ -212,6 +208,7 @@
       display: block;
       transition: opacity 0.5s ease;
       pointer-events: auto;
+      overflow: visible;
     }
     
     /* Toggle button - circle, half size, adjusted position */
