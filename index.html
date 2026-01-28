@@ -270,16 +270,17 @@
        ========================= */
     .floating-card-img {
       position: fixed;
-      bottom: 120px;        /* above Spotify widget */
-      right: 40px;
-      width: 200px;          /* adjust if needed */
+      top: 60px;          /* distance from top of viewport */
+      left: 50%;          /* center horizontally */
+      transform: translateX(-50%); /* adjust centering */
+      width: 220px;       /* adjust size as needed */
       height: auto;
-      border-radius: 12px;   /* optional */
+      border-radius: 12px;   /* optional rounding */
       box-shadow: 0 15px 30px rgba(0,0,0,0.6);
       cursor: pointer;
       transform-style: preserve-3d;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
-      z-index: 950;
+      z-index: 950;       /* above most content, below modals if any */
     }
 
   </style>
@@ -320,7 +321,7 @@
   </div>
 
   <!-- Main content -->
-  <div class="content">
+  <div class="content" style="margin-top: 320px;"> <!-- adjust margin to clear card -->
     <h1>Stay tuned...</h1>
     <img src="/assets/logos/personal/CRP_Logo.png" alt="My Personal Logo" width="100">
     <p>Chase R. Pittman</p>
@@ -368,7 +369,18 @@
 
     // 3D tilt effect for floating PNG
     const cardImg = document.getElementById('floating-card-img');
+
+    let autoRotation = 0;
     
+    // Auto spin function
+    function spinCard() {
+      autoRotation += 0.2; // degrees per frame
+      cardImg.style.transform = `translateX(-50%) rotateY(${autoRotation}deg)`;
+      requestAnimationFrame(spinCard);
+    }
+    spinCard();
+    
+    // Mouse tilt effect
     cardImg.addEventListener('mousemove', e => {
       const rect = cardImg.getBoundingClientRect();
       const x = e.clientX - rect.left; // mouse X within card
@@ -380,11 +392,11 @@
       const rotateX = ((y - centerY) / centerY) * 10; // tilt intensity
       const rotateY = ((x - centerX) / centerX) * 10;
     
-      cardImg.style.transform = `rotateX(${-rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+      cardImg.style.transform = `translateX(-50%) rotateX(${-rotateX}deg) rotateY(${rotateY + autoRotation}deg) scale(1.05)`;
     });
     
     cardImg.addEventListener('mouseleave', () => {
-      cardImg.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+      cardImg.style.transform = `translateX(-50%) rotateY(${autoRotation}deg) scale(1)`;
     });
   });
 
