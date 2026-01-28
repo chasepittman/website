@@ -215,23 +215,20 @@
     #spotify-toggle {
       position: absolute;
       top: 50%;
-      left: auto;
-      right: 10px;
-      transform: translate(-50%, -50%);
-      width: 30px;
-      height: 30px;
-      border: none;
-      border-radius: 50%;        /* full circle */
-      background-color: #384048;
+      **left: -16px;**    /* negative to hang half off the player */
+      right: auto;         /* remove right offset */
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: **rgba(20, 20, 20, 0.95);**  /* match widget */
       color: #f4f4f4;
       font-size: 14px;
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: left 0.5s ease, transform 0.3s ease;
+      transform: translateY(-50%); /* keep vertically centered */
+      cursor: pointer;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      user-select: none;
       z-index: 1000;
     }
     
@@ -259,11 +256,10 @@
     }
     
     .spotify-widget.collapsed #spotify-toggle {
-      left: auto;
-      right: 20px;           /* small right offset */
-      border-radius: 50%;    /* circle */
-      transform: translate(50%, -50%) rotate(180deg);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      left: -16px;       /* same half-off positioning */
+      right: auto;
+      transform: translateY(-50%) rotate(180deg);
+      background-color: rgba(20,20,20,0.95); /* match widget even when collapsed */
     }
     
   </style>
