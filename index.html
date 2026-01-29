@@ -401,7 +401,11 @@
       const distanceFromFront = Math.min(Math.abs(angle), Math.abs(360 - angle));
       const distanceFromBack = Math.min(Math.abs(angle - 180), Math.abs(180 - angle));
       const minDistance = Math.min(distanceFromFront, distanceFromBack);
-      const speed = 0.1 + (1 - minDistance / 90) * 0.9; // 0.1 slow, ~1 fast
+      
+      // We want speed to be slow (0.05) when face-on, fast (1.2) when edge-on
+      // We'll normalize minDistance to 0..90 degrees
+      const normalized = Math.min(minDistance, 90) / 90; // 0 = face-on, 1 = edge-on
+      const speed = 0.05 + normalized * 1.15; // min 0.05, max ~1.2
       rotation += speed;
     
       // Vertical float
