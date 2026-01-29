@@ -275,15 +275,6 @@
       transform: translateX(-50%);
       perspective: 1000px; /* required for 3D rotation */
       z-index: 950;
-    
-      /* Floating animation */
-      animation: float 3s ease-in-out infinite;
-    }
-    
-    /* Keyframes for smooth up-and-down float */
-    @keyframes float {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(-8px); }
     }
     
     .floating-card {
@@ -414,19 +405,29 @@
     const cardText = document.getElementById('card-text');
     
     let rotation = 0;
+    let floatOffset = 0;
+    let floatDirection = 1;
+    let tiltX = 0;
+    let tiltY = 0;
     
     function spinCard() {
-      // Calculate speed based on rotation angle
+      // Variable spin speed
       let angle = rotation % 360;
       let speed = (Math.abs(Math.cos(angle * Math.PI / 180)) * 0.2) + 0.1;
-      // cos(angle)=1 => flat (slow), cos(angle)=0 => sideways (fast)
-      
       rotation += speed;
-      
-      card.style.transform = `rotateY(${rotation}deg)`;
-      cardText.style.transform = `translate(-50%, -50%) rotateY(${-rotation}deg)`; 
-      // text always faces forward
-      
+    
+      // Smooth vertical float
+      floatOffset += floatDirection * 0.2;
+      if (floatOffset > 8 || floatOffset < -8) floatDirection *= -1;
+    
+      card.style.transform =
+      `translateY(${floatOffset}px)
+       rotateX(${tiltX}deg)
+       rotateY(${rotation + tiltY}deg)`;
+    
+      cardText.style.transform =
+        `translate(-50%, -50%) rotateY(${-rotation}deg)`;
+    
       requestAnimationFrame(spinCard);
     }
     
@@ -444,13 +445,17 @@
       const rotateX = ((y - centerY) / centerY) * 10;
       const rotateY = ((x - centerX) / centerX) * 10;
     
-      card.style.transform = `rotateX(${-rotateX}deg) rotateY(${rotation + rotateY}deg)`;
+      tiltX = -rotateX;
+      tiltY = rotateY;
       cardText.style.transform = `translate(-50%, -50%) rotateY(${-rotation - rotateY}deg)`;
     });
     
     card.addEventListener('mouseleave', () => {
-      card.style.transform = `rotateY(${rotation}deg)`;
-      cardText.style.transform = `translate(-50%, -50%) rotateY(${-rotation}deg)`;
+      tiltX = 0;
+      tiltY = 0;
+    
+      cardText.style.transform =
+        `translate(-50%, -50%) rotateY(${-(rotation + tiltY)}deg)`;
     });
   });
 
