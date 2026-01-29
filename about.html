@@ -233,16 +233,24 @@
 
     /* ===== TIMELINE ===== */
 
+    /* ===== TIMELINE ===== */
+    .timeline-wrapper {
+      overflow-x: auto;        /* horizontal scroll */
+      padding-bottom: 20px;    /* space under scrollbar */
+    }
+    
     .timeline-container {
+      display: flex;
+      flex-direction: column;
+      min-width: 800px;        /* base width for timeline */
+      max-width: none;         /* remove max-content stretching */
       background-color: #2e3740;
       padding: 30px;
       border-radius: 12px;
       margin-top: 40px;
-      overflow-x: auto;
       position: relative;
     }
-
-    /* Top Year + Month Bar */
+    
     .timeline-top-bar {
       display: flex;
       flex-direction: column;
@@ -251,7 +259,8 @@
       border-radius: 8px;
       margin-bottom: 15px;
     }
-
+    
+    /* Top years + months */
     .timeline-years {
       display: grid;
       grid-template-columns: repeat(7, 480px);
@@ -266,35 +275,6 @@
     
     .timeline-months {
       display: grid;
-      grid-template-columns: repeat(auto-fit, 40px);
-      grid-auto-flow: column;
-      font-size: 10px;
-      color: #888;
-      margin-top: 4px;
-    }
-    
-    .timeline-months span {
-      text-align: center;
-    }
-
-    /* Swimlane rows */
-    .timeline-row {
-      display: flex;
-      align-items: flex-start;
-      border-bottom: 1px solid #555;
-      padding: 12px 0;
-    }
-
-    /* Make timeline and top bar stretch full width to fit all months and years */
-    .timeline-top-bar,
-    .timeline-container,
-    .timeline-row {
-      width: max-content;
-    }
-    
-    /* Ensure month grid lays out correctly with single Jan-Dec row */
-    .timeline-months {
-      display: grid;
       grid-template-columns: repeat(84, 40px); /* 7 years × 12 months */
       font-size: 10px;
       color: #888;
@@ -304,17 +284,25 @@
     .timeline-months span {
       text-align: center;
     }
-
-    /* Logo + Company name column */
+    
+    /* Swimlane rows */
+    .timeline-row {
+      display: flex;
+      align-items: flex-start;
+      border-bottom: 1px solid #555;
+      padding: 12px 0;
+      width: 100%;             /* fill scrollable area */
+    }
+    
     .timeline-logo-container {
       display: flex;
       flex-direction: column;
       align-items: center;
       width: 110px;
       margin-right: 20px;
-      flex-shrink: 0;
+      flex-shrink: 0;          /* prevent logo from stretching */
     }
-
+    
     .timeline-logo {
       width: 60px;
       height: 60px;
@@ -323,21 +311,20 @@
       border: 2px solid #1abc9c;
       background-color: #222;
     }
-
+    
     .company-name {
       margin-top: 6px;
       font-size: 12px;
       color: #bbb;
       text-align: center;
     }
-
-    /* Bars area */
+    
     .timeline-bars {
       position: relative;
       flex-grow: 1;
       min-height: 90px;
     }
-
+    
     .timeline-bar {
       position: absolute;
       height: 34px;
@@ -351,7 +338,7 @@
       white-space: nowrap;
       cursor: pointer;
     }
-
+    
     /* Tooltip below bars */
     .timeline-bar .tooltip-container {
       position: absolute;
@@ -369,12 +356,12 @@
       z-index: 10;
       text-align: center;
     }
-
+    
     .timeline-bar:hover .tooltip-container,
     .timeline-bar:focus .tooltip-container {
       display: block;
     }
-
+    
     /* Vertical month grid lines */
     .timeline-container::before {
       content: "";
@@ -393,30 +380,30 @@
         );
       pointer-events: none;
     }
-
+    
     /* Responsive */
     @media (max-width: 800px) {
       .timeline-row {
         flex-direction: column;
         align-items: flex-start;
       }
-
+    
       .timeline-logo-container {
         flex-direction: row;
         width: auto;
         margin-bottom: 8px;
       }
-
+    
       .company-name {
         margin-left: 8px;
         margin-top: 0;
       }
-
+    
       .timeline-bars {
         width: 100%;
         min-height: 70px;
       }
-
+    
       .timeline-container::before {
         left: 20px;
       }
@@ -558,55 +545,57 @@
   <!-- Timeline -->
   <h2>Experience & Leadership</h2>
 
-  <div class="timeline-container">
-
-    <!-- Years + Months -->
-    <div class="timeline-top-bar">
-
-      <!-- Years -->
-      <div class="timeline-years">
-        <span style="width:480px;">2020</span>
-        <span style="width:480px;">2021</span>
-        <span style="width:480px;">2022</span>
-        <span style="width:480px;">2023</span>
-        <span style="width:480px;">2024</span>
-        <span style="width:480px;">2025</span>
-        <span style="width:480px;">2026</span>
-      </div>
+  <div class="timeline-wrapper">
+  
+    <div class="timeline-container">
+  
+      <!-- Years + Months -->
+      <div class="timeline-top-bar">
+  
+        <!-- Years -->
+        <div class="timeline-years">
+          <span style="width:480px;">2020</span>
+          <span style="width:480px;">2021</span>
+          <span style="width:480px;">2022</span>
+          <span style="width:480px;">2023</span>
+          <span style="width:480px;">2024</span>
+          <span style="width:480px;">2025</span>
+          <span style="width:480px;">2026</span>
+        </div>
     
-      <!-- Months -->
-      <div class="timeline-months"></div>
-    </div>
-
-    <!-- WATERWORKS -->
-    <div class="timeline-row">
-      <div class="timeline-logo-container">
-        <img src="/assets/logos/timeline/waterworks.png" class="timeline-logo">
-        <div class="company-name">Waterworks</div>
+        <!-- Months -->
+        <div class="timeline-months"></div>
       </div>
-      <div class="timeline-bars">
-
-        <div class="timeline-bar" style="left: calc(29 * 40px); width: calc((63 - 29) * 40px); background:#16a085;">
-          Product Mgmt Coordinator
-          <div class="tooltip-container">
-            Built dashboards for 20+ product collections, maintaining 100K+ records with 99%+ accuracy.
+  
+      <!-- WATERWORKS -->
+      <div class="timeline-row">
+        <div class="timeline-logo-container">
+          <img src="/assets/logos/timeline/waterworks.png" class="timeline-logo">
+          <div class="company-name">Waterworks</div>
+        </div>
+        <div class="timeline-bars">
+  
+          <div class="timeline-bar" style="left: calc(29 * 40px); width: calc((63 - 29) * 40px); background:#16a085;">
+            Product Mgmt Coordinator
+            <div class="tooltip-container">
+              Built dashboards for 20+ product collections, maintaining 100K+ records with 99%+ accuracy.
+            </div>
+          </div>
+  
+          <div class="timeline-bar" style="left: calc(63 * 40px); width: calc((72 - 63) * 40px); background:#1abc9c;">
+            Associate Product Manager
+            <div class="tooltip-container">
+              Lead weekly business performance reviews across seven categories, contributing to 21% revenue growth.
+            </div>
+          </div>
+  
+          <div class="timeline-bar" style="left: calc(51 * 40px); width: calc((72 - 51) * 40px); top: 50%; background:#1abc9c;">
+            Founder — Early Career Group
+            <div class="tooltip-container">
+              Founded internal early-career community, launched mentorship program, and organized speaker events.
+            </div>
           </div>
         </div>
-
-        <div class="timeline-bar" style="left: calc(63 * 40px); width: calc((72 - 63) * 40px); background:#1abc9c;">
-          Associate Product Manager
-          <div class="tooltip-container">
-            Lead weekly business performance reviews across seven categories, contributing to 21% revenue growth.
-          </div>
-        </div>
-
-        <div class="timeline-bar" style="left: calc(51 * 40px); width: calc((72 - 51) * 40px); top: 50%; background:#1abc9c;">
-          Founder — Early Career Group
-          <div class="tooltip-container">
-            Founded internal early-career community, launched mentorship program, and organized speaker events.
-          </div>
-        </div>
-
       </div>
     </div>
 
@@ -639,7 +628,6 @@
             Lead NYC alumni sports programming and partnerships.
           </div>
         </div>
-    
       </div>
     </div>
 
