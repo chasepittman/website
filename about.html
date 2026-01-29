@@ -428,14 +428,33 @@
 <body>
 
 <!-- Navbar -->
-<nav class="navbar">
-  <div class="logo">Chase Pittman | Portfolio</div>
-  <ul class="nav-links">
-    <li><a href="/">Home</a></li>
-    <li><a href="/about">About</a></li>
-    <li><a href="/contact.html">Contact</a></li>
-  </ul>
-</nav>
+<div class="navbar">
+  <div class="nav-left">
+    <div class="hamburger" id="hamburger">☰</div>
+    <div class="logo">Chase Pittman | Portfolio</div>
+  </div>
+
+  <div class="nav-center" id="nav-links">
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/contact.html">Contact</a>
+  </div>
+
+  <div class="nav-right">
+    <a href="https://www.linkedin.com/in/chasepittman" target="_blank">
+      <img src="/assets/logos/tools/linkedin.png" alt="LinkedIn">
+    </a>
+    <a href="https://www.credly.com/users/chase-pittman.017d3434/badges#credly" target="_blank">
+      <img src="/assets/logos/skills/credly.png" alt="Credly">
+    </a>
+    <a href="https://www.github.com/chasepittman" target="_blank">
+      <img src="/assets/logos/tools/github.png" alt="GitHub">
+    </a>
+    <a href="/contact.html">
+      <img src="/assets/logos/tools/gmail.png" alt="Contact Form">
+    </a>
+  </div>
+</div>
 
 <div class="content">
 
@@ -675,6 +694,15 @@
   </div>
 
 </div>
+
+<script>
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('nav-links');
+
+hamburger.addEventListener('click', () => {
+  navLinks.classList.toggle('active'); // slide menu on mobile
+});
+</script>
 
 <script>
   const monthsContainer = document.querySelector('.timeline-months');
