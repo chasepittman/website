@@ -278,21 +278,24 @@
     }
     
     .floating-card {
-      width: 280px;       /* bigger */
-      height: auto;
-      cursor: pointer;
-      will-change: transform, opacity;
-      transform-style: preserve-3d;
+      width: 280px;
+      height: 180px; /* set fixed height to match card aspect ratio */
       position: relative;
+      transform-style: preserve-3d;
+      cursor: pointer;
     }
     
     .floating-card img {
+      position: absolute;
       width: 100%;
-      height: auto;
+      height: 100%;
       border-radius: 12px;
-      display: block;
+      backface-visibility: hidden; /* hide the back side */
       box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-      backface-visibility: visible; /* ensures proper 3D effect */
+    }
+    
+    .card-back {
+      transform: rotateY(180deg); /* flips the back side */
     }
 
   </style>
@@ -342,8 +345,9 @@
   <!-- Floating 3D Business Card Image -->
   <div class="floating-card-container" id="floating-card-container">
     <div class="floating-card" id="floating-card">
-      <!-- Card Image -->
-      <img src="/assets/logos/personal/business_card.png" alt="Chase Pittman Business Card">
+      <!-- Front and Back Images -->
+      <img class="card-front" src="/assets/logos/personal/business_card.png" alt="Front of Business Card">
+      <img class="card-back" src="/assets/logos/personal/business_card_back.png" alt="Back of Business Card">
     </div>
   </div>
   
@@ -383,23 +387,22 @@
 
     // 3D tilt effect for floating PNG
     const card = document.getElementById('floating-card');
-    
     let rotation = 0;
-    let floatOffset = 0;
     let tiltX = 0;
     let tiltY = 0;
     
     function spinCard() {
-      // Variable spin speed
-      let angle = rotation % 360;
-      let speed = (Math.abs(Math.cos(angle * Math.PI / 180)) * 0.2) + 0.1;
+      const angle = rotation % 360;
+    
+      // Variable speed: slow when front/back is visible, faster at edges
+      const distanceFromFront = Math.min(Math.abs(angle), Math.abs(360 - angle));
+      const distanceFromBack = Math.min(Math.abs(angle - 180), Math.abs(180 - angle));
+      const minDistance = Math.min(distanceFromFront, distanceFromBack);
+      const speed = 0.1 + (1 - minDistance / 90) * 0.9; // 0.1 slow, ~1 fast
       rotation += speed;
     
-      // Smooth vertical float
-      floatOffset = Math.sin(rotation * 0.02) * 8;
-
-      const visibility = Math.abs(Math.cos(rotation * Math.PI / 180));
-      card.style.opacity = 0.4 + visibility * 0.6;
+      // Vertical float
+      const floatOffset = Math.sin(rotation * 0.02) * 8;
       
       card.style.transform =
       `translateY(${floatOffset}px)
