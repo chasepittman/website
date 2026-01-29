@@ -281,8 +281,8 @@
       width: 280px;       /* bigger */
       height: auto;
       cursor: pointer;
+      will-change: transform, opacity;
       transform-style: preserve-3d;
-      transition: transform 0.2s ease;
       position: relative;
     }
     
@@ -292,21 +292,7 @@
       border-radius: 12px;
       display: block;
       box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-      backface-visibility: hidden; /* ensures proper 3D effect */
-    }
-    
-    .card-text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 700;
-      color: #f4f4f4;
-      font-size: 20px;
-      text-align: center;
-      pointer-events: none;
-      backface-visibility: hidden;
+      backface-visibility: visible; /* ensures proper 3D effect */
     }
 
   </style>
@@ -358,11 +344,6 @@
     <div class="floating-card" id="floating-card">
       <!-- Card Image -->
       <img src="/assets/logos/personal/business_card.png" alt="Chase Pittman Business Card">
-  
-      <!-- Overlay text that always faces forward -->
-      <div class="card-text" id="card-text">
-        Chase R. Pittman
-      </div>
     </div>
   </div>
   
@@ -402,11 +383,9 @@
 
     // 3D tilt effect for floating PNG
     const card = document.getElementById('floating-card');
-    const cardText = document.getElementById('card-text');
     
     let rotation = 0;
     let floatOffset = 0;
-    let floatDirection = 1;
     let tiltX = 0;
     let tiltY = 0;
     
@@ -417,46 +396,46 @@
       rotation += speed;
     
       // Smooth vertical float
-      floatOffset += floatDirection * 0.2;
-      if (floatOffset > 8 || floatOffset < -8) floatDirection *= -1;
-    
+      floatOffset = Math.sin(rotation * 0.02) * 8;
+
+      const visibility = Math.abs(Math.cos(rotation * Math.PI / 180));
+      card.style.opacity = 0.4 + visibility * 0.6;
+      
       card.style.transform =
       `translateY(${floatOffset}px)
        rotateX(${tiltX}deg)
        rotateY(${rotation + tiltY}deg)`;
     
-      cardText.style.transform =
-        `translate(-50%, -50%) rotateY(${-rotation}deg)`;
-    
       requestAnimationFrame(spinCard);
     }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
     
     spinCard();
     
     // Mouse tilt effect
-    card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+    if (window.matchMedia('(hover: hover)').matches) {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
     
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
     
-      const rotateX = ((y - centerY) / centerY) * 10;
-      const rotateY = ((x - centerX) / centerX) * 10;
+        const rotateX = ((y - centerY) / centerY) * 10;
+        const rotateY = ((x - centerX) / centerX) * 10;
     
-      tiltX = -rotateX;
-      tiltY = rotateY;
-      cardText.style.transform = `translate(-50%, -50%) rotateY(${-rotation - rotateY}deg)`;
-    });
+        tiltX = -rotateX;
+        tiltY = rotateY;
+      });
     
-    card.addEventListener('mouseleave', () => {
-      tiltX = 0;
-      tiltY = 0;
-    
-      cardText.style.transform =
-        `translate(-50%, -50%) rotateY(${-(rotation + tiltY)}deg)`;
-    });
+      card.addEventListener('mouseleave', () => {
+        tiltX = 0;
+        tiltY = 0;
+      });
+    }
   });
 
   </script>
