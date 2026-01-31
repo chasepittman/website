@@ -231,6 +231,33 @@
       margin-bottom: 6px;
     }
 
+    /* Timeline toggle buttons */
+    .timeline-toggle {
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .toggle-btn {
+      background-color: #2e3740;
+      color: #f4f4f4;
+      border: 1px solid #1abc9c;
+      border-radius: 6px;
+      padding: 6px 14px;
+      margin: 0 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.2s;
+    }
+
+    .toggle-btn.active {
+      background-color: #1abc9c;
+      color: #222;
+    }
+
+    .toggle-btn:hover {
+      background-color: #16a085;
+    }
+    
     /* ===== TIMELINE ===== */
 
     .timeline-container {
@@ -551,6 +578,12 @@
   <!-- Timeline -->
   <h2>Experience & Leadership</h2>
 
+  <!-- Toggle buttons -->
+  <div class="timeline-toggle">
+    <button id="toggle-months" class="toggle-btn active">Months</button>
+    <button id="toggle-quarters" class="toggle-btn">Quarters</button>
+  </div>
+  
   <div class="timeline-container">
 
     <div class="timeline-inner">
@@ -579,27 +612,26 @@
         </div>
         <div class="timeline-bars">
   
-          <div class="timeline-bar" style="left: calc(29 * 40px); width: calc((63 - 29) * 40px); background:#16a085;">
+          <div class="timeline-bar" data-start="29" data-end="63" style="background:#16a085;">
             Product Mgmt Coordinator
             <div class="tooltip-container">
               Built dashboards for 20+ product collections, maintaining 100K+ records with 99%+ accuracy.
             </div>
           </div>
-  
-          <div class="timeline-bar" style="left: calc(63 * 40px); width: calc((72 - 63) * 40px); background:#1abc9c;">
+          
+          <div class="timeline-bar" data-start="63" data-end="72" style="background:#1abc9c;">
             Associate Product Manager
             <div class="tooltip-container">
               Lead weekly business performance reviews across seven categories, contributing to 21% revenue growth.
             </div>
           </div>
-  
-          <div class="timeline-bar" style="left: calc(51 * 40px); width: calc((72 - 51) * 40px); top: 50%; background:#1abc9c;">
+          
+          <div class="timeline-bar" data-start="51" data-end="72" style="top: 50%; background:#1abc9c;">
             Founder — Early Career Group
             <div class="tooltip-container">
               Founded internal early-career community, launched mentorship program, and organized speaker events.
             </div>
           </div>
-  
         </div>
       </div>
   
@@ -675,7 +707,7 @@
           <div class="company-name">Xpanse AI</div>
         </div>
         <div class="timeline-bars">
-          <div class="timeline-bar" style="left: calc(5 * 40px); width: calc((8 - 5) * 40px); background:#d35400;">
+          <div class="timeline-bar" data-start="5" data-end="8" style="background:#d35400;">
             Business Ops Intern
             <div class="tooltip-container">
               Researched predictive analytics across sports organizations.
@@ -691,16 +723,45 @@
 <script>
   const monthsContainer = document.querySelector('.timeline-months');
   const monthLabels = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-
-  // total months = years × 12
   const totalYears = document.querySelectorAll('.timeline-years span').length;
-  const totalMonths = totalYears * 12;
 
-  for (let i = 0; i < totalMonths; i++) {
-    const span = document.createElement('span');
-    span.textContent = monthLabels[i % 12];
-    monthsContainer.appendChild(span);
-  }
+  const buildMonths = () => {
+    monthsContainer.innerHTML = '';
+    for (let i = 0; i < totalYears * 12; i++) {
+      const span = document.createElement('span');
+      span.textContent = monthLabels[i % 12];
+      monthsContainer.appendChild(span);
+    }
+    monthsContainer.style.gridTemplateColumns = `repeat(${totalYears * 12}, 40px)`;
+  };
+
+  const buildQuarters = () => {
+    monthsContainer.innerHTML = '';
+    for (let i = 0; i < totalYears * 4; i++) {
+      const span = document.createElement('span');
+      const q = (i % 4) + 1;
+      span.textContent = `Q${q}`;
+      monthsContainer.appendChild(span);
+    }
+    monthsContainer.style.gridTemplateColumns = `repeat(${totalYears * 4}, 100px)`;
+  };
+
+  buildMonths();
+
+  const btnMonths = document.getElementById('toggle-months');
+  const btnQuarters = document.getElementById('toggle-quarters');
+
+  btnMonths.addEventListener('click', () => {
+    buildMonths();
+    btnMonths.classList.add('active');
+    btnQuarters.classList.remove('active');
+  });
+
+  btnQuarters.addEventListener('click', () => {
+    buildQuarters();
+    btnQuarters.classList.add('active');
+    btnMonths.classList.remove('active');
+  });
 </script>
 </body>
 </html>
