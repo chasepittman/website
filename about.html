@@ -366,20 +366,20 @@
     /* Tooltip below bars */
     .timeline-bar .tooltip-container {
       position: absolute;
-      top: 115%;
-      left: 50%;
-      transform: translateX(-50%);
+      top: 50%;                 /* center vertically relative to bar */
+      left: 105%;               /* position right of the bar */
+      transform: translateY(-50%); /* vertically center */
       background-color: #222;
       color: #f4f4f4;
       padding: 6px 10px;
       border-radius: 6px;
       font-size: 13px;
-      max-width: 300px;
-      white-space: normal;
+      max-width: 260px;         /* limits width, wraps text naturally */
+      white-space: normal;      /* allows text to wrap */
       display: none;
       z-index: 10;
-      text-align: center;
-      word-wrap: break-word;
+      text-align: left;         /* optional: better reading layout */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.4); /* optional: subtle pop */
     }
 
     .timeline-bar:hover .tooltip-container,
