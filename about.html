@@ -260,53 +260,90 @@
     
     /* ===== TIMELINE ===== */
 
-    /* Timeline Container */
     .timeline-container {
       background-color: #2e3740;
+      padding: 30px;
       border-radius: 12px;
-      margin: 40px auto;
-      overflow-x: auto;
+      margin: 40px auto;       /* center on page */
+      overflow-x: auto;         /* scroll inside the box */
       position: relative;
-      max-width: 900px;
-      padding: 20px 10px;
+      max-width: 900px;         /* match your other cards */
+      width: 100%; 
+      scroll-behavior: smooth;
     }
-    
-    /* Inner Wrapper */
+
     .timeline-inner {
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      min-width: 700px; /* scrollable base */
+      display: flex;           /* use flex instead of inline-block */
+      flex-direction: column;  /* stack top bar + rows */
+      width: 100%;             /* match container width exactly */
+      padding-right: 0;        /* remove extra padding */
     }
     
-    /* Year + Month Top Bar */
+    /* Top Year + Month Bar */
     .timeline-top-bar {
       display: flex;
       flex-direction: column;
-      margin-left: 130px;
+      background-color: #222;
+      padding: 6px 10px;
+      border-radius: 8px;
       margin-bottom: 15px;
+      margin-left: 130px; /* 110px logo + 20px margin */
     }
-    
-    .timeline-years, .timeline-months {
+
+    .timeline-years {
       display: grid;
+      grid-template-columns: repeat(7, calc(12 * 40px));
       font-weight: 600;
+      font-size: 14px;
       color: #bbb;
     }
     
-    .timeline-years span, .timeline-months span {
+    .timeline-years span {
       text-align: center;
     }
     
-    /* Rows */
-    .timeline-rows { display: flex; flex-direction: column; gap: 20px; }
+    .timeline-months {
+      display: grid;
+      grid-template-columns: repeat(84, 40px);
+      font-size: 10px;
+      color: #888;
+      margin-top: 4px;
+    }
     
+    .timeline-months span {
+      text-align: center;
+    }
+
+    /* Swimlane rows */
     .timeline-row {
       display: flex;
       align-items: flex-start;
-      min-width: max-content;
+      border-bottom: 1px solid #555;
+      padding: 12px 0;
+      min-width: 100%;
+    }
+
+    /* Make timeline and top bar stretch full width to fit all months and years */
+    .timeline-top-bar,
+    .timeline-container,
+    .timeline-row {
+      width: max-content;
     }
     
-    /* Logo Column */
+    /* Ensure month grid lays out correctly with single Jan-Dec row */
+    .timeline-months {
+      display: grid;
+      grid-template-columns: repeat(84, 40px); /* 7 years × 12 months */
+      font-size: 10px;
+      color: #888;
+      margin-top: 4px;
+    }
+    
+    .timeline-months span {
+      text-align: center;
+    }
+
+    /* Logo + Company name column */
     .timeline-logo-container {
       display: flex;
       flex-direction: column;
@@ -315,7 +352,7 @@
       margin-right: 20px;
       flex-shrink: 0;
     }
-    
+
     .timeline-logo {
       width: 60px;
       height: 60px;
@@ -324,22 +361,21 @@
       border: 2px solid #1abc9c;
       background-color: #222;
     }
-    
+
     .company-name {
       margin-top: 6px;
       font-size: 12px;
       color: #bbb;
       text-align: center;
     }
-    
-    /* Bars Column */
+
+    /* Bars area */
     .timeline-bars {
       position: relative;
       flex-grow: 1;
-      min-height: 60px;
+      min-height: 90px;
     }
-    
-    /* Individual Bar */
+
     .timeline-bar {
       position: absolute;
       height: 34px;
@@ -353,52 +389,76 @@
       white-space: nowrap;
       cursor: pointer;
     }
-    
-    /* Tooltip below bar */
+
+    /* Tooltip below bars */
     .timeline-bar .tooltip-container {
       position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%) translateY(6px);
+      top: 50%;                 /* center vertically relative to bar */
+      left: 105%;               /* position right of the bar */
+      transform: translateY(-50%); /* vertically center */
       background-color: #222;
       color: #f4f4f4;
       padding: 6px 10px;
       border-radius: 6px;
       font-size: 13px;
-      max-width: 300px;
-      white-space: normal;
+      max-width: 260px;         /* limits width, wraps text naturally */
+      white-space: normal;      /* allows text to wrap */
       display: none;
       z-index: 10;
-      text-align: left;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+      text-align: left;         /* optional: better reading layout */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.4); /* optional: subtle pop */
     }
-    
+
     .timeline-bar:hover .tooltip-container,
     .timeline-bar:focus .tooltip-container {
       display: block;
     }
-    
-    /* Vertical Month Grid Lines */
-    .timeline-grid {
+
+    /* Vertical month grid lines */
+    .timeline-container::before {
+      content: "";
       position: absolute;
       top: 95px;
       left: 160px;
+      width: calc(72 * 40px + 20px);
       height: calc(100% - 95px);
+      background-image:
+        repeating-linear-gradient(
+          to right,
+          #555,
+          #555 1px,
+          transparent 1px,
+          transparent 40px
+        );
       pointer-events: none;
-      display: flex;
     }
-    
-    .timeline-grid div {
-      border-left: 1px solid #555;
-      flex-shrink: 0;
-    }
-    
+
     /* Responsive */
     @media (max-width: 800px) {
-      .timeline-row { flex-direction: column; }
-      .timeline-logo-container { flex-direction: row; width: auto; margin-bottom: 8px; }
-      .company-name { margin-left: 8px; margin-top: 0; }
-      .timeline-bars { width: 100%; min-height: 70px; }
+      .timeline-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .timeline-logo-container {
+        flex-direction: row;
+        width: auto;
+        margin-bottom: 8px;
+      }
+
+      .company-name {
+        margin-left: 8px;
+        margin-top: 0;
+      }
+
+      .timeline-bars {
+        width: 100%;
+        min-height: 70px;
+      }
+
+      .timeline-container::before {
+        left: 20px;
+      }
     }
 
   </style>
@@ -551,21 +611,22 @@
           <div class="company-name">Waterworks</div>
         </div>
         <div class="timeline-bars">
-          <div class="timeline-bar" data-start="29" data-end="63" data-row-offset="0" style="background:#16a085;">
+  
+          <div class="timeline-bar" data-start="29" data-end="63" style="background:#16a085;">
             Product Mgmt Coordinator
             <div class="tooltip-container">
               Built dashboards for 20+ product collections, maintaining 100K+ records with 99%+ accuracy.
             </div>
           </div>
-  
-          <div class="timeline-bar" data-start="63" data-end="72" data-row-offset="40" style="background:#1abc9c;">
+          
+          <div class="timeline-bar" data-start="63" data-end="72" style="background:#1abc9c;">
             Associate Product Manager
             <div class="tooltip-container">
               Lead weekly business performance reviews across seven categories, contributing to 21% revenue growth.
             </div>
           </div>
-  
-          <div class="timeline-bar" data-start="51" data-end="72" data-row-offset="80" style="background:#1abc9c;">
+          
+          <div class="timeline-bar" data-start="51" data-end="72" style="top: 50%; background:#1abc9c;">
             Founder — Early Career Group
             <div class="tooltip-container">
               Founded internal early-career community, launched mentorship program, and organized speaker events.
@@ -585,7 +646,7 @@
       
           <!-- UMich Undergrad -->
           <!-- Displayed portion: Jan 2020 → Apr 2022 -->
-          <div class="timeline-bar" data-start="0" data-end="27" data-row-offset="0" style="background:#2980b9;">
+          <div class="timeline-bar" style="left: calc(0 * 40px); width: calc((27 - 0) * 40px); background:#2980b9;">
             B.A. in Economics, Minor in Entrepreneurship
             <div class="tooltip-container">
               GPA: 3.8/4.0<br>
@@ -597,12 +658,13 @@
       
           <!-- UMich Alumni Board -->
           <!-- Mar 2023 = index 38 -->
-          <div class="timeline-bar" data-start="38" data-end="72" data-row-offset="40" style="background:#2980b9;">
+          <div class="timeline-bar" style="left: calc(38 * 40px); width: calc((72 - 38) * 40px); background:#2980b9;">
             NYC Alumni Board Member & Sports Chair
             <div class="tooltip-container">
               Lead NYC alumni sports programming and partnerships.
             </div>
           </div>
+      
         </div>
       </div>
   
@@ -613,7 +675,7 @@
           <div class="company-name">Special Olympics</div>
         </div>
         <div class="timeline-bars">
-          <div class="timeline-bar" data-start="41" data-end="72" data-row-offset="0" style="background:#8e44ad;">
+          <div class="timeline-bar" style="left: calc(41 * 40px); width: calc((72 - 41) * 40px); background:#8e44ad;">
             Peer Mentor & Leadership Council Member
             <div class="tooltip-container">
               Mentor athlete one-on-one and support statewide fundraising.
@@ -629,7 +691,7 @@
           <div class="company-name">Larta Institute</div>
         </div>
         <div class="timeline-bars">
-          <div class="timeline-bar" data-start="16" data-end="20" data-row-offset="0" style="background:#c0392b;">
+          <div class="timeline-bar" style="left: calc(16 * 40px); width: calc((20 - 16) * 40px); background:#c0392b;">
             Program Mgmt Intern
             <div class="tooltip-container">
               Tracked KPIs for 1,000+ startups and streamlined reporting.
@@ -645,7 +707,7 @@
           <div class="company-name">Xpanse AI</div>
         </div>
         <div class="timeline-bars">
-          <div class="timeline-bar" data-start="5" data-end="8" data-row-offset="0" style="background:#d35400;">
+          <div class="timeline-bar" data-start="5" data-end="8" style="background:#d35400;">
             Business Ops Intern
             <div class="tooltip-container">
               Researched predictive analytics across sports organizations.
@@ -659,74 +721,47 @@
 </div>
 
 <script>
-const monthsContainer = document.querySelector('.timeline-months');
-const monthLabels = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-const totalYears = document.querySelectorAll('.timeline-years span').length;
+  const monthsContainer = document.querySelector('.timeline-months');
+  const monthLabels = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const totalYears = document.querySelectorAll('.timeline-years span').length;
 
-const timelineBars = document.querySelectorAll('.timeline-bar');
-let currentView = 'months';
-
-function buildMonths() {
-  monthsContainer.innerHTML = '';
-  for (let i = 0; i < totalYears * 12; i++) {
-    const span = document.createElement('span');
-    span.textContent = monthLabels[i % 12];
-    monthsContainer.appendChild(span);
-  }
-  monthsContainer.style.gridTemplateColumns = `repeat(${totalYears * 12}, 40px)`;
-}
-
-function buildQuarters() {
-  monthsContainer.innerHTML = '';
-  for (let i = 0; i < totalYears * 4; i++) {
-    const span = document.createElement('span');
-    span.textContent = `Q${(i % 4) + 1}`;
-    monthsContainer.appendChild(span);
-  }
-  monthsContainer.style.gridTemplateColumns = `repeat(${totalYears * 4}, 100px)`;
-}
-
-function positionBars() {
-  const unitWidth = currentView === 'months' ? 40 : 100;
-  timelineBars.forEach(bar => {
-    const start = parseInt(bar.dataset.start);
-    const end = parseInt(bar.dataset.end);
-    const left = start * unitWidth;
-    const width = (end - start) * unitWidth;
-    bar.style.left = `${left}px`;
-    bar.style.width = `${width}px`;
-
-    if (bar.dataset.rowOffset) {
-      bar.style.top = `${parseInt(bar.dataset.rowOffset)}px`;
-    } else {
-      bar.style.top = '';
+  const buildMonths = () => {
+    monthsContainer.innerHTML = '';
+    for (let i = 0; i < totalYears * 12; i++) {
+      const span = document.createElement('span');
+      span.textContent = monthLabels[i % 12];
+      monthsContainer.appendChild(span);
     }
-  });
-}
+    monthsContainer.style.gridTemplateColumns = `repeat(${totalYears * 12}, 40px)`;
+  };
 
-// Initial build
-buildMonths();
-positionBars();
+  const buildQuarters = () => {
+    monthsContainer.innerHTML = '';
+    for (let i = 0; i < totalYears * 4; i++) {
+      const span = document.createElement('span');
+      const q = (i % 4) + 1;
+      span.textContent = `Q${q}`;
+      monthsContainer.appendChild(span);
+    }
+    monthsContainer.style.gridTemplateColumns = `repeat(${totalYears * 4}, 100px)`;
+  };
 
-// Toggle buttons
-const btnMonths = document.getElementById('toggle-months');
-const btnQuarters = document.getElementById('toggle-quarters');
-
-btnMonths.addEventListener('click', () => {
-  currentView = 'months';
   buildMonths();
-  positionBars();
-  btnMonths.classList.add('active');
-  btnQuarters.classList.remove('active');
-});
 
-btnQuarters.addEventListener('click', () => {
-  currentView = 'quarters';
-  buildQuarters();
-  positionBars();
-  btnQuarters.classList.add('active');
-  btnMonths.classList.remove('active');
-});
+  const btnMonths = document.getElementById('toggle-months');
+  const btnQuarters = document.getElementById('toggle-quarters');
+
+  btnMonths.addEventListener('click', () => {
+    buildMonths();
+    btnMonths.classList.add('active');
+    btnQuarters.classList.remove('active');
+  });
+
+  btnQuarters.addEventListener('click', () => {
+    buildQuarters();
+    btnQuarters.classList.add('active');
+    btnMonths.classList.remove('active');
+  });
 </script>
 </body>
 </html>
