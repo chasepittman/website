@@ -250,11 +250,12 @@
       padding: 6px 10px;
       border-radius: 8px;
       margin-bottom: 15px;
+      margin-left: 130px; /* 110px logo + 20px margin */
     }
 
     .timeline-years {
       display: grid;
-      grid-template-columns: repeat(7, 480px);
+      grid-template-columns: repeat(7, calc(12 * 40px));
       font-weight: 600;
       font-size: 14px;
       color: #bbb;
@@ -266,8 +267,7 @@
     
     .timeline-months {
       display: grid;
-      grid-template-columns: repeat(auto-fit, 40px);
-      grid-auto-flow: column;
+      grid-template-columns: repeat(84, 40px);
       font-size: 10px;
       color: #888;
       margin-top: 4px;
@@ -547,13 +547,13 @@
 
       <!-- Years -->
       <div class="timeline-years">
-        <span style="width:480px;">2020</span>
-        <span style="width:480px;">2021</span>
-        <span style="width:480px;">2022</span>
-        <span style="width:480px;">2023</span>
-        <span style="width:480px;">2024</span>
-        <span style="width:480px;">2025</span>
-        <span style="width:480px;">2026</span>
+        <span>2020</span>
+        <span>2021</span>
+        <span>2022</span>
+        <span>2023</span>
+        <span>2024</span>
+        <span>2025</span>
+        <span>2026</span>
       </div>
     
       <!-- Months -->
