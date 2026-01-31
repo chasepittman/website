@@ -237,11 +237,19 @@
       background-color: #2e3740;
       padding: 30px;
       border-radius: 12px;
-      margin-top: 40px;
-      overflow-x: auto;
+      margin: 40px auto;       /* center on page */
+      overflow-x: auto;         /* scroll inside the box */
       position: relative;
+      max-width: 900px;         /* match your other cards */
+      width: 100%; 
     }
 
+    .timeline-inner {
+      display: inline-block;   /* shrink-to-fit content */
+      min-width: 840px;    /* ensure timeline bars don't shrink too much */
+      width: max-content;   /* expand to fit all months */
+    }
+    
     /* Top Year + Month Bar */
     .timeline-top-bar {
       display: flex;
@@ -542,137 +550,137 @@
 
   <div class="timeline-container">
 
-    <!-- Years + Months -->
-    <div class="timeline-top-bar">
-
-      <!-- Years -->
-      <div class="timeline-years">
-        <span>2020</span>
-        <span>2021</span>
-        <span>2022</span>
-        <span>2023</span>
-        <span>2024</span>
-        <span>2025</span>
-        <span>2026</span>
+    <div class="timeline-inner">
+      <!-- Years + Months -->
+      <div class="timeline-top-bar">
+        <!-- Years -->
+        <div class="timeline-years">
+          <span>2020</span>
+          <span>2021</span>
+          <span>2022</span>
+          <span>2023</span>
+          <span>2024</span>
+          <span>2025</span>
+          <span>2026</span>
+        </div>
+      
+        <!-- Months -->
+        <div class="timeline-months"></div>
       </div>
-    
-      <!-- Months -->
-      <div class="timeline-months"></div>
+
+      <!-- WATERWORKS -->
+      <div class="timeline-row">
+        <div class="timeline-logo-container">
+          <img src="/assets/logos/timeline/waterworks.png" class="timeline-logo">
+          <div class="company-name">Waterworks</div>
+        </div>
+        <div class="timeline-bars">
+  
+          <div class="timeline-bar" style="left: calc(29 * 40px); width: calc((63 - 29) * 40px); background:#16a085;">
+            Product Mgmt Coordinator
+            <div class="tooltip-container">
+              Built dashboards for 20+ product collections, maintaining 100K+ records with 99%+ accuracy.
+            </div>
+          </div>
+  
+          <div class="timeline-bar" style="left: calc(63 * 40px); width: calc((72 - 63) * 40px); background:#1abc9c;">
+            Associate Product Manager
+            <div class="tooltip-container">
+              Lead weekly business performance reviews across seven categories, contributing to 21% revenue growth.
+            </div>
+          </div>
+  
+          <div class="timeline-bar" style="left: calc(51 * 40px); width: calc((72 - 51) * 40px); top: 50%; background:#1abc9c;">
+            Founder — Early Career Group
+            <div class="tooltip-container">
+              Founded internal early-career community, launched mentorship program, and organized speaker events.
+            </div>
+          </div>
+  
+        </div>
+      </div>
+  
+      <!-- UNIVERSITY OF MICHIGAN -->
+      <div class="timeline-row">
+        <div class="timeline-logo-container">
+          <img src="/assets/logos/timeline/umich.png" class="timeline-logo">
+          <div class="company-name">University of Michigan</div>
+        </div>
+      
+        <div class="timeline-bars">
+      
+          <!-- UMich Undergrad -->
+          <!-- Displayed portion: Jan 2020 → Apr 2022 -->
+          <div class="timeline-bar" style="left: calc(0 * 40px); width: calc((27 - 0) * 40px); background:#2980b9;">
+            B.A. in Economics, Minor in Entrepreneurship
+            <div class="tooltip-container">
+              GPA: 3.8/4.0<br>
+              University Honors (3x)<br>
+              President, Enactus Consulting Club<br>
+              Published in University of Michigan newsletter
+            </div>
+          </div>
+      
+          <!-- UMich Alumni Board -->
+          <!-- Mar 2023 = index 38 -->
+          <div class="timeline-bar" style="left: calc(38 * 40px); width: calc((72 - 38) * 40px); background:#2980b9;">
+            NYC Alumni Board Member & Sports Chair
+            <div class="tooltip-container">
+              Lead NYC alumni sports programming and partnerships.
+            </div>
+          </div>
+      
+        </div>
+      </div>
+  
+      <!-- SPECIAL OLYMPICS -->
+      <div class="timeline-row">
+        <div class="timeline-logo-container">
+          <img src="/assets/logos/timeline/specialolympics.png" class="timeline-logo">
+          <div class="company-name">Special Olympics</div>
+        </div>
+        <div class="timeline-bars">
+          <div class="timeline-bar" style="left: calc(41 * 40px); width: calc((72 - 41) * 40px); background:#8e44ad;">
+            Peer Mentor & Leadership Council Member
+            <div class="tooltip-container">
+              Mentor athlete one-on-one and support statewide fundraising.
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- LARTA -->
+      <div class="timeline-row">
+        <div class="timeline-logo-container">
+          <img src="/assets/logos/timeline/larta.png" class="timeline-logo">
+          <div class="company-name">Larta Institute</div>
+        </div>
+        <div class="timeline-bars">
+          <div class="timeline-bar" style="left: calc(16 * 40px); width: calc((20 - 16) * 40px); background:#c0392b;">
+            Program Mgmt Intern
+            <div class="tooltip-container">
+              Tracked KPIs for 1,000+ startups and streamlined reporting.
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- XPANSE -->
+      <div class="timeline-row">
+        <div class="timeline-logo-container">
+          <img src="/assets/logos/timeline/xpanse.png" class="timeline-logo">
+          <div class="company-name">Xpanse AI</div>
+        </div>
+        <div class="timeline-bars">
+          <div class="timeline-bar" style="left: calc(5 * 40px); width: calc((8 - 5) * 40px); background:#d35400;">
+            Business Ops Intern
+            <div class="tooltip-container">
+              Researched predictive analytics across sports organizations.
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <!-- WATERWORKS -->
-    <div class="timeline-row">
-      <div class="timeline-logo-container">
-        <img src="/assets/logos/timeline/waterworks.png" class="timeline-logo">
-        <div class="company-name">Waterworks</div>
-      </div>
-      <div class="timeline-bars">
-
-        <div class="timeline-bar" style="left: calc(29 * 40px); width: calc((63 - 29) * 40px); background:#16a085;">
-          Product Mgmt Coordinator
-          <div class="tooltip-container">
-            Built dashboards for 20+ product collections, maintaining 100K+ records with 99%+ accuracy.
-          </div>
-        </div>
-
-        <div class="timeline-bar" style="left: calc(63 * 40px); width: calc((72 - 63) * 40px); background:#1abc9c;">
-          Associate Product Manager
-          <div class="tooltip-container">
-            Lead weekly business performance reviews across seven categories, contributing to 21% revenue growth.
-          </div>
-        </div>
-
-        <div class="timeline-bar" style="left: calc(51 * 40px); width: calc((72 - 51) * 40px); top: 50%; background:#1abc9c;">
-          Founder — Early Career Group
-          <div class="tooltip-container">
-            Founded internal early-career community, launched mentorship program, and organized speaker events.
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- UNIVERSITY OF MICHIGAN -->
-    <div class="timeline-row">
-      <div class="timeline-logo-container">
-        <img src="/assets/logos/timeline/umich.png" class="timeline-logo">
-        <div class="company-name">University of Michigan</div>
-      </div>
-    
-      <div class="timeline-bars">
-    
-        <!-- UMich Undergrad -->
-        <!-- Displayed portion: Jan 2020 → Apr 2022 -->
-        <div class="timeline-bar" style="left: calc(0 * 40px); width: calc((27 - 0) * 40px); background:#2980b9;">
-          B.A. in Economics, Minor in Entrepreneurship
-          <div class="tooltip-container">
-            GPA: 3.8/4.0<br>
-            University Honors (3x)<br>
-            President, Enactus Consulting Club<br>
-            Published in University of Michigan newsletter
-          </div>
-        </div>
-    
-        <!-- UMich Alumni Board -->
-        <!-- Mar 2023 = index 38 -->
-        <div class="timeline-bar" style="left: calc(38 * 40px); width: calc((72 - 38) * 40px); background:#2980b9;">
-          NYC Alumni Board Member & Sports Chair
-          <div class="tooltip-container">
-            Lead NYC alumni sports programming and partnerships.
-          </div>
-        </div>
-    
-      </div>
-    </div>
-
-    <!-- SPECIAL OLYMPICS -->
-    <div class="timeline-row">
-      <div class="timeline-logo-container">
-        <img src="/assets/logos/timeline/specialolympics.png" class="timeline-logo">
-        <div class="company-name">Special Olympics</div>
-      </div>
-      <div class="timeline-bars">
-        <div class="timeline-bar" style="left: calc(41 * 40px); width: calc((72 - 41) * 40px); background:#8e44ad;">
-          Peer Mentor & Leadership Council Member
-          <div class="tooltip-container">
-            Mentor athlete one-on-one and support statewide fundraising.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- LARTA -->
-    <div class="timeline-row">
-      <div class="timeline-logo-container">
-        <img src="/assets/logos/timeline/larta.png" class="timeline-logo">
-        <div class="company-name">Larta Institute</div>
-      </div>
-      <div class="timeline-bars">
-        <div class="timeline-bar" style="left: calc(16 * 40px); width: calc((20 - 16) * 40px); background:#c0392b;">
-          Program Mgmt Intern
-          <div class="tooltip-container">
-            Tracked KPIs for 1,000+ startups and streamlined reporting.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- XPANSE -->
-    <div class="timeline-row">
-      <div class="timeline-logo-container">
-        <img src="/assets/logos/timeline/xpanse.png" class="timeline-logo">
-        <div class="company-name">Xpanse AI</div>
-      </div>
-      <div class="timeline-bars">
-        <div class="timeline-bar" style="left: calc(5 * 40px); width: calc((8 - 5) * 40px); background:#d35400;">
-          Business Ops Intern
-          <div class="tooltip-container">
-            Researched predictive analytics across sports organizations.
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
 
 </div>
