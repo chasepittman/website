@@ -17,6 +17,8 @@
       text-align: center;
     }
 
+    a { text-decoration: none; color: inherit; }
+    
     /* Navbar */
     .navbar {
       display: flex;
@@ -233,13 +235,13 @@
 
     /* Timeline toggle buttons */
     .timeline-toggle {
-      margin-bottom: 15px;
       text-align: center;
-      position: sticky;   /* stick to top when scrolling */
-      top: 0;             /* distance from top */
-      z-index: 1002;      /* ensure above timeline bars */
-      background-color: #384048; /* same as body for consistent look */
-      padding: 10px 0;    /* optional spacing */
+      margin-bottom: 15px;
+      position: sticky;
+      top: 60px; /* below navbar */
+      z-index: 1001;
+      background-color: #384048;
+      padding: 10px 0;
     }
 
     .toggle-btn {
@@ -285,11 +287,6 @@
       padding-right: 0;        /* remove extra padding */
     }
     
-    /* Ensure timeline bars remain interactive */
-    .timeline-bar {
-      pointer-events: auto;
-    }
-    
     /* Top Year + Month Bar */
     .timeline-top-bar {
       display: flex;
@@ -299,62 +296,35 @@
       border-radius: 8px;
       margin-bottom: 15px;
       margin-left: 130px; /* 110px logo + 20px margin */
+      width: max-content;
+    }
+
+    .timeline-years, .timeline-months {
+      display: grid;
     }
 
     .timeline-years {
-      display: grid;
-      grid-template-columns: repeat(7, calc(12 * 40px));
       font-weight: 600;
       font-size: 14px;
       color: #bbb;
     }
-    
-    .timeline-years span {
-      text-align: center;
-    }
-    
-    .timeline-months {
-      display: grid;
-      grid-template-columns: repeat(84, 40px);
-      font-size: 10px;
-      color: #888;
-      margin-top: 4px;
-    }
-    
-    .timeline-months span {
+
+    .timeline-years span, .timeline-months span {
       text-align: center;
     }
 
-    /* Swimlane rows */
+    .timeline-months { margin-top: 4px; font-size: 10px; color: #888; }
+
     .timeline-row {
       display: flex;
       align-items: flex-start;
       border-bottom: 1px solid #555;
       padding: 12px 0;
       min-width: 100%;
-    }
-
-    /* Make timeline and top bar stretch full width to fit all months and years */
-    .timeline-top-bar,
-    .timeline-container,
-    .timeline-row {
       width: max-content;
-    }
-    
-    /* Ensure month grid lays out correctly with single Jan-Dec row */
-    .timeline-months {
-      display: grid;
-      grid-template-columns: repeat(84, 40px); /* 7 years × 12 months */
-      font-size: 10px;
-      color: #888;
-      margin-top: 4px;
-    }
-    
-    .timeline-months span {
-      text-align: center;
+      position: relative;
     }
 
-    /* Logo + Company name column */
     .timeline-logo-container {
       display: flex;
       flex-direction: column;
@@ -399,6 +369,7 @@
       padding: 0 8px;
       white-space: nowrap;
       cursor: pointer;
+      pointer-events: auto;
     }
 
     /* Tooltip below bars */
@@ -425,52 +396,16 @@
       display: block;
     }
 
-    /* Vertical month grid lines */
-    .timeline-container::before {
-      content: "";
-      position: absolute;
-      top: 95px;
-      left: 160px;
-      height: calc(100% - 95px);
-      pointer-events: none;
-    }
-
     /* Responsive */
     @media (max-width: 800px) {
-      .timeline-row {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .timeline-months span {
-        font-size: 8px;
-        padding: 0 2px;
-      }
-      
-      .timeline-logo-container {
-        flex-direction: row;
-        width: auto;
-        margin-bottom: 8px;
-      }
-
-      .company-name {
-        margin-left: 8px;
-        margin-top: 0;
-      }
-
-      .timeline-bars {
-        width: 100%;
-        min-height: 70px;
-      }
-
-      .timeline-container::before {
-        left: 20px;
-      }
+      .timeline-row { flex-direction: column; align-items: flex-start; }
+      .timeline-months span { font-size: 8px; padding: 0 2px; }
+      .timeline-logo-container { flex-direction: row; width: auto; margin-bottom: 8px; }
+      .company-name { margin-left: 8px; margin-top: 0; }
+      .timeline-bars { width: 100%; min-height: 70px; }
     }
-
   </style>
 </head>
-
 <body>
 
 <!-- Navbar -->
@@ -737,20 +672,20 @@ function stackBars() {
   const rows = document.querySelectorAll('.timeline-row');
   rows.forEach(row => {
     const bars = row.querySelectorAll('.timeline-bar');
-    const occupied = []; // store used top offsets
+    const occupied = [];
     bars.forEach(bar => {
       const barStart = parseFloat(bar.dataset.start);
       const barEnd = parseFloat(bar.dataset.end);
       let topOffset = 0;
       while (occupied.some(range => (barStart < range.end && barEnd > range.start && range.top === topOffset))) {
-        topOffset += 40; // 40px spacing per stacked bar
+        topOffset += 40;
       }
       bar.style.top = `${topOffset}px`;
       occupied.push({ start: barStart, end: barEnd, top: topOffset });
     });
   });
 }
-  
+
 function buildMonths() {
   monthsContainer.innerHTML = '';
   for (let i = 0; i < totalYears * 12; i++) {
@@ -766,55 +701,64 @@ function buildMonths() {
     bar.style.left = `calc(${start} * ${columnWidth}px)`;
     bar.style.width = `calc(${end - start} * ${columnWidth}px)`;
   });
-
   drawGrid(totalYears * 12, columnWidth);
   stackBars();
 }
 
 function buildQuarters() {
   monthsContainer.innerHTML = '';
+  
+  // Create quarter labels
   for (let i = 0; i < totalYears * 4; i++) {
     const span = document.createElement('span');
     span.textContent = `Q${(i % 4) + 1}`;
     monthsContainer.appendChild(span);
   }
 
-  const columnWidth = 100;
+  const columnWidth = 100; // width of one quarter
   monthsContainer.style.gridTemplateColumns = `repeat(${totalYears * 4}, ${columnWidth}px)`;
 
+  // Adjust timeline bars to match quarters
   timelineBars.forEach(bar => {
     const start = parseInt(bar.dataset.start, 10);
     const end = parseInt(bar.dataset.end, 10);
 
-    // Fix: wrap division in parentheses for CSS calc
+    // Divide start and width by 3 because 1 quarter = 3 months
     bar.style.left = `calc((${start} / 3) * ${columnWidth}px)`;
     bar.style.width = `calc((${end - start} / 3) * ${columnWidth}px)`;
   });
 
-  drawGrid(totalYears * 4, columnWidth);
-  stackBars();
+  drawGrid(totalYears * 4, columnWidth); // redraw grid
+  stackBars(); // reposition bars vertically to prevent overlap
 }
 
 buildMonths();
 
-document.getElementById('toggle-months').addEventListener('click', () => {
+// Toggle buttons
+const btnMonths = document.getElementById('toggle-months');
+const btnQuarters = document.getElementById('toggle-quarters');
+
+btnMonths.addEventListener('click', () => {
   buildMonths();
-  document.getElementById('toggle-months').classList.add('active');
-  document.getElementById('toggle-quarters').classList.remove('active');
+  btnMonths.classList.add('active');
+  btnQuarters.classList.remove('active');
 });
 
-document.getElementById('toggle-quarters').addEventListener('click', () => {
+btnQuarters.addEventListener('click', () => {
   buildQuarters();
-  document.getElementById('toggle-quarters').classList.add('active');
-  document.getElementById('toggle-months').classList.remove('active');
+  btnQuarters.classList.add('active');
+  btnMonths.classList.remove('active');
 });
 
+// Timeline container
 const timelineContainer = document.querySelector('.timeline-container');
 
+// Draw grid lines behind bars
 function drawGrid(totalColumns, columnWidth) {
   timelineContainer.style.setProperty('--grid-columns', totalColumns);
   timelineContainer.style.setProperty('--grid-column-width', `${columnWidth}px`);
-  
+
+  // Repeating vertical lines
   timelineContainer.style.backgroundImage = `repeating-linear-gradient(
     to right,
     #555,
