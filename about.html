@@ -235,6 +235,8 @@
     .timeline-toggle {
       margin-bottom: 15px;
       text-align: center;
+      position: relative;   /* make it positioned */
+      z-index: 1001;        /* higher than timeline-container */
     }
 
     .toggle-btn {
@@ -268,8 +270,9 @@
       overflow-x: auto;         /* scroll inside the box */
       position: relative;
       max-width: 900px;         /* match your other cards */
-      width: 100%; 
+      width: max-content;      /* allow full width scroll */
       scroll-behavior: smooth;
+      z-index: 1;              /* lower than toggle */
     }
 
     .timeline-inner {
