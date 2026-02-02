@@ -273,10 +273,12 @@
     }
 
     .timeline-inner {
-      display: flex;           /* use flex instead of inline-block */
-      flex-direction: column;  /* stack top bar + rows */
-      width: max-content;
-      padding-right: 0;        /* remove extra padding */
+      display: flex;
+      flex-direction: column;
+      width: 100%;       /* full width by default, overridden by JS */
+      min-width: 0;      /* allow it to shrink */
+      padding-right: 0;
+      box-sizing: border-box;
     }
     
     /* Top Year + Month Bar */
