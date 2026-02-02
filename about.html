@@ -420,16 +420,7 @@
       position: absolute;
       top: 95px;
       left: 160px;
-      width: calc(72 * 40px + 20px);
       height: calc(100% - 95px);
-      background-image:
-        repeating-linear-gradient(
-          to right,
-          #555,
-          #555 1px,
-          transparent 1px,
-          transparent 40px
-        );
       pointer-events: none;
     }
 
@@ -440,6 +431,11 @@
         align-items: flex-start;
       }
 
+      .timeline-months span {
+        font-size: 8px;
+        padding: 0 2px;
+      }
+      
       .timeline-logo-container {
         flex-direction: row;
         width: auto;
@@ -646,7 +642,7 @@
       
           <!-- UMich Undergrad -->
           <!-- Displayed portion: Jan 2020 → Apr 2022 -->
-          <div class="timeline-bar" style="left: calc(0 * 40px); width: calc((27 - 0) * 40px); background:#2980b9;">
+          <div class="timeline-bar" data-start="0" data-end="27" style="background:#2980b9;">
             B.A. in Economics, Minor in Entrepreneurship
             <div class="tooltip-container">
               GPA: 3.8/4.0<br>
@@ -658,7 +654,7 @@
       
           <!-- UMich Alumni Board -->
           <!-- Mar 2023 = index 38 -->
-          <div class="timeline-bar" style="left: calc(38 * 40px); width: calc((72 - 38) * 40px); background:#2980b9;">
+          <div class="timeline-bar" data-start="38" data-end="72" style="background:#2980b9;">
             NYC Alumni Board Member & Sports Chair
             <div class="tooltip-container">
               Lead NYC alumni sports programming and partnerships.
@@ -675,10 +671,10 @@
           <div class="company-name">Special Olympics</div>
         </div>
         <div class="timeline-bars">
-          <div class="timeline-bar" style="left: calc(41 * 40px); width: calc((72 - 41) * 40px); background:#8e44ad;">
+          <div class="timeline-bar" data-start="41" data-end="72" style="background:#8e44ad;">
             Peer Mentor & Leadership Council Member
             <div class="tooltip-container">
-              Mentor athlete one-on-one and support statewide fundraising.
+              Mentor an athlete 1:1 and support statewide fundraising.
             </div>
           </div>
         </div>
@@ -691,7 +687,7 @@
           <div class="company-name">Larta Institute</div>
         </div>
         <div class="timeline-bars">
-          <div class="timeline-bar" style="left: calc(16 * 40px); width: calc((20 - 16) * 40px); background:#c0392b;">
+          <div class="timeline-bar" data-start="16" data-end="20" style="background:#c0392b;">
             Program Mgmt Intern
             <div class="tooltip-container">
               Tracked KPIs for 1,000+ startups and streamlined reporting.
@@ -721,47 +717,98 @@
 </div>
 
 <script>
-  const monthsContainer = document.querySelector('.timeline-months');
-  const monthLabels = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-  const totalYears = document.querySelectorAll('.timeline-years span').length;
+const monthsContainer = document.querySelector('.timeline-months');
+const monthLabels = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const totalYears = document.querySelectorAll('.timeline-years span').length;
+const timelineBars = document.querySelectorAll('.timeline-bar');
 
-  const buildMonths = () => {
-    monthsContainer.innerHTML = '';
-    for (let i = 0; i < totalYears * 12; i++) {
-      const span = document.createElement('span');
-      span.textContent = monthLabels[i % 12];
-      monthsContainer.appendChild(span);
-    }
-    monthsContainer.style.gridTemplateColumns = `repeat(${totalYears * 12}, 40px)`;
-  };
+function stackBars() {
+  const rows = document.querySelectorAll('.timeline-row');
+  rows.forEach(row => {
+    const bars = row.querySelectorAll('.timeline-bar');
+    const occupied = []; // store used top offsets
+    bars.forEach(bar => {
+      const barStart = parseFloat(bar.dataset.start);
+      const barEnd = parseFloat(bar.dataset.end);
+      let topOffset = 0;
+      while (occupied.some(range => (barStart < range.end && barEnd > range.start && range.top === topOffset))) {
+        topOffset += 40; // 40px spacing per stacked bar
+      }
+      bar.style.top = `${topOffset}px`;
+      occupied.push({ start: barStart, end: barEnd, top: topOffset });
+    });
+  });
+}
+  
+function buildMonths() {
+  monthsContainer.innerHTML = '';
+  for (let i = 0; i < totalYears * 12; i++) {
+    const span = document.createElement('span');
+    span.textContent = monthLabels[i % 12];
+    monthsContainer.appendChild(span);
+  }
+  const columnWidth = 40;
+  monthsContainer.style.gridTemplateColumns = `repeat(${totalYears * 12}, ${columnWidth}px)`;
+  timelineBars.forEach(bar => {
+    const start = parseInt(bar.dataset.start, 10);
+    const end = parseInt(bar.dataset.end, 10);
+    bar.style.left = `calc(${start} * ${columnWidth}px)`;
+    bar.style.width = `calc(${end - start} * ${columnWidth}px)`;
+  });
 
-  const buildQuarters = () => {
-    monthsContainer.innerHTML = '';
-    for (let i = 0; i < totalYears * 4; i++) {
-      const span = document.createElement('span');
-      const q = (i % 4) + 1;
-      span.textContent = `Q${q}`;
-      monthsContainer.appendChild(span);
-    }
-    monthsContainer.style.gridTemplateColumns = `repeat(${totalYears * 4}, 100px)`;
-  };
+  drawGrid(totalYears * 12, columnWidth);
+  stackBars();
+}
 
+function buildQuarters() {
+  monthsContainer.innerHTML = '';
+  for (let i = 0; i < totalYears * 4; i++) {
+    const span = document.createElement('span');
+    span.textContent = `Q${(i % 4) + 1}`;
+    monthsContainer.appendChild(span);
+  }
+  const columnWidth = 100;
+  monthsContainer.style.gridTemplateColumns = `repeat(${totalYears * 4}, ${columnWidth}px)`;
+  timelineBars.forEach(bar => {
+    const start = parseInt(bar.dataset.start, 10);
+    const end = parseInt(bar.dataset.end, 10);
+    bar.style.left = `calc(${start / 3} * ${columnWidth}px)`;
+    bar.style.width = `calc(${(end - start) / 3} * ${columnWidth}px)`;
+  });
+
+  drawGrid(totalYears * 4, columnWidth);
+  stackBars();
+}
+
+buildMonths();
+
+document.getElementById('toggle-months').addEventListener('click', () => {
   buildMonths();
+  document.getElementById('toggle-months').classList.add('active');
+  document.getElementById('toggle-quarters').classList.remove('active');
+});
 
-  const btnMonths = document.getElementById('toggle-months');
-  const btnQuarters = document.getElementById('toggle-quarters');
+document.getElementById('toggle-quarters').addEventListener('click', () => {
+  buildQuarters();
+  document.getElementById('toggle-quarters').classList.add('active');
+  document.getElementById('toggle-months').classList.remove('active');
+});
 
-  btnMonths.addEventListener('click', () => {
-    buildMonths();
-    btnMonths.classList.add('active');
-    btnQuarters.classList.remove('active');
-  });
+const timelineContainer = document.querySelector('.timeline-container');
 
-  btnQuarters.addEventListener('click', () => {
-    buildQuarters();
-    btnQuarters.classList.add('active');
-    btnMonths.classList.remove('active');
-  });
+function drawGrid(totalColumns, columnWidth) {
+  timelineContainer.style.setProperty('--grid-columns', totalColumns);
+  timelineContainer.style.setProperty('--grid-column-width', `${columnWidth}px`);
+  
+  timelineContainer.style.backgroundImage = `repeating-linear-gradient(
+    to right,
+    #555,
+    #555 1px,
+    transparent 1px,
+    transparent ${columnWidth}px
+  )`;
+}
+
 </script>
 </body>
 </html>
