@@ -658,107 +658,101 @@
 </div>
 
 <script>
+// Get timeline elements
 const monthsContainer = document.querySelector('.timeline-months');
-const monthLabels = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-const totalYears = document.querySelectorAll('.timeline-years span').length;
 const timelineBars = document.querySelectorAll('.timeline-bar');
+const totalYears = document.querySelectorAll('.timeline-years span').length;
+const monthLabels = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const timelineToggle = document.getElementById('timeline-toggle');
+const timelineContainer = document.querySelector('.timeline-container');
 
+const ROW_HEIGHT = 40; // height of stacked bars
+
+// Helper: stack bars vertically so they don't overlap
 function stackBars() {
   const rows = document.querySelectorAll('.timeline-row');
   rows.forEach(row => {
     const bars = row.querySelectorAll('.timeline-bar');
     const occupied = [];
     bars.forEach(bar => {
-      const barStart = parseFloat(bar.dataset.start);
-      const barEnd = parseFloat(bar.dataset.end);
+      const start = parseFloat(bar.dataset.start);
+      const end = parseFloat(bar.dataset.end);
       let topOffset = 0;
-      while (occupied.some(range => (barStart < range.end && barEnd > range.start && range.top === topOffset))) {
-        topOffset += 40;
+      while (occupied.some(range => (start < range.end && end > range.start && range.top === topOffset))) {
+        topOffset += ROW_HEIGHT;
       }
       bar.style.top = `${topOffset}px`;
-      occupied.push({ start: barStart, end: barEnd, top: topOffset });
+      occupied.push({ start, end, top: topOffset });
     });
   });
 }
 
+// Build timeline in MONTHS mode
 function buildMonths() {
   monthsContainer.innerHTML = '';
-  for (let i = 0; i < totalYears * 12; i++) {
+  const columnWidth = 40; // px per month
+  const totalColumns = totalYears * 12;
+
+  // Add month labels
+  for (let i = 0; i < totalColumns; i++) {
     const span = document.createElement('span');
     span.textContent = monthLabels[i % 12];
     monthsContainer.appendChild(span);
   }
-  const columnWidth = 40;
-  monthsContainer.style.gridTemplateColumns = `repeat(${totalYears * 12}, ${columnWidth}px)`;
+  monthsContainer.style.gridTemplateColumns = `repeat(${totalColumns}, ${columnWidth}px)`;
 
-  // Update years to match month columns
+  // Update year widths
   const yearsContainer = document.querySelector('.timeline-years');
-  yearsContainer.style.gridTemplateColumns = `repeat(${totalYears}, ${columnWidth * 12}px)`;
+  yearsContainer.style.gridTemplateColumns = `repeat(${totalYears}, ${12 * columnWidth}px)`;
 
+  // Position bars
   timelineBars.forEach(bar => {
     const start = parseInt(bar.dataset.start, 10);
     const end = parseInt(bar.dataset.end, 10);
-    bar.style.left = `calc(${start} * ${columnWidth}px)`;
-    bar.style.width = `calc(${end - start} * ${columnWidth}px)`;
+    bar.style.left = `${start * columnWidth}px`;
+    bar.style.width = `${(end - start) * columnWidth}px`;
   });
 
-  drawGrid(totalYears * 12, columnWidth);
+  drawGrid(totalColumns, columnWidth);
   stackBars();
 }
 
+// Build timeline in QUARTERS mode
 function buildQuarters() {
   monthsContainer.innerHTML = '';
-  for (let i = 0; i < totalYears * 4; i++) {
+  const monthsPerQuarter = 3;
+  const columnWidth = 40 * monthsPerQuarter; // width per quarter
+  const totalColumns = totalYears * 4;
+
+  // Add quarter labels
+  for (let i = 0; i < totalColumns; i++) {
     const span = document.createElement('span');
     span.textContent = `Q${(i % 4) + 1}`;
     monthsContainer.appendChild(span);
   }
+  monthsContainer.style.gridTemplateColumns = `repeat(${totalColumns}, ${columnWidth}px)`;
 
-  const columnWidth = 40 * 3; // 3 months per quarter
-  monthsContainer.style.gridTemplateColumns = `repeat(${totalYears * 4}, ${columnWidth}px)`;
-
-  // Update years to match quarters
+  // Update year widths
   const yearsContainer = document.querySelector('.timeline-years');
-  yearsContainer.style.gridTemplateColumns = `repeat(${totalYears}, ${columnWidth * 4}px)`;
+  yearsContainer.style.gridTemplateColumns = `repeat(${totalYears}, ${4 * columnWidth}px)`;
 
+  // Position bars
   timelineBars.forEach(bar => {
     const start = parseInt(bar.dataset.start, 10);
     const end = parseInt(bar.dataset.end, 10);
-    bar.style.left = `calc((${start} / 3) * ${columnWidth}px)`;
-    bar.style.width = `calc((${end - start} / 3) * ${columnWidth}px)`;
+    // Convert month index to quarter index
+    const startQuarter = start / monthsPerQuarter;
+    const endQuarter = end / monthsPerQuarter;
+    bar.style.left = `${startQuarter * columnWidth}px`;
+    bar.style.width = `${(endQuarter - startQuarter) * columnWidth}px`;
   });
 
-  drawGrid(totalYears * 4, columnWidth);
+  drawGrid(totalColumns, columnWidth);
   stackBars();
 }
 
-// Dropdown menu
-const timelineToggle = document.getElementById('timeline-toggle');
-
-function updateTimeline() {
-  const value = timelineToggle.value;
-  if (value === 'months') {
-    buildMonths();
-  } else {
-    buildQuarters();
-  }
-}
-
-// Initialize based on selected value
-updateTimeline();
-
-// Listen for toggle changes
-timelineToggle.addEventListener('change', updateTimeline);
-
-// Timeline container
-const timelineContainer = document.querySelector('.timeline-container');
-
-// Draw grid lines behind bars
+// Draw vertical grid lines
 function drawGrid(totalColumns, columnWidth) {
-  timelineContainer.style.setProperty('--grid-columns', totalColumns);
-  timelineContainer.style.setProperty('--grid-column-width', `${columnWidth}px`);
-
-  // Repeating vertical lines
   timelineContainer.style.backgroundImage = `repeating-linear-gradient(
     to right,
     #555,
@@ -767,6 +761,20 @@ function drawGrid(totalColumns, columnWidth) {
     transparent ${columnWidth}px
   )`;
 }
+
+// Switch timeline view based on dropdown
+function updateTimeline() {
+  const mode = timelineToggle.value;
+  if (mode === 'months') {
+    buildMonths();
+  } else {
+    buildQuarters();
+  }
+}
+
+// Initialize timeline
+updateTimeline();
+timelineToggle.addEventListener('change', updateTimeline);
 
 </script>
 </body>
