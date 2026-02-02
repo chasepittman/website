@@ -510,14 +510,6 @@
   
   <!-- Timeline -->
   <h2>Experience & Leadership</h2>
-
-  <!-- Dropdown toggle -->
-  <div class="timeline-toggle-dropdown">
-    <select id="timeline-toggle" class="toggle-dropdown">
-      <option value="quarters" selected>Quarters</option>
-      <option value="months">Months</option>
-    </select>
-  </div>
   
   <div class="timeline-container">
 
@@ -743,14 +735,20 @@ buildMonths();
 // Dropdown menu
 const timelineToggle = document.getElementById('timeline-toggle');
 
-timelineToggle.addEventListener('change', () => {
+function updateTimeline() {
   const value = timelineToggle.value;
   if (value === 'months') {
     buildMonths();
   } else {
     buildQuarters();
   }
-});
+}
+
+// Initialize based on selected value
+updateTimeline();
+
+// Listen for toggle changes
+timelineToggle.addEventListener('change', updateTimeline);
 
 // Initialize timeline with Quarters
 buildQuarters();
