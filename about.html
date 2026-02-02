@@ -5,6 +5,8 @@
   <title>About | Chase Pittman</title>
   <link rel="icon" type="image/x-icon" href="/assets/logos/personal/favicon.ico">
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
 
@@ -444,12 +446,12 @@
         <div class="credly-tooltip">Core Product Certified</div>
     
         <div class="credly-badge">
-          <img src="/assets/logos/skills/credly.png" alt="Credly">
+          <img src="/assets/logos/skills/credly.png" alt="Core Product Certified badge (Credly)">
         </div>
     
       </a>
       
-      <img src="/assets/logos/skills/smartsheet.png">
+      <img src="/assets/logos/skills/smartsheet.png" alt="Smartsheet">
       <span>Smartsheet</span>
       <div class="dots">
         <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
@@ -457,7 +459,7 @@
     </div>
 
     <div class="skill">
-      <img src="/assets/logos/skills/office.png">
+      <img src="/assets/logos/skills/office.png" alt="MS Office">
       <span>MS Office</span>
       <div class="dots">
         <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
@@ -465,7 +467,7 @@
     </div>
 
     <div class="skill">
-      <img src="/assets/logos/skills/ga4.png">
+      <img src="/assets/logos/skills/ga4.png" alt="GA4">
       <span>GA4</span>
       <div class="dots">
         <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span>
@@ -473,7 +475,7 @@
     </div>
 
     <div class="skill">
-      <img src="/assets/logos/skills/sql.png">
+      <img src="/assets/logos/skills/sql.png" alt="SQL">
       <span>SQL</span>
       <div class="dots">
         <span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -481,7 +483,7 @@
     </div>
 
     <div class="skill">
-      <img src="/assets/logos/skills/asana.png">
+      <img src="/assets/logos/skills/asana.png" alt="Asana">
       <span>Asana</span>
       <div class="dots">
         <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
@@ -489,7 +491,7 @@
     </div>
 
     <div class="skill">
-      <img src="/assets/logos/skills/sap.png">
+      <img src="/assets/logos/skills/sap.png" alt="SAP BO">
       <span>SAP BO</span>
       <div class="dots">
         <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
@@ -542,7 +544,7 @@
       <!-- WATERWORKS -->
       <div class="timeline-row">
         <div class="timeline-logo-container">
-          <img src="/assets/logos/timeline/waterworks.png" class="timeline-logo">
+          <img src="/assets/logos/timeline/waterworks.png" class="timeline-logo" alt="Waterworks logo">
           <div class="company-name">Waterworks</div>
         </div>
         <div class="timeline-bars">
@@ -573,7 +575,7 @@
       <!-- UNIVERSITY OF MICHIGAN -->
       <div class="timeline-row">
         <div class="timeline-logo-container">
-          <img src="/assets/logos/timeline/umich.png" class="timeline-logo">
+          <img src="/assets/logos/timeline/umich.png" class="timeline-logo" alt="University of Michigan logo">
           <div class="company-name">University of Michigan</div>
         </div>
       
@@ -606,7 +608,7 @@
       <!-- SPECIAL OLYMPICS -->
       <div class="timeline-row">
         <div class="timeline-logo-container">
-          <img src="/assets/logos/timeline/specialolympics.png" class="timeline-logo">
+          <img src="/assets/logos/timeline/specialolympics.png" class="timeline-logo" alt="Special Olympics logo">
           <div class="company-name">Special Olympics</div>
         </div>
         <div class="timeline-bars">
@@ -622,7 +624,7 @@
       <!-- LARTA -->
       <div class="timeline-row">
         <div class="timeline-logo-container">
-          <img src="/assets/logos/timeline/larta.png" class="timeline-logo">
+          <img src="/assets/logos/timeline/larta.png" class="timeline-logo" alt="Larta Institute logo">
           <div class="company-name">Larta Institute</div>
         </div>
         <div class="timeline-bars">
@@ -638,7 +640,7 @@
       <!-- XPANSE -->
       <div class="timeline-row">
         <div class="timeline-logo-container">
-          <img src="/assets/logos/timeline/xpanse.png" class="timeline-logo">
+          <img src="/assets/logos/timeline/xpanse.png" class="timeline-logo" alt="Xpanse AI logo">
           <div class="company-name">Xpanse AI</div>
         </div>
         <div class="timeline-bars">
@@ -730,8 +732,6 @@ function buildQuarters() {
   stackBars();
 }
 
-buildMonths();
-
 // Dropdown menu
 const timelineToggle = document.getElementById('timeline-toggle');
 
@@ -749,9 +749,6 @@ updateTimeline();
 
 // Listen for toggle changes
 timelineToggle.addEventListener('change', updateTimeline);
-
-// Initialize timeline with Quarters
-buildQuarters();
 
 // Timeline container
 const timelineContainer = document.querySelector('.timeline-container');
