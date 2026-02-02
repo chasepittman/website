@@ -301,6 +301,7 @@
 
     .timeline-years, .timeline-months {
       display: grid;
+      grid-auto-flow: column;
     }
 
     .timeline-years {
@@ -695,41 +696,46 @@ function buildMonths() {
   }
   const columnWidth = 40;
   monthsContainer.style.gridTemplateColumns = `repeat(${totalYears * 12}, ${columnWidth}px)`;
+
+  // Update years to match month columns
+  const yearsContainer = document.querySelector('.timeline-years');
+  yearsContainer.style.gridTemplateColumns = `repeat(${totalYears}, ${columnWidth * 12}px)`;
+
   timelineBars.forEach(bar => {
     const start = parseInt(bar.dataset.start, 10);
     const end = parseInt(bar.dataset.end, 10);
     bar.style.left = `calc(${start} * ${columnWidth}px)`;
     bar.style.width = `calc(${end - start} * ${columnWidth}px)`;
   });
+
   drawGrid(totalYears * 12, columnWidth);
   stackBars();
 }
 
 function buildQuarters() {
   monthsContainer.innerHTML = '';
-  
-  // Create quarter labels
   for (let i = 0; i < totalYears * 4; i++) {
     const span = document.createElement('span');
     span.textContent = `Q${(i % 4) + 1}`;
     monthsContainer.appendChild(span);
   }
 
-  const columnWidth = 100; // width of one quarter
+  const columnWidth = 40 * 3; // 3 months per quarter
   monthsContainer.style.gridTemplateColumns = `repeat(${totalYears * 4}, ${columnWidth}px)`;
 
-  // Adjust timeline bars to match quarters
+  // Update years to match quarters
+  const yearsContainer = document.querySelector('.timeline-years');
+  yearsContainer.style.gridTemplateColumns = `repeat(${totalYears}, ${columnWidth * 4}px)`;
+
   timelineBars.forEach(bar => {
     const start = parseInt(bar.dataset.start, 10);
     const end = parseInt(bar.dataset.end, 10);
-
-    // Divide start and width by 3 because 1 quarter = 3 months
     bar.style.left = `calc((${start} / 3) * ${columnWidth}px)`;
     bar.style.width = `calc((${end - start} / 3) * ${columnWidth}px)`;
   });
 
-  drawGrid(totalYears * 4, columnWidth); // redraw grid
-  stackBars(); // reposition bars vertically to prevent overlap
+  drawGrid(totalYears * 4, columnWidth);
+  stackBars();
 }
 
 buildMonths();
