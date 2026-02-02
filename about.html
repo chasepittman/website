@@ -713,6 +713,9 @@ function buildMonths() {
     bar.style.width = `${(end - start) * columnWidth}px`;
   });
 
+  // Shrink/expand timeline inner
+  document.querySelector('.timeline-inner').style.width = `${totalColumns * columnWidth}px`;
+  
   drawGrid(totalColumns, columnWidth);
   stackBars();
 }
@@ -747,6 +750,9 @@ function buildQuarters() {
     bar.style.width = `${(endQuarter - startQuarter) * columnWidth}px`;
   });
 
+  // Shrink timeline inner to match quarters
+  document.querySelector('.timeline-inner').style.width = `${totalColumns * columnWidth}px`;
+  
   drawGrid(totalColumns, columnWidth);
   stackBars();
 }
