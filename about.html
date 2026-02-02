@@ -233,36 +233,26 @@
       margin-bottom: 6px;
     }
 
-    /* Timeline toggle buttons */
-    .timeline-toggle {
-      text-align: center;
-      margin-bottom: 15px;
-      position: sticky;
-      top: 60px; /* below navbar */
-      z-index: 1001;
-      background-color: #384048;
-      padding: 10px 0;
+    /* Dropdown container */
+    .timeline-toggle-dropdown {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 1002; /* above all timeline elements */
+      background-color: #2e3740;
+      border-radius: 6px;
+      padding: 4px 6px;
     }
-
-    .toggle-btn {
+    
+    /* Dropdown select */
+    .toggle-dropdown {
       background-color: #2e3740;
       color: #f4f4f4;
       border: 1px solid #1abc9c;
       border-radius: 6px;
-      padding: 6px 14px;
-      margin: 0 6px;
-      cursor: pointer;
+      padding: 4px 8px;
       font-size: 14px;
-      transition: background-color 0.2s;
-    }
-
-    .toggle-btn.active {
-      background-color: #1abc9c;
-      color: #222;
-    }
-
-    .toggle-btn:hover {
-      background-color: #16a085;
+      cursor: pointer;
     }
     
     /* ===== TIMELINE ===== */
@@ -521,14 +511,24 @@
   <!-- Timeline -->
   <h2>Experience & Leadership</h2>
 
-  <!-- Toggle buttons -->
-  <div class="timeline-toggle">
-    <button id="toggle-months" class="toggle-btn active">Months</button>
-    <button id="toggle-quarters" class="toggle-btn">Quarters</button>
+  <!-- Dropdown toggle -->
+  <div class="timeline-toggle-dropdown">
+    <select id="timeline-toggle" class="toggle-dropdown">
+      <option value="quarters" selected>Quarters</option>
+      <option value="months">Months</option>
+    </select>
   </div>
   
   <div class="timeline-container">
 
+    <!-- Dropdown toggle -->
+    <div class="timeline-toggle-dropdown">
+      <select id="timeline-toggle" class="toggle-dropdown">
+        <option value="quarters" selected>Quarters</option>
+        <option value="months">Months</option>
+      </select>
+    </div>
+    
     <div class="timeline-inner">
       <!-- Years + Months -->
       <div class="timeline-top-bar">
@@ -740,21 +740,20 @@ function buildQuarters() {
 
 buildMonths();
 
-// Toggle buttons
-const btnMonths = document.getElementById('toggle-months');
-const btnQuarters = document.getElementById('toggle-quarters');
+// Dropdown menu
+const timelineToggle = document.getElementById('timeline-toggle');
 
-btnMonths.addEventListener('click', () => {
-  buildMonths();
-  btnMonths.classList.add('active');
-  btnQuarters.classList.remove('active');
+timelineToggle.addEventListener('change', () => {
+  const value = timelineToggle.value;
+  if (value === 'months') {
+    buildMonths();
+  } else {
+    buildQuarters();
+  }
 });
 
-btnQuarters.addEventListener('click', () => {
-  buildQuarters();
-  btnQuarters.classList.add('active');
-  btnMonths.classList.remove('active');
-});
+// Initialize timeline with Quarters
+buildQuarters();
 
 // Timeline container
 const timelineContainer = document.querySelector('.timeline-container');
