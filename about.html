@@ -773,13 +773,17 @@ function buildQuarters() {
     span.textContent = `Q${(i % 4) + 1}`;
     monthsContainer.appendChild(span);
   }
+
   const columnWidth = 100;
   monthsContainer.style.gridTemplateColumns = `repeat(${totalYears * 4}, ${columnWidth}px)`;
+
   timelineBars.forEach(bar => {
     const start = parseInt(bar.dataset.start, 10);
     const end = parseInt(bar.dataset.end, 10);
-    bar.style.left = `calc(${start / 3} * ${columnWidth}px)`;
-    bar.style.width = `calc(${(end - start) / 3} * ${columnWidth}px)`;
+
+    // Fix: wrap division in parentheses for CSS calc
+    bar.style.left = `calc((${start} / 3) * ${columnWidth}px)`;
+    bar.style.width = `calc((${end - start} / 3) * ${columnWidth}px)`;
   });
 
   drawGrid(totalYears * 4, columnWidth);
