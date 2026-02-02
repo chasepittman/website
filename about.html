@@ -235,8 +235,11 @@
     .timeline-toggle {
       margin-bottom: 15px;
       text-align: center;
-      position: relative;   /* make it positioned */
-      z-index: 1001;        /* higher than timeline-container */
+      position: sticky;   /* stick to top when scrolling */
+      top: 0;             /* distance from top */
+      z-index: 1002;      /* ensure above timeline bars */
+      background-color: #384048; /* same as body for consistent look */
+      padding: 10px 0;    /* optional spacing */
     }
 
     .toggle-btn {
