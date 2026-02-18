@@ -55,7 +55,7 @@
     }
     
     .page-wrapper.shifted {
-      transform: translateX(260px);
+      transform: translateX(var(--sidebar-width));
     }
     
     /* Left */
@@ -122,11 +122,15 @@
        Sidebar
        ========================= */
     
+    :root {
+      --sidebar-width: 260px;
+    }
+    
     .sidebar {
       position: fixed;
       top: 0;
-      left: -260px;
-      width: 260px;
+      left: calc(-1 * var(--sidebar-width));
+      width: var(--sidebar-width);
       height: 100%;
       background-color: #222;
       display: flex;
@@ -412,9 +416,11 @@
     const pageWrapper = document.getElementById('page-wrapper');
     
     hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      sidebar.classList.toggle('open');
-      pageWrapper.classList.toggle('shifted');
+      const isOpen = sidebar.classList.toggle('open');
+      pageWrapper.style.transform = isOpen
+        ? `translateX(${getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width')})`
+        : 'translateX(0)';
+      hamburger.classList.toggle('active', isOpen);
     });
 
     // Close sidebar when link clicked
@@ -422,7 +428,7 @@
       link.addEventListener('click', () => {
         sidebar.classList.remove('open');
         hamburger.classList.remove('active');
-        pageWrapper.classList.remove('shifted');
+        pageWrapper.style.transform = 'translateX(0)';
       });
     });
     
