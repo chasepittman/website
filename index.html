@@ -48,6 +48,15 @@
       top: 0;
       z-index: 1000;
     }
+
+    /* Page shift animation */
+    .page-wrapper {
+      transition: transform 0.3s ease;
+    }
+    
+    .page-wrapper.shifted {
+      transform: translateX(260px);
+    }
     
     /* Left */
     .nav-left {
@@ -144,12 +153,6 @@
       background-color: #1abc9c;
       color: #222;
       border-radius: 6px;
-    }
-    
-    /* Shift logo when sidebar opens */
-    .nav-left.shifted #logo-img,
-    .nav-left.shifted #logo-text {
-      transform: translateX(260px);
     }
     
     /* =========================
@@ -303,6 +306,8 @@
 </head>
 <body>
 
+  <div class="page-wrapper" id="page-wrapper">
+
   <!-- NAVBAR -->
   <div class="navbar">
     <div class="nav-left" id="nav-left">
@@ -404,23 +409,22 @@
     // Sidebar toggle
     const hamburger = document.getElementById('hamburger');
     const sidebar = document.getElementById('sidebar');
-    const navLeft = document.getElementById('nav-left');
+    const pageWrapper = document.getElementById('page-wrapper');
     
     hamburger.addEventListener('click', () => {
       hamburger.classList.toggle('active');
       sidebar.classList.toggle('open');
-      navLeft.classList.toggle('shifted');
+      pageWrapper.classList.toggle('shifted');
     });
-    
+
     // Close sidebar when link clicked
     document.querySelectorAll('.sidebar a').forEach(link => {
       link.addEventListener('click', () => {
         sidebar.classList.remove('open');
         hamburger.classList.remove('active');
-        navLeft.classList.remove('shifted');
+        pageWrapper.classList.remove('shifted');
       });
     });
-
     
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
@@ -451,7 +455,9 @@
     }
   });
 
-  </script>
+    </script>
+
+  </div> <!-- End page-wrapper -->
   
 </body>
 </html>
