@@ -158,6 +158,22 @@
       color: #222;
       border-radius: 6px;
     }
+
+    /* Overlay */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 1050;
+    }
+    
+    .overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
     
     /* =========================
        Content wrapper
@@ -338,6 +354,9 @@
     <a href="/contact.html">Contact</a>
   </div>
 
+  <!-- Overlay -->
+  <div class="overlay" id="overlay"></div>
+    
   <!-- Main content -->
   <div class="content" style="margin-top: 320px;"> <!-- adjust margin to clear card -->
     <h1>Stay tuned...</h1>
@@ -415,21 +434,37 @@
     const sidebar = document.getElementById('sidebar');
     const pageWrapper = document.getElementById('page-wrapper');
     
+    const overlay = document.getElementById('overlay');
+
     hamburger.addEventListener('click', () => {
       const isOpen = sidebar.classList.toggle('open');
+    
       pageWrapper.style.transform = isOpen
-        ? `translateX(${getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width')})`
+        ? `translateX(-${getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width')})`
         : 'translateX(0)';
+    
       hamburger.classList.toggle('active', isOpen);
+      overlay.classList.toggle('active', isOpen);
     });
 
-    // Close sidebar when link clicked
+    function closeSidebar() {
+      sidebar.classList.remove('open');
+      hamburger.classList.remove('active');
+      pageWrapper.style.transform = 'translateX(0)';
+      overlay.classList.remove('active');
+    }
+    
+    // Close when clicking a link
     document.querySelectorAll('.sidebar a').forEach(link => {
-      link.addEventListener('click', () => {
-        sidebar.classList.remove('open');
-        hamburger.classList.remove('active');
-        pageWrapper.style.transform = 'translateX(0)';
-      });
+      link.addEventListener('click', closeSidebar);
+    });
+    
+    // Close when clicking outside
+    overlay.addEventListener('click', closeSidebar);
+    
+    // Close with ESC key
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeSidebar();
     });
     
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
