@@ -54,10 +54,6 @@
       transition: transform 0.3s ease;
     }
     
-    .page-wrapper.shifted {
-      transform: translateX(var(--sidebar-width));
-    }
-    
     /* Left */
     .nav-left {
       display: flex;
@@ -439,8 +435,10 @@
     hamburger.addEventListener('click', () => {
       const isOpen = sidebar.classList.toggle('open');
     
+      const sidebarWidth = sidebar.offsetWidth;
+    
       pageWrapper.style.transform = isOpen
-        ? `translateX(-${getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width')})`
+        ? `translateX(${sidebarWidth}px)`
         : 'translateX(0)';
     
       hamburger.classList.toggle('active', isOpen);
