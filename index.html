@@ -27,6 +27,7 @@
       background-color: #384048; /* slate gray */
       color: #f4f4f4; /* keeps body text off-white */
       text-align: center;
+      transition: transform 0.3s ease;
     }
 
     h1, h2, h3 {
@@ -428,16 +429,14 @@
     // Sidebar toggle
     const hamburger = document.getElementById('hamburger');
     const sidebar = document.getElementById('sidebar');
-    const pageWrapper = document.getElementById('page-wrapper');
     
     const overlay = document.getElementById('overlay');
 
     hamburger.addEventListener('click', () => {
       const isOpen = sidebar.classList.toggle('open');
-    
       const sidebarWidth = sidebar.offsetWidth;
     
-      pageWrapper.style.transform = isOpen
+      document.body.style.transform = isOpen
         ? `translateX(${sidebarWidth}px)`
         : 'translateX(0)';
     
@@ -448,7 +447,7 @@
     function closeSidebar() {
       sidebar.classList.remove('open');
       hamburger.classList.remove('active');
-      pageWrapper.style.transform = 'translateX(0)';
+      document.body.style.transform = 'translateX(0)';
       overlay.classList.remove('active');
     }
     
