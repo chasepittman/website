@@ -437,10 +437,13 @@
     
     const overlay = document.getElementById('overlay');
 
+    const pageWrapper = document.getElementById('page-wrapper');
+
     hamburger.addEventListener('click', () => {
       const isOpen = sidebar.classList.toggle('open');
       const sidebarWidth = sidebar.offsetWidth;
     
+      // Shift page-wrapper instead of body
       pageWrapper.style.transform = isOpen
         ? `translateX(${sidebarWidth}px)`
         : 'translateX(0)';
@@ -448,13 +451,26 @@
       hamburger.classList.toggle('active', isOpen);
       overlay.classList.toggle('active', isOpen);
     });
-
+    
     function closeSidebar() {
       sidebar.classList.remove('open');
       hamburger.classList.remove('active');
-      pageWrapper.style.transform = 'translateX(0)';
+      pageWrapper.style.transform = 'translateX(0)'; // ✅ fixed
       overlay.classList.remove('active');
     }
+    
+    // Close sidebar on link click
+    document.querySelectorAll('.sidebar a').forEach(link => {
+      link.addEventListener('click', closeSidebar);
+    });
+    
+    // Close sidebar on overlay click
+    overlay.addEventListener('click', closeSidebar);
+    
+    // Close sidebar on ESC
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeSidebar();
+    });
     
     // Close when clicking a link
     document.querySelectorAll('.sidebar a').forEach(link => {
