@@ -441,7 +441,7 @@
       const isOpen = sidebar.classList.toggle('open');
       const sidebarWidth = sidebar.offsetWidth;
     
-      document.body.style.transform = isOpen
+      pageWrapper.style.transform = isOpen
         ? `translateX(${sidebarWidth}px)`
         : 'translateX(0)';
     
