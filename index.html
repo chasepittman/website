@@ -10,36 +10,28 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
-    /* =========================
-       Body and sticky navbar space
-       ========================= */
     html, body {
       height: 100%;
       min-height: 100%;
       margin: 0;
-      background-color: #384048; /* slate gray */
+      background-color: #384048;
     }
     
     body {
       margin: 0;
       padding-top: 0;
       font-family: 'Poppins', Arial, sans-serif;
-      background-color: #384048; /* slate gray */
-      color: #f4f4f4; /* keeps body text off-white */
+      background-color: #384048;
+      color: #f4f4f4;
       text-align: center;
-      transition: transform 0.3s ease;
     }
 
     h1, h2, h3 {
-      color: #f4f4f4; /* ensures headings stay visible */
+      color: #f4f4f4;
       font-family: 'Cormorant Garamond', serif;
       font-weight: 600;
     }
 
-    /* =========================
-       Navbar
-       ========================= */
-    /* ===== NAVBAR ===== */
     .navbar {
       display: flex;
       align-items: center;
@@ -50,12 +42,10 @@
       z-index: 1000;
     }
 
-    /* Page shift animation */
     .page-wrapper {
       transition: transform 0.3s ease;
     }
     
-    /* Left */
     .nav-left {
       display: flex;
       align-items: center;
@@ -63,7 +53,6 @@
       justify-self: start;
     }
     
-    /* Logo text */
     .nav-left .logo {
       font-size: 20px;
       font-weight: bold;
@@ -72,20 +61,10 @@
       white-space: nowrap;
     }
     
-    /* Logo image */
     .logo-img {
       height: 36px;
       width: auto;
     }
-
-    #logo-img,
-    #logo-text {
-      transition: transform 0.3s ease;
-    }
-
-    /* =========================
-   Hamburger
-   ========================= */
 
     .hamburger {
       display: flex;
@@ -104,7 +83,7 @@
       transition: all 0.3s ease;
     }
     
-    /* Animate into X */
+    /* Hamburger → X animation */
     .hamburger.active div:nth-child(1) {
       transform: rotate(45deg) translate(5px, 5px);
     }
@@ -115,14 +94,17 @@
       transform: rotate(-45deg) translate(6px, -6px);
     }
     
-    /* =========================
-       Sidebar
-       ========================= */
-    
     :root {
       --sidebar-width: 260px;
     }
-    
+
+    /*
+      KEY FIX: Sidebar and overlay must live OUTSIDE of page-wrapper.
+      When a CSS transform is applied to an element, any position:fixed
+      children are positioned relative to that element instead of the
+      viewport — causing them to shift with the page. Moving them outside
+      fixes this.
+    */
     .sidebar {
       position: fixed;
       top: 0;
@@ -134,16 +116,13 @@
       flex-direction: column;
       padding-top: 100px;
       gap: 20px;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
       z-index: 1100;
-      /* NO transform here */
     }
     
     .sidebar.open {
       transform: translateX(0);
-    }
-
-    .sidebar.open {
-      left: 0;
     }
     
     .sidebar a {
@@ -160,7 +139,6 @@
       border-radius: 6px;
     }
 
-    /* Overlay */
     .overlay {
       position: fixed;
       inset: 0;
@@ -176,9 +154,6 @@
       pointer-events: auto;
     }
     
-    /* =========================
-       Content wrapper
-       ========================= */
     .content {
       max-width: 900px;
       margin: 0 auto;
@@ -192,29 +167,21 @@
       margin-top: 20px;
     }
 
-    /* =========================
-   Spotify Widget Collapse (Sleek)
-   ========================= */
-    /* =========================
-   Spotify Widget: floating semicircle toggle
-   ========================= */
-    /* Spotify widget container */
     .spotify-widget {
       position: fixed;
       bottom: 20px;
       right: 20px;
       width: 340px;
       height: 100px;
-      background: #222; /* match navbar / dark grey box */
+      background: #222;
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
       overflow: hidden;
-      padding: 12px 16px 16px 16px; /* reduce left padding */
+      padding: 12px 16px 16px 16px;
       transition: width 0.5s ease, right 0.5s ease;
       z-index: 900;
     }
     
-    /* Spotify label centered */
     .spotify-label {
       display: block;
       padding: 2px 0 6px 0;
@@ -224,7 +191,6 @@
       font-family: 'Poppins', Arial, sans-serif;
     }
     
-    /* iframe styling */
     .spotify-widget iframe {
       width: 100%;
       height: 80px;
@@ -235,11 +201,10 @@
       border: none;
     }
     
-    /* Toggle button */
     #spotify-toggle {
       position: absolute;
       top: 50%;
-      left: -16px; /* half off the widget */
+      left: -16px;
       width: 32px;
       height: 32px;
       border-radius: 50%;
@@ -254,14 +219,13 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       z-index: 1000;
       transition: left 0.5s ease, transform 0.3s ease;
+      border: none;
     }
     
-    /* Hover effect */
     #spotify-toggle:hover {
       transform: translateY(-50%) scale(1.1);
     }
     
-    /* Collapsed state */
     .spotify-widget.collapsed {
       width: 40px;
       height: 40px;
@@ -272,7 +236,6 @@
       box-shadow: none;
     }
     
-    /* Hide label and iframe when collapsed */
     .spotify-widget.collapsed iframe,
     .spotify-widget.collapsed .spotify-label {
       opacity: 0;
@@ -280,29 +243,23 @@
       display: none;
     }
     
-    /* Collapsed toggle */
     .spotify-widget.collapsed #spotify-toggle {
       left: -16px;
       transform: translateY(-50%) rotate(180deg);
-      background-color: #222;
-      color: #fff;
     }
 
-    /* =========================
-       Floating 3D Business Card Image
-       ========================= */
     .floating-card-container {
       position: fixed;
-      top: 140px;         /* moved down from header */
+      top: 140px;
       left: 50%;
       transform: translateX(-50%);
-      perspective: 1000px; /* required for 3D rotation */
+      perspective: 1000px;
       z-index: 950;
     }
     
     .floating-card {
       width: 420px;
-      aspect-ratio: 3.5 / 2; /* business card ratio */
+      aspect-ratio: 3.5 / 2;
       position: relative;
       transform-style: preserve-3d;
       cursor: pointer;
@@ -315,38 +272,22 @@
       width: 100%;
       height: 100%;
       border-radius: 12px;
-      backface-visibility: hidden; /* hide the back side */
+      backface-visibility: hidden;
       box-shadow: 0 20px 40px rgba(0,0,0,0.6);
     }
     
     .card-back {
-      transform: rotateY(180deg); /* flips the back side */
+      transform: rotateY(180deg);
     }
-
   </style>
 </head>
 <body>
 
-  <div class="page-wrapper" id="page-wrapper">
+  <!--
+    Sidebar and overlay are OUTSIDE page-wrapper so that the translateX
+    applied to page-wrapper doesn't drag them along with the page content.
+  -->
 
-  <!-- NAVBAR -->
-  <div class="navbar">
-    <div class="nav-left" id="nav-left">
-      
-      <!-- Hamburger -->
-      <div class="hamburger" id="hamburger">
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-  
-      <!-- Logo -->
-      <img src="/assets/logos/personal/CRP_logo_white.png" alt="Logo" class="logo-img" id="logo-img">
-      <div class="logo" id="logo-text">Chase Pittman | Portfolio</div>
-  
-    </div>
-  </div>
-  
   <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <a href="/">Home</a>
@@ -357,41 +298,56 @@
 
   <!-- Overlay -->
   <div class="overlay" id="overlay"></div>
-    
-  <!-- Main content -->
-  <div class="content" style="margin-top: 320px;"> <!-- adjust margin to clear card -->
-    <h1>Stay tuned...</h1>
-    <img src="/assets/logos/personal/CRP_logo.png" alt="My Personal Logo" width="100">
-    <p>Chase R. Pittman</p>
-  </div>
 
-  <!-- Floating 3D Business Card Image -->
-  <div class="floating-card-container" id="floating-card-container">
-    <div class="floating-card" id="floating-card">
-      <!-- Front and Back Images -->
-      <img class="card-front" src="/assets/logos/personal/business_card.png" alt="Front of Business Card">
-      <img class="card-back" src="/assets/logos/personal/business_card_back.png" alt="Back of Business Card">
+  <!-- Everything that shifts right lives inside page-wrapper -->
+  <div class="page-wrapper" id="page-wrapper">
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+      <div class="nav-left" id="nav-left">
+        <div class="hamburger" id="hamburger">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <img src="/assets/logos/personal/CRP_logo_white.png" alt="Logo" class="logo-img" id="logo-img">
+        <div class="logo" id="logo-text">Chase Pittman | Portfolio</div>
+      </div>
     </div>
-  </div>
-  
-  <!-- Spotify Music Widget -->
-  <div class="spotify-widget" id="spotify-widget">
-    <span class="spotify-label">Background Music (optional)</span>
-    <iframe
-      src="https://open.spotify.com/embed/album/3vhOUOy05eeQwq6EtxwnVW?utm_source=generator"
-      frameborder="0"
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      loading="lazy">
-    </iframe>
-  
-    <!-- Semicircle toggle -->
-    <button id="spotify-toggle" aria-label="Toggle Spotify Player">▶</button>
-  </div>
-  
-  <!-- Combined Hamburger & Spotify toggle script -->
+      
+    <!-- Main content -->
+    <div class="content" style="margin-top: 320px;">
+      <h1>Stay tuned...</h1>
+      <img src="/assets/logos/personal/CRP_logo.png" alt="My Personal Logo" width="100">
+      <p>Chase R. Pittman</p>
+    </div>
+
+    <!-- Floating 3D Business Card -->
+    <div class="floating-card-container" id="floating-card-container">
+      <div class="floating-card" id="floating-card">
+        <img class="card-front" src="/assets/logos/personal/business_card.png" alt="Front of Business Card">
+        <img class="card-back" src="/assets/logos/personal/business_card_back.png" alt="Back of Business Card">
+      </div>
+    </div>
+    
+    <!-- Spotify Widget -->
+    <div class="spotify-widget" id="spotify-widget">
+      <span class="spotify-label">Background Music (optional)</span>
+      <iframe
+        src="https://open.spotify.com/embed/album/3vhOUOy05eeQwq6EtxwnVW?utm_source=generator"
+        frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy">
+      </iframe>
+      <button id="spotify-toggle" aria-label="Toggle Spotify Player">▶</button>
+    </div>
+
+  </div> <!-- End page-wrapper -->
+
   <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // Spotify toggle
+
+    // ── Spotify toggle ──────────────────────────────────────────
     const spotifyWidget = document.getElementById('spotify-widget');
     const spotifyToggle = document.getElementById('spotify-toggle');
     
@@ -399,7 +355,39 @@
       spotifyWidget.classList.toggle('collapsed');
     });
 
-    // 3D tilt effect for floating PNG
+    // ── Sidebar / hamburger ─────────────────────────────────────
+    const hamburger   = document.getElementById('hamburger');
+    const sidebar     = document.getElementById('sidebar');
+    const overlay     = document.getElementById('overlay');
+    const pageWrapper = document.getElementById('page-wrapper');
+
+    function openSidebar() {
+      sidebar.classList.add('open');
+      hamburger.classList.add('active');
+      overlay.classList.add('active');
+      pageWrapper.style.transform = `translateX(${sidebar.offsetWidth}px)`;
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove('open');
+      hamburger.classList.remove('active');
+      overlay.classList.remove('active');
+      pageWrapper.style.transform = 'translateX(0)';
+    }
+
+    hamburger.addEventListener('click', () => {
+      sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+    });
+
+    overlay.addEventListener('click', closeSidebar);
+    document.querySelectorAll('.sidebar a').forEach(link => {
+      link.addEventListener('click', closeSidebar);
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeSidebar();
+    });
+
+    // ── 3D spinning business card ───────────────────────────────
     const card = document.getElementById('floating-card');
     let rotation = 0;
     let tiltX = 0;
@@ -407,95 +395,36 @@
     
     function spinCard() {
       const angle = rotation % 360;
-    
-      // Variable speed: slow when front/back is visible, faster at edges
       const distanceFromFront = Math.min(Math.abs(angle), Math.abs(360 - angle));
-      const distanceFromBack = Math.min(Math.abs(angle - 180), Math.abs(180 - angle));
+      const distanceFromBack  = Math.min(Math.abs(angle - 180), Math.abs(180 - angle));
       const minDistance = Math.min(distanceFromFront, distanceFromBack);
-      
-      // We want speed to be slow (0.05) when face-on, fast (1.2) when edge-on
-      // We'll normalize minDistance to 0..90 degrees
-      const normalized = Math.min(minDistance, 90) / 90; // 0 = face-on, 1 = edge-on
-      const speed = 0.05 + normalized * 1.15; // min 0.05, max ~1.2
+      const normalized  = Math.min(minDistance, 90) / 90;
+      const speed = 0.05 + normalized * 1.15;
       rotation += speed;
-    
-      // Vertical float
+
       const floatOffset = Math.sin(rotation * 0.02) * 8;
-      
       card.style.transform =
-      `translateY(${floatOffset}px)
-       rotateX(${tiltX}deg)
-       rotateY(${rotation + tiltY}deg)`;
+        `translateY(${floatOffset}px) rotateX(${tiltX}deg) rotateY(${rotation + tiltY}deg)`;
     
       requestAnimationFrame(spinCard);
     }
 
-    // Sidebar toggle
-    const hamburger = document.getElementById('hamburger');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const pageWrapper = document.getElementById('page-wrapper');
-    
-    hamburger.addEventListener('click', () => {
-      const isOpen = hamburger.classList.toggle('active'); // toggles X
-      overlay.classList.toggle('active', isOpen);
-    
-      const sidebarWidth = sidebar.offsetWidth;
-      pageWrapper.style.transform = isOpen ? `translateX(${sidebarWidth}px)` : 'translateX(0)';
-    });
-    
-    function closeSidebar() {
-      sidebar.classList.remove('open');
-      hamburger.classList.remove('active');
-      pageWrapper.style.transform = 'translateX(0)'; // ✅ fixed
-      overlay.classList.remove('active');
-    }
-    
-    // Close sidebar on link click
-    document.querySelectorAll('.sidebar a').forEach(link => {
-      link.addEventListener('click', closeSidebar);
-    });
-    
-    // Close sidebar on overlay click
-    overlay.addEventListener('click', closeSidebar);
-    
-    // Close sidebar on ESC
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeSidebar();
-    });
-    
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     spinCard();
-    
-    // Mouse tilt effect
+
     if (window.matchMedia('(hover: hover)').matches) {
       card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-    
-        const centerX = rect.width / 2;
+        const rect    = card.getBoundingClientRect();
+        const centerX = rect.width  / 2;
         const centerY = rect.height / 2;
-    
-        const rotateX = ((y - centerY) / centerY) * 10;
-        const rotateY = ((x - centerX) / centerX) * 10;
-    
-        tiltX = -rotateX;
-        tiltY = rotateY;
+        tiltX = -((e.clientY - rect.top  - centerY) / centerY) * 10;
+        tiltY  =  ((e.clientX - rect.left - centerX) / centerX) * 10;
       });
-    
-      card.addEventListener('mouseleave', () => {
-        tiltX = 0;
-        tiltY = 0;
-      });
+      card.addEventListener('mouseleave', () => { tiltX = 0; tiltY = 0; });
     }
   });
+  </script>
 
-    </script>
-
-  </div> <!-- End page-wrapper -->
-  
 </body>
 </html>
