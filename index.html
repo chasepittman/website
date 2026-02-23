@@ -273,8 +273,7 @@
     .floating-card-container {
       position: fixed;
       top: 140px;
-      left: 50%;
-      transform: translateX(-50%);
+      left: calc(50vw - 210px); /* 210px = half of card's 420px width */
       perspective: 1000px;
       z-index: 950;
     }
@@ -348,6 +347,18 @@
       </a>
     </div>
   </div>
+
+  <!-- Spotify Widget -->
+  <div class="spotify-widget" id="spotify-widget">
+    <span class="spotify-label">Background Music (optional)</span>
+    <iframe
+      src="https://open.spotify.com/embed/album/3vhOUOy05eeQwq6EtxwnVW?utm_source=generator"
+      frameborder="0"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy">
+    </iframe>
+    <button id="spotify-toggle" aria-label="Toggle Spotify Player">▶</button>
+  </div>
   
   <!-- Everything that shifts right lives inside page-wrapper -->
   <div class="page-wrapper" id="page-wrapper">
@@ -365,18 +376,6 @@
         <img class="card-front" src="/assets/logos/personal/business_card.png" alt="Front of Business Card">
         <img class="card-back" src="/assets/logos/personal/business_card_back.png" alt="Back of Business Card">
       </div>
-    </div>
-    
-    <!-- Spotify Widget -->
-    <div class="spotify-widget" id="spotify-widget">
-      <span class="spotify-label">Background Music (optional)</span>
-      <iframe
-        src="https://open.spotify.com/embed/album/3vhOUOy05eeQwq6EtxwnVW?utm_source=generator"
-        frameborder="0"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy">
-      </iframe>
-      <button id="spotify-toggle" aria-label="Toggle Spotify Player">▶</button>
     </div>
 
   </div> <!-- End page-wrapper -->
