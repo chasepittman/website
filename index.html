@@ -66,6 +66,26 @@
       width: auto;
     }
 
+    /* ADD — nav-right social icons */
+    .nav-right {
+      display: flex;
+      justify-content: flex-end;
+      gap: 18px;
+      margin-left: auto;
+    }
+    
+    .nav-right img {
+      width: 26px;
+      height: auto;
+      opacity: 0.85;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    
+    .nav-right a:hover img {
+      opacity: 1;
+      transform: translateY(-2px);
+    }
+
     .hamburger {
       display: flex;
       flex-direction: column;
@@ -85,13 +105,13 @@
     
     /* Hamburger → X animation */
     .hamburger.active div:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
+      transform: translateY(8.5px) rotate(45deg);
     }
     .hamburger.active div:nth-child(2) {
       opacity: 0;
     }
     .hamburger.active div:nth-child(3) {
-      transform: rotate(-45deg) translate(6px, -6px);
+      transform: translateY(-8.5px) rotate(-45deg);
     }
     
     :root {
@@ -299,21 +319,36 @@
   <!-- Overlay -->
   <div class="overlay" id="overlay"></div>
 
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <div class="nav-left" id="nav-left">
+      <div class="hamburger" id="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <img src="/assets/logos/personal/CRP_logo_white.png" alt="Logo" class="logo-img" id="logo-img">
+      <div class="logo" id="logo-text">Chase Pittman | Portfolio</div>
+    </div>
+  
+    <div class="nav-right">
+      <a href="https://www.linkedin.com/in/chasepittman" target="_blank">
+        <img src="/assets/logos/tools/linkedin.png" alt="LinkedIn">
+      </a>
+      <a href="https://www.credly.com/users/chase-pittman.017d3434/badges#credly" target="_blank">
+        <img src="/assets/logos/skills/credly.png" alt="Credly">
+      </a>
+      <a href="https://www.github.com/chasepittman" target="_blank">
+        <img src="/assets/logos/tools/github.png" alt="GitHub">
+      </a>
+      <a href="/contact.html">
+        <img src="/assets/logos/tools/gmail.png" alt="Contact Form">
+      </a>
+    </div>
+  </div>
+  
   <!-- Everything that shifts right lives inside page-wrapper -->
   <div class="page-wrapper" id="page-wrapper">
-
-    <!-- NAVBAR -->
-    <div class="navbar">
-      <div class="nav-left" id="nav-left">
-        <div class="hamburger" id="hamburger">
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-        <img src="/assets/logos/personal/CRP_logo_white.png" alt="Logo" class="logo-img" id="logo-img">
-        <div class="logo" id="logo-text">Chase Pittman | Portfolio</div>
-      </div>
-    </div>
       
     <!-- Main content -->
     <div class="content" style="margin-top: 320px;">
