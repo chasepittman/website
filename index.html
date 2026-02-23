@@ -278,6 +278,7 @@
       left: calc(50vw - 210px); /* 210px = half of card's 420px width */
       perspective: 1000px;
       z-index: 950;
+      transition: left 0.3s ease;
     }
     
     .floating-card {
@@ -361,6 +362,14 @@
     </iframe>
     <button id="spotify-toggle" aria-label="Toggle Spotify Player">▶</button>
   </div>
+
+  <!-- Floating 3D Business Card -->
+  <div class="floating-card-container" id="floating-card-container">
+    <div class="floating-card" id="floating-card">
+      <img class="card-front" src="/assets/logos/personal/business_card.png" alt="Front of Business Card">
+      <img class="card-back" src="/assets/logos/personal/business_card_back.png" alt="Back of Business Card">
+    </div>
+  </div>
   
   <!-- Everything that shifts right lives inside page-wrapper -->
   <div class="page-wrapper" id="page-wrapper">
@@ -370,14 +379,6 @@
       <h1>Stay tuned...</h1>
       <img src="/assets/logos/personal/CRP_logo.png" alt="My Personal Logo" width="100">
       <p>Chase R. Pittman</p>
-    </div>
-
-    <!-- Floating 3D Business Card -->
-    <div class="floating-card-container" id="floating-card-container">
-      <div class="floating-card" id="floating-card">
-        <img class="card-front" src="/assets/logos/personal/business_card.png" alt="Front of Business Card">
-        <img class="card-back" src="/assets/logos/personal/business_card_back.png" alt="Back of Business Card">
-      </div>
     </div>
 
   </div> <!-- End page-wrapper -->
@@ -398,12 +399,14 @@
     const sidebar     = document.getElementById('sidebar');
     const overlay     = document.getElementById('overlay');
     const pageWrapper = document.getElementById('page-wrapper');
+    const cardContainer = document.getElementById('floating-card-container');
 
     function openSidebar() {
       sidebar.classList.add('open');
       hamburger.classList.add('active');
       overlay.classList.add('active');
       pageWrapper.style.transform = `translateX(${sidebar.offsetWidth}px)`;
+      cardContainer.style.left = `calc(50vw - 210px + ${sidebar.offsetWidth}px)`;
     }
 
     function closeSidebar() {
@@ -411,6 +414,7 @@
       hamburger.classList.remove('active');
       overlay.classList.remove('active');
       pageWrapper.style.transform = 'translateX(0)';
+      cardContainer.style.left = 'calc(50vw - 210px)';
     }
 
     hamburger.addEventListener('click', () => {
