@@ -227,9 +227,9 @@
     
     #spotify-toggle {
       position: absolute;
-      top: -16px;
-      left: 50%;
-      transform: translateX(-50%);
+      top: 50%;
+      left: -16px;
+      transform: translateY(-50%);
       width: 32px;
       height: 32px;
       border-radius: 50%;
@@ -247,7 +247,7 @@
     }
     
     #spotify-toggle:hover {
-      transform: translateX(-50%) scale(1.1);
+      transform: translateY(-50%) scale(1.1);
     }
     
     .spotify-widget.collapsed {
@@ -257,6 +257,7 @@
       border-radius: 50%;
       overflow: visible;
       right: 0;
+      background: #1a1a1a;
       box-shadow: none;
     }
     
@@ -268,8 +269,9 @@
     }
     
     .spotify-widget.collapsed #spotify-toggle {
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%) rotate(180deg);
+      transform: translate(-50%, -50%) rotate(180deg);
     }
 
     .floating-card-container {
