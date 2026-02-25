@@ -24,14 +24,20 @@ body {
 /* ===== NAVBAR ===== */
 
 .navbar {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
   align-items: center;
   padding: 14px 24px;
   background: #222;
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 1400;
+  box-shadow: 4px 0 12px rgba(0,0,0,0.5);
+}
+
+.page-wrapper {
+  transition: transform 0.3s ease;
+  height: 0;
+  overflow: visible;
 }
 
 /* Left: Logo */
@@ -51,29 +57,12 @@ body {
   white-space: nowrap;
 }
 
-/* Center: Links */
-.nav-center {
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-}
-
-.nav-center a {
-  text-decoration: none;
-  color: #f4f4f4;
-  font-size: 16px;
-  transition: color 0.3s;
-}
-
-.nav-center a:hover {
-  color: #1abc9c;
-}
-
 /* Right: Social icons */
 .nav-right {
   display: flex;
   justify-content: flex-end;
   gap: 18px;
+  margin-left: auto;
 }
 
 .nav-right img {
@@ -94,20 +83,91 @@ body {
   width: auto;
 }
 
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  cursor: pointer;
+  margin-right: 18px;
+}
+
+.hamburger div {
+  height: 3px;
+  background-color: white;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.hamburger.active div:nth-child(1) {
+  transform: translateY(8.5px) rotate(45deg);
+}
+.hamburger.active div:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active div:nth-child(3) {
+  transform: translateY(-8.5px) rotate(-45deg);
+}
+
+:root {
+  --sidebar-width: 260px;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-width);
+  height: 100%;
+  background-color: #222;
+  display: flex;
+  flex-direction: column;
+  padding-top: 100px;
+  gap: 20px;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 1300;
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar a {
+  color: #f4f4f4;
+  text-decoration: none;
+  font-size: 18px;
+  padding: 12px 24px;
+  transition: background 0.3s;
+}
+
+.sidebar a:hover {
+  background-color: #1abc9c;
+  color: #222;
+  border-radius: 6px;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1050;
+}
+
+.overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+  
 /* Make sure navbar links stay centered on mobile */
 @media (max-width: 600px) {
   .nav-left {
     justify-content: center; /* centers logo + text */
     gap: 8px;
-  }
-  .nav-center {
-    flex-direction: column;
-    background-color: #222;
-    position: relative; /* now static, not absolute */
-    top: 0;
-    width: 100%;
-    max-height: none; /* remove sliding effect */
-    transition: none;
   }
 }
 
@@ -201,17 +261,25 @@ button:hover {
 
 <body>
 
+<div class="sidebar" id="sidebar">
+  <a href="/">Home</a>
+  <a href="/projects.html">Projects</a>
+  <a href="/about.html">About</a>
+  <a href="/contact.html">Contact</a>
+</div>
+
+<div class="overlay" id="overlay"></div>
+  
 <!-- NAV -->
 <div class="navbar">
   <div class="nav-left">
+     <div class="hamburger" id="hamburger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
     <img src="/assets/logos/personal/CRP_logo_white.png" alt="Logo" class="logo-img">
     <div class="logo">Chase Pittman | Portfolio</div>
-  </div>
-
-  <div class="nav-center">
-    <a href="/">Home</a>
-    <a href="/about">About</a>
-    <a href="/contact.html">Contact</a>
   </div>
 
   <div class="nav-right">
@@ -231,37 +299,72 @@ button:hover {
 </div>
 
 <!-- CONTENT -->
-<div class="content">
-  <h1>Contact</h1>
-  <div class="subtitle">
-    Interested in product, design, or collaboration? Send a note below.
-  </div>
-
-  <div class="contact-card">
-    <!-- Powered by Formspree -->
-    <form action="https://formspree.io/f/mqebzonn" method="POST">
-      <input type="text" name="name" placeholder="Name" required>
-      <input type="email" name="email" placeholder="Email" required>
-      <textarea name="message" placeholder="Message" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-
-    <div class="contact-icons">
-      <a href="https://www.linkedin.com/in/chasepittman" target="_blank">
-        <img src="/assets/logos/tools/linkedin.png">
-      </a>
-      <a href="https://www.credly.com/users/chase-pittman.017d3434/badges#credly" target="_blank">
-        <img src="/assets/logos/skills/credly.png" alt="Credly">
-      </a>
-      <a href="https://www.github.com/chasepittman" target="_blank">
-        <img src="/assets/logos/tools/github.png" alt="GitHub">
-      </a>
-      <a href="/contact.html">
-        <img src="/assets/logos/tools/gmail.png" alt="Contact Form">
-      </a>
+<div class="page-wrapper" id="page-wrapper">
+  <div class="content">
+    <h1>Contact</h1>
+    <div class="subtitle">
+      Interested in product, design, or collaboration? Send a note below.
+    </div>
+  
+    <div class="contact-card">
+      <!-- Powered by Formspree -->
+      <form action="https://formspree.io/f/mqebzonn" method="POST">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <textarea name="message" placeholder="Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+  
+      <div class="contact-icons">
+        <a href="https://www.linkedin.com/in/chasepittman" target="_blank">
+          <img src="/assets/logos/tools/linkedin.png">
+        </a>
+        <a href="https://www.credly.com/users/chase-pittman.017d3434/badges#credly" target="_blank">
+          <img src="/assets/logos/skills/credly.png" alt="Credly">
+        </a>
+        <a href="https://www.github.com/chasepittman" target="_blank">
+          <img src="/assets/logos/tools/github.png" alt="GitHub">
+        </a>
+        <a href="/contact.html">
+          <img src="/assets/logos/tools/gmail.png" alt="Contact Form">
+        </a>
+      </div>
     </div>
   </div>
 </div>
+
+<script>
+  const hamburger   = document.getElementById('hamburger');
+  const sidebar     = document.getElementById('sidebar');
+  const overlay     = document.getElementById('overlay');
+  const pageWrapper = document.getElementById('page-wrapper');
+
+  function openSidebar() {
+    sidebar.classList.add('open');
+    hamburger.classList.add('active');
+    overlay.classList.add('active');
+    pageWrapper.style.transform = `translateX(${sidebar.offsetWidth}px)`;
+  }
+
+  function closeSidebar() {
+    sidebar.classList.remove('open');
+    hamburger.classList.remove('active');
+    overlay.classList.remove('active');
+    pageWrapper.style.transform = 'translateX(0)';
+  }
+
+  hamburger.addEventListener('click', () => {
+    sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+  });
+
+  overlay.addEventListener('click', closeSidebar);
+  document.querySelectorAll('.sidebar a').forEach(link => {
+    link.addEventListener('click', closeSidebar);
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeSidebar();
+  });
+</script>
   
 </body>
 </html>
