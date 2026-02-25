@@ -177,7 +177,7 @@ body {
 /* Make sure navbar links stay centered on mobile */
 @media (max-width: 600px) {
   .nav-left {
-    justify-content: center; /* centers logo + text */
+    justify-content: flex-start;
     gap: 8px;
   }
 }
@@ -270,7 +270,11 @@ button:hover {
 /* MOBILE: hide navbar text, keep logo */
 @media (max-width: 768px) {
   .logo-link .logo {
-    display: none;
+    display: none !important;
+  }
+
+  .logo-link {
+    gap: 0;
   }
 }
 
