@@ -639,6 +639,7 @@
   });
 
   // --- Full Carousel JS with swipe, drag, auto-slide, elastic hover ---
+  // --- Full Carousel JS with swipe, drag, auto-slide, elastic hover ---
   const track = document.getElementById('carousel-track');
   const slides = Array.from(track.children);
   const nextBtn = document.getElementById('carousel-next');
@@ -659,7 +660,7 @@
   });
   const dots = Array.from(dotsContainer.children);
   
-  // Update carousel function
+  // Update carousel: slide classes, transform, dots
   function updateCarousel() {
     slides.forEach((slide, idx) => {
       slide.classList.remove('prev', 'next', 'active');
@@ -676,14 +677,14 @@
     dots[currentIndex].classList.add('filled');
   }
   
-  // Go to slide
+  // Go to specific slide
   function goToSlide(index) {
     currentIndex = index;
     updateCarousel();
     resetAutoSlide();
   }
   
-  // Next / Prev buttons
+  // Next / Previous buttons
   nextBtn.addEventListener('click', () => {
     currentIndex = (currentIndex + 1) % slides.length;
     updateCarousel();
@@ -702,7 +703,9 @@
       updateCarousel();
     }, autoSlideDelay);
   }
-  function stopAutoSlide() { clearInterval(autoSlideInterval); }
+  function stopAutoSlide() {
+    clearInterval(autoSlideInterval);
+  }
   function resetAutoSlide() {
     stopAutoSlide();
     clearTimeout(interactionTimeout);
@@ -711,55 +714,98 @@
   updateCarousel();
   startAutoSlide();
   
-  // Mobile swipe
-  let startX = 0, startTime = 0, isDragging = false;
+  /* -----------------------------
+     MOBILE SWIPE SUPPORT
+  ------------------------------ */
+  let startX = 0;
+  let startTime = 0;
+  let isDragging = false;
+  
   track.addEventListener('touchstart', e => {
     stopAutoSlide();
     startX = e.touches[0].clientX;
     startTime = Date.now();
     isDragging = true;
   });
+  
   track.addEventListener('touchmove', e => {
     if (!isDragging) return;
-    const diff = startX - e.touches[0].clientX;
+    const currentX = e.touches[0].clientX;
+    const diff = startX - currentX;
     track.style.transform = `translateX(-${currentIndex * 100 + diff / track.offsetWidth * 100}%)`;
   });
+  
   track.addEventListener('touchend', e => {
     if (!isDragging) return;
-    const diff = startX - e.changedTouches[0].clientX;
-    const velocity = diff / (Date.now() - startTime);
+    const endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
+    const elapsed = Date.now() - startTime;
+    const velocity = diff / elapsed;
+  
+    // Momentum flick: fast swipe moves multiple slides
     if (Math.abs(diff) > 50) {
       const moveSlides = Math.min(Math.ceil(Math.abs(velocity) * 10), slides.length);
-      currentIndex = diff > 0 ? (currentIndex + moveSlides) % slides.length : (currentIndex - moveSlides + slides.length) % slides.length;
+      if (diff > 0) currentIndex = (currentIndex + moveSlides) % slides.length;
+      else currentIndex = (currentIndex - moveSlides + slides.length) % slides.length;
     }
+  
     updateCarousel();
     isDragging = false;
     resetAutoSlide();
   });
   
-  // Desktop drag
-  let isMouseDown = false, mouseStartX = 0, mouseStartTime = 0;
-  track.addEventListener('mousedown', e => { stopAutoSlide(); isMouseDown=true; mouseStartX=e.clientX; mouseStartTime=Date.now(); });
-  track.addEventListener('mousemove', e => { if(!isMouseDown) return; const diff=mouseStartX-e.clientX; track.style.transform=`translateX(-${currentIndex*100 + diff/track.offsetWidth*100}%)`; });
+  /* -----------------------------
+     DESKTOP DRAG SUPPORT
+  ------------------------------ */
+  let isMouseDown = false;
+  let mouseStartX = 0;
+  let mouseStartTime = 0;
+  
+  track.addEventListener('mousedown', e => {
+    stopAutoSlide();
+    isMouseDown = true;
+    mouseStartX = e.clientX;
+    mouseStartTime = Date.now();
+  });
+  
+  track.addEventListener('mousemove', e => {
+    if (!isMouseDown) return;
+    const diff = mouseStartX - e.clientX;
+    track.style.transform = `translateX(-${currentIndex * 100 + diff / track.offsetWidth * 100}%)`;
+  });
+  
   track.addEventListener('mouseup', e => {
-    if(!isMouseDown) return;
-    const diff=mouseStartX-e.clientX;
-    const velocity=diff/(Date.now()-mouseStartTime);
-    if(diff>50) currentIndex=(currentIndex+Math.min(Math.ceil(Math.abs(velocity)*10),slides.length))%slides.length;
-    else if(diff<-50) currentIndex=(currentIndex-Math.min(Math.ceil(Math.abs(velocity)*10),slides.length)+slides.length)%slides.length;
+    if (!isMouseDown) return;
+    const diff = mouseStartX - e.clientX;
+    const elapsed = Date.now() - mouseStartTime;
+    const velocity = diff / elapsed;
+    const moveSlides = Math.min(Math.ceil(Math.abs(velocity) * 10), slides.length);
+  
+    if (diff > 50) currentIndex = (currentIndex + moveSlides) % slides.length;
+    else if (diff < -50) currentIndex = (currentIndex - moveSlides + slides.length) % slides.length;
+  
     updateCarousel();
-    isMouseDown=false;
+    isMouseDown = false;
     resetAutoSlide();
   });
-  track.addEventListener('mouseleave', () => { if(isMouseDown){updateCarousel();isMouseDown=false;resetAutoSlide();} });
   
-  // Elastic hover / tap
+  track.addEventListener('mouseleave', () => {
+    if (isMouseDown) {
+      updateCarousel();
+      isMouseDown = false;
+      resetAutoSlide();
+    }
+  });
+  
+  /* -----------------------------
+     ELASTIC HOVER / TAP
+  ------------------------------ */
   slides.forEach(slide => {
-    slide.addEventListener('mouseenter', ()=>slide.classList.add('active-hover'));
-    slide.addEventListener('mouseleave', ()=>slide.classList.remove('active-hover'));
-    slide.addEventListener('touchstart', ()=>slide.classList.add('active-hover'));
-    slide.addEventListener('touchend', ()=>slide.classList.remove('active-hover'));
-    slide.addEventListener('touchcancel', ()=>slide.classList.remove('active-hover'));
+    slide.addEventListener('mouseenter', () => slide.classList.add('active-hover'));
+    slide.addEventListener('mouseleave', () => slide.classList.remove('active-hover'));
+    slide.addEventListener('touchstart', () => slide.classList.add('active-hover'));
+    slide.addEventListener('touchend', () => slide.classList.remove('active-hover'));
+    slide.addEventListener('touchcancel', () => slide.classList.remove('active-hover'));
   });
   
   </script>
