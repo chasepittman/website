@@ -644,6 +644,7 @@
     dotsContainer.appendChild(dot);
   });
   const dots = Array.from(dotsContainer.children);
+  updateCarousel(); // ensure first dot is filled on page load
   
   // Update slide and dots
   function updateCarousel() {
@@ -775,8 +776,14 @@
      ELASTIC HOVER EFFECT
   ------------------------------ */
   slides.forEach(slide => {
+    // Existing hover
     slide.addEventListener('mouseenter', () => slide.classList.add('active-hover'));
     slide.addEventListener('mouseleave', () => slide.classList.remove('active-hover'));
+  
+    // Mobile tap
+    slide.addEventListener('touchstart', () => slide.classList.add('active-hover'));
+    slide.addEventListener('touchend', () => slide.classList.remove('active-hover'));
+    slide.addEventListener('touchcancel', () => slide.classList.remove('active-hover'));
   });
   
   </script>
