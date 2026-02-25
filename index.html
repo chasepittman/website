@@ -327,47 +327,65 @@
     }
 
     /* --- Carousel Styles --- */
+    /* Carousel container shows peek of neighboring slides */
     .carousel-container {
       position: relative;
-      width: 100%;
+      width: 90%; /* keep a little margin on sides for peek */
       max-width: 1024px;
-      aspect-ratio: 16 / 9; /* Classic PPT ratio */
       margin: 60px auto;
-      overflow: hidden;
-      border-radius: 12px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-      background: #1a1a1a;
-      transition: transform 0.3s ease;
+      overflow: visible; /* allow side peeks */
+      perspective: 1000px;
     }
     
+    /* Track now allows slides to overlap slightly */
     .carousel-track {
       display: flex;
       transition: transform 0.5s ease;
-      height: 100%;
+      gap: -10%; /* negative gap to overlap neighbors slightly */
+      padding: 0 5%; /* space for the peek */
     }
     
+    /* Each slide scales down slightly if not active */
     .carousel-slide {
       min-width: 100%;
-      height: 100%;
-      position: relative;
       flex-shrink: 0;
-      transition: transform 0.3s ease, filter 0.3s ease;
+      transition: transform 0.5s ease, z-index 0.5s ease;
+      transform-origin: center center;
+      cursor: grab;
+      position: relative;
+      z-index: 1;
     }
     
+    /* Active slide is full size */
+    .carousel-slide.active {
+      transform: scale(1);
+      z-index: 3;
+    }
+    
+    /* Neighboring slides scaled down slightly */
+    .carousel-slide.prev,
+    .carousel-slide.next {
+      transform: scale(0.85);
+      z-index: 2;
+    }
+    
+    /* Image styling */
     .carousel-slide img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
+      display: block;
       border-radius: 12px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
     }
     
+    /* Slide caption */
     .slide-caption {
       position: absolute;
-      bottom: 16px;
-      left: 24px;
-      color: #fff;
+      bottom: 12px;
+      left: 16px;
       font-family: 'Cormorant Garamond', serif;
       font-size: 18px;
+      color: #fff;
       background: rgba(0,0,0,0.5);
       padding: 6px 12px;
       border-radius: 6px;
@@ -376,7 +394,7 @@
     /* Hover / tap elastic effect */
     .carousel-slide:hover,
     .carousel-slide.active-hover {
-      transform: scale(1.04);
+      transform: scale(1.05);
       filter: brightness(1.05);
     }
     
@@ -398,31 +416,27 @@
       align-items: center;
       justify-content: center;
     }
-    
-    .carousel-btn.prev { left: 16px; }
-    .carousel-btn.next { right: 16px; }
-    
+    .carousel-btn.prev { left: -20px; }
+    .carousel-btn.next { right: -20px; }
     .carousel-btn:hover { background: rgba(0,0,0,0.7); }
     
-    /* Dots using your skills section style */
+    /* Dots */
     .carousel-dots {
       display: flex;
       gap: 4px;
       justify-content: center;
       margin-top: 12px;
     }
-    
     .carousel-dots .dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background-color: #555; /* unfilled */
+      background-color: #555;
       cursor: pointer;
       transition: all 0.3s ease;
     }
-    
     .carousel-dots .dot.filled {
-      background-color: #1abc9c; /* filled */
+      background-color: #1abc9c;
       transform: scale(1.2);
     }
     
@@ -633,7 +647,7 @@
   
   let currentIndex = 0;
   let autoSlideInterval = null;
-  let autoSlideDelay = 6000;
+  const autoSlideDelay = 6000;
   let interactionTimeout = null;
   
   // Create dots dynamically
@@ -644,23 +658,32 @@
     dotsContainer.appendChild(dot);
   });
   const dots = Array.from(dotsContainer.children);
-  updateCarousel(); // ensure first dot is filled on page load
   
-  // Update slide and dots
+  // Update carousel function
   function updateCarousel() {
+    slides.forEach((slide, idx) => {
+      slide.classList.remove('prev', 'next', 'active');
+      if (idx === currentIndex) slide.classList.add('active');
+      else if (idx === (currentIndex - 1 + slides.length) % slides.length) slide.classList.add('prev');
+      else if (idx === (currentIndex + 1) % slides.length) slide.classList.add('next');
+    });
+  
+    // Move track
     track.style.transform = `translateX(-${currentIndex * 100}%)`;
+  
+    // Update dots
     dots.forEach(dot => dot.classList.remove('filled'));
     dots[currentIndex].classList.add('filled');
   }
   
-  // Go to specific slide
+  // Go to slide
   function goToSlide(index) {
     currentIndex = index;
     updateCarousel();
     resetAutoSlide();
   }
   
-  // Next / Previous buttons
+  // Next / Prev buttons
   nextBtn.addEventListener('click', () => {
     currentIndex = (currentIndex + 1) % slides.length;
     updateCarousel();
@@ -672,118 +695,71 @@
     resetAutoSlide();
   });
   
-  // --- Auto-slide with pause on interaction ---
+  // Auto-slide
   function startAutoSlide() {
     autoSlideInterval = setInterval(() => {
       currentIndex = (currentIndex + 1) % slides.length;
       updateCarousel();
     }, autoSlideDelay);
   }
-  function stopAutoSlide() {
-    clearInterval(autoSlideInterval);
-  }
+  function stopAutoSlide() { clearInterval(autoSlideInterval); }
   function resetAutoSlide() {
     stopAutoSlide();
     clearTimeout(interactionTimeout);
-    interactionTimeout = setTimeout(() => startAutoSlide(), 2000); // resume after 2s
+    interactionTimeout = setTimeout(startAutoSlide, 2000);
   }
+  updateCarousel();
   startAutoSlide();
   
-  /* -----------------------------
-     MOBILE SWIPE SUPPORT
-  ------------------------------ */
-  let startX = 0;
-  let startTime = 0;
-  let isDragging = false;
-  
+  // Mobile swipe
+  let startX = 0, startTime = 0, isDragging = false;
   track.addEventListener('touchstart', e => {
     stopAutoSlide();
     startX = e.touches[0].clientX;
     startTime = Date.now();
     isDragging = true;
   });
-  
   track.addEventListener('touchmove', e => {
     if (!isDragging) return;
-    const currentX = e.touches[0].clientX;
-    const diff = startX - currentX;
+    const diff = startX - e.touches[0].clientX;
     track.style.transform = `translateX(-${currentIndex * 100 + diff / track.offsetWidth * 100}%)`;
   });
-  
   track.addEventListener('touchend', e => {
     if (!isDragging) return;
-    const endX = e.changedTouches[0].clientX;
-    const diff = startX - endX;
-    const elapsed = Date.now() - startTime;
-    const velocity = diff / elapsed;
-  
-    // Momentum flick: fast swipe moves multiple slides
+    const diff = startX - e.changedTouches[0].clientX;
+    const velocity = diff / (Date.now() - startTime);
     if (Math.abs(diff) > 50) {
       const moveSlides = Math.min(Math.ceil(Math.abs(velocity) * 10), slides.length);
-      if (diff > 0) currentIndex = (currentIndex + moveSlides) % slides.length;
-      else currentIndex = (currentIndex - moveSlides + slides.length) % slides.length;
+      currentIndex = diff > 0 ? (currentIndex + moveSlides) % slides.length : (currentIndex - moveSlides + slides.length) % slides.length;
     }
-  
     updateCarousel();
     isDragging = false;
     resetAutoSlide();
   });
   
-  /* -----------------------------
-     DESKTOP DRAG SUPPORT
-  ------------------------------ */
-  let isMouseDown = false;
-  let mouseStartX = 0;
-  let mouseStartTime = 0;
-  
-  track.addEventListener('mousedown', e => {
-    stopAutoSlide();
-    isMouseDown = true;
-    mouseStartX = e.clientX;
-    mouseStartTime = Date.now();
-  });
-  
-  track.addEventListener('mousemove', e => {
-    if (!isMouseDown) return;
-    const diff = mouseStartX - e.clientX;
-    track.style.transform = `translateX(-${currentIndex * 100 + diff / track.offsetWidth * 100}%)`;
-  });
-  
+  // Desktop drag
+  let isMouseDown = false, mouseStartX = 0, mouseStartTime = 0;
+  track.addEventListener('mousedown', e => { stopAutoSlide(); isMouseDown=true; mouseStartX=e.clientX; mouseStartTime=Date.now(); });
+  track.addEventListener('mousemove', e => { if(!isMouseDown) return; const diff=mouseStartX-e.clientX; track.style.transform=`translateX(-${currentIndex*100 + diff/track.offsetWidth*100}%)`; });
   track.addEventListener('mouseup', e => {
-    if (!isMouseDown) return;
-    const diff = mouseStartX - e.clientX;
-    const elapsed = Date.now() - mouseStartTime;
-    const velocity = diff / elapsed;
-    const moveSlides = Math.min(Math.ceil(Math.abs(velocity) * 10), slides.length);
-  
-    if (diff > 50) currentIndex = (currentIndex + moveSlides) % slides.length;
-    else if (diff < -50) currentIndex = (currentIndex - moveSlides + slides.length) % slides.length;
-  
+    if(!isMouseDown) return;
+    const diff=mouseStartX-e.clientX;
+    const velocity=diff/(Date.now()-mouseStartTime);
+    if(diff>50) currentIndex=(currentIndex+Math.min(Math.ceil(Math.abs(velocity)*10),slides.length))%slides.length;
+    else if(diff<-50) currentIndex=(currentIndex-Math.min(Math.ceil(Math.abs(velocity)*10),slides.length)+slides.length)%slides.length;
     updateCarousel();
-    isMouseDown = false;
+    isMouseDown=false;
     resetAutoSlide();
   });
+  track.addEventListener('mouseleave', () => { if(isMouseDown){updateCarousel();isMouseDown=false;resetAutoSlide();} });
   
-  track.addEventListener('mouseleave', () => {
-    if (isMouseDown) {
-      updateCarousel();
-      isMouseDown = false;
-      resetAutoSlide();
-    }
-  });
-  
-  /* -----------------------------
-     ELASTIC HOVER EFFECT
-  ------------------------------ */
+  // Elastic hover / tap
   slides.forEach(slide => {
-    // Existing hover
-    slide.addEventListener('mouseenter', () => slide.classList.add('active-hover'));
-    slide.addEventListener('mouseleave', () => slide.classList.remove('active-hover'));
-  
-    // Mobile tap
-    slide.addEventListener('touchstart', () => slide.classList.add('active-hover'));
-    slide.addEventListener('touchend', () => slide.classList.remove('active-hover'));
-    slide.addEventListener('touchcancel', () => slide.classList.remove('active-hover'));
+    slide.addEventListener('mouseenter', ()=>slide.classList.add('active-hover'));
+    slide.addEventListener('mouseleave', ()=>slide.classList.remove('active-hover'));
+    slide.addEventListener('touchstart', ()=>slide.classList.add('active-hover'));
+    slide.addEventListener('touchend', ()=>slide.classList.remove('active-hover'));
+    slide.addEventListener('touchcancel', ()=>slide.classList.remove('active-hover'));
   });
   
   </script>
