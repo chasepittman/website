@@ -29,14 +29,20 @@
     
     /* Navbar */
     .navbar {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      display: flex;
       align-items: center;
       padding: 14px 24px;
       background: #222;
       position: sticky;
       top: 0;
-      z-index: 1000;
+      z-index: 1400;
+      box-shadow: 4px 0 12px rgba(0,0,0,0.5);
+    }
+
+    .page-wrapper {
+      transition: transform 0.3s ease;
+      height: 0;
+      overflow: visible;
     }
     
     /* Left */
@@ -60,29 +66,12 @@
       width: auto;
     }
     
-    /* Center */
-    .nav-center {
-      display: flex;
-      justify-content: center;
-      gap: 18px;
-    }
-    
-    .nav-center a {
-      text-decoration: none;
-      color: #f4f4f4;
-      font-size: 16px;
-      transition: color 0.3s;
-    }
-    
-    .nav-center a:hover {
-      color: #1abc9c;
-    }
-    
     /* Right */
     .nav-right {
       display: flex;
       justify-content: flex-end;
       gap: 18px;
+      margin-left: auto;
     }
     
     .nav-right img {
@@ -96,18 +85,92 @@
       opacity: 1;
       transform: translateY(-2px);
     }
+
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 28px;
+      height: 20px;
+      cursor: pointer;
+      margin-right: 18px;
+    }
+    
+    .hamburger div {
+      height: 3px;
+      background-color: white;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    
+    .hamburger.active div:nth-child(1) {
+      transform: translateY(8.5px) rotate(45deg);
+    }
+    .hamburger.active div:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active div:nth-child(3) {
+      transform: translateY(-8.5px) rotate(-45deg);
+    }
+    
+    :root {
+      --sidebar-width: 260px;
+    }
+    
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-width);
+      height: 100%;
+      background-color: #222;
+      display: flex;
+      flex-direction: column;
+      padding-top: 100px;
+      gap: 20px;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 1300;
+    }
+    
+    .sidebar.open {
+      transform: translateX(0);
+    }
+    
+    .sidebar a {
+      color: #f4f4f4;
+      text-decoration: none;
+      font-size: 18px;
+      padding: 12px 24px;
+      transition: background 0.3s;
+    }
+    
+    .sidebar a:hover {
+      background-color: #1abc9c;
+      color: #222;
+      border-radius: 6px;
+    }
+    
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 1050;
+    }
+    
+    .overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
     
     /* Mobile */
     @media (max-width: 600px) {
       .nav-left {
         justify-content: center;
         gap: 8px;
-      }
-    
-      .nav-center {
-        flex-direction: column;
-        background-color: #222;
-        width: 100%;
       }
     }
 
@@ -456,17 +519,27 @@
 </head>
 <body>
 
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <a href="/">Home</a>
+  <a href="/projects.html">Projects</a>
+  <a href="/about.html">About</a>
+  <a href="/contact.html">Contact</a>
+</div>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay"></div>
+
 <!-- Navbar -->
 <div class="navbar">
   <div class="nav-left">
+    <div class="hamburger" id="hamburger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
     <img src="/assets/logos/personal/CRP_logo_white.png" alt="Logo" class="logo-img">
     <div class="logo">Chase Pittman | Portfolio</div>
-  </div>
-
-  <div class="nav-center">
-    <a href="/">Home</a>
-    <a href="/about">About</a>
-    <a href="/contact.html">Contact</a>
   </div>
 
   <div class="nav-right">
@@ -485,250 +558,251 @@
   </div>
 </div>
 
-<div class="content">
-
-  <h1>About Me</h1>
-
-  <img src="/assets/photos/headshot.jpg" class="profile-pic" alt="Chase Pittman">
-
-  <p>
-    I’m Chase Pittman, a product analyst and aspiring product manager who believes the best way to learn is by building and using your own product. This site started as a blank file with no template. I wanted to get scrappy, teach myself the fundamentals, and understand what it really takes to bring a digital product to life.
-  </p>
-
-  <p>
-    Every logo and design you see here began as my own concept. Along the way, I’ve experimented with modern tools to refine my vision, but the direction, decisions, and creative intent have always been mine. This site is both a portfolio and a window into how I think and iterate.
-  </p>
-
-  <p>
-    Through building and launching this project, I’ve gained a deeper appreciation for the end-to-end experience of shipping a product, from ideation and design to development, deployment, and iteration.
-  </p>
-
-  <a href="/assets/files/Chase_Pittman_Resume.pdf" class="resume-button" target="_blank">Download Resume</a>
+<div class="page-wrapper" id="page-wrapper">
+  <div class="content">
   
-  <!-- Skills -->
-  <h2>Skills</h2>
-
-  <div class="card-box skills">
-    <!-- Repeat for each skill -->
-    <div class="skill">
+    <h1>About Me</h1>
+  
+    <img src="/assets/photos/headshot.jpg" class="profile-pic" alt="Chase Pittman">
+  
+    <p>
+      I’m Chase Pittman, a product analyst and aspiring product manager who believes the best way to learn is by building and using your own product. This site started as a blank file with no template. I wanted to get scrappy, teach myself the fundamentals, and understand what it really takes to bring a digital product to life.
+    </p>
+  
+    <p>
+      Every logo and design you see here began as my own concept. Along the way, I’ve experimented with modern tools to refine my vision, but the direction, decisions, and creative intent have always been mine. This site is both a portfolio and a window into how I think and iterate.
+    </p>
+  
+    <p>
+      Through building and launching this project, I’ve gained a deeper appreciation for the end-to-end experience of shipping a product, from ideation and design to development, deployment, and iteration.
+    </p>
+  
+    <a href="/assets/files/Chase_Pittman_Resume.pdf" class="resume-button" target="_blank">Download Resume</a>
+    
+    <!-- Skills -->
+    <h2>Skills</h2>
+  
+    <div class="card-box skills">
+      <!-- Repeat for each skill -->
+      <div class="skill">
+        
+        <!-- Credly clickable badge -->
+        <a class="credly-wrapper"
+           href="https://www.credly.com/badges/782f64ae-289b-4d80-b0fb-34d0ff8e6f04"
+           target="_blank">
       
-      <!-- Credly clickable badge -->
-      <a class="credly-wrapper"
-         href="https://www.credly.com/badges/782f64ae-289b-4d80-b0fb-34d0ff8e6f04"
-         target="_blank">
+          <div class="credly-tooltip">Core Product Certified</div>
+      
+          <div class="credly-badge">
+            <img src="/assets/logos/skills/credly.png" alt="Core Product Certified badge (Credly)">
+          </div>
+      
+        </a>
+        
+        <img src="/assets/logos/skills/smartsheet.png" alt="Smartsheet">
+        <span>Smartsheet</span>
+        <div class="dots">
+          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
+        </div>
+      </div>
+  
+      <div class="skill">
+        <img src="/assets/logos/skills/office.png" alt="MS Office">
+        <span>MS Office</span>
+        <div class="dots">
+          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
+        </div>
+      </div>
+  
+      <div class="skill">
+        <img src="/assets/logos/skills/ga4.png" alt="GA4">
+        <span>GA4</span>
+        <div class="dots">
+          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span>
+        </div>
+      </div>
+  
+      <div class="skill">
+        <img src="/assets/logos/skills/sql.png" alt="SQL">
+        <span>SQL</span>
+        <div class="dots">
+          <span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </div>
+      </div>
+  
+      <div class="skill">
+        <img src="/assets/logos/skills/asana.png" alt="Asana">
+        <span>Asana</span>
+        <div class="dots">
+          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
+        </div>
+      </div>
+  
+      <div class="skill">
+        <img src="/assets/logos/skills/sap.png" alt="SAP BO">
+        <span>SAP BO</span>
+        <div class="dots">
+          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Tools Used -->
+    <h2>Tools Used</h2>
+    <div class="tools-card">
+      <div class="tool"><img src="/assets/logos/tools/chatgpt.png" alt="ChatGPT"><span>ChatGPT</span></div>
+      <div class="tool"><img src="/assets/logos/tools/canva.png" alt="Canva"><span>Canva</span></div>
+      <div class="tool"><img src="/assets/logos/tools/photopea.png" alt="Photopea"><span>Photopea</span></div>
+      <div class="tool"><img src="/assets/logos/tools/github.png" alt="GitHub"><span>GitHub</span></div>
+      <div class="tool"><img src="/assets/logos/tools/cloudflare.png" alt="CloudFlare"><span>CloudFlare</span></div>
+      <div class="tool"><img src="/assets/logos/tools/figma.png" alt="Figma"><span>Figma</span></div>
+    </div>
     
-        <div class="credly-tooltip">Core Product Certified</div>
+    <!-- Timeline -->
+    <h2>Experience & Leadership</h2>
     
-        <div class="credly-badge">
-          <img src="/assets/logos/skills/credly.png" alt="Core Product Certified badge (Credly)">
+    <div class="timeline-container">
+  
+      <!-- Dropdown toggle -->
+      <div class="timeline-toggle-dropdown">
+        <select id="timeline-toggle" class="toggle-dropdown">
+          <option value="quarters" selected>Quarters</option>
+          <option value="months">Months</option>
+        </select>
+      </div>
+      
+      <div class="timeline-inner">
+        <!-- Years + Months -->
+        <div class="timeline-top-bar">
+          <!-- Years -->
+          <div class="timeline-years">
+            <span>2020</span>
+            <span>2021</span>
+            <span>2022</span>
+            <span>2023</span>
+            <span>2024</span>
+            <span>2025</span>
+            <span>2026</span>
+          </div>
+        
+          <!-- Months -->
+          <div class="timeline-months"></div>
+        </div>
+  
+        <!-- WATERWORKS -->
+        <div class="timeline-row">
+          <div class="timeline-logo-container">
+            <img src="/assets/logos/timeline/waterworks.png" class="timeline-logo" alt="Waterworks logo">
+            <div class="company-name">Waterworks</div>
+          </div>
+          <div class="timeline-bars">
+    
+            <div class="timeline-bar" data-start="29" data-end="63" style="background:#16a085;">
+              Product Mgmt Coordinator
+              <div class="tooltip-container">
+                Built dashboards for 20+ product collections, maintaining 100K+ records with 99%+ accuracy.
+              </div>
+            </div>
+            
+            <div class="timeline-bar" data-start="63" data-end="72" style="background:#1abc9c;">
+              Associate Product Manager
+              <div class="tooltip-container">
+                Lead weekly business performance reviews across seven categories, contributing to 21% revenue growth.
+              </div>
+            </div>
+            
+            <div class="timeline-bar" data-start="51" data-end="72" style="top: 50%; background:#1abc9c;">
+              Founder — Early Career Group
+              <div class="tooltip-container">
+                Founded internal early-career community, launched mentorship program, and organized speaker events.
+              </div>
+            </div>
+          </div>
         </div>
     
-      </a>
-      
-      <img src="/assets/logos/skills/smartsheet.png" alt="Smartsheet">
-      <span>Smartsheet</span>
-      <div class="dots">
-        <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
-      </div>
-    </div>
-
-    <div class="skill">
-      <img src="/assets/logos/skills/office.png" alt="MS Office">
-      <span>MS Office</span>
-      <div class="dots">
-        <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
-      </div>
-    </div>
-
-    <div class="skill">
-      <img src="/assets/logos/skills/ga4.png" alt="GA4">
-      <span>GA4</span>
-      <div class="dots">
-        <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span>
-      </div>
-    </div>
-
-    <div class="skill">
-      <img src="/assets/logos/skills/sql.png" alt="SQL">
-      <span>SQL</span>
-      <div class="dots">
-        <span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
-      </div>
-    </div>
-
-    <div class="skill">
-      <img src="/assets/logos/skills/asana.png" alt="Asana">
-      <span>Asana</span>
-      <div class="dots">
-        <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
-      </div>
-    </div>
-
-    <div class="skill">
-      <img src="/assets/logos/skills/sap.png" alt="SAP BO">
-      <span>SAP BO</span>
-      <div class="dots">
-        <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
+        <!-- UNIVERSITY OF MICHIGAN -->
+        <div class="timeline-row">
+          <div class="timeline-logo-container">
+            <img src="/assets/logos/timeline/umich.png" class="timeline-logo" alt="University of Michigan logo">
+            <div class="company-name">University of Michigan</div>
+          </div>
+        
+          <div class="timeline-bars">
+        
+            <!-- UMich Undergrad -->
+            <!-- Displayed portion: Jan 2020 → Apr 2022 -->
+            <div class="timeline-bar" data-start="0" data-end="27" style="background:#2980b9;">
+              B.A. in Economics, Minor in Entrepreneurship
+              <div class="tooltip-container">
+                GPA: 3.8/4.0<br>
+                University Honors (3x)<br>
+                President, Enactus Consulting Club<br>
+                Published in University of Michigan newsletter
+              </div>
+            </div>
+        
+            <!-- UMich Alumni Board -->
+            <!-- Mar 2023 = index 38 -->
+            <div class="timeline-bar" data-start="38" data-end="72" style="background:#2980b9;">
+              NYC Alumni Board Member & Sports Chair
+              <div class="tooltip-container">
+                Lead NYC alumni sports programming and partnerships.
+              </div>
+            </div>
+        
+          </div>
+        </div>
+    
+        <!-- SPECIAL OLYMPICS -->
+        <div class="timeline-row">
+          <div class="timeline-logo-container">
+            <img src="/assets/logos/timeline/specialolympics.png" class="timeline-logo" alt="Special Olympics logo">
+            <div class="company-name">Special Olympics</div>
+          </div>
+          <div class="timeline-bars">
+            <div class="timeline-bar" data-start="41" data-end="72" style="background:#8e44ad;">
+              Peer Mentor & Leadership Council Member
+              <div class="tooltip-container">
+                Mentor an athlete 1:1 and support statewide fundraising.
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- LARTA -->
+        <div class="timeline-row">
+          <div class="timeline-logo-container">
+            <img src="/assets/logos/timeline/larta.png" class="timeline-logo" alt="Larta Institute logo">
+            <div class="company-name">Larta Institute</div>
+          </div>
+          <div class="timeline-bars">
+            <div class="timeline-bar" data-start="16" data-end="20" style="background:#c0392b;">
+              Program Mgmt Intern
+              <div class="tooltip-container">
+                Tracked KPIs for 1,000+ startups and streamlined reporting.
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- XPANSE -->
+        <div class="timeline-row">
+          <div class="timeline-logo-container">
+            <img src="/assets/logos/timeline/xpanse.png" class="timeline-logo" alt="Xpanse AI logo">
+            <div class="company-name">Xpanse AI</div>
+          </div>
+          <div class="timeline-bars">
+            <div class="timeline-bar" data-start="5" data-end="8" style="background:#d35400;">
+              Business Ops Intern
+              <div class="tooltip-container">
+                Researched predictive analytics across sports organizations.
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
-  <!-- Tools Used -->
-  <h2>Tools Used</h2>
-  <div class="tools-card">
-    <div class="tool"><img src="/assets/logos/tools/chatgpt.png" alt="ChatGPT"><span>ChatGPT</span></div>
-    <div class="tool"><img src="/assets/logos/tools/canva.png" alt="Canva"><span>Canva</span></div>
-    <div class="tool"><img src="/assets/logos/tools/photopea.png" alt="Photopea"><span>Photopea</span></div>
-    <div class="tool"><img src="/assets/logos/tools/github.png" alt="GitHub"><span>GitHub</span></div>
-    <div class="tool"><img src="/assets/logos/tools/cloudflare.png" alt="CloudFlare"><span>CloudFlare</span></div>
-    <div class="tool"><img src="/assets/logos/tools/figma.png" alt="Figma"><span>Figma</span></div>
-  </div>
-  
-  <!-- Timeline -->
-  <h2>Experience & Leadership</h2>
-  
-  <div class="timeline-container">
-
-    <!-- Dropdown toggle -->
-    <div class="timeline-toggle-dropdown">
-      <select id="timeline-toggle" class="toggle-dropdown">
-        <option value="quarters" selected>Quarters</option>
-        <option value="months">Months</option>
-      </select>
-    </div>
-    
-    <div class="timeline-inner">
-      <!-- Years + Months -->
-      <div class="timeline-top-bar">
-        <!-- Years -->
-        <div class="timeline-years">
-          <span>2020</span>
-          <span>2021</span>
-          <span>2022</span>
-          <span>2023</span>
-          <span>2024</span>
-          <span>2025</span>
-          <span>2026</span>
-        </div>
-      
-        <!-- Months -->
-        <div class="timeline-months"></div>
-      </div>
-
-      <!-- WATERWORKS -->
-      <div class="timeline-row">
-        <div class="timeline-logo-container">
-          <img src="/assets/logos/timeline/waterworks.png" class="timeline-logo" alt="Waterworks logo">
-          <div class="company-name">Waterworks</div>
-        </div>
-        <div class="timeline-bars">
-  
-          <div class="timeline-bar" data-start="29" data-end="63" style="background:#16a085;">
-            Product Mgmt Coordinator
-            <div class="tooltip-container">
-              Built dashboards for 20+ product collections, maintaining 100K+ records with 99%+ accuracy.
-            </div>
-          </div>
-          
-          <div class="timeline-bar" data-start="63" data-end="72" style="background:#1abc9c;">
-            Associate Product Manager
-            <div class="tooltip-container">
-              Lead weekly business performance reviews across seven categories, contributing to 21% revenue growth.
-            </div>
-          </div>
-          
-          <div class="timeline-bar" data-start="51" data-end="72" style="top: 50%; background:#1abc9c;">
-            Founder — Early Career Group
-            <div class="tooltip-container">
-              Founded internal early-career community, launched mentorship program, and organized speaker events.
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      <!-- UNIVERSITY OF MICHIGAN -->
-      <div class="timeline-row">
-        <div class="timeline-logo-container">
-          <img src="/assets/logos/timeline/umich.png" class="timeline-logo" alt="University of Michigan logo">
-          <div class="company-name">University of Michigan</div>
-        </div>
-      
-        <div class="timeline-bars">
-      
-          <!-- UMich Undergrad -->
-          <!-- Displayed portion: Jan 2020 → Apr 2022 -->
-          <div class="timeline-bar" data-start="0" data-end="27" style="background:#2980b9;">
-            B.A. in Economics, Minor in Entrepreneurship
-            <div class="tooltip-container">
-              GPA: 3.8/4.0<br>
-              University Honors (3x)<br>
-              President, Enactus Consulting Club<br>
-              Published in University of Michigan newsletter
-            </div>
-          </div>
-      
-          <!-- UMich Alumni Board -->
-          <!-- Mar 2023 = index 38 -->
-          <div class="timeline-bar" data-start="38" data-end="72" style="background:#2980b9;">
-            NYC Alumni Board Member & Sports Chair
-            <div class="tooltip-container">
-              Lead NYC alumni sports programming and partnerships.
-            </div>
-          </div>
-      
-        </div>
-      </div>
-  
-      <!-- SPECIAL OLYMPICS -->
-      <div class="timeline-row">
-        <div class="timeline-logo-container">
-          <img src="/assets/logos/timeline/specialolympics.png" class="timeline-logo" alt="Special Olympics logo">
-          <div class="company-name">Special Olympics</div>
-        </div>
-        <div class="timeline-bars">
-          <div class="timeline-bar" data-start="41" data-end="72" style="background:#8e44ad;">
-            Peer Mentor & Leadership Council Member
-            <div class="tooltip-container">
-              Mentor an athlete 1:1 and support statewide fundraising.
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      <!-- LARTA -->
-      <div class="timeline-row">
-        <div class="timeline-logo-container">
-          <img src="/assets/logos/timeline/larta.png" class="timeline-logo" alt="Larta Institute logo">
-          <div class="company-name">Larta Institute</div>
-        </div>
-        <div class="timeline-bars">
-          <div class="timeline-bar" data-start="16" data-end="20" style="background:#c0392b;">
-            Program Mgmt Intern
-            <div class="tooltip-container">
-              Tracked KPIs for 1,000+ startups and streamlined reporting.
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      <!-- XPANSE -->
-      <div class="timeline-row">
-        <div class="timeline-logo-container">
-          <img src="/assets/logos/timeline/xpanse.png" class="timeline-logo" alt="Xpanse AI logo">
-          <div class="company-name">Xpanse AI</div>
-        </div>
-        <div class="timeline-bars">
-          <div class="timeline-bar" data-start="5" data-end="8" style="background:#d35400;">
-            Business Ops Intern
-            <div class="tooltip-container">
-              Researched predictive analytics across sports organizations.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
 </div>
 
 <script>
@@ -857,5 +931,39 @@ updateTimeline();
 timelineToggle.addEventListener('change', updateTimeline);
 
 </script>
+
+<script>
+  const hamburger   = document.getElementById('hamburger');
+  const sidebar     = document.getElementById('sidebar');
+  const overlay     = document.getElementById('overlay');
+  const pageWrapper = document.getElementById('page-wrapper');
+
+  function openSidebar() {
+    sidebar.classList.add('open');
+    hamburger.classList.add('active');
+    overlay.classList.add('active');
+    pageWrapper.style.transform = `translateX(${sidebar.offsetWidth}px)`;
+  }
+
+  function closeSidebar() {
+    sidebar.classList.remove('open');
+    hamburger.classList.remove('active');
+    overlay.classList.remove('active');
+    pageWrapper.style.transform = 'translateX(0)';
+  }
+
+  hamburger.addEventListener('click', () => {
+    sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+  });
+
+  overlay.addEventListener('click', closeSidebar);
+  document.querySelectorAll('.sidebar a').forEach(link => {
+    link.addEventListener('click', closeSidebar);
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeSidebar();
+  });
+</script>
+
 </body>
 </html>
