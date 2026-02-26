@@ -294,118 +294,177 @@
       }
     }
 
-    /* --- Carousel Styles --- */
-    /* Carousel container shows peek of neighboring slides */
-    .carousel-container {
-      position: relative;
-      width: 90%; /* keep a little margin on sides for peek */
-      max-width: 1200px;
-      margin: 60px auto;
-      overflow: visible; /* allow side peeks */
-      perspective: 1000px;
+    /* ─── SPOTIFY WIDGET — hidden state for auto-peek ──────────── */
+    .spotify-widget.hidden {
+      right: -380px;
     }
-    
-    /* Track now allows slides to overlap slightly */
+
+    /* ─── HERO CAROUSEL ────────────────────────────────────────── */
+    .hero-carousel {
+      width: 100%;
+      margin: 56px 0 10px;
+      user-select: none;
+    }
+
+    /* clips far slides while showing ~10% of neighbors */
+    .carousel-clip {
+      width: 88%;
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 14px;
+    }
+
+    .carousel-stage {
+      perspective: 1500px;
+      perspective-origin: 50% 40%;
+    }
+
     .carousel-track {
       display: flex;
-      transition: transform 0.5s ease;
-      gap: 0; /* negative gap to overlap neighbors slightly */
-      padding: 0 10%; /* space for the peek */
+      align-items: flex-start;
+      /* transition is set dynamically in JS */
+      will-change: transform;
     }
-    
-    /* Each slide scales down slightly if not active */
+
+    /* Each slide occupies 80% of clip width (78% + 1% margin each side) */
     .carousel-slide {
-      flex: 0 0 80%;       /* main slide takes 80%, neighbors peek */
-      margin: 0 5%;         /* spacing for peeks */
-      transition: transform 0.5s ease, z-index 0.5s ease;
+      flex: 0 0 78%;
+      margin: 0 1%;
       transform-origin: center center;
+      transition: transform 0.65s cubic-bezier(0.45, 0.05, 0.55, 0.95),
+                  filter 0.35s ease,
+                  opacity 0.65s ease;
       cursor: grab;
-      position: relative;
-      z-index: 1;
+      outline: none;
     }
-    
-    /* Active slide is full size */
-    .carousel-slide.active {
-      transform: scale(1);
-      z-index: 3;
-    }
-    
-    /* Neighboring slides scaled down slightly */
-    .carousel-slide.prev,
-    .carousel-slide.next {
-      transform: scale(0.85);
-      z-index: 2;
-    }
-    
-    /* Image styling */
+
+    .carousel-slide:active { cursor: grabbing; }
+
     .carousel-slide img {
       width: 100%;
       height: auto;
       display: block;
       border-radius: 12px;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
     }
-    
-    /* Slide caption */
-    .slide-caption {
-      position: absolute;
-      bottom: 12px;
-      left: 16px;
+
+    /* ── 3-D carousel states ─────────────────────────── */
+    .carousel-slide.c-active {
+      transform: rotateY(0deg) scale(1);
+      opacity: 1;
+      z-index: 3;
+    }
+
+    .carousel-slide.c-prev {
+      transform: rotateY(50deg) scale(0.80);
+      opacity: 0.72;
+      z-index: 2;
+    }
+
+    .carousel-slide.c-next {
+      transform: rotateY(-50deg) scale(0.80);
+      opacity: 0.72;
+      z-index: 2;
+    }
+
+    .carousel-slide.c-far {
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ── Title below each slide ──────────────────────── */
+    .slide-title {
+      margin: 18px 0 0;
       font-family: 'Cormorant Garamond', serif;
-      font-size: 18px;
-      color: #fff;
-      background: rgba(0,0,0,0.5);
-      padding: 6px 12px;
-      border-radius: 6px;
+      font-size: 23px;
+      font-weight: 600;
+      color: #f4f4f4;
+      text-align: center;
+      letter-spacing: 0.03em;
     }
-    
-    /* Hover / tap elastic effect */
-    .carousel-slide:hover,
-    .carousel-slide.active-hover {
-      transform: scale(1.05);
-      filter: brightness(1.05);
+
+    /* ── Hover / tap pop & brighten ─────────────────── */
+    .carousel-slide.c-active:hover,
+    .carousel-slide.c-active.tapped {
+      filter: brightness(1.10);
+      transform: rotateY(0deg) scale(1.04);
     }
-    
-    /* Buttons */
-    .carousel-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 32px;
-      color: #fff;
-      background: rgba(0,0,0,0.4);
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      cursor: pointer;
-      z-index: 10;
+
+    .carousel-slide.c-prev:hover,
+    .carousel-slide.c-prev.tapped {
+      filter: brightness(1.06);
+      transform: rotateY(46deg) scale(0.86);
+    }
+
+    .carousel-slide.c-next:hover,
+    .carousel-slide.c-next.tapped {
+      filter: brightness(1.06);
+      transform: rotateY(-46deg) scale(0.86);
+    }
+
+    /* ── Controls row: arrows + dots ────────────────── */
+    .carousel-controls {
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 22px;
+      margin-top: 26px;
     }
-    .carousel-btn.prev { left: -20px; }
-    .carousel-btn.next { right: -20px; }
-    .carousel-btn:hover { background: rgba(0,0,0,0.7); }
-    
-    /* Dots */
+
+    .carousel-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.10);
+      border: 2px solid rgba(255,255,255,0.22);
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.25s, border-color 0.25s, transform 0.2s;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      flex-shrink: 0;
+    }
+
+    .carousel-btn:hover {
+      background: rgba(26,188,156,0.30);
+      border-color: #1abc9c;
+      transform: scale(1.12);
+    }
+
     .carousel-dots {
       display: flex;
-      gap: 4px;
-      justify-content: center;
-      margin-top: 12px;
+      gap: 9px;
+      align-items: center;
     }
+
     .carousel-dots .dot {
-      width: 8px;
-      height: 8px;
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
-      background-color: #555;
+      background: #555;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: background 0.3s, transform 0.3s;
+      border: none;
+      padding: 0;
     }
+
     .carousel-dots .dot.filled {
-      background-color: #1abc9c;
-      transform: scale(1.2);
+      background: #1abc9c;
+      transform: scale(1.35);
+    }
+
+    /* ── Mobile ──────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .carousel-clip  { width: 94%; }
+      .carousel-btn   { width: 40px; height: 40px; font-size: 17px; }
+      .slide-title    { font-size: 18px; }
+      .hero-carousel  { margin-top: 36px; }
     }
     
   </style>
@@ -476,27 +535,38 @@
     <div class="content">
       
       <!-- Slide Carousel START -->
-      <div class="carousel-container">
-        <div class="carousel-track" id="carousel-track">
-          <div class="carousel-slide">
-            <img src="/assets/files/slides/Zoom_Office.png" alt="Slide 1">
-            <div class="slide-caption">Zoom Office | Concept</div>
-          </div>
-          <div class="carousel-slide">
-            <img src="/assets/slides/slide2.png" alt="Slide 2">
-            <div class="slide-caption">Project 2 Highlights</div>
-          </div>
-          <div class="carousel-slide">
-            <img src="/assets/slides/slide3.png" alt="Slide 3">
-            <div class="slide-caption">Project 3 Summary</div>
+      <section class="hero-carousel">
+
+        <div class="carousel-clip">
+          <div class="carousel-stage">
+            <div class="carousel-track" id="carousel-track">
+
+              <div class="carousel-slide">
+                <img src="/assets/files/slides/Zoom_Office.png" alt="Zoom Office Concept">
+                <p class="slide-title">Zoom Office | Concept</p>
+              </div>
+
+              <div class="carousel-slide">
+                <img src="/assets/slides/slide2.png" alt="Project 2 Highlights">
+                <p class="slide-title">Project 2 Highlights</p>
+              </div>
+
+              <div class="carousel-slide">
+                <img src="/assets/slides/slide3.png" alt="Project 3 Summary">
+                <p class="slide-title">Project 3 Summary</p>
+              </div>
+
+            </div>
           </div>
         </div>
-    
-        <button class="carousel-btn prev" id="carousel-prev">&#10094;</button>
-        <button class="carousel-btn next" id="carousel-next">&#10095;</button>
-    
-        <div class="carousel-dots" id="carousel-dots"></div>
-      </div>
+
+        <div class="carousel-controls">
+          <button class="carousel-btn" id="carousel-prev" aria-label="Previous slide">&#10094;</button>
+          <div class="carousel-dots" id="carousel-dots"></div>
+          <button class="carousel-btn" id="carousel-next" aria-label="Next slide">&#10095;</button>
+        </div>
+
+      </section>
       <!-- Slide Carousel END -->
   
     </div>
@@ -506,15 +576,36 @@
   <script>
   document.addEventListener('DOMContentLoaded', () => {
 
-    // ── Spotify toggle ──────────────────────────────────────────
+    // ── Spotify: auto-peek sequence ────────────────────────────
     const spotifyWidget = document.getElementById('spotify-widget');
     const spotifyToggle = document.getElementById('spotify-toggle');
-    
+    let userTookControl  = false;
+
+    // 1. Start fully off-screen
+    spotifyWidget.classList.add('hidden');
+    spotifyWidget.classList.remove('collapsed');
+
+    // 2. After 1.4s → slide in fully
+    setTimeout(() => {
+      if (userTookControl) return;
+      spotifyWidget.classList.remove('hidden');
+    }, 1400);
+
+    // 3. After 5s → collapse to the small circle "peek" at the right edge
+    setTimeout(() => {
+      if (userTookControl) return;
+      spotifyWidget.classList.add('collapsed');
+    }, 5000);
+
+    // Manual toggle — overrides the auto sequence
     spotifyToggle.addEventListener('click', () => {
+      userTookControl = true;
+      spotifyWidget.classList.remove('hidden');
       spotifyWidget.classList.toggle('collapsed');
     });
 
-    // ── Sidebar / hamburger ─────────────────────────────────────
+
+    // ── Sidebar / hamburger ────────────────────────────────────
     const hamburger   = document.getElementById('hamburger');
     const sidebar     = document.getElementById('sidebar');
     const overlay     = document.getElementById('overlay');
@@ -546,177 +637,164 @@
       if (e.key === 'Escape') closeSidebar();
     });
 
-  // --- Full Carousel JS with swipe, drag, auto-slide, elastic hover ---
-  const track = document.getElementById('carousel-track');
-  const slides = Array.from(track.children);
-  const nextBtn = document.getElementById('carousel-next');
-  const prevBtn = document.getElementById('carousel-prev');
-  const dotsContainer = document.getElementById('carousel-dots');
-  
-  let currentIndex = 0;
-  let autoSlideInterval = null;
-  const autoSlideDelay = 6000;
-  let interactionTimeout = null;
-  
-  // Create dots dynamically
-  slides.forEach((_, idx) => {
-    const dot = document.createElement('span');
-    dot.classList.add('dot');
-    dot.addEventListener('click', () => goToSlide(idx));
-    dotsContainer.appendChild(dot);
-  });
-  const dots = Array.from(dotsContainer.children);
-  
-  // Update carousel: slide classes, transform, dots
-  function updateCarousel() {
-    slides.forEach((slide, idx) => {
-      slide.classList.remove('prev', 'next', 'active');
-      if (idx === currentIndex) slide.classList.add('active');
-      else if (idx === (currentIndex - 1 + slides.length) % slides.length) slide.classList.add('prev');
-      else if (idx === (currentIndex + 1) % slides.length) slide.classList.add('next');
+
+    // ── Carousel ───────────────────────────────────────────────
+    const carouselClip  = document.querySelector('.carousel-clip');
+    const track         = document.getElementById('carousel-track');
+    const slides        = Array.from(track.children);
+    const nextBtn       = document.getElementById('carousel-next');
+    const prevBtn       = document.getElementById('carousel-prev');
+    const dotsContainer = document.getElementById('carousel-dots');
+
+    let currentIndex       = 0;
+    let autoSlideInterval  = null;
+    let resumeTimeout      = null;
+    const AUTO_DELAY       = 6000;   // ms between auto-advances
+    const RESUME_DELAY     = 3000;   // ms after interaction before auto-slide resumes
+
+    // Build dots dynamically
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.classList.add('dot');
+      dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+      dot.addEventListener('click', () => goToSlide(i));
+      dotsContainer.appendChild(dot);
     });
-  
-    // Move track
-    track.style.transform = `translateX(-${currentIndex * 100}%)`;
-  
-    // Update dots
-    dots.forEach(dot => dot.classList.remove('filled'));
-    dots[currentIndex].classList.add('filled');
-  }
-  
-  // Go to specific slide
-  function goToSlide(index) {
-    currentIndex = index;
-    updateCarousel();
-    resetAutoSlide();
-  }
-  
-  // Next / Previous buttons
-  nextBtn.addEventListener('click', () => {
-    currentIndex = (currentIndex + 1) % slides.length;
-    updateCarousel();
-    resetAutoSlide();
-  });
-  prevBtn.addEventListener('click', () => {
-    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-    updateCarousel();
-    resetAutoSlide();
-  });
-  
-  // Auto-slide
-  function startAutoSlide() {
-    autoSlideInterval = setInterval(() => {
-      currentIndex = (currentIndex + 1) % slides.length;
-      updateCarousel();
-    }, autoSlideDelay);
-  }
-  function stopAutoSlide() {
-    clearInterval(autoSlideInterval);
-  }
-  function resetAutoSlide() {
-    stopAutoSlide();
-    clearTimeout(interactionTimeout);
-    interactionTimeout = setTimeout(startAutoSlide, 2000);
-  }
-  updateCarousel();
-  startAutoSlide();
-  
-  /* -----------------------------
-     MOBILE SWIPE SUPPORT
-  ------------------------------ */
-  let startX = 0;
-  let startTime = 0;
-  let isDragging = false;
-  
-  track.addEventListener('touchstart', e => {
-    stopAutoSlide();
-    startX = e.touches[0].clientX;
-    startTime = Date.now();
-    isDragging = true;
-  });
-  
-  track.addEventListener('touchmove', e => {
-    if (!isDragging) return;
-    const currentX = e.touches[0].clientX;
-    const diff = startX - currentX;
-    track.style.transform = `translateX(-${currentIndex * 100 + diff / track.offsetWidth * 100}%)`;
-  });
-  
-  track.addEventListener('touchend', e => {
-    if (!isDragging) return;
-    const endX = e.changedTouches[0].clientX;
-    const diff = startX - endX;
-    const elapsed = Date.now() - startTime;
-    const velocity = diff / elapsed;
-  
-    // Momentum flick: fast swipe moves multiple slides
-    if (Math.abs(diff) > 50) {
-      const moveSlides = Math.min(Math.ceil(Math.abs(velocity) * 10), slides.length);
-      if (diff > 0) currentIndex = (currentIndex + moveSlides) % slides.length;
-      else currentIndex = (currentIndex - moveSlides + slides.length) % slides.length;
+    const dots = Array.from(dotsContainer.children);
+
+    // ── Layout math ─────────────────────────────────────────────
+    // Each slide slot = 78% slide + 1% margin each side = 80% of clip width.
+    // Track offset centers slide[index] within the clip.
+    function getTrackOffset(index) {
+      const clipW  = carouselClip.offsetWidth;
+      const slotW  = clipW * 0.80;   // 80 % of clip
+      // Center of slot[index] = index * slotW + slotW/2
+      // We want that center at clipW/2
+      return clipW / 2 - index * slotW - slotW / 2;
     }
-  
-    updateCarousel();
-    isDragging = false;
-    resetAutoSlide();
-  });
-  
-  /* -----------------------------
-     DESKTOP DRAG SUPPORT
-  ------------------------------ */
-  let isMouseDown = false;
-  let mouseStartX = 0;
-  let mouseStartTime = 0;
-  
-  track.addEventListener('mousedown', e => {
-    stopAutoSlide();
-    isMouseDown = true;
-    mouseStartX = e.clientX;
-    mouseStartTime = Date.now();
-  });
-  
-  track.addEventListener('mousemove', e => {
-    if (!isMouseDown) return;
-    const diff = mouseStartX - e.clientX;
-    track.style.transform = `translateX(-${currentIndex * 100 + diff / track.offsetWidth * 100}%)`;
-  });
-  
-  track.addEventListener('mouseup', e => {
-    if (!isMouseDown) return;
-    const diff = mouseStartX - e.clientX;
-    const elapsed = Date.now() - mouseStartTime;
-    const velocity = diff / elapsed;
-    const moveSlides = Math.min(Math.ceil(Math.abs(velocity) * 10), slides.length);
-  
-    if (diff > 50) currentIndex = (currentIndex + moveSlides) % slides.length;
-    else if (diff < -50) currentIndex = (currentIndex - moveSlides + slides.length) % slides.length;
-  
-    updateCarousel();
-    isMouseDown = false;
-    resetAutoSlide();
-  });
-  
-  track.addEventListener('mouseleave', () => {
-    if (isMouseDown) {
+
+    // ── Apply state ──────────────────────────────────────────────
+    function updateCarousel(animated = true) {
+      track.style.transition = animated
+        ? 'transform 0.65s cubic-bezier(0.45, 0.05, 0.55, 0.95)'
+        : 'none';
+
+      track.style.transform = `translateX(${getTrackOffset(currentIndex)}px)`;
+
+      const n = slides.length;
+      slides.forEach((slide, i) => {
+        slide.classList.remove('c-active', 'c-prev', 'c-next', 'c-far');
+        const diff = ((i - currentIndex) + n) % n;
+        if      (diff === 0)     slide.classList.add('c-active');
+        else if (diff === 1)     slide.classList.add('c-next');
+        else if (diff === n - 1) slide.classList.add('c-prev');
+        else                     slide.classList.add('c-far');
+      });
+
+      dots.forEach((d, i) => d.classList.toggle('filled', i === currentIndex));
+
+      // Re-enable transitions on next frame after a non-animated jump
+      if (!animated) requestAnimationFrame(() => {
+        track.style.transition = 'transform 0.65s cubic-bezier(0.45, 0.05, 0.55, 0.95)';
+      });
+    }
+
+    function goToSlide(index) {
+      currentIndex = ((index % slides.length) + slides.length) % slides.length;
       updateCarousel();
-      isMouseDown = false;
       resetAutoSlide();
     }
-  });
-  
-  /* -----------------------------
-     ELASTIC HOVER / TAP
-  ------------------------------ */
-  slides.forEach(slide => {
-    slide.addEventListener('mouseenter', () => slide.classList.add('active-hover'));
-    slide.addEventListener('mouseleave', () => slide.classList.remove('active-hover'));
-    slide.addEventListener('touchstart', () => slide.classList.add('active-hover'));
-    slide.addEventListener('touchend', () => slide.classList.remove('active-hover'));
-    slide.addEventListener('touchcancel', () => slide.classList.remove('active-hover'));
-  });
 
-  });
-  
+    nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
+    prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
+
+    // ── Auto-slide ───────────────────────────────────────────────
+    function startAutoSlide() {
+      autoSlideInterval = setInterval(() => goToSlide(currentIndex + 1), AUTO_DELAY);
+    }
+    function stopAutoSlide() {
+      clearInterval(autoSlideInterval);
+      clearTimeout(resumeTimeout);
+    }
+    function resetAutoSlide() {
+      stopAutoSlide();
+      resumeTimeout = setTimeout(startAutoSlide, RESUME_DELAY);
+    }
+
+    // ── Touch / mouse drag ───────────────────────────────────────
+    let ptStartX   = 0;
+    let ptStartY   = 0;
+    let dragActive = false;
+    let dragAxis   = null;   // 'x' | 'y'
+
+    function dragStart(x, y) {
+      stopAutoSlide();
+      ptStartX   = x;
+      ptStartY   = y;
+      dragActive = true;
+      dragAxis   = null;
+    }
+
+    function dragMove(x, y) {
+      if (!dragActive) return;
+      const dx = x - ptStartX;
+      const dy = y - ptStartY;
+      if (!dragAxis) dragAxis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      if (dragAxis === 'x') {
+        track.style.transition = 'none';
+        track.style.transform  = `translateX(${getTrackOffset(currentIndex) + dx}px)`;
+      }
+    }
+
+    function dragEnd(x) {
+      if (!dragActive) return;
+      dragActive = false;
+      const diff = ptStartX - x;
+      if (Math.abs(diff) > 50) {
+        goToSlide(diff > 0 ? currentIndex + 1 : currentIndex - 1);
+      } else {
+        updateCarousel(); // snap back
+        resetAutoSlide();
+      }
+    }
+
+    // Touch
+    track.addEventListener('touchstart',
+      e => dragStart(e.touches[0].clientX, e.touches[0].clientY),
+      { passive: true });
+
+    track.addEventListener('touchmove', e => {
+      dragMove(e.touches[0].clientX, e.touches[0].clientY);
+      if (dragAxis === 'x') e.preventDefault(); // stop page scroll while swiping
+    }, { passive: false });
+
+    track.addEventListener('touchend',    e => dragEnd(e.changedTouches[0].clientX));
+    track.addEventListener('touchcancel', e => dragEnd(e.changedTouches[0].clientX));
+
+    // Mouse
+    track.addEventListener('mousedown', e => dragStart(e.clientX, e.clientY));
+    window.addEventListener('mousemove', e => { if (dragActive) dragMove(e.clientX, e.clientY); });
+    window.addEventListener('mouseup',   e => { if (dragActive) dragEnd(e.clientX); });
+
+    // Tap / hover elastic effect
+    slides.forEach(slide => {
+      slide.addEventListener('touchstart',  () => slide.classList.add('tapped'),    { passive: true });
+      slide.addEventListener('touchend',    () => slide.classList.remove('tapped'));
+      slide.addEventListener('touchcancel', () => slide.classList.remove('tapped'));
+    });
+
+    // Recalculate offsets on window resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => updateCarousel(false), 120);
+    });
+
+    // Init
+    updateCarousel(false);
+    startAutoSlide();
+
+  }); // ← closes DOMContentLoaded
   </script>
 
 </body>
