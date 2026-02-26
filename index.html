@@ -287,38 +287,6 @@
       transform: translate(-50%, -50%) rotate(180deg);
     }
 
-    .floating-card-container {
-      position: fixed;
-      top: 140px;
-      left: calc(50vw - 210px); /* 210px = half of card's 420px width */
-      perspective: 1000px;
-      z-index: 950;
-      transition: left 0.3s ease;
-    }
-    
-    .floating-card {
-      width: 420px;
-      aspect-ratio: 3.5 / 2;
-      position: relative;
-      transform-style: preserve-3d;
-      cursor: pointer;
-      transform-origin: center center;
-    }
-    
-    .floating-card img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 12px;
-      backface-visibility: hidden;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-    }
-    
-    .card-back {
-      transform: rotateY(180deg);
-    }
-
     /* MOBILE: hide navbar text, keep logo */
     @media (max-width: 768px) {
       .logo-link .logo {
@@ -500,14 +468,6 @@
     </iframe>
     <button id="spotify-toggle" aria-label="Toggle Spotify Player">▶</button>
   </div>
-
-  <!-- Floating 3D Business Card -->
-  <div class="floating-card-container" id="floating-card-container">
-    <div class="floating-card" id="floating-card">
-      <img class="card-front" src="/assets/logos/personal/business_card.png" alt="Front of Business Card">
-      <img class="card-back" src="/assets/logos/personal/business_card_back.png" alt="Back of Business Card">
-    </div>
-  </div>
   
   <!-- Everything that shifts right lives inside page-wrapper -->
   <div class="page-wrapper" id="page-wrapper">
@@ -562,14 +522,12 @@
     const sidebar     = document.getElementById('sidebar');
     const overlay     = document.getElementById('overlay');
     const pageWrapper = document.getElementById('page-wrapper');
-    const cardContainer = document.getElementById('floating-card-container');
 
     function openSidebar() {
       sidebar.classList.add('open');
       hamburger.classList.add('active');
       overlay.classList.add('active');
       pageWrapper.style.transform = `translateX(${sidebar.offsetWidth}px)`;
-      cardContainer.style.left = `calc(50vw - 210px + ${sidebar.offsetWidth}px)`;
     }
 
     function closeSidebar() {
@@ -577,7 +535,6 @@
       hamburger.classList.remove('active');
       overlay.classList.remove('active');
       pageWrapper.style.transform = 'translateX(0)';
-      cardContainer.style.left = 'calc(50vw - 210px)';
     }
 
     hamburger.addEventListener('click', () => {
@@ -591,52 +548,6 @@
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closeSidebar();
     });
-
-    // ── 3D spinning business card ───────────────────────────────
-    const card = document.getElementById('floating-card');
-    let rotation = 0;
-    let tiltX = 0;
-    let tiltY = 0;
-    let targetTiltX = 0;
-    let targetTiltY = 0;
-    
-    function spinCard() {
-      const angle = rotation % 360;
-      const distanceFromFront = Math.min(Math.abs(angle), Math.abs(360 - angle));
-      const distanceFromBack  = Math.min(Math.abs(angle - 180), Math.abs(180 - angle));
-      const minDistance = Math.min(distanceFromFront, distanceFromBack);
-      const normalized  = Math.min(minDistance, 90) / 90;
-      const speed = 0.05 + normalized * 1.15;
-      rotation += speed;
-    
-      // Smoothly interpolate tilt toward target
-      const damping = 0.1; 
-      tiltX += (targetTiltX - tiltX) * damping;
-      tiltY += (targetTiltY - tiltY) * damping;
-    
-      const floatOffset = Math.sin(rotation * 0.02) * 8;
-      card.style.transform =
-        `translateY(${floatOffset}px) rotateX(${tiltX}deg) rotateY(${rotation + tiltY}deg)`;
-    
-      requestAnimationFrame(spinCard);
-    }
-    
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) spinCard();
-    
-    if (window.matchMedia('(hover: hover)').matches) {
-      card.addEventListener('mousemove', e => {
-        const rect    = card.getBoundingClientRect();
-        const centerX = rect.width  / 2;
-        const centerY = rect.height / 2;
-        targetTiltX = -((e.clientY - rect.top  - centerY) / centerY) * 10;
-        targetTiltY =  ((e.clientX - rect.left - centerX) / centerX) * 10;
-      });
-      card.addEventListener('mouseleave', () => {
-        targetTiltX = 0;
-        targetTiltY = 0;
-      });
-    }
-  });
 
   // --- Full Carousel JS with swipe, drag, auto-slide, elastic hover ---
   // --- Full Carousel JS with swipe, drag, auto-slide, elastic hover ---
