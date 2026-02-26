@@ -4,18 +4,12 @@
   <meta charset="UTF-8">
   <title>About | Chase Pittman</title>
   <link rel="icon" type="image/x-icon" href="/assets/logos/personal/favicon.ico">
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
+    html { min-height: 100%; }
 
-    html {
-      min-height: 100%;
-    }
-    
     body {
       margin: 0;
       font-family: 'Poppins', Arial, sans-serif;
@@ -26,8 +20,8 @@
     }
 
     a { text-decoration: none; color: inherit; }
-    
-    /* Navbar */
+
+    /* ===== NAVBAR ===== */
     .navbar {
       display: flex;
       align-items: center;
@@ -43,8 +37,7 @@
       transition: transform 0.3s ease;
       min-height: 100vh;
     }
-    
-    /* Left */
+
     .nav-left {
       display: flex;
       align-items: center;
@@ -59,11 +52,9 @@
       text-decoration: none;
       color: inherit;
     }
-    
-    .logo-link:hover {
-      opacity: 0.9;
-    }
-    
+
+    .logo-link:hover { opacity: 0.9; }
+
     .logo {
       font-size: 20px;
       font-weight: bold;
@@ -71,27 +62,23 @@
       color: white;
       white-space: nowrap;
     }
-    
-    .logo-img {
-      height: 36px;
-      width: auto;
-    }
-    
-    /* Right */
+
+    .logo-img { height: 36px; width: auto; }
+
     .nav-right {
       display: flex;
       justify-content: flex-end;
       gap: 18px;
       margin-left: auto;
     }
-    
+
     .nav-right img {
       width: 26px;
       height: auto;
       opacity: 0.85;
       transition: opacity 0.2s, transform 0.2s;
     }
-    
+
     .nav-right a:hover img {
       opacity: 1;
       transform: translateY(-2px);
@@ -106,28 +93,20 @@
       cursor: pointer;
       margin-right: 18px;
     }
-    
+
     .hamburger div {
       height: 3px;
       background-color: white;
       border-radius: 2px;
       transition: all 0.3s ease;
     }
-    
-    .hamburger.active div:nth-child(1) {
-      transform: translateY(8.5px) rotate(45deg);
-    }
-    .hamburger.active div:nth-child(2) {
-      opacity: 0;
-    }
-    .hamburger.active div:nth-child(3) {
-      transform: translateY(-8.5px) rotate(-45deg);
-    }
-    
-    :root {
-      --sidebar-width: 260px;
-    }
-    
+
+    .hamburger.active div:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
+    .hamburger.active div:nth-child(2) { opacity: 0; }
+    .hamburger.active div:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
+
+    :root { --sidebar-width: 260px; }
+
     .sidebar {
       position: fixed;
       top: 0;
@@ -143,11 +122,9 @@
       transition: transform 0.3s ease;
       z-index: 1300;
     }
-    
-    .sidebar.open {
-      transform: translateX(0);
-    }
-    
+
+    .sidebar.open { transform: translateX(0); }
+
     .sidebar a {
       color: #f4f4f4;
       text-decoration: none;
@@ -155,13 +132,13 @@
       padding: 12px 24px;
       transition: background 0.3s;
     }
-    
+
     .sidebar a:hover {
       background-color: #1abc9c;
       color: #222;
       border-radius: 6px;
     }
-    
+
     .overlay {
       position: fixed;
       inset: 0;
@@ -171,21 +148,21 @@
       transition: opacity 0.3s ease;
       z-index: 1050;
     }
-    
+
     .overlay.active {
       opacity: 1;
       pointer-events: auto;
     }
-    
-    /* Mobile */
+
     @media (max-width: 600px) {
-      .nav-left {
-        justify-content: center;
-        gap: 8px;
-      }
+      .nav-left { justify-content: center; gap: 8px; }
     }
 
-    /* Page Content */
+    @media (max-width: 768px) {
+      .logo-link .logo { display: none; }
+    }
+
+    /* ===== PAGE CONTENT ===== */
     .content {
       max-width: 900px;
       margin: 80px auto;
@@ -211,7 +188,6 @@
       color: #e0e0e0;
     }
 
-    /* Headshot */
     .profile-pic {
       width: 140px;
       height: 140px;
@@ -222,7 +198,6 @@
       border: 3px solid #1abc9c;
     }
 
-    /* Buttons */
     .resume-button {
       display: inline-block;
       margin: 20px 10px 40px;
@@ -235,11 +210,9 @@
       transition: background-color 0.3s;
     }
 
-    .resume-button:hover {
-      background-color: #148f77;
-    }
+    .resume-button:hover { background-color: #148f77; }
 
-    /* Shared Card Box */
+    /* ===== SHARED CARD BOX ===== */
     .card-box {
       background-color: #2e3740;
       padding: 25px;
@@ -252,7 +225,7 @@
       max-width: 900px;
     }
 
-    /* Skills */
+    /* ===== SKILLS ===== */
     .skills {
       display: flex;
       flex-wrap: wrap;
@@ -267,19 +240,11 @@
       align-items: center;
       width: 100px;
       text-align: center;
-    }
-
-    .skill img {
-      width: 40px;
-      height: 40px;
-      margin-bottom: 6px;
-    }
-
-    /* Credly badge overlay on skill */
-    .skill {
       position: relative;
     }
-    
+
+    .skill img { width: 40px; height: 40px; margin-bottom: 6px; }
+
     .credly-badge {
       position: absolute;
       top: -16px;
@@ -291,13 +256,9 @@
       border-radius: 0;
       box-shadow: none;
     }
-    
-    .credly-badge img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-    
+
+    .credly-badge img { width: 100%; height: 100%; object-fit: contain; }
+
     .credly-tooltip {
       position: absolute;
       top: -38px;
@@ -311,16 +272,10 @@
       display: none;
       z-index: 5;
     }
-    
-    .credly-wrapper:hover .credly-tooltip {
-      display: block;
-    }
-    
-    .dots {
-      display: flex;
-      gap: 4px;
-      margin-top: 4px;
-    }
+
+    .credly-wrapper:hover .credly-tooltip { display: block; }
+
+    .dots { display: flex; gap: 4px; margin-top: 4px; }
 
     .dot {
       width: 8px;
@@ -329,11 +284,9 @@
       background-color: #555;
     }
 
-    .dot.filled {
-      background-color: #1abc9c;
-    }
+    .dot.filled { background-color: #1abc9c; }
 
-    /* Tools Used */
+    /* ===== TOOLS CARD ===== */
     .tools-card {
       background-color: #2e3740;
       padding: 25px;
@@ -356,24 +309,35 @@
       color: #e0e0e0;
     }
 
-    .tool img {
-      width: 40px;
-      height: 40px;
-      margin-bottom: 6px;
+    .tool img { width: 40px; height: 40px; margin-bottom: 6px; }
+
+    /* ===== TIMELINE ===== */
+
+    /* Global tooltip (fixed, JS-positioned) */
+    #global-tooltip {
+      display: none;
+      position: fixed;
+      background-color: #1a2228;
+      color: #f4f4f4;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      max-width: 260px;
+      white-space: normal;
+      z-index: 9999;
+      pointer-events: none;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+      border: 1px solid #3a4e5a;
+      line-height: 1.5;
     }
 
-    /* Dropdown container */
+    /* Dropdown */
     .timeline-toggle-dropdown {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      z-index: 1002; /* above all timeline elements */
-      background-color: #2e3740;
-      border-radius: 6px;
-      padding: 4px 6px;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
     }
-    
-    /* Dropdown select */
+
     .toggle-dropdown {
       background-color: #2e3740;
       color: #f4f4f4;
@@ -383,41 +347,56 @@
       font-size: 14px;
       cursor: pointer;
     }
-    
-    /* ===== TIMELINE ===== */
 
+    /* Main container */
     .timeline-container {
       background-color: #2e3740;
-      padding: 30px;
+      padding: 16px 16px 16px 0;
       border-radius: 12px;
-      margin: 40px auto;       /* center on page */
-      overflow-x: auto;         /* scroll inside the box */
-      position: relative;
-      max-width: 900px;         /* match your other cards */
-      width: 100%;      /* allow full width scroll */
-      scroll-behavior: smooth;
-      z-index: 1;              /* lower than toggle */
+      margin: 40px auto;
+      max-width: 900px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Inner: the part that scrolls */
+    .timeline-scroll-area {
+      overflow-x: auto;
+      border-radius: 8px;
     }
 
     .timeline-inner {
       display: flex;
       flex-direction: column;
-      width: 100%;
-      min-width: 0;      /* allow it to shrink */
-      padding-right: 0;
-      box-sizing: border-box;
+      /* width set by JS */
     }
-    
-    /* Top Year + Month Bar */
+
+    /* ---- HEADER: sticky left label + years bar ---- */
+    .timeline-header-row {
+      display: flex;
+      align-items: stretch;
+      margin-bottom: 8px;
+    }
+
+    /* Sticky logo column header — matches logo column width */
+    .timeline-header-stub {
+      position: sticky;
+      left: 0;
+      z-index: 12;
+      flex-shrink: 0;
+      width: 130px;
+      background-color: #252d33;
+      border-radius: 6px 0 0 0;
+    }
+
+    /* Top bar: years + quarters/months */
     .timeline-top-bar {
       display: flex;
       flex-direction: column;
-      background-color: #222;
+      background-color: #1e262c;
       padding: 6px 10px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      margin-left: 130px; /* 110px logo + 20px margin */
-      width: max-content;
+      border-radius: 0 6px 0 0;
+      flex-grow: 1;
     }
 
     .timeline-years, .timeline-months {
@@ -427,7 +406,7 @@
 
     .timeline-years {
       font-weight: 600;
-      font-size: 14px;
+      font-size: 13px;
       color: #bbb;
     }
 
@@ -437,46 +416,59 @@
 
     .timeline-months { margin-top: 4px; font-size: 10px; color: #888; }
 
+    /* ---- DATA ROWS ---- */
     .timeline-row {
       display: flex;
-      align-items: flex-start;
-      border-bottom: 1px solid #555;
-      padding: 12px 0;
-      min-width: 100%;
-      width: max-content;
+      align-items: stretch;
       position: relative;
     }
 
+    /* Horizontal swim lane separator — extends full width */
+    .timeline-row + .timeline-row {
+      border-top: 2px solid #4a5560;
+    }
+
+    /* Sticky logo column */
     .timeline-logo-container {
+      position: sticky;
+      left: 0;
+      z-index: 10;
+      flex-shrink: 0;
+      width: 130px;
+      background-color: #252d33;
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 110px;
-      margin-right: 20px;
-      flex-shrink: 0;
+      justify-content: center;
+      padding: 12px 8px;
+      box-sizing: border-box;
+      /* border matches row divider so separator extends through sticky col */
     }
 
     .timeline-logo {
-      width: 60px;
-      height: 60px;
+      width: 56px;
+      height: 56px;
       object-fit: contain;
       border-radius: 8px;
       border: 2px solid #1abc9c;
       background-color: #222;
+      padding: 4px;
+      box-sizing: border-box;
     }
 
     .company-name {
       margin-top: 6px;
-      font-size: 12px;
+      font-size: 11px;
       color: #bbb;
       text-align: center;
+      line-height: 1.3;
     }
 
     /* Bars area */
     .timeline-bars {
       position: relative;
       flex-grow: 1;
-      min-height: 90px;
+      min-height: 60px;
     }
 
     .timeline-bar {
@@ -487,56 +479,34 @@
       align-items: center;
       justify-content: center;
       color: #fff;
-      font-size: 12px;
+      font-size: 11px;
+      font-weight: 500;
       padding: 0 8px;
       white-space: nowrap;
       cursor: pointer;
       pointer-events: auto;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    /* Tooltip below bars */
-    .timeline-bar .tooltip-container {
-      position: absolute;
-      top: 50%;                 /* center vertically relative to bar */
-      left: 105%;               /* position right of the bar */
-      transform: translateY(-50%); /* vertically center */
-      background-color: #222;
-      color: #f4f4f4;
-      padding: 6px 10px;
-      border-radius: 6px;
-      font-size: 13px;
-      max-width: 260px;         /* limits width, wraps text naturally */
-      white-space: normal;      /* allows text to wrap */
-      display: none;
-      z-index: 10;
-      text-align: left;         /* optional: better reading layout */
-      box-shadow: 0 4px 8px rgba(0,0,0,0.4); /* optional: subtle pop */
+    /* Hidden content source for JS tooltip */
+    .tooltip-content { display: none; }
+
+    /* Vertical grid lines — applied to bars area via JS background-image */
+    .timeline-bars {
+      background-repeat: repeat-x;
     }
 
-    .timeline-bar:hover .tooltip-container,
-    .timeline-bar:focus .tooltip-container {
-      display: block;
-    }
-
-    /* Responsive */
     @media (max-width: 800px) {
-      .timeline-row { flex-direction: column; align-items: flex-start; }
-      .timeline-months span { font-size: 8px; padding: 0 2px; }
-      .timeline-logo-container { flex-direction: row; width: auto; margin-bottom: 8px; }
-      .company-name { margin-left: 8px; margin-top: 0; }
-      .timeline-bars { width: 100%; min-height: 70px; }
+      .timeline-logo-container { width: 90px; }
+      .timeline-header-stub { width: 90px; }
     }
-
-    /* MOBILE: hide navbar text, keep logo */
-    @media (max-width: 768px) {
-      .logo-link .logo {
-        display: none;
-      }
-    }
-    
   </style>
 </head>
 <body>
+
+<!-- Global tooltip -->
+<div id="global-tooltip"></div>
 
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
@@ -553,9 +523,7 @@
 <div class="navbar">
   <div class="nav-left">
     <div class="hamburger" id="hamburger">
-      <div></div>
-      <div></div>
-      <div></div>
+      <div></div><div></div><div></div>
     </div>
     <a href="/" class="logo-link">
       <img src="/assets/logos/personal/CRP_logo_white.png" alt="Logo" class="logo-img">
@@ -581,52 +549,182 @@
 
 <div class="page-wrapper" id="page-wrapper">
   <div class="content">
-  
+
     <h1>About Me</h1>
-  
+
     <img src="/assets/photos/headshot.jpg" class="profile-pic" alt="Chase Pittman">
-  
+
     <p>
-      I’m Chase Pittman, a product analyst and aspiring product manager who believes the best way to learn is by building and using your own product. This site started as a blank file with no template. I wanted to get scrappy, teach myself the fundamentals, and understand what it really takes to bring a digital product to life.
+      I'm Chase Pittman, a product analyst and aspiring product manager who believes the best way to learn is by building and using your own product. This site started as a blank file with no template. I wanted to get scrappy, teach myself the fundamentals, and understand what it really takes to bring a digital product to life.
     </p>
-  
+
     <p>
-      Every logo and design you see here began as my own concept. Along the way, I’ve experimented with modern tools to refine my vision, but the direction, decisions, and creative intent have always been mine. This site is both a portfolio and a window into how I think and iterate.
+      Every logo and design you see here began as my own concept. Along the way, I've experimented with modern tools to refine my vision, but the direction, decisions, and creative intent have always been mine. This site is both a portfolio and a window into how I think and iterate.
     </p>
-  
+
     <p>
-      Through building and launching this project, I’ve gained a deeper appreciation for the end-to-end experience of shipping a product, from ideation and design to development, deployment, and iteration.
+      Through building and launching this project, I've gained a deeper appreciation for the end-to-end experience of shipping a product, from ideation and design to development, deployment, and iteration.
     </p>
-  
+
     <a href="/assets/files/Chase_Pittman_Resume.pdf" class="resume-button" target="_blank">Download Resume</a>
-    
-    <!-- Skills -->
+
+    <!-- ===== TIMELINE — moved above Skills/Tools ===== -->
+    <h2>Experience &amp; Leadership</h2>
+
+    <div class="timeline-container">
+
+      <!-- Dropdown toggle -->
+      <div class="timeline-toggle-dropdown">
+        <select id="timeline-toggle" class="toggle-dropdown">
+          <option value="quarters" selected>Quarters</option>
+          <option value="months">Months</option>
+        </select>
+      </div>
+
+      <!-- Scroll wrapper -->
+      <div class="timeline-scroll-area" id="timeline-scroll-area">
+        <div class="timeline-inner" id="timeline-inner">
+
+          <!-- Header row: stub + years/labels -->
+          <div class="timeline-header-row">
+            <div class="timeline-header-stub"></div>
+            <div class="timeline-top-bar">
+              <div class="timeline-years" id="timeline-years">
+                <span>2020</span>
+                <span>2021</span>
+                <span>2022</span>
+                <span>2023</span>
+                <span>2024</span>
+                <span>2025</span>
+                <span>2026</span>
+              </div>
+              <div class="timeline-months" id="timeline-months"></div>
+            </div>
+          </div>
+
+          <!-- ===== WATERWORKS ===== -->
+          <div class="timeline-row">
+            <div class="timeline-logo-container">
+              <img src="/assets/logos/timeline/waterworks.png" class="timeline-logo" alt="Waterworks logo">
+              <div class="company-name">Waterworks</div>
+            </div>
+            <div class="timeline-bars">
+
+              <div class="timeline-bar" data-start="29" data-end="63" style="background:#16a085;">
+                Product Mgmt Coordinator
+                <span class="tooltip-content">Built dashboards for 20+ product collections, maintaining 100K+ records with 99%+ accuracy.</span>
+              </div>
+
+              <div class="timeline-bar" data-start="63" data-end="present" style="background:#1abc9c;">
+                Associate Product Manager
+                <span class="tooltip-content">Lead weekly business performance reviews across seven categories, contributing to 21% revenue growth.</span>
+              </div>
+
+              <!-- Stacked below: Founder role -->
+              <div class="timeline-bar" data-start="51" data-end="present" data-force-row="1" style="background:#148f77;">
+                Founder — Early Career Group
+                <span class="tooltip-content">Founded internal early-career community, launched mentorship program, and organized speaker events.</span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ===== UNIVERSITY OF MICHIGAN ===== -->
+          <div class="timeline-row">
+            <div class="timeline-logo-container">
+              <img src="/assets/logos/timeline/umich.png" class="timeline-logo" alt="University of Michigan logo">
+              <div class="company-name">University of Michigan</div>
+            </div>
+            <div class="timeline-bars">
+
+              <div class="timeline-bar" data-start="0" data-end="27" style="background:#2980b9;">
+                B.A. in Economics, Minor in Entrepreneurship
+                <span class="tooltip-content">GPA: 3.8/4.0 · University Honors (3×) · President, Enactus Consulting Club · Published in University of Michigan newsletter</span>
+              </div>
+
+              <!-- Alumni Board forced to row 2 -->
+              <div class="timeline-bar" data-start="38" data-end="present" data-force-row="1" style="background:#1f6fa3;">
+                NYC Alumni Board Member &amp; Sports Chair
+                <span class="tooltip-content">Lead NYC alumni sports programming and partnerships.</span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ===== SPECIAL OLYMPICS ===== -->
+          <div class="timeline-row">
+            <div class="timeline-logo-container">
+              <img src="/assets/logos/timeline/specialolympics.png" class="timeline-logo" alt="Special Olympics logo">
+              <div class="company-name">Special Olympics</div>
+            </div>
+            <div class="timeline-bars">
+
+              <div class="timeline-bar" data-start="41" data-end="present" style="background:#8e44ad;">
+                NYC Leadership Council Member
+                <span class="tooltip-content">Support statewide fundraising and strategic leadership initiatives.</span>
+              </div>
+
+              <!-- New bar: Athlete Mentor, starting Oct 2024 (index 57) -->
+              <div class="timeline-bar" data-start="57" data-end="present" data-force-row="1" style="background:#6c3483;">
+                Downstate NY Athlete Mentor &amp; Leadership Council Member
+                <span class="tooltip-content">Mentor an athlete 1:1 alongside ongoing Leadership Council work.</span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ===== LARTA ===== -->
+          <div class="timeline-row">
+            <div class="timeline-logo-container">
+              <img src="/assets/logos/timeline/larta.png" class="timeline-logo" alt="Larta Institute logo">
+              <div class="company-name">Larta Institute</div>
+            </div>
+            <div class="timeline-bars">
+              <div class="timeline-bar" data-start="16" data-end="20" style="background:#c0392b;">
+                Program Mgmt Intern
+                <span class="tooltip-content">Tracked KPIs for 1,000+ startups and streamlined reporting.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== XPANSE ===== -->
+          <div class="timeline-row">
+            <div class="timeline-logo-container">
+              <img src="/assets/logos/timeline/xpanse.png" class="timeline-logo" alt="Xpanse AI logo">
+              <div class="company-name">Xpanse AI</div>
+            </div>
+            <div class="timeline-bars">
+              <div class="timeline-bar" data-start="5" data-end="8" style="background:#d35400;">
+                Business Ops Intern
+                <span class="tooltip-content">Researched predictive analytics across sports organizations.</span>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /timeline-inner -->
+      </div><!-- /timeline-scroll-area -->
+    </div><!-- /timeline-container -->
+
+    <!-- ===== SKILLS ===== -->
     <h2>Skills</h2>
-  
     <div class="card-box skills">
-      <!-- Repeat for each skill -->
+
       <div class="skill">
-        
-        <!-- Credly clickable badge -->
         <a class="credly-wrapper"
            href="https://www.credly.com/badges/782f64ae-289b-4d80-b0fb-34d0ff8e6f04"
            target="_blank">
-      
           <div class="credly-tooltip">Core Product Certified</div>
-      
           <div class="credly-badge">
             <img src="/assets/logos/skills/credly.png" alt="Core Product Certified badge (Credly)">
           </div>
-      
         </a>
-        
         <img src="/assets/logos/skills/smartsheet.png" alt="Smartsheet">
         <span>Smartsheet</span>
         <div class="dots">
           <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
         </div>
       </div>
-  
+
       <div class="skill">
         <img src="/assets/logos/skills/office.png" alt="MS Office">
         <span>MS Office</span>
@@ -634,7 +732,7 @@
           <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
         </div>
       </div>
-  
+
       <div class="skill">
         <img src="/assets/logos/skills/ga4.png" alt="GA4">
         <span>GA4</span>
@@ -642,7 +740,7 @@
           <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span>
         </div>
       </div>
-  
+
       <div class="skill">
         <img src="/assets/logos/skills/sql.png" alt="SQL">
         <span>SQL</span>
@@ -650,7 +748,7 @@
           <span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
         </div>
       </div>
-  
+
       <div class="skill">
         <img src="/assets/logos/skills/asana.png" alt="Asana">
         <span>Asana</span>
@@ -658,7 +756,7 @@
           <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
         </div>
       </div>
-  
+
       <div class="skill">
         <img src="/assets/logos/skills/sap.png" alt="SAP BO">
         <span>SAP BO</span>
@@ -666,9 +764,10 @@
           <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
         </div>
       </div>
+
     </div>
-  
-    <!-- Tools Used -->
+
+    <!-- ===== TOOLS USED ===== -->
     <h2>Tools Used</h2>
     <div class="tools-card">
       <div class="tool"><img src="/assets/logos/tools/chatgpt.png" alt="ChatGPT"><span>ChatGPT</span></div>
@@ -678,282 +777,221 @@
       <div class="tool"><img src="/assets/logos/tools/cloudflare.png" alt="CloudFlare"><span>CloudFlare</span></div>
       <div class="tool"><img src="/assets/logos/tools/figma.png" alt="Figma"><span>Figma</span></div>
     </div>
-    
-    <!-- Timeline -->
-    <h2>Experience & Leadership</h2>
-    
-    <div class="timeline-container">
-  
-      <!-- Dropdown toggle -->
-      <div class="timeline-toggle-dropdown">
-        <select id="timeline-toggle" class="toggle-dropdown">
-          <option value="quarters" selected>Quarters</option>
-          <option value="months">Months</option>
-        </select>
-      </div>
-      
-      <div class="timeline-inner">
-        <!-- Years + Months -->
-        <div class="timeline-top-bar">
-          <!-- Years -->
-          <div class="timeline-years">
-            <span>2020</span>
-            <span>2021</span>
-            <span>2022</span>
-            <span>2023</span>
-            <span>2024</span>
-            <span>2025</span>
-            <span>2026</span>
-          </div>
-        
-          <!-- Months -->
-          <div class="timeline-months"></div>
-        </div>
-  
-        <!-- WATERWORKS -->
-        <div class="timeline-row">
-          <div class="timeline-logo-container">
-            <img src="/assets/logos/timeline/waterworks.png" class="timeline-logo" alt="Waterworks logo">
-            <div class="company-name">Waterworks</div>
-          </div>
-          <div class="timeline-bars">
-    
-            <div class="timeline-bar" data-start="29" data-end="63" style="background:#16a085;">
-              Product Mgmt Coordinator
-              <div class="tooltip-container">
-                Built dashboards for 20+ product collections, maintaining 100K+ records with 99%+ accuracy.
-              </div>
-            </div>
-            
-            <div class="timeline-bar" data-start="63" data-end="72" style="background:#1abc9c;">
-              Associate Product Manager
-              <div class="tooltip-container">
-                Lead weekly business performance reviews across seven categories, contributing to 21% revenue growth.
-              </div>
-            </div>
-            
-            <div class="timeline-bar" data-start="51" data-end="72" style="top: 50%; background:#1abc9c;">
-              Founder — Early Career Group
-              <div class="tooltip-container">
-                Founded internal early-career community, launched mentorship program, and organized speaker events.
-              </div>
-            </div>
-          </div>
-        </div>
-    
-        <!-- UNIVERSITY OF MICHIGAN -->
-        <div class="timeline-row">
-          <div class="timeline-logo-container">
-            <img src="/assets/logos/timeline/umich.png" class="timeline-logo" alt="University of Michigan logo">
-            <div class="company-name">University of Michigan</div>
-          </div>
-        
-          <div class="timeline-bars">
-        
-            <!-- UMich Undergrad -->
-            <!-- Displayed portion: Jan 2020 → Apr 2022 -->
-            <div class="timeline-bar" data-start="0" data-end="27" style="background:#2980b9;">
-              B.A. in Economics, Minor in Entrepreneurship
-              <div class="tooltip-container">
-                GPA: 3.8/4.0<br>
-                University Honors (3x)<br>
-                President, Enactus Consulting Club<br>
-                Published in University of Michigan newsletter
-              </div>
-            </div>
-        
-            <!-- UMich Alumni Board -->
-            <!-- Mar 2023 = index 38 -->
-            <div class="timeline-bar" data-start="38" data-end="72" style="background:#2980b9;">
-              NYC Alumni Board Member & Sports Chair
-              <div class="tooltip-container">
-                Lead NYC alumni sports programming and partnerships.
-              </div>
-            </div>
-        
-          </div>
-        </div>
-    
-        <!-- SPECIAL OLYMPICS -->
-        <div class="timeline-row">
-          <div class="timeline-logo-container">
-            <img src="/assets/logos/timeline/specialolympics.png" class="timeline-logo" alt="Special Olympics logo">
-            <div class="company-name">Special Olympics</div>
-          </div>
-          <div class="timeline-bars">
-            <div class="timeline-bar" data-start="41" data-end="72" style="background:#8e44ad;">
-              Peer Mentor & Leadership Council Member
-              <div class="tooltip-container">
-                Mentor an athlete 1:1 and support statewide fundraising.
-              </div>
-            </div>
-          </div>
-        </div>
-    
-        <!-- LARTA -->
-        <div class="timeline-row">
-          <div class="timeline-logo-container">
-            <img src="/assets/logos/timeline/larta.png" class="timeline-logo" alt="Larta Institute logo">
-            <div class="company-name">Larta Institute</div>
-          </div>
-          <div class="timeline-bars">
-            <div class="timeline-bar" data-start="16" data-end="20" style="background:#c0392b;">
-              Program Mgmt Intern
-              <div class="tooltip-container">
-                Tracked KPIs for 1,000+ startups and streamlined reporting.
-              </div>
-            </div>
-          </div>
-        </div>
-    
-        <!-- XPANSE -->
-        <div class="timeline-row">
-          <div class="timeline-logo-container">
-            <img src="/assets/logos/timeline/xpanse.png" class="timeline-logo" alt="Xpanse AI logo">
-            <div class="company-name">Xpanse AI</div>
-          </div>
-          <div class="timeline-bars">
-            <div class="timeline-bar" data-start="5" data-end="8" style="background:#d35400;">
-              Business Ops Intern
-              <div class="tooltip-container">
-                Researched predictive analytics across sports organizations.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
+  </div><!-- /content -->
+</div><!-- /page-wrapper -->
+
+<!-- ===== SCRIPTS ===== -->
 <script>
-// Get timeline elements
-const monthsContainer = document.querySelector('.timeline-months');
-const timelineBars = document.querySelectorAll('.timeline-bar');
-const totalYears = document.querySelectorAll('.timeline-years span').length;
-const monthLabels = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-const timelineToggle = document.getElementById('timeline-toggle');
-const timelineContainer = document.querySelector('.timeline-container');
+  // ── Present index ──────────────────────────────────────────
+  const TIMELINE_START_YEAR  = 2020;
+  const now                  = new Date();
+  const PRESENT_INDEX        = (now.getFullYear() - TIMELINE_START_YEAR) * 12 + now.getMonth();
 
-const ROW_HEIGHT = 40; // height of stacked bars
+  // Resolve "present" data-end values to the current month index
+  document.querySelectorAll('.timeline-bar[data-end="present"]').forEach(bar => {
+    bar.dataset.end = PRESENT_INDEX;
+  });
 
-// Helper: stack bars vertically so they don't overlap
-function stackBars() {
-  const rows = document.querySelectorAll('.timeline-row');
-  rows.forEach(row => {
-    const bars = row.querySelectorAll('.timeline-bar');
-    const occupied = [];
-    bars.forEach(bar => {
-      const start = parseFloat(bar.dataset.start);
-      const end = parseFloat(bar.dataset.end);
-      let topOffset = 0;
-      while (occupied.some(range => (start < range.end && end > range.start && range.top === topOffset))) {
-        topOffset += ROW_HEIGHT;
-      }
-      bar.style.top = `${topOffset}px`;
-      occupied.push({ start, end, top: topOffset });
+  // ── Constants ──────────────────────────────────────────────
+  const TOTAL_YEARS  = 7;   // 2020 – 2026
+  const BAR_HEIGHT   = 34;
+  const ROW_GAP      = 6;   // px between stacked bars
+  const MONTH_PX     = 40;  // px per month column (months mode)
+  const QUARTER_PX   = 40;  // px per quarter column (quarters mode — 1/3 total width)
+  const LOGO_COL_W   = 130; // px — must match CSS width of .timeline-logo-container
+
+  const scrollArea       = document.getElementById('timeline-scroll-area');
+  const timelineInner    = document.getElementById('timeline-inner');
+  const timelineYears    = document.getElementById('timeline-years');
+  const monthsContainer  = document.getElementById('timeline-months');
+  const timelineToggle   = document.getElementById('timeline-toggle');
+  const globalTooltip    = document.getElementById('global-tooltip');
+  const monthLabels      = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const allBars          = document.querySelectorAll('.timeline-bar');
+
+  // ── Stack bars vertically to prevent overlap ───────────────
+  function stackBars() {
+    document.querySelectorAll('.timeline-row').forEach(row => {
+      const bars     = row.querySelectorAll('.timeline-bar');
+      const barsArea = row.querySelector('.timeline-bars');
+      const occupied = [];
+      let maxBottom  = 0;
+
+      bars.forEach(bar => {
+        const start = parseFloat(bar.dataset.start);
+        const end   = parseFloat(bar.dataset.end);
+
+        let topOffset;
+        if (bar.dataset.forceRow !== undefined) {
+          // Honour explicit row placement
+          topOffset = parseInt(bar.dataset.forceRow, 10) * (BAR_HEIGHT + ROW_GAP);
+        } else {
+          topOffset = 0;
+          while (occupied.some(r => r.top === topOffset && start < r.end && end > r.start)) {
+            topOffset += BAR_HEIGHT + ROW_GAP;
+          }
+        }
+
+        bar.style.top = `${topOffset}px`;
+        occupied.push({ start, end, top: topOffset });
+        maxBottom = Math.max(maxBottom, topOffset + BAR_HEIGHT);
+      });
+
+      // Expand bars area to contain all stacked bars
+      if (barsArea) barsArea.style.minHeight = `${maxBottom + 12}px`;
+    });
+  }
+
+  // ── Draw vertical grid lines on each bars area ─────────────
+  function drawGridOnBars(columnWidth) {
+    document.querySelectorAll('.timeline-bars').forEach(area => {
+      area.style.backgroundImage = `repeating-linear-gradient(
+        to right,
+        rgba(85,95,105,0.45),
+        rgba(85,95,105,0.45) 1px,
+        transparent 1px,
+        transparent ${columnWidth}px
+      )`;
+      area.style.backgroundSize  = `${columnWidth}px 100%`;
+      area.style.backgroundPositionX = '0';
+    });
+  }
+
+  // ── Set inner + year widths ────────────────────────────────
+  function setWidths(totalBarsPx) {
+    const totalInnerPx = totalBarsPx; // logo col is sticky, not in flow
+    timelineInner.style.width = `${LOGO_COL_W + totalBarsPx}px`;
+  }
+
+  // ── BUILD: MONTHS ──────────────────────────────────────────
+  function buildMonths() {
+    const totalMonths = TOTAL_YEARS * 12;
+    const totalBarsPx = totalMonths * MONTH_PX;
+
+    // Quarters/months row labels
+    monthsContainer.innerHTML = '';
+    for (let i = 0; i < totalMonths; i++) {
+      const span = document.createElement('span');
+      span.textContent = monthLabels[i % 12];
+      monthsContainer.appendChild(span);
+    }
+    monthsContainer.style.gridTemplateColumns = `repeat(${totalMonths}, ${MONTH_PX}px)`;
+
+    // Year spans
+    timelineYears.style.gridTemplateColumns = `repeat(${TOTAL_YEARS}, ${12 * MONTH_PX}px)`;
+
+    // Position bars (month units → px)
+    allBars.forEach(bar => {
+      const s = parseInt(bar.dataset.start, 10);
+      const e = parseInt(bar.dataset.end,   10);
+      bar.style.left  = `${s * MONTH_PX}px`;
+      bar.style.width = `${(e - s) * MONTH_PX}px`;
+    });
+
+    setWidths(totalBarsPx);
+    drawGridOnBars(MONTH_PX);
+    stackBars();
+  }
+
+  // ── BUILD: QUARTERS ────────────────────────────────────────
+  function buildQuarters() {
+    const totalQuarters = TOTAL_YEARS * 4;
+    const totalBarsPx   = totalQuarters * QUARTER_PX;
+
+    // Quarter labels
+    monthsContainer.innerHTML = '';
+    for (let i = 0; i < totalQuarters; i++) {
+      const span = document.createElement('span');
+      span.textContent = `Q${(i % 4) + 1}`;
+      monthsContainer.appendChild(span);
+    }
+    monthsContainer.style.gridTemplateColumns = `repeat(${totalQuarters}, ${QUARTER_PX}px)`;
+
+    // Year spans
+    timelineYears.style.gridTemplateColumns = `repeat(${TOTAL_YEARS}, ${4 * QUARTER_PX}px)`;
+
+    // Position bars (month units → quarter px)
+    allBars.forEach(bar => {
+      const s = parseInt(bar.dataset.start, 10);
+      const e = parseInt(bar.dataset.end,   10);
+      // Convert month indices to quarter fractions
+      const startQ = s / 3;
+      const endQ   = e / 3;
+      bar.style.left  = `${startQ * QUARTER_PX}px`;
+      bar.style.width = `${(endQ - startQ) * QUARTER_PX}px`;
+    });
+
+    setWidths(totalBarsPx);
+    drawGridOnBars(QUARTER_PX);
+    stackBars();
+  }
+
+  function updateTimeline() {
+    timelineToggle.value === 'months' ? buildMonths() : buildQuarters();
+  }
+
+  updateTimeline();
+  timelineToggle.addEventListener('change', updateTimeline);
+
+  // ── Tooltip: viewport-aware, below bar ────────────────────
+  function getVisibleCenter(bar) {
+    const barRect       = bar.getBoundingClientRect();
+    const scrollRect    = scrollArea.getBoundingClientRect();
+    // Account for sticky logo col on left
+    const leftBound     = scrollRect.left + LOGO_COL_W;
+    const rightBound    = scrollRect.right;
+
+    const visLeft  = Math.max(barRect.left,  leftBound);
+    const visRight = Math.min(barRect.right, rightBound);
+
+    if (visRight <= visLeft) return null; // bar not visible
+
+    return {
+      centerX : (visLeft + visRight) / 2,
+      bottom  : barRect.bottom,
+      leftBound,
+      rightBound
+    };
+  }
+
+  function positionTooltip(bar) {
+    const vis = getVisibleCenter(bar);
+    if (!vis) { globalTooltip.style.display = 'none'; return; }
+
+    globalTooltip.style.display = 'block';
+    const tw = globalTooltip.offsetWidth;
+
+    let left = vis.centerX - tw / 2;
+    left = Math.max(vis.leftBound, Math.min(left, vis.rightBound - tw));
+
+    globalTooltip.style.left = `${left}px`;
+    globalTooltip.style.top  = `${vis.bottom + 10}px`;
+  }
+
+  allBars.forEach(bar => {
+    const contentEl = bar.querySelector('.tooltip-content');
+    const text = contentEl ? contentEl.innerHTML : '';
+
+    bar.addEventListener('mouseenter', () => {
+      if (!text) return;
+      globalTooltip.innerHTML = text;
+      positionTooltip(bar);
+    });
+
+    bar.addEventListener('mouseleave', () => {
+      globalTooltip.style.display = 'none';
     });
   });
-}
 
-// Build timeline in MONTHS mode
-function buildMonths() {
-  monthsContainer.innerHTML = '';
-  const columnWidth = 40; // px per month
-  const totalColumns = totalYears * 12;
-
-  // Add month labels
-  for (let i = 0; i < totalColumns; i++) {
-    const span = document.createElement('span');
-    span.textContent = monthLabels[i % 12];
-    monthsContainer.appendChild(span);
-  }
-  monthsContainer.style.gridTemplateColumns = `repeat(${totalColumns}, ${columnWidth}px)`;
-
-  // Update year widths
-  const yearsContainer = document.querySelector('.timeline-years');
-  yearsContainer.style.gridTemplateColumns = `repeat(${totalYears}, ${12 * columnWidth}px)`;
-
-  // Position bars
-  timelineBars.forEach(bar => {
-    const start = parseInt(bar.dataset.start, 10);
-    const end = parseInt(bar.dataset.end, 10);
-    bar.style.left = `${start * columnWidth}px`;
-    bar.style.width = `${(end - start) * columnWidth}px`;
+  // Re-position on scroll (handles scroll inside timeline)
+  scrollArea.addEventListener('scroll', () => {
+    const hoveredBar = document.querySelector('.timeline-bar:hover');
+    if (hoveredBar) positionTooltip(hoveredBar);
+    else globalTooltip.style.display = 'none';
   });
 
-  // Shrink/expand timeline inner
-  document.querySelector('.timeline-inner').style.width = `${totalColumns * columnWidth}px`;
-  
-  drawGrid(totalColumns, columnWidth);
-  stackBars();
-}
-
-// Build timeline in QUARTERS mode
-function buildQuarters() {
-  monthsContainer.innerHTML = '';
-  const monthsPerQuarter = 3;
-  const columnWidth = 40 * monthsPerQuarter; // width per quarter
-  const totalColumns = totalYears * 4;
-
-  // Add quarter labels
-  for (let i = 0; i < totalColumns; i++) {
-    const span = document.createElement('span');
-    span.textContent = `Q${(i % 4) + 1}`;
-    monthsContainer.appendChild(span);
-  }
-  monthsContainer.style.gridTemplateColumns = `repeat(${totalColumns}, ${columnWidth}px)`;
-
-  // Update year widths
-  const yearsContainer = document.querySelector('.timeline-years');
-  yearsContainer.style.gridTemplateColumns = `repeat(${totalYears}, ${4 * columnWidth}px)`;
-
-  // Position bars
-  timelineBars.forEach(bar => {
-    const start = parseInt(bar.dataset.start, 10);
-    const end = parseInt(bar.dataset.end, 10);
-    // Convert month index to quarter index
-    const startQuarter = start / monthsPerQuarter;
-    const endQuarter = end / monthsPerQuarter;
-    bar.style.left = `${startQuarter * columnWidth}px`;
-    bar.style.width = `${(endQuarter - startQuarter) * columnWidth}px`;
-  });
-
-  // Shrink timeline inner to match quarters
-  document.querySelector('.timeline-inner').style.width = `${totalColumns * columnWidth}px`;
-  
-  drawGrid(totalColumns, columnWidth);
-  stackBars();
-}
-
-// Draw vertical grid lines
-function drawGrid(totalColumns, columnWidth) {
-  timelineContainer.style.backgroundImage = `repeating-linear-gradient(
-    to right,
-    #555,
-    #555 1px,
-    transparent 1px,
-    transparent ${columnWidth}px
-  )`;
-}
-
-// Switch timeline view based on dropdown
-function updateTimeline() {
-  const mode = timelineToggle.value;
-  if (mode === 'months') {
-    buildMonths();
-  } else {
-    buildQuarters();
-  }
-}
-
-// Initialize timeline
-updateTimeline();
-timelineToggle.addEventListener('change', updateTimeline);
-
-</script>
-
-<script>
+  // ── Sidebar ───────────────────────────────────────────────
   const hamburger   = document.getElementById('hamburger');
   const sidebar     = document.getElementById('sidebar');
   const overlay     = document.getElementById('overlay');
@@ -981,9 +1019,7 @@ timelineToggle.addEventListener('change', updateTimeline);
   document.querySelectorAll('.sidebar a').forEach(link => {
     link.addEventListener('click', closeSidebar);
   });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeSidebar();
-  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
 </script>
 
 </body>
