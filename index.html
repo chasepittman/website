@@ -16,7 +16,7 @@
       margin: 0;
       overflow-x: hidden;
     }
-    
+
     body {
       margin: 0;
       padding-top: 0;
@@ -33,6 +33,7 @@
       font-weight: 600;
     }
 
+    /* ── NAVBAR ──────────────────────────────────────────────── */
     .navbar {
       display: flex;
       align-items: center;
@@ -48,7 +49,7 @@
       transition: transform 0.3s ease;
       min-height: 100vh;
     }
-    
+
     .nav-left {
       display: flex;
       align-items: center;
@@ -63,11 +64,9 @@
       text-decoration: none;
       color: inherit;
     }
-    
-    .logo-link:hover {
-      opacity: 0.9;
-    }
-    
+
+    .logo-link:hover { opacity: 0.9; }
+
     .nav-left .logo {
       font-size: 20px;
       font-weight: bold;
@@ -75,27 +74,23 @@
       color: white;
       white-space: nowrap;
     }
-    
-    .logo-img {
-      height: 36px;
-      width: auto;
-    }
 
-    /* ADD — nav-right social icons */
+    .logo-img { height: 36px; width: auto; }
+
     .nav-right {
       display: flex;
       justify-content: flex-end;
       gap: 18px;
       margin-left: auto;
     }
-    
+
     .nav-right img {
       width: 26px;
       height: auto;
       opacity: 0.85;
       transition: opacity 0.2s, transform 0.2s;
     }
-    
+
     .nav-right a:hover img {
       opacity: 1;
       transform: translateY(-2px);
@@ -110,36 +105,20 @@
       cursor: pointer;
       margin-right: 18px;
     }
-    
+
     .hamburger div {
       height: 3px;
       background-color: white;
       border-radius: 2px;
       transition: all 0.3s ease;
     }
-    
-    /* Hamburger → X animation */
-    .hamburger.active div:nth-child(1) {
-      transform: translateY(8.5px) rotate(45deg);
-    }
-    .hamburger.active div:nth-child(2) {
-      opacity: 0;
-    }
-    .hamburger.active div:nth-child(3) {
-      transform: translateY(-8.5px) rotate(-45deg);
-    }
-    
-    :root {
-      --sidebar-width: 260px;
-    }
 
-    /*
-      KEY FIX: Sidebar and overlay must live OUTSIDE of page-wrapper.
-      When a CSS transform is applied to an element, any position:fixed
-      children are positioned relative to that element instead of the
-      viewport — causing them to shift with the page. Moving them outside
-      fixes this.
-    */
+    .hamburger.active div:nth-child(1) { transform: translateY(8.5px)  rotate(45deg);  }
+    .hamburger.active div:nth-child(2) { opacity: 0; }
+    .hamburger.active div:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
+
+    :root { --sidebar-width: 260px; }
+
     .sidebar {
       position: fixed;
       top: 0;
@@ -155,11 +134,9 @@
       transition: transform 0.3s ease;
       z-index: 1300;
     }
-    
-    .sidebar.open {
-      transform: translateX(0);
-    }
-    
+
+    .sidebar.open { transform: translateX(0); }
+
     .sidebar a {
       color: #f4f4f4;
       text-decoration: none;
@@ -167,7 +144,7 @@
       padding: 12px 24px;
       transition: background 0.3s;
     }
-    
+
     .sidebar a:hover {
       background-color: #1abc9c;
       color: #222;
@@ -183,25 +160,13 @@
       transition: opacity 0.3s ease;
       z-index: 1050;
     }
-    
+
     .overlay.active {
       opacity: 1;
       pointer-events: auto;
     }
-    
-    .content {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px;
-      text-align: center;
-    }
 
-    .content img {
-      max-width: 100%;
-      height: auto;
-      margin-top: 20px;
-    }
-
+    /* ── SPOTIFY WIDGET ──────────────────────────────────────── */
     .spotify-widget {
       position: fixed;
       bottom: 20px;
@@ -212,11 +177,16 @@
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
       overflow: visible;
-      padding: 16px 16px 16px 16px;
-      transition: width 0.5s ease, height 0.5s ease, right 0.5s ease, border-radius 0.5s ease;
+      padding: 16px;
+      /* right is included so the slide-in/out animates */
+      transition: width 0.5s ease, height 0.5s ease, right 0.5s ease,
+                  border-radius 0.5s ease, opacity 0.5s ease;
       z-index: 900;
     }
-    
+
+    /* Fully off-screen to the right */
+    .spotify-widget.hidden { right: -380px; }
+
     .spotify-label {
       display: block;
       padding: 2px 0 6px 0;
@@ -225,7 +195,7 @@
       text-align: center;
       font-family: 'Poppins', Arial, sans-serif;
     }
-    
+
     .spotify-widget iframe {
       width: 100%;
       height: 80px;
@@ -235,7 +205,7 @@
       pointer-events: auto;
       border: none;
     }
-    
+
     #spotify-toggle {
       position: absolute;
       top: 50%;
@@ -250,7 +220,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0 0 1px 3px;
+      padding: 0;
       line-height: 1;
       cursor: pointer;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
@@ -258,82 +228,167 @@
       transition: left 0.5s ease, transform 0.3s ease;
       border: none;
     }
-    
-    #spotify-toggle:hover {
-      transform: translateY(-50%) scale(1.1);
-    }
-    
+
+    #spotify-toggle:hover { transform: translateY(-50%) scale(1.1); }
+
     .spotify-widget.collapsed {
       width: 40px;
       height: 40px;
       padding: 0;
       border-radius: 50%;
       overflow: visible;
-      right: 0;
+      right: 20px;
       background: #1a1a1a;
-      box-shadow: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-    
+
     .spotify-widget.collapsed iframe,
     .spotify-widget.collapsed .spotify-label {
       opacity: 0;
       pointer-events: none;
       display: none;
     }
-    
+
     .spotify-widget.collapsed #spotify-toggle {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) rotate(180deg);
     }
 
-    /* MOBILE: hide navbar text, keep logo */
+    /* MOBILE: hide navbar text */
     @media (max-width: 768px) {
-      .logo-link .logo {
-        display: none;
-      }
+      .logo-link .logo { display: none; }
     }
 
-    /* ─── SPOTIFY WIDGET — hidden state for auto-peek ──────────── */
-    .spotify-widget.hidden {
-      right: -380px;
+    /* ── CONTENT WRAPPER ─────────────────────────────────────── */
+    .content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+      text-align: center;
     }
 
-    /* ─── HERO CAROUSEL ────────────────────────────────────────── */
+    /* ── HERO INTRO ──────────────────────────────────────────── */
+    .hero-intro {
+      padding: 60px 20px 36px;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 76px;
+      font-weight: 700;
+      margin: 0 0 14px;
+      color: #f4f4f4;
+      line-height: 1.08;
+      /* letters are inline-block spans, so wrap is needed */
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0;
+    }
+
+    /* Each letter is a span injected by JS */
+    .hero-letter {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: letterIn 0.9s ease forwards;
+    }
+
+    /* Word-gap span — invisible but preserves spacing */
+    .hero-space {
+      display: inline-block;
+      width: 0.28em;
+    }
+
+    @keyframes letterIn {
+      0%   { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0);    }
+    }
+
+    /* Subtext fades in after the title finishes */
+    .hero-sub {
+      font-family: 'Poppins', sans-serif;
+      font-size: 19px;
+      color: #8fa4b2;
+      margin: 0;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: heroSubFadeIn 0.7s ease forwards;
+      /* delay is set inline by JS once title length is known */
+    }
+
+    @keyframes heroSubFadeIn {
+      0%   { opacity: 0; transform: translateY(6px); }
+      100% { opacity: 1; transform: translateY(0);   }
+    }
+
+    .hero-dot {
+      font-size: 26px;
+      color: #1abc9c;
+      vertical-align: middle;
+      margin: 0 10px;
+      line-height: 1;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 22px;
+      background-color: #1abc9c;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      text-decoration: none;
+      border-radius: 25px;
+      border: none;
+      opacity: 0;
+      animation: heroSubFadeIn 0.7s ease forwards;
+      transition: background-color 0.3s;
+    }
+
+    .hero-cta:hover {
+      background-color: #148f77;
+    }
+
+    /* ── HERO CAROUSEL ───────────────────────────────────────── */
     .hero-carousel {
       width: 100%;
-      margin: 56px 0 10px;
+      margin: 44px 0 16px;
       user-select: none;
     }
 
-    /* clips far slides while showing ~10% of neighbors */
+    /*
+      The clip constrains visible width and hides overflow.
+      Neighbors are revealed by the JS-calculated offset that
+      leaves PEEK_RATIO of the clip on each side uncovered.
+    */
     .carousel-clip {
-      width: 88%;
-      max-width: 1200px;
+      width: 96%;
+      max-width: 1240px;
       margin: 0 auto;
       overflow: hidden;
-      border-radius: 14px;
+      border-radius: 16px;
     }
 
-    .carousel-stage {
-      perspective: 1500px;
-      perspective-origin: 50% 40%;
-    }
-
+    /* Track: flexbox row of slides. Width & transitions set by JS. */
     .carousel-track {
       display: flex;
       align-items: flex-start;
-      /* transition is set dynamically in JS */
       will-change: transform;
     }
 
-    /* Each slide occupies 80% of clip width (78% + 1% margin each side) */
+    /*
+      Base slide — flex-basis, width, and horizontal margin are
+      all set in JS to pixel values derived from clipWidth so
+      percentages never resolve against the track's larger width.
+    */
     .carousel-slide {
-      flex: 0 0 78%;
-      margin: 0 1%;
-      transform-origin: center center;
+      flex-shrink: 0;
       transition: transform 0.65s cubic-bezier(0.45, 0.05, 0.55, 0.95),
-                  filter 0.35s ease,
+                  filter  0.35s ease,
                   opacity 0.65s ease;
       cursor: grab;
       outline: none;
@@ -341,30 +396,48 @@
 
     .carousel-slide:active { cursor: grabbing; }
 
+    /* Images: block native drag so CSS drag handler fires cleanly */
     .carousel-slide img {
       width: 100%;
       height: auto;
       display: block;
       border-radius: 12px;
       box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+      -webkit-user-drag: none;
+      user-select: none;
+      pointer-events: none; /* drag handled by parent track */
     }
 
-    /* ── 3-D carousel states ─────────────────────────── */
+    /* Slide title — Poppins to match sidebar nav font */
+    .slide-title {
+      margin: 18px 0 0;
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: #c8d6de;
+      text-align: center;
+      letter-spacing: 0.025em;
+    }
+
+    /* ── 3-D carousel states ──────────────────────────────────── */
+    /* perspective() is applied per-element (not on a container) so
+       overflow:hidden on .carousel-clip never clips oddly. */
+
     .carousel-slide.c-active {
-      transform: rotateY(0deg) scale(1);
+      transform: perspective(1400px) rotateY(0deg) scale(1);
       opacity: 1;
       z-index: 3;
     }
 
     .carousel-slide.c-prev {
-      transform: rotateY(50deg) scale(0.80);
-      opacity: 0.72;
+      transform: perspective(1400px) rotateY(14deg) scale(0.87);
+      opacity: 0.68;
       z-index: 2;
     }
 
     .carousel-slide.c-next {
-      transform: rotateY(-50deg) scale(0.80);
-      opacity: 0.72;
+      transform: perspective(1400px) rotateY(-14deg) scale(0.87);
+      opacity: 0.68;
       z-index: 2;
     }
 
@@ -374,57 +447,49 @@
       z-index: 1;
     }
 
-    /* ── Title below each slide ──────────────────────── */
-    .slide-title {
-      margin: 18px 0 0;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 23px;
-      font-weight: 600;
-      color: #f4f4f4;
-      text-align: center;
-      letter-spacing: 0.03em;
-    }
-
-    /* ── Hover / tap pop & brighten ─────────────────── */
+    /* ── Hover / tap pop & brighten ──────────────────────────── */
     .carousel-slide.c-active:hover,
     .carousel-slide.c-active.tapped {
       filter: brightness(1.10);
-      transform: rotateY(0deg) scale(1.04);
+      transform: perspective(1400px) rotateY(0deg) scale(1.04);
     }
 
     .carousel-slide.c-prev:hover,
     .carousel-slide.c-prev.tapped {
-      filter: brightness(1.06);
-      transform: rotateY(46deg) scale(0.86);
+      filter: brightness(1.07);
+      transform: perspective(1400px) rotateY(12deg) scale(0.91);
     }
 
     .carousel-slide.c-next:hover,
     .carousel-slide.c-next.tapped {
-      filter: brightness(1.06);
-      transform: rotateY(-46deg) scale(0.86);
+      filter: brightness(1.07);
+      transform: perspective(1400px) rotateY(-12deg) scale(0.91);
     }
 
-    /* ── Controls row: arrows + dots ────────────────── */
+    /* ── Controls row: arrows flanking dots ──────────────────── */
     .carousel-controls {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 22px;
-      margin-top: 26px;
+      gap: 26px;
+      margin-top: 30px;
     }
 
     .carousel-btn {
-      width: 50px;
-      height: 50px;
+      width: 54px;
+      height: 54px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.10);
-      border: 2px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.09);
+      border: 2px solid rgba(255,255,255,0.20);
       color: #fff;
       font-size: 20px;
+      line-height: 1;
       cursor: pointer;
+      /* flex centres the unicode arrow glyph perfectly */
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 0;
       transition: background 0.25s, border-color 0.25s, transform 0.2s;
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
@@ -432,14 +497,14 @@
     }
 
     .carousel-btn:hover {
-      background: rgba(26,188,156,0.30);
+      background: rgba(26,188,156,0.28);
       border-color: #1abc9c;
-      transform: scale(1.12);
+      transform: scale(1.13);
     }
 
     .carousel-dots {
       display: flex;
-      gap: 9px;
+      gap: 10px;
       align-items: center;
     }
 
@@ -459,14 +524,87 @@
       transform: scale(1.35);
     }
 
-    /* ── Mobile ──────────────────────────────────────── */
-    @media (max-width: 768px) {
-      .carousel-clip  { width: 94%; }
-      .carousel-btn   { width: 40px; height: 40px; font-size: 17px; }
-      .slide-title    { font-size: 18px; }
-      .hero-carousel  { margin-top: 36px; }
+    /* ── MY LEARNINGS ────────────────────────────────────────── */
+    /* Mirrors the card-box / content styling from about.html */
+    .learnings-section {
+      max-width: 900px;
+      margin: 64px auto 20px;
+      text-align: left;
     }
-    
+
+    .learnings-section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 600;
+      color: #f4f4f4;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .learnings-box {
+      background-color: #2e3740;
+      padding: 28px 36px;
+      border-radius: 12px;
+    }
+
+    .learnings-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .learnings-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      color: #e0e0e0;
+    }
+
+    .learning-emoji {
+      font-size: 22px;
+      flex-shrink: 0;
+      /* aligns vertically with the bold hook text */
+      margin-top: 2px;
+    }
+
+    .learning-body {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .learning-hook {
+      font-weight: 700;
+      color: #f4f4f4;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .learning-detail {
+      font-weight: 400;
+      color: #c0cdd5;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ── MOBILE ──────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .hero-title        { font-size: 48px; }
+      .hero-sub          { font-size: 15px; }
+      .hero-carousel     { margin-top: 32px; }
+      .carousel-btn      { width: 44px; height: 44px; font-size: 17px; }
+      .learnings-box     { padding: 22px 20px; }
+      .learnings-list li { font-size: 14px; }
+      .learning-hook     { font-size: 14px; }
+      .learning-detail   { font-size: 13px; }
+    }
+
   </style>
 </head>
 <body>
@@ -500,7 +638,7 @@
         <div class="logo" id="logo-text">Chase Pittman | Portfolio</div>
       </a>
     </div>
-  
+
     <div class="nav-right">
       <a href="https://www.linkedin.com/in/chasepittman" target="_blank">
         <img src="/assets/logos/tools/linkedin.png" alt="LinkedIn">
@@ -517,46 +655,54 @@
     </div>
   </div>
 
-  <!-- Spotify Widget -->
-  <div class="spotify-widget" id="spotify-widget">
+  <!--
+    Spotify Widget — starts with class "hidden" (right: -380px).
+    JS removes "hidden" after 1.4s (slides in), then adds "collapsed"
+    after 5s (shrinks to pill). User's toggle button overrides at any time.
+  -->
+  <div class="spotify-widget hidden" id="spotify-widget">
     <iframe
       src="https://open.spotify.com/embed/album/3vhOUOy05eeQwq6EtxwnVW?utm_source=generator"
       frameborder="0"
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       loading="lazy">
     </iframe>
-    <button id="spotify-toggle" aria-label="Toggle Spotify Player">▶</button>
+    <button id="spotify-toggle" aria-label="Toggle Spotify Player">&#9654;</button>
   </div>
-  
+
   <!-- Everything that shifts right lives inside page-wrapper -->
   <div class="page-wrapper" id="page-wrapper">
-      
-    <!-- Main content -->
+
     <div class="content">
-      
-      <!-- Slide Carousel START -->
+
+      <!-- ── HERO INTRO ───────────────────────────────────── -->
+      <div class="hero-intro">
+        <h1 class="hero-title" id="hero-title">Hi, I'm Chase</h1>
+        <p class="hero-sub" id="hero-sub">Product Manager <span class="hero-dot">&bull;</span> Builder <span class="hero-dot">&bull;</span> Problem Solver</p>
+        <a href="/about.html" class="hero-cta">More About Me</a>
+      </div>
+
+      <!-- ── HERO CAROUSEL ─────────────────────────────────── -->
       <section class="hero-carousel">
 
-        <div class="carousel-clip">
-          <div class="carousel-stage">
-            <div class="carousel-track" id="carousel-track">
+        <div class="carousel-clip" id="carousel-clip">
+          <div class="carousel-track" id="carousel-track">
 
-              <div class="carousel-slide">
-                <img src="/assets/files/slides/Zoom_Office.png" alt="Zoom Office Concept">
-                <p class="slide-title">Zoom Office | Concept</p>
-              </div>
-
-              <div class="carousel-slide">
-                <img src="/assets/files/slides/Zoom_Office.png" alt="Project 2 Highlights">
-                <p class="slide-title">Project 2 Highlights</p>
-              </div>
-
-              <div class="carousel-slide">
-                <img src="/assets/files/slides/Zoom_Office.png" alt="Project 3 Summary">
-                <p class="slide-title">Project 3 Summary</p>
-              </div>
-
+            <div class="carousel-slide">
+              <img src="/assets/files/slides/Zoom_Office.png" alt="Zoom Office Concept" draggable="false">
+              <p class="slide-title">Zoom Office | Concept</p>
             </div>
+
+            <div class="carousel-slide">
+              <img src="/assets/slides/slide2.png" alt="Project 2 Highlights" draggable="false">
+              <p class="slide-title">Project 2 Highlights</p>
+            </div>
+
+            <div class="carousel-slide">
+              <img src="/assets/slides/slide3.png" alt="Project 3 Summary" draggable="false">
+              <p class="slide-title">Project 3 Summary</p>
+            </div>
+
           </div>
         </div>
 
@@ -567,37 +713,118 @@
         </div>
 
       </section>
-      <!-- Slide Carousel END -->
-  
-    </div>
 
-  </div> <!-- End page-wrapper -->
+      <!-- ── MY LEARNINGS ──────────────────────────────────── -->
+      <div class="learnings-section">
+        <h2>My Learnings</h2>
+        <div class="learnings-box">
+          <ul class="learnings-list">
+
+            <li>
+              <span class="learning-emoji">🚀</span>
+              <div class="learning-body">
+                <span class="learning-hook">Shipping beats perfecting.</span>
+                <span class="learning-detail">The fastest way to learn what users actually need is to put something real in front of them, even if it's rough around the edges. Iteration after launch beats pre-launch theorizing every single time.</span>
+              </div>
+            </li>
+
+            <li>
+              <span class="learning-emoji">🧱</span>
+              <div class="learning-body">
+                <span class="learning-hook">Building from scratch teaches you what templates hide.</span>
+                <span class="learning-detail">Starting with a blank file forced me to understand the fundamentals (structure, layout, performance) in a way no theme or boilerplate ever could have.</span>
+              </div>
+            </li>
+
+            <li>
+              <span class="learning-emoji">🔍</span>
+              <div class="learning-body">
+                <span class="learning-hook">Data tells you what. Empathy tells you why.</span>
+                <span class="learning-detail">Dashboards and metrics are essential, but the real insight comes from getting close to your users and understanding the story behind the numbers.</span>
+              </div>
+            </li>
+
+            <li>
+              <span class="learning-emoji">🤝</span>
+              <div class="learning-body">
+                <span class="learning-hook">Great products are built by great teams, not lone geniuses.</span>
+                <span class="learning-detail">The best ideas come from rooms where everyone felt safe enough to push back, and where the PM's job was to synthesize, not dictate.</span>
+              </div>
+            </li>
+
+            <li>
+              <span class="learning-emoji">🗺️</span>
+              <div class="learning-body">
+                <span class="learning-hook">A roadmap is a hypothesis, not a promise.</span>
+                <span class="learning-detail">Priorities shift, markets move, and users will always surprise you. The best PMs hold their plans loosely and stay anchored to the outcome rather than the output.</span>
+              </div>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+
+  </div><!-- /page-wrapper -->
 
   <script>
   document.addEventListener('DOMContentLoaded', () => {
 
+    // ── Hero title: letter-by-letter fade-in ──────────────────
+    const titleEl   = document.getElementById('hero-title');
+    const subEl     = document.getElementById('hero-sub');
+    const titleText = titleEl.textContent;
+    const LETTER_DELAY  = 0.11;   // seconds between each letter
+    const LETTER_DUR    = 0.9;    // seconds per letter animation
+
+    // Clear the text content and rebuild as individual spans
+    titleEl.textContent = '';
+    let spanCount = 0;
+
+    titleText.split('').forEach(char => {
+      if (char === ' ') {
+        // Preserve word spacing with an invisible span
+        const space = document.createElement('span');
+        space.classList.add('hero-space');
+        space.setAttribute('aria-hidden', 'true');
+        titleEl.appendChild(space);
+      } else {
+        const span = document.createElement('span');
+        span.classList.add('hero-letter');
+        span.textContent = char;
+        span.style.animationDelay = `${spanCount * LETTER_DELAY}s`;
+        titleEl.appendChild(span);
+        spanCount++;
+      }
+    });
+
+    // Subtext and CTA button both fade in after all letters have appeared
+    const subDelay = spanCount * LETTER_DELAY + LETTER_DUR;
+    subEl.style.animationDelay = `${subDelay}s`;
+    const ctaEl = document.querySelector('.hero-cta');
+    if (ctaEl) ctaEl.style.animationDelay = `${subDelay + 0.35}s`;
+
+
     // ── Spotify: auto-peek sequence ────────────────────────────
+    // Phase 1: hidden (right: -380px) on load
+    // Phase 2: slides in at 1.4s (removes .hidden)
+    // Phase 3: collapses to pill at 5s (adds .collapsed)
+    // Manual: toggle button overrides the sequence at any time
     const spotifyWidget = document.getElementById('spotify-widget');
     const spotifyToggle = document.getElementById('spotify-toggle');
-    let userTookControl  = false;
+    let userTookControl = false;
 
-    // 1. Start fully off-screen
-    spotifyWidget.classList.add('hidden');
-    spotifyWidget.classList.remove('collapsed');
-
-    // 2. After 1.4s → slide in fully
     setTimeout(() => {
       if (userTookControl) return;
       spotifyWidget.classList.remove('hidden');
     }, 1400);
 
-    // 3. After 5s → collapse to the small circle "peek" at the right edge
     setTimeout(() => {
       if (userTookControl) return;
       spotifyWidget.classList.add('collapsed');
     }, 5000);
 
-    // Manual toggle — overrides the auto sequence
     spotifyToggle.addEventListener('click', () => {
       userTookControl = true;
       spotifyWidget.classList.remove('hidden');
@@ -639,20 +866,57 @@
 
 
     // ── Carousel ───────────────────────────────────────────────
-    const carouselClip  = document.querySelector('.carousel-clip');
+    const carouselClip  = document.getElementById('carousel-clip');
     const track         = document.getElementById('carousel-track');
     const slides        = Array.from(track.children);
     const nextBtn       = document.getElementById('carousel-next');
     const prevBtn       = document.getElementById('carousel-prev');
     const dotsContainer = document.getElementById('carousel-dots');
 
-    let currentIndex       = 0;
-    let autoSlideInterval  = null;
-    let resumeTimeout      = null;
-    const AUTO_DELAY       = 6000;   // ms between auto-advances
-    const RESUME_DELAY     = 3000;   // ms after interaction before auto-slide resumes
+    let currentIndex      = 0;
+    let autoSlideInterval = null;
+    let resumeTimeout     = null;
+    const AUTO_DELAY      = 6000;   // ms between auto-advances
+    const RESUME_DELAY    = 3000;   // ms after user interaction before auto-slide resumes
 
-    // Build dots dynamically
+    // Peek / gap constants (pixels calculated from clip width)
+    const PEEK_RATIO = 0.105;  // fraction of clipWidth to show on each side
+    const GAP        = 20;     // px horizontal gap between slides
+
+    // Cached pixel metrics — set by calcMetrics(), used by getTrackOffset()
+    let slideW = 0;
+    let slotW  = 0;
+
+    // ── calcMetrics ─────────────────────────────────────────
+    // Sets slide widths in pixels so that 10.5% of each neighboring
+    // slide is visible on either side of the active slide.
+    // Using pixels (not percentages) means we avoid the browser quirk
+    // where %-margins on flex items resolve against the track's full
+    // width rather than the clip's visible width.
+    function calcMetrics() {
+      const clipW = carouselClip.offsetWidth;
+      slideW = Math.round(clipW * (1 - 2 * PEEK_RATIO) - 2 * GAP);
+      slotW  = slideW + 2 * GAP;
+      slides.forEach(s => {
+        s.style.flex        = `0 0 ${slideW}px`;
+        s.style.width       = `${slideW}px`;
+        s.style.marginLeft  = `${GAP}px`;
+        s.style.marginRight = `${GAP}px`;
+      });
+    }
+
+    // ── getTrackOffset ───────────────────────────────────────
+    // Returns the translateX value (px) that centers slide[index]
+    // within the clip's visible width.
+    function getTrackOffset(index) {
+      const clipW = carouselClip.offsetWidth;
+      // Center of slide[index] in track-local coords:
+      //   left margin (GAP) + index * slotW + half slideW
+      // We want that to land at clipW/2.
+      return clipW / 2 - (index * slotW + GAP + slideW / 2);
+    }
+
+    // ── Build dots ───────────────────────────────────────────
     slides.forEach((_, i) => {
       const dot = document.createElement('button');
       dot.classList.add('dot');
@@ -662,23 +926,11 @@
     });
     const dots = Array.from(dotsContainer.children);
 
-    // ── Layout math ─────────────────────────────────────────────
-    // Each slide slot = 78% slide + 1% margin each side = 80% of clip width.
-    // Track offset centers slide[index] within the clip.
-    function getTrackOffset(index) {
-      const clipW  = carouselClip.offsetWidth;
-      const slotW  = clipW * 0.80;   // 80 % of clip
-      // Center of slot[index] = index * slotW + slotW/2
-      // We want that center at clipW/2
-      return clipW / 2 - index * slotW - slotW / 2;
-    }
-
-    // ── Apply state ──────────────────────────────────────────────
+    // ── updateCarousel ───────────────────────────────────────
     function updateCarousel(animated = true) {
       track.style.transition = animated
         ? 'transform 0.65s cubic-bezier(0.45, 0.05, 0.55, 0.95)'
         : 'none';
-
       track.style.transform = `translateX(${getTrackOffset(currentIndex)}px)`;
 
       const n = slides.length;
@@ -693,10 +945,12 @@
 
       dots.forEach((d, i) => d.classList.toggle('filled', i === currentIndex));
 
-      // Re-enable transitions on next frame after a non-animated jump
-      if (!animated) requestAnimationFrame(() => {
-        track.style.transition = 'transform 0.65s cubic-bezier(0.45, 0.05, 0.55, 0.95)';
-      });
+      // Re-enable transitions on the next frame after a no-animation jump
+      if (!animated) {
+        requestAnimationFrame(() => {
+          track.style.transition = 'transform 0.65s cubic-bezier(0.45, 0.05, 0.55, 0.95)';
+        });
+      }
     }
 
     function goToSlide(index) {
@@ -708,7 +962,7 @@
     nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
     prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
 
-    // ── Auto-slide ───────────────────────────────────────────────
+    // ── Auto-slide ───────────────────────────────────────────
     function startAutoSlide() {
       autoSlideInterval = setInterval(() => goToSlide(currentIndex + 1), AUTO_DELAY);
     }
@@ -721,25 +975,36 @@
       resumeTimeout = setTimeout(startAutoSlide, RESUME_DELAY);
     }
 
-    // ── Touch / mouse drag ───────────────────────────────────────
-    let ptStartX   = 0;
-    let ptStartY   = 0;
-    let dragActive = false;
-    let dragAxis   = null;   // 'x' | 'y'
+    // ── Drag / Swipe ─────────────────────────────────────────
+    // Supports:
+    //  • Touch swipe (mobile)
+    //  • Mouse drag (desktop) — e.preventDefault() on mousedown
+    //    stops the browser trying to drag the <img> natively.
+    //  • Velocity-based multi-slide momentum: a fast flick can
+    //    skip more than one slide at a time.
+    let ptStartX    = 0;
+    let ptStartY    = 0;
+    let ptStartTime = 0;
+    let dragActive  = false;
+    let dragAxis    = null;  // 'x' | 'y' — resolved once motion exceeds 4px
 
     function dragStart(x, y) {
       stopAutoSlide();
-      ptStartX   = x;
-      ptStartY   = y;
-      dragActive = true;
-      dragAxis   = null;
+      ptStartX    = x;
+      ptStartY    = y;
+      ptStartTime = Date.now();
+      dragActive  = true;
+      dragAxis    = null;
     }
 
     function dragMove(x, y) {
       if (!dragActive) return;
       const dx = x - ptStartX;
       const dy = y - ptStartY;
-      if (!dragAxis) dragAxis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      // Determine axis once the user has moved enough to be unambiguous
+      if (!dragAxis && (Math.abs(dx) > 4 || Math.abs(dy) > 4)) {
+        dragAxis = Math.abs(dx) >= Math.abs(dy) ? 'x' : 'y';
+      }
       if (dragAxis === 'x') {
         track.style.transition = 'none';
         track.style.transform  = `translateX(${getTrackOffset(currentIndex) + dx}px)`;
@@ -749,48 +1014,67 @@
     function dragEnd(x) {
       if (!dragActive) return;
       dragActive = false;
-      const diff = ptStartX - x;
-      if (Math.abs(diff) > 50) {
-        goToSlide(diff > 0 ? currentIndex + 1 : currentIndex - 1);
+      const diff     = ptStartX - x;                    // positive = swiped left
+      const elapsed  = Math.max(Date.now() - ptStartTime, 1);
+      const velocity = Math.abs(diff) / elapsed;         // px / ms
+
+      if (Math.abs(diff) > 40) {
+        // Momentum: fast flick → skip extra slides (capped at deck length - 1)
+        const extraSlides = Math.min(Math.floor(velocity * 14), slides.length - 1);
+        const moveBy      = Math.max(1, extraSlides);
+        goToSlide(diff > 0 ? currentIndex + moveBy : currentIndex - moveBy);
       } else {
-        updateCarousel(); // snap back
+        // Didn't drag far enough — snap back
+        updateCarousel();
         resetAutoSlide();
       }
     }
 
-    // Touch
-    track.addEventListener('touchstart',
-      e => dragStart(e.touches[0].clientX, e.touches[0].clientY),
-      { passive: true });
+    // Touch events
+    track.addEventListener('touchstart', e => {
+      dragStart(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
 
     track.addEventListener('touchmove', e => {
       dragMove(e.touches[0].clientX, e.touches[0].clientY);
-      if (dragAxis === 'x') e.preventDefault(); // stop page scroll while swiping
+      if (dragAxis === 'x') e.preventDefault(); // stop page scroll while swiping horizontally
     }, { passive: false });
 
     track.addEventListener('touchend',    e => dragEnd(e.changedTouches[0].clientX));
     track.addEventListener('touchcancel', e => dragEnd(e.changedTouches[0].clientX));
 
-    // Mouse
-    track.addEventListener('mousedown', e => dragStart(e.clientX, e.clientY));
-    window.addEventListener('mousemove', e => { if (dragActive) dragMove(e.clientX, e.clientY); });
-    window.addEventListener('mouseup',   e => { if (dragActive) dragEnd(e.clientX); });
+    // Mouse events — note mouseup / mousemove on window so fast drags
+    // don't "lose" the pointer if cursor leaves the track briefly
+    track.addEventListener('mousedown', e => {
+      e.preventDefault(); // critical: stops browser native image-drag interception
+      dragStart(e.clientX, e.clientY);
+    });
+    window.addEventListener('mousemove', e => {
+      if (dragActive) dragMove(e.clientX, e.clientY);
+    });
+    window.addEventListener('mouseup', e => {
+      if (dragActive) dragEnd(e.clientX);
+    });
 
-    // Tap / hover elastic effect
+    // Tap / hover elastic pop effect
     slides.forEach(slide => {
       slide.addEventListener('touchstart',  () => slide.classList.add('tapped'),    { passive: true });
       slide.addEventListener('touchend',    () => slide.classList.remove('tapped'));
       slide.addEventListener('touchcancel', () => slide.classList.remove('tapped'));
     });
 
-    // Recalculate offsets on window resize
+    // Recalculate layout on window resize
     let resizeTimer;
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => updateCarousel(false), 120);
+      resizeTimer = setTimeout(() => {
+        calcMetrics();
+        updateCarousel(false);
+      }, 120);
     });
 
-    // Init
+    // ── Init ─────────────────────────────────────────────────
+    calcMetrics();
     updateCarousel(false);
     startAutoSlide();
 
