@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -21,491 +21,228 @@
 
     a { text-decoration: none; color: inherit; }
 
-    /* ===== NAVBAR ===== */
+    /* ── Navbar ─────────────────────────────────────────── */
     .navbar {
-      display: flex;
-      align-items: center;
-      padding: 14px 24px;
-      background: #222;
-      position: sticky;
-      top: 0;
-      z-index: 1400;
+      display: flex; align-items: center; padding: 14px 24px;
+      background: #222; position: sticky; top: 0; z-index: 1400;
       box-shadow: 4px 0 12px rgba(0,0,0,0.5);
     }
-
-    .page-wrapper {
-      transition: transform 0.3s ease;
-      min-height: 100vh;
-    }
-
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      justify-self: start;
-    }
-
-    .logo-link {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: inherit;
-    }
-
+    .page-wrapper { transition: transform 0.3s ease; min-height: 100vh; }
+    .nav-left { display: flex; align-items: center; gap: 12px; }
+    .logo-link { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
     .logo-link:hover { opacity: 0.9; }
-
-    .logo {
-      font-size: 20px;
-      font-weight: bold;
-      font-family: 'Cormorant Garamond', serif;
-      color: white;
-      white-space: nowrap;
-    }
-
+    .logo { font-size: 20px; font-weight: bold; font-family: 'Cormorant Garamond', serif; color: white; white-space: nowrap; }
     .logo-img { height: 36px; width: auto; }
+    .nav-right { display: flex; justify-content: flex-end; gap: 18px; margin-left: auto; }
+    .nav-right img { width: 26px; height: auto; opacity: 0.85; transition: opacity 0.2s, transform 0.2s; }
+    .nav-right a:hover img { opacity: 1; transform: translateY(-2px); }
 
-    .nav-right {
-      display: flex;
-      justify-content: flex-end;
-      gap: 18px;
-      margin-left: auto;
-    }
-
-    .nav-right img {
-      width: 26px;
-      height: auto;
-      opacity: 0.85;
-      transition: opacity 0.2s, transform 0.2s;
-    }
-
-    .nav-right a:hover img {
-      opacity: 1;
-      transform: translateY(-2px);
-    }
-
-    .hamburger {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      width: 28px;
-      height: 20px;
-      cursor: pointer;
-      margin-right: 18px;
-    }
-
-    .hamburger div {
-      height: 3px;
-      background-color: white;
-      border-radius: 2px;
-      transition: all 0.3s ease;
-    }
-
+    .hamburger { display: flex; flex-direction: column; justify-content: space-between; width: 28px; height: 20px; cursor: pointer; margin-right: 18px; }
+    .hamburger div { height: 3px; background-color: white; border-radius: 2px; transition: all 0.3s ease; }
     .hamburger.active div:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
     .hamburger.active div:nth-child(2) { opacity: 0; }
     .hamburger.active div:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
 
     :root { --sidebar-width: 260px; }
-
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: var(--sidebar-width);
-      height: 100%;
-      background-color: #222;
-      display: flex;
-      flex-direction: column;
-      padding-top: 100px;
-      gap: 20px;
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
-      z-index: 1300;
-    }
-
+    .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-width); height: 100%; background-color: #222; display: flex; flex-direction: column; padding-top: 100px; gap: 20px; transform: translateX(-100%); transition: transform 0.3s ease; z-index: 1300; }
     .sidebar.open { transform: translateX(0); }
+    .sidebar a { color: #f4f4f4; text-decoration: none; font-size: 18px; padding: 12px 24px; transition: background 0.3s; }
+    .sidebar a:hover { background-color: #1abc9c; color: #222; border-radius: 6px; }
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 1050; }
+    .overlay.active { opacity: 1; pointer-events: auto; }
+    @media (max-width: 768px) { .logo-link .logo { display: none; } }
 
-    .sidebar a {
-      color: #f4f4f4;
-      text-decoration: none;
-      font-size: 18px;
-      padding: 12px 24px;
-      transition: background 0.3s;
-    }
-
-    .sidebar a:hover {
-      background-color: #1abc9c;
-      color: #222;
-      border-radius: 6px;
-    }
-
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-      z-index: 1050;
-    }
-
-    .overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    @media (max-width: 600px) {
-      .nav-left { justify-content: center; gap: 8px; }
-    }
-
-    @media (max-width: 768px) {
-      .logo-link .logo { display: none; }
-    }
-
-    /* ===== PAGE CONTENT ===== */
-    .content {
-      max-width: 900px;
-      margin: 80px auto;
-      padding: 0 20px;
-    }
-
-    h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 42px;
-      margin-bottom: 10px;
-    }
-
-    h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 28px;
-      margin-top: 50px;
-      margin-bottom: 15px;
-    }
-
-    p {
-      font-size: 18px;
-      line-height: 1.6;
-      color: #e0e0e0;
-    }
-
-    .profile-pic {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin: 20px auto 10px;
-      display: block;
-      border: 3px solid #1abc9c;
-    }
-
-    .resume-button {
-      display: inline-block;
-      margin: 20px 10px 40px;
-      padding: 10px 22px;
-      background-color: #1abc9c;
-      color: white;
-      text-decoration: none;
-      border-radius: 25px;
-      font-size: 15px;
-      transition: background-color 0.3s;
-    }
-
+    /* ── Page content ───────────────────────────────────── */
+    .content { max-width: 900px; margin: 80px auto; padding: 0 20px; }
+    h1 { font-family: 'Cormorant Garamond', serif; font-size: 42px; margin-bottom: 10px; }
+    h2 { font-family: 'Cormorant Garamond', serif; font-size: 28px; margin-top: 50px; margin-bottom: 15px; }
+    p { font-size: 18px; line-height: 1.6; color: #e0e0e0; }
+    .profile-pic { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin: 20px auto 10px; display: block; border: 3px solid #1abc9c; }
+    .resume-button { display: inline-block; margin: 20px 10px 40px; padding: 10px 22px; background-color: #1abc9c; color: white; text-decoration: none; border-radius: 25px; font-size: 15px; transition: background-color 0.3s; }
     .resume-button:hover { background-color: #148f77; }
+    .card-box { background-color: #2e3740; padding: 25px; margin: 0 auto; border-radius: 12px; display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; max-width: 900px; }
 
-    /* ===== SHARED CARD BOX ===== */
-    .card-box {
-      background-color: #2e3740;
-      padding: 25px;
-      margin: 0 auto;
-      border-radius: 12px;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 30px;
-      max-width: 900px;
-    }
-
-    /* ===== SKILLS ===== */
-    .skills {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 25px;
-      margin-top: 25px;
-    }
-
-    .skill {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100px;
-      text-align: center;
-      position: relative;
-    }
-
+    /* ── Skills ─────────────────────────────────────────── */
+    .skills { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; margin-top: 25px; }
+    .skill { display: flex; flex-direction: column; align-items: center; width: 100px; text-align: center; position: relative; }
     .skill img { width: 40px; height: 40px; margin-bottom: 6px; }
-
-    .credly-badge {
-      position: absolute;
-      top: -16px;
-      right: 4px;
-      width: 22px;
-      height: 22px;
-      padding: 0;
-      background: none;
-      border-radius: 0;
-      box-shadow: none;
-    }
-
+    .credly-badge { position: absolute; top: -16px; right: 4px; width: 22px; height: 22px; background: none; }
     .credly-badge img { width: 100%; height: 100%; object-fit: contain; }
-
-    .credly-tooltip {
-      position: absolute;
-      top: -38px;
-      right: -10px;
-      background: #222;
-      color: #f4f4f4;
-      font-size: 11px;
-      padding: 4px 6px;
-      border-radius: 5px;
-      white-space: nowrap;
-      display: none;
-      z-index: 5;
-    }
-
+    .credly-tooltip { position: absolute; top: -38px; right: -10px; background: #222; color: #f4f4f4; font-size: 11px; padding: 4px 6px; border-radius: 5px; white-space: nowrap; display: none; z-index: 5; }
     .credly-wrapper:hover .credly-tooltip { display: block; }
-
     .dots { display: flex; gap: 4px; margin-top: 4px; }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background-color: #555;
-    }
-
+    .dot { width: 8px; height: 8px; border-radius: 50%; background-color: #555; }
     .dot.filled { background-color: #1abc9c; }
 
-    /* ===== TOOLS CARD ===== */
-    .tools-card {
-      background-color: #2e3740;
-      padding: 25px;
-      margin: 0 auto;
-      border-radius: 12px;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 30px;
-      max-width: 900px;
-    }
-
-    .tool {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100px;
-      text-align: center;
-      font-size: 14px;
-      color: #e0e0e0;
-    }
-
+    /* ── Tools ──────────────────────────────────────────── */
+    .tools-card { background-color: #2e3740; padding: 25px; margin: 0 auto; border-radius: 12px; display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; max-width: 900px; }
+    .tool { display: flex; flex-direction: column; align-items: center; width: 100px; text-align: center; font-size: 14px; color: #e0e0e0; }
     .tool img { width: 40px; height: 40px; margin-bottom: 6px; }
 
-    /* ===== TIMELINE ===== */
-
-    /* Global tooltip (fixed, JS-positioned) */
+    /* ── Global tooltip ─────────────────────────────────── */
     #global-tooltip {
-      display: none;
-      position: fixed;
-      background-color: #1a2228;
-      color: #f4f4f4;
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 13px;
-      max-width: 260px;
-      white-space: normal;
-      z-index: 9999;
+      display: none; position: fixed;
+      background-color: #1a2228; color: #f4f4f4;
+      padding: 8px 12px; border-radius: 8px;
+      font-size: 13px; max-width: 260px;
+      white-space: normal; z-index: 9999;
       pointer-events: none;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.55);
       border: 1px solid #3a4e5a;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
-    /* Dropdown */
-    .timeline-toggle-dropdown {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 10px;
-    }
-
-    .toggle-dropdown {
-      background-color: #2e3740;
-      color: #f4f4f4;
-      border: 1px solid #1abc9c;
-      border-radius: 6px;
-      padding: 4px 8px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    /* Main container */
+    /* ── Timeline ───────────────────────────────────────── */
     .timeline-container {
       background-color: #2e3740;
-      padding: 16px 16px 16px 0;
+      padding: 0;
       border-radius: 12px;
       margin: 40px auto;
       max-width: 900px;
       width: 100%;
       box-sizing: border-box;
+      position: relative;
     }
 
-    /* Inner: the part that scrolls */
+    /* Floating toggle */
+    .timeline-toggle-float {
+      position: absolute;
+      bottom: 32px;
+      right: 12px;
+      z-index: 30;
+    }
+    .toggle-dropdown {
+      background-color: rgba(22, 30, 36, 0.92);
+      color: #f4f4f4;
+      border: 1px solid #1abc9c;
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 12px;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+    }
+
+    /* Scroll wrapper — clips content to the JS-set inner width */
     .timeline-scroll-area {
       overflow-x: auto;
-      border-radius: 8px;
+      border-radius: 12px;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .timeline-inner {
       display: flex;
       flex-direction: column;
-      /* width set by JS */
+      min-width: 100%;
+      /* overflow hidden here is the key fix:
+         prevents bar labels that overflow their parent bar
+         from silently extending the scroll container width. */
+      overflow: hidden;
     }
 
-    /* ---- HEADER: sticky left label + years bar ---- */
-    .timeline-header-row {
-      display: flex;
-      align-items: stretch;
-      margin-bottom: 8px;
-    }
+    /* Header */
+    .timeline-header-row { display: flex; align-items: stretch; }
 
-    /* Sticky logo column header — matches logo column width */
     .timeline-header-stub {
-      position: sticky;
-      left: 0;
-      z-index: 12;
-      flex-shrink: 0;
-      width: 130px;
+      position: sticky; left: 0; z-index: 12;
+      flex-shrink: 0; width: 130px;
       background-color: #252d33;
-      border-radius: 6px 0 0 0;
+      border-radius: 12px 0 0 0;
     }
 
-    /* Top bar: years + quarters/months */
     .timeline-top-bar {
-      display: flex;
-      flex-direction: column;
+      display: flex; flex-direction: column;
       background-color: #1e262c;
-      padding: 6px 10px;
-      border-radius: 0 6px 0 0;
+      padding: 6px 0;
+      border-radius: 0 12px 0 0;
       flex-grow: 1;
+      position: relative;
+      overflow: hidden;
     }
 
-    .timeline-years, .timeline-months {
-      display: grid;
-      grid-auto-flow: column;
-    }
-
-    .timeline-years {
-      font-weight: 600;
-      font-size: 13px;
-      color: #bbb;
-    }
-
-    .timeline-years span, .timeline-months span {
-      text-align: center;
-    }
-
+    .timeline-years, .timeline-months { display: grid; grid-auto-flow: column; }
+    .timeline-years { font-weight: 600; font-size: 13px; color: #bbb; }
+    .timeline-years span, .timeline-months span { text-align: center; }
     .timeline-months { margin-top: 4px; font-size: 10px; color: #888; }
 
-    /* ---- DATA ROWS ---- */
-    .timeline-row {
-      display: flex;
-      align-items: stretch;
-      position: relative;
+    .year-notch {
+      position: absolute;
+      top: 10%; height: 80%; width: 2px;
+      background: #4a5a68;
+      pointer-events: none; z-index: 2;
     }
 
-    /* Horizontal swim lane separator — extends full width */
-    .timeline-row + .timeline-row {
+    /* Data rows */
+    .timeline-row {
+      display: flex; align-items: stretch; position: relative;
       border-top: 2px solid #4a5560;
     }
+    .timeline-row:last-child { border-bottom: 2px solid #4a5560; }
 
     /* Sticky logo column */
     .timeline-logo-container {
-      position: sticky;
-      left: 0;
-      z-index: 10;
-      flex-shrink: 0;
-      width: 130px;
+      position: sticky; left: 0; z-index: 10;
+      flex-shrink: 0; width: 130px;
       background-color: #252d33;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 12px 8px;
-      box-sizing: border-box;
-      /* border matches row divider so separator extends through sticky col */
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 12px 8px; box-sizing: border-box;
     }
 
     .timeline-logo {
-      width: 56px;
-      height: 56px;
-      object-fit: contain;
-      border-radius: 8px;
-      border: 2px solid #1abc9c;
+      width: 56px; height: 56px; object-fit: contain;
+      border-radius: 8px; border: 2px solid #1abc9c;
       background-color: #222;
-      padding: 4px;
-      box-sizing: border-box;
+      padding: 4px; box-sizing: border-box;
     }
 
-    .company-name {
-      margin-top: 6px;
-      font-size: 11px;
-      color: #bbb;
-      text-align: center;
-      line-height: 1.3;
-    }
+    .company-name { margin-top: 6px; font-size: 11px; color: #bbb; text-align: center; line-height: 1.3; }
 
-    /* Bars area */
+    /* Bars area
+       overflow: hidden  →  labels are clipped at the bars-area boundary,
+       which exactly matches the timeline's total content width.
+       This is what stops labels from widening the scrollbar. */
     .timeline-bars {
       position: relative;
       flex-grow: 1;
-      min-height: 60px;
+      min-height: 58px;
+      overflow: hidden;
     }
 
+    /* Bar — overflow visible removed; label clipping now happens on .timeline-bars */
     .timeline-bar {
       position: absolute;
       height: 34px;
       border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 11px;
-      font-weight: 500;
+      display: flex; align-items: center;
+      padding: 0;
+      cursor: pointer;
+      overflow: visible; /* label can still show over other bars in the same area */
+    }
+
+    /* Colored bg block, clipped to bar width */
+    .bar-bg { position: absolute; inset: 0; border-radius: 6px; z-index: 0; }
+
+    /* Label — translateX driven by sticky-label JS */
+    .bar-label {
+      position: relative; z-index: 1;
       padding: 0 8px;
       white-space: nowrap;
-      cursor: pointer;
-      pointer-events: auto;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-size: 11px; font-weight: 500; color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.55);
+      pointer-events: none;
+      will-change: transform;
     }
 
-    /* Hidden content source for JS tooltip */
     .tooltip-content { display: none; }
 
-    /* Vertical grid lines — applied to bars area via JS background-image */
-    .timeline-bars {
-      background-repeat: repeat-x;
-    }
-
     @media (max-width: 800px) {
-      .timeline-logo-container { width: 90px; }
-      .timeline-header-stub { width: 90px; }
+      .timeline-logo-container, .timeline-header-stub { width: 90px; }
     }
   </style>
 </head>
 <body>
 
-<!-- Global tooltip -->
 <div id="global-tooltip"></div>
 
 <!-- Sidebar -->
@@ -515,35 +252,22 @@
   <a href="/about.html">About</a>
   <a href="/contact.html">Contact</a>
 </div>
-
-<!-- Overlay -->
 <div class="overlay" id="overlay"></div>
 
 <!-- Navbar -->
 <div class="navbar">
   <div class="nav-left">
-    <div class="hamburger" id="hamburger">
-      <div></div><div></div><div></div>
-    </div>
+    <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
     <a href="/" class="logo-link">
       <img src="/assets/logos/personal/CRP_logo_white.png" alt="Logo" class="logo-img">
       <div class="logo">Chase Pittman | Portfolio</div>
     </a>
   </div>
-
   <div class="nav-right">
-    <a href="https://www.linkedin.com/in/chasepittman" target="_blank">
-      <img src="/assets/logos/tools/linkedin.png" alt="LinkedIn">
-    </a>
-    <a href="https://www.credly.com/users/chase-pittman.017d3434/badges#credly" target="_blank">
-      <img src="/assets/logos/skills/credly.png" alt="Credly">
-    </a>
-    <a href="https://www.github.com/chasepittman" target="_blank">
-      <img src="/assets/logos/tools/github.png" alt="GitHub">
-    </a>
-    <a href="/contact.html">
-      <img src="/assets/logos/tools/gmail.png" alt="Contact Form">
-    </a>
+    <a href="https://www.linkedin.com/in/chasepittman" target="_blank"><img src="/assets/logos/tools/linkedin.png" alt="LinkedIn"></a>
+    <a href="https://www.credly.com/users/chase-pittman.017d3434/badges#credly" target="_blank"><img src="/assets/logos/skills/credly.png" alt="Credly"></a>
+    <a href="https://www.github.com/chasepittman" target="_blank"><img src="/assets/logos/tools/github.png" alt="GitHub"></a>
+    <a href="/contact.html"><img src="/assets/logos/tools/gmail.png" alt="Contact Form"></a>
   </div>
 </div>
 
@@ -551,151 +275,144 @@
   <div class="content">
 
     <h1>About Me</h1>
-
     <img src="/assets/photos/headshot.jpg" class="profile-pic" alt="Chase Pittman">
-
-    <p>
-      I'm Chase Pittman, a product analyst and aspiring product manager who believes the best way to learn is by building and using your own product. This site started as a blank file with no template. I wanted to get scrappy, teach myself the fundamentals, and understand what it really takes to bring a digital product to life.
-    </p>
-
-    <p>
-      Every logo and design you see here began as my own concept. Along the way, I've experimented with modern tools to refine my vision, but the direction, decisions, and creative intent have always been mine. This site is both a portfolio and a window into how I think and iterate.
-    </p>
-
-    <p>
-      Through building and launching this project, I've gained a deeper appreciation for the end-to-end experience of shipping a product, from ideation and design to development, deployment, and iteration.
-    </p>
+    <p>I'm Chase Pittman, a product analyst and aspiring product manager who believes the best way to learn is by building and using your own product. This site started as a blank file with no template. I wanted to get scrappy, teach myself the fundamentals, and understand what it really takes to bring a digital product to life.</p>
+    <p>Every logo and design you see here began as my own concept. Along the way, I've experimented with modern tools to refine my vision, but the direction, decisions, and creative intent have always been mine. This site is both a portfolio and a window into how I think and iterate.</p>
+    <p>Through building and launching this project, I've gained a deeper appreciation for the end-to-end experience of shipping a product, from ideation and design to development, deployment, and iteration.</p>
 
     <a href="/assets/files/Chase_Pittman_Resume.pdf" class="resume-button" target="_blank">Download Resume</a>
 
-    <!-- ===== TIMELINE — moved above Skills/Tools ===== -->
     <h2>Experience &amp; Leadership</h2>
+    <div class="timeline-container" id="timeline-container">
 
-    <div class="timeline-container">
+      <select id="timeline-toggle" class="toggle-dropdown timeline-toggle-float">
+        <option value="quarters" selected>Quarters</option>
+        <option value="months">Months</option>
+      </select>
 
-      <!-- Dropdown toggle -->
-      <div class="timeline-toggle-dropdown">
-        <select id="timeline-toggle" class="toggle-dropdown">
-          <option value="quarters" selected>Quarters</option>
-          <option value="months">Months</option>
-        </select>
-      </div>
-
-      <!-- Scroll wrapper -->
       <div class="timeline-scroll-area" id="timeline-scroll-area">
         <div class="timeline-inner" id="timeline-inner">
 
-          <!-- Header row: stub + years/labels -->
           <div class="timeline-header-row">
             <div class="timeline-header-stub"></div>
-            <div class="timeline-top-bar">
-              <div class="timeline-years" id="timeline-years">
-                <span>2020</span>
-                <span>2021</span>
-                <span>2022</span>
-                <span>2023</span>
-                <span>2024</span>
-                <span>2025</span>
-                <span>2026</span>
-              </div>
+            <div class="timeline-top-bar" id="timeline-top-bar">
+              <div class="timeline-years"  id="timeline-years"></div>
               <div class="timeline-months" id="timeline-months"></div>
             </div>
           </div>
 
-          <!-- ===== WATERWORKS ===== -->
+          <!-- WATERWORKS -->
           <div class="timeline-row">
             <div class="timeline-logo-container">
-              <img src="/assets/logos/timeline/waterworks.png" class="timeline-logo" alt="Waterworks logo">
+              <img src="/assets/logos/timeline/waterworks.png" class="timeline-logo" alt="Waterworks">
               <div class="company-name">Waterworks</div>
             </div>
             <div class="timeline-bars">
-
-              <div class="timeline-bar" data-start="29" data-end="63" style="background:#16a085;">
-                Product Mgmt Coordinator
+              <div class="timeline-bar" data-start="29" data-end="63" data-bg="#16a085"
+                   data-date-start="MAY 2022" data-date-end="MAR 2025">
+                <div class="bar-bg"></div>
+                <span class="bar-label">Product Mgmt Coordinator</span>
                 <span class="tooltip-content">Built dashboards for 20+ product collections, maintaining 100K+ records with 99%+ accuracy.</span>
               </div>
-
-              <div class="timeline-bar" data-start="63" data-end="present" style="background:#1abc9c;">
-                Associate Product Manager
+              <div class="timeline-bar" data-start="63" data-end="present" data-bg="#1abc9c"
+                   data-promotion="true" data-date-start="MAR 2025">
+                <div class="bar-bg"></div>
+                <span class="bar-label">Associate Product Manager</span>
                 <span class="tooltip-content">Lead weekly business performance reviews across seven categories, contributing to 21% revenue growth.</span>
               </div>
-
-              <!-- Stacked below: Founder role -->
-              <div class="timeline-bar" data-start="51" data-end="present" data-force-row="1" style="background:#148f77;">
-                Founder — Early Career Group
+              <div class="timeline-bar" data-start="51" data-end="present" data-bg="#1abc9c"
+                   data-date-start="MAR 2024">
+                <div class="bar-bg"></div>
+                <span class="bar-label">Founder — Early Career Group</span>
                 <span class="tooltip-content">Founded internal early-career community, launched mentorship program, and organized speaker events.</span>
               </div>
-
             </div>
           </div>
 
-          <!-- ===== UNIVERSITY OF MICHIGAN ===== -->
+          <!-- UNIVERSITY OF MICHIGAN -->
           <div class="timeline-row">
             <div class="timeline-logo-container">
-              <img src="/assets/logos/timeline/umich.png" class="timeline-logo" alt="University of Michigan logo">
+              <img src="/assets/logos/timeline/umich.png" class="timeline-logo" alt="University of Michigan">
               <div class="company-name">University of Michigan</div>
             </div>
             <div class="timeline-bars">
-
-              <div class="timeline-bar" data-start="0" data-end="27" style="background:#2980b9;">
-                B.A. in Economics, Minor in Entrepreneurship
+              <div class="timeline-bar" data-start="0" data-end="27" data-bg="#2980b9"
+                   data-date-start="SEP 2018" data-date-end="APR 2022">
+                <div class="bar-bg"></div>
+                <span class="bar-label">B.A. in Economics, Minor in Entrepreneurship</span>
                 <span class="tooltip-content">GPA: 3.8/4.0 · University Honors (3×) · President, Enactus Consulting Club · Published in University of Michigan newsletter</span>
               </div>
-
-              <!-- Alumni Board forced to row 2 -->
-              <div class="timeline-bar" data-start="38" data-end="present" data-force-row="1" style="background:#1f6fa3;">
-                NYC Alumni Board Member &amp; Sports Chair
+              <div class="timeline-bar" data-start="38" data-end="present" data-bg="#2980b9"
+                   data-date-start="MAR 2023">
+                <div class="bar-bg"></div>
+                <span class="bar-label">NYC Alumni Board Member &amp; Sports Chair</span>
                 <span class="tooltip-content">Lead NYC alumni sports programming and partnerships.</span>
               </div>
-
             </div>
           </div>
 
-          <!-- ===== SPECIAL OLYMPICS ===== -->
+          <!-- SPECIAL OLYMPICS -->
           <div class="timeline-row">
             <div class="timeline-logo-container">
-              <img src="/assets/logos/timeline/specialolympics.png" class="timeline-logo" alt="Special Olympics logo">
+              <img src="/assets/logos/timeline/specialolympics.png" class="timeline-logo" alt="Special Olympics">
               <div class="company-name">Special Olympics</div>
             </div>
             <div class="timeline-bars">
-
-              <div class="timeline-bar" data-start="41" data-end="present" style="background:#8e44ad;">
-                NYC Leadership Council Member
+              <div class="timeline-bar" data-start="2" data-end="14" data-bg="#6c3483"
+                   data-date-start="MAR 2020" data-date-end="MAR 2021">
+                <div class="bar-bg"></div>
+                <span class="bar-label">UMich Head Football Coach</span>
+                <span class="tooltip-content">Coached Special Olympics UMich football program.</span>
+              </div>
+              <div class="timeline-bar" data-start="14" data-end="27" data-bg="#8e44ad"
+                   data-promotion="true" data-date-start="MAR 2021" data-date-end="APR 2022">
+                <div class="bar-bg"></div>
+                <span class="bar-label">UMich Treasurer</span>
+                <span class="tooltip-content">Served as treasurer for UMich Special Olympics chapter.</span>
+              </div>
+              <div class="timeline-bar" data-start="41" data-end="present" data-bg="#8e44ad"
+                   data-date-start="JUN 2023">
+                <div class="bar-bg"></div>
+                <span class="bar-label">NYC Leadership Council Member</span>
                 <span class="tooltip-content">Support statewide fundraising and strategic leadership initiatives.</span>
               </div>
-
-              <!-- New bar: Athlete Mentor, starting Oct 2024 (index 57) -->
-              <div class="timeline-bar" data-start="57" data-end="present" data-force-row="1" style="background:#6c3483;">
-                Downstate NY Athlete Mentor &amp; Leadership Council Member
-                <span class="tooltip-content">Mentor an athlete 1:1 alongside ongoing Leadership Council work.</span>
+              <!-- Renamed: shorter label, same tooltip still has full context -->
+              <div class="timeline-bar" data-start="57" data-end="present" data-bg="#8e44ad"
+                   data-date-start="OCT 2024">
+                <div class="bar-bg"></div>
+                <span class="bar-label">NYC Athlete Mentor</span>
+                <span class="tooltip-content">Mentor an athlete 1:1 alongside ongoing Leadership Council work as Downstate NY Athlete Mentor &amp; Leadership Council Member.</span>
               </div>
-
             </div>
           </div>
 
-          <!-- ===== LARTA ===== -->
+          <!-- LARTA -->
           <div class="timeline-row">
             <div class="timeline-logo-container">
-              <img src="/assets/logos/timeline/larta.png" class="timeline-logo" alt="Larta Institute logo">
+              <img src="/assets/logos/timeline/larta.png" class="timeline-logo" alt="Larta Institute">
               <div class="company-name">Larta Institute</div>
             </div>
             <div class="timeline-bars">
-              <div class="timeline-bar" data-start="16" data-end="20" style="background:#c0392b;">
-                Program Mgmt Intern
+              <div class="timeline-bar" data-start="16" data-end="20" data-bg="#c0392b"
+                   data-date-start="MAY 2021" data-date-end="SEP 2021">
+                <div class="bar-bg"></div>
+                <span class="bar-label">Program Mgmt Intern</span>
                 <span class="tooltip-content">Tracked KPIs for 1,000+ startups and streamlined reporting.</span>
               </div>
             </div>
           </div>
 
-          <!-- ===== XPANSE ===== -->
+          <!-- XPANSE -->
           <div class="timeline-row">
             <div class="timeline-logo-container">
-              <img src="/assets/logos/timeline/xpanse.png" class="timeline-logo" alt="Xpanse AI logo">
+              <img src="/assets/logos/timeline/xpanse.png" class="timeline-logo" alt="Xpanse AI">
               <div class="company-name">Xpanse AI</div>
             </div>
             <div class="timeline-bars">
-              <div class="timeline-bar" data-start="5" data-end="8" style="background:#d35400;">
-                Business Ops Intern
+              <div class="timeline-bar" data-start="5" data-end="8" data-bg="#d35400"
+                   data-date-start="JUN 2020" data-date-end="SEP 2020">
+                <div class="bar-bg"></div>
+                <span class="bar-label">Business Ops Intern</span>
                 <span class="tooltip-content">Researched predictive analytics across sports organizations.</span>
               </div>
             </div>
@@ -705,69 +422,41 @@
       </div><!-- /timeline-scroll-area -->
     </div><!-- /timeline-container -->
 
-    <!-- ===== SKILLS ===== -->
+    <!-- SKILLS -->
     <h2>Skills</h2>
     <div class="card-box skills">
-
       <div class="skill">
-        <a class="credly-wrapper"
-           href="https://www.credly.com/badges/782f64ae-289b-4d80-b0fb-34d0ff8e6f04"
-           target="_blank">
+        <a class="credly-wrapper" href="https://www.credly.com/badges/782f64ae-289b-4d80-b0fb-34d0ff8e6f04" target="_blank">
           <div class="credly-tooltip">Core Product Certified</div>
-          <div class="credly-badge">
-            <img src="/assets/logos/skills/credly.png" alt="Core Product Certified badge (Credly)">
-          </div>
+          <div class="credly-badge"><img src="/assets/logos/skills/credly.png" alt="Core Product Certified (Credly)"></div>
         </a>
         <img src="/assets/logos/skills/smartsheet.png" alt="Smartsheet">
         <span>Smartsheet</span>
-        <div class="dots">
-          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
-        </div>
+        <div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span></div>
       </div>
-
       <div class="skill">
-        <img src="/assets/logos/skills/office.png" alt="MS Office">
-        <span>MS Office</span>
-        <div class="dots">
-          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
-        </div>
+        <img src="/assets/logos/skills/office.png" alt="MS Office"><span>MS Office</span>
+        <div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span></div>
       </div>
-
       <div class="skill">
-        <img src="/assets/logos/skills/ga4.png" alt="GA4">
-        <span>GA4</span>
-        <div class="dots">
-          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span>
-        </div>
+        <img src="/assets/logos/skills/ga4.png" alt="GA4"><span>GA4</span>
+        <div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span></div>
       </div>
-
       <div class="skill">
-        <img src="/assets/logos/skills/sql.png" alt="SQL">
-        <span>SQL</span>
-        <div class="dots">
-          <span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
-        </div>
+        <img src="/assets/logos/skills/sql.png" alt="SQL"><span>SQL</span>
+        <div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
       </div>
-
       <div class="skill">
-        <img src="/assets/logos/skills/asana.png" alt="Asana">
-        <span>Asana</span>
-        <div class="dots">
-          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
-        </div>
+        <img src="/assets/logos/skills/asana.png" alt="Asana"><span>Asana</span>
+        <div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span></div>
       </div>
-
       <div class="skill">
-        <img src="/assets/logos/skills/sap.png" alt="SAP BO">
-        <span>SAP BO</span>
-        <div class="dots">
-          <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
-        </div>
+        <img src="/assets/logos/skills/sap.png" alt="SAP BO"><span>SAP BO</span>
+        <div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span></div>
       </div>
-
     </div>
 
-    <!-- ===== TOOLS USED ===== -->
+    <!-- TOOLS -->
     <h2>Tools Used</h2>
     <div class="tools-card">
       <div class="tool"><img src="/assets/logos/tools/chatgpt.png" alt="ChatGPT"><span>ChatGPT</span></div>
@@ -781,246 +470,353 @@
   </div><!-- /content -->
 </div><!-- /page-wrapper -->
 
-<!-- ===== SCRIPTS ===== -->
 <script>
-  // ── Present index ──────────────────────────────────────────
-  const TIMELINE_START_YEAR  = 2020;
-  const now                  = new Date();
-  const PRESENT_INDEX        = (now.getFullYear() - TIMELINE_START_YEAR) * 12 + now.getMonth();
+// ════════════════════════════════════════════════════════
+//  CONFIG
+// ════════════════════════════════════════════════════════
+const TIMELINE_START_YEAR = 2020;
+const BAR_HEIGHT  = 34;
+const ROW_GAP     = 6;
+const V_PAD       = 12;
+const MONTH_PX    = 40;
+const QUARTER_PX  = 40;
+const LOGO_COL_W  = 130;
+const OVERLAP_PX  = 8;
 
-  // Resolve "present" data-end values to the current month index
-  document.querySelectorAll('.timeline-bar[data-end="present"]').forEach(bar => {
-    bar.dataset.end = PRESENT_INDEX;
+// ════════════════════════════════════════════════════════
+//  DYNAMIC EXTENT  — recalculated every page load
+// ════════════════════════════════════════════════════════
+const now         = new Date();
+const PRESENT_IDX = (now.getFullYear() - TIMELINE_START_YEAR) * 12 + now.getMonth();
+
+// One entry per year in the timeline, with how many months/quarters are visible
+const YEARS_DATA = (() => {
+  const arr     = [];
+  const endYear = TIMELINE_START_YEAR + Math.floor(PRESENT_IDX / 12);
+  for (let y = TIMELINE_START_YEAR; y <= endYear; y++) {
+    const yOffset   = (y - TIMELINE_START_YEAR) * 12;
+    const lastMonth = Math.min(yOffset + 11, PRESENT_IDX);
+    const months    = lastMonth - yOffset + 1;               // 1–12
+    const quarters  = Math.floor((months - 1) / 3) + 1;     // 1–4
+    arr.push({ year: y, months, quarters });
+  }
+  return arr;
+})();
+
+const TOTAL_MONTHS   = YEARS_DATA.reduce((s, y) => s + y.months,   0);
+const TOTAL_QUARTERS = YEARS_DATA.reduce((s, y) => s + y.quarters, 0);
+
+// ════════════════════════════════════════════════════════
+//  DOM
+// ════════════════════════════════════════════════════════
+const scrollArea      = document.getElementById('timeline-scroll-area');
+const timelineInner   = document.getElementById('timeline-inner');
+const timelineYearsEl = document.getElementById('timeline-years');
+const monthsContainer = document.getElementById('timeline-months');
+const topBar          = document.getElementById('timeline-top-bar');
+const timelineToggle  = document.getElementById('timeline-toggle');
+const globalTooltip   = document.getElementById('global-tooltip');
+
+const MONTH_SHORT = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const MONTH_CAPS  = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+
+const allBars = document.querySelectorAll('.timeline-bar');
+
+// Resolve "present" and paint bar backgrounds
+allBars.forEach(bar => {
+  if (bar.dataset.end === 'present') {
+    bar.dataset.isPresent = 'true';
+    bar.dataset.end = PRESENT_IDX;
+  }
+  const bgEl = bar.querySelector('.bar-bg');
+  if (bgEl && bar.dataset.bg) bgEl.style.backgroundColor = bar.dataset.bg;
+});
+
+// ════════════════════════════════════════════════════════
+//  TOOLTIP HTML
+// ════════════════════════════════════════════════════════
+function idxToLabel(idx) {
+  const mi = ((idx % 12) + 12) % 12;
+  return `${MONTH_CAPS[mi]} ${TIMELINE_START_YEAR + Math.floor(idx / 12)}`;
+}
+
+function buildTooltipHTML(bar) {
+  const contentEl  = bar.querySelector('.tooltip-content');
+  const body       = contentEl ? contentEl.innerHTML.trim() : '';
+  const startLabel = bar.dataset.dateStart || idxToLabel(parseInt(bar.dataset.start));
+  const endLabel   = bar.dataset.dateEnd   ||
+                     (bar.dataset.isPresent === 'true' ? 'PRESENT' : idxToLabel(parseInt(bar.dataset.end)));
+  const dateLine = `<div style="text-align:center;font-weight:700;margin-bottom:4px;">${startLabel} – ${endLabel}</div>`;
+  return body ? `${dateLine}<div style="text-align:left;">${body}</div>` : dateLine;
+}
+
+// ════════════════════════════════════════════════════════
+//  STACK BARS
+// ════════════════════════════════════════════════════════
+function stackBars() {
+  document.querySelectorAll('.timeline-row').forEach(row => {
+    const bars     = row.querySelectorAll('.timeline-bar');
+    const barsArea = row.querySelector('.timeline-bars');
+    const placed   = [];
+    let maxRow     = 0;
+
+    bars.forEach(bar => {
+      const s = parseFloat(bar.dataset.start);
+      const e = parseFloat(bar.dataset.end);
+      let r = 0;
+      while (placed.some(p => p.r === r && s < p.e && e > p.s)) r++;
+      maxRow = Math.max(maxRow, r);
+      bar.style.top    = `${V_PAD + r * (BAR_HEIGHT + ROW_GAP)}px`;
+      bar.style.zIndex = bar.dataset.promotion === 'true' ? '3' : '1';
+      placed.push({ s, e, r });
+    });
+
+    if (barsArea) {
+      const contentH = (maxRow + 1) * BAR_HEIGHT + maxRow * ROW_GAP;
+      barsArea.style.minHeight   = `${V_PAD + contentH + V_PAD}px`;
+      barsArea.dataset.singleRow = maxRow === 0 ? 'true' : 'false';
+    }
   });
+}
 
-  // ── Constants ──────────────────────────────────────────────
-  const TOTAL_YEARS  = 7;   // 2020 – 2026
-  const BAR_HEIGHT   = 34;
-  const ROW_GAP      = 6;   // px between stacked bars
-  const MONTH_PX     = 40;  // px per month column (months mode)
-  const QUARTER_PX   = 40;  // px per quarter column (quarters mode — 1/3 total width)
-  const LOGO_COL_W   = 130; // px — must match CSS width of .timeline-logo-container
-
-  const scrollArea       = document.getElementById('timeline-scroll-area');
-  const timelineInner    = document.getElementById('timeline-inner');
-  const timelineYears    = document.getElementById('timeline-years');
-  const monthsContainer  = document.getElementById('timeline-months');
-  const timelineToggle   = document.getElementById('timeline-toggle');
-  const globalTooltip    = document.getElementById('global-tooltip');
-  const monthLabels      = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-  const allBars          = document.querySelectorAll('.timeline-bar');
-
-  // ── Stack bars vertically to prevent overlap ───────────────
-  function stackBars() {
-    document.querySelectorAll('.timeline-row').forEach(row => {
-      const bars     = row.querySelectorAll('.timeline-bar');
-      const barsArea = row.querySelector('.timeline-bars');
-      const occupied = [];
-      let maxBottom  = 0;
-
-      bars.forEach(bar => {
-        const start = parseFloat(bar.dataset.start);
-        const end   = parseFloat(bar.dataset.end);
-
-        let topOffset;
-        if (bar.dataset.forceRow !== undefined) {
-          // Honour explicit row placement
-          topOffset = parseInt(bar.dataset.forceRow, 10) * (BAR_HEIGHT + ROW_GAP);
-        } else {
-          topOffset = 0;
-          while (occupied.some(r => r.top === topOffset && start < r.end && end > r.start)) {
-            topOffset += BAR_HEIGHT + ROW_GAP;
-          }
-        }
-
-        bar.style.top = `${topOffset}px`;
-        occupied.push({ start, end, top: topOffset });
-        maxBottom = Math.max(maxBottom, topOffset + BAR_HEIGHT);
-      });
-
-      // Expand bars area to contain all stacked bars
-      if (barsArea) barsArea.style.minHeight = `${maxBottom + 12}px`;
+// ════════════════════════════════════════════════════════
+//  POST-BUILD  (runs after layout paints)
+//  1. Vertically center single-row swim lanes
+//  2. Seed sticky label positions
+// ════════════════════════════════════════════════════════
+function postBuild() {
+  document.querySelectorAll('.timeline-row').forEach(row => {
+    const barsArea = row.querySelector('.timeline-bars');
+    if (!barsArea || barsArea.dataset.singleRow !== 'true') return;
+    const laneH      = barsArea.offsetHeight;
+    const centeredTop = Math.round((laneH - BAR_HEIGHT) / 2);
+    row.querySelectorAll('.timeline-bar').forEach(bar => {
+      bar.style.top = `${centeredTop}px`;
     });
-  }
+  });
+  updateStickyLabels();
+}
 
-  // ── Draw vertical grid lines on each bars area ─────────────
-  function drawGridOnBars(columnWidth) {
-    document.querySelectorAll('.timeline-bars').forEach(area => {
-      area.style.backgroundImage = `repeating-linear-gradient(
-        to right,
-        rgba(85,95,105,0.45),
-        rgba(85,95,105,0.45) 1px,
-        transparent 1px,
-        transparent ${columnWidth}px
-      )`;
-      area.style.backgroundSize  = `${columnWidth}px 100%`;
-      area.style.backgroundPositionX = '0';
-    });
-  }
-
-  // ── Set inner + year widths ────────────────────────────────
-  function setWidths(totalBarsPx) {
-    const totalInnerPx = totalBarsPx; // logo col is sticky, not in flow
-    timelineInner.style.width = `${LOGO_COL_W + totalBarsPx}px`;
-  }
-
-  // ── BUILD: MONTHS ──────────────────────────────────────────
-  function buildMonths() {
-    const totalMonths = TOTAL_YEARS * 12;
-    const totalBarsPx = totalMonths * MONTH_PX;
-
-    // Quarters/months row labels
-    monthsContainer.innerHTML = '';
-    for (let i = 0; i < totalMonths; i++) {
-      const span = document.createElement('span');
-      span.textContent = monthLabels[i % 12];
-      monthsContainer.appendChild(span);
-    }
-    monthsContainer.style.gridTemplateColumns = `repeat(${totalMonths}, ${MONTH_PX}px)`;
-
-    // Year spans
-    timelineYears.style.gridTemplateColumns = `repeat(${TOTAL_YEARS}, ${12 * MONTH_PX}px)`;
-
-    // Position bars (month units → px)
-    allBars.forEach(bar => {
-      const s = parseInt(bar.dataset.start, 10);
-      const e = parseInt(bar.dataset.end,   10);
-      bar.style.left  = `${s * MONTH_PX}px`;
-      bar.style.width = `${(e - s) * MONTH_PX}px`;
-    });
-
-    setWidths(totalBarsPx);
-    drawGridOnBars(MONTH_PX);
-    stackBars();
-  }
-
-  // ── BUILD: QUARTERS ────────────────────────────────────────
-  function buildQuarters() {
-    const totalQuarters = TOTAL_YEARS * 4;
-    const totalBarsPx   = totalQuarters * QUARTER_PX;
-
-    // Quarter labels
-    monthsContainer.innerHTML = '';
-    for (let i = 0; i < totalQuarters; i++) {
-      const span = document.createElement('span');
-      span.textContent = `Q${(i % 4) + 1}`;
-      monthsContainer.appendChild(span);
-    }
-    monthsContainer.style.gridTemplateColumns = `repeat(${totalQuarters}, ${QUARTER_PX}px)`;
-
-    // Year spans
-    timelineYears.style.gridTemplateColumns = `repeat(${TOTAL_YEARS}, ${4 * QUARTER_PX}px)`;
-
-    // Position bars (month units → quarter px)
-    allBars.forEach(bar => {
-      const s = parseInt(bar.dataset.start, 10);
-      const e = parseInt(bar.dataset.end,   10);
-      // Convert month indices to quarter fractions
-      const startQ = s / 3;
-      const endQ   = e / 3;
-      bar.style.left  = `${startQ * QUARTER_PX}px`;
-      bar.style.width = `${(endQ - startQ) * QUARTER_PX}px`;
-    });
-
-    setWidths(totalBarsPx);
-    drawGridOnBars(QUARTER_PX);
-    stackBars();
-  }
-
-  function updateTimeline() {
-    timelineToggle.value === 'months' ? buildMonths() : buildQuarters();
-  }
-
-  updateTimeline();
-  timelineToggle.addEventListener('change', updateTimeline);
-
-  // ── Tooltip: viewport-aware, below bar ────────────────────
-  function getVisibleCenter(bar) {
-    const barRect       = bar.getBoundingClientRect();
-    const scrollRect    = scrollArea.getBoundingClientRect();
-    // Account for sticky logo col on left
-    const leftBound     = scrollRect.left + LOGO_COL_W;
-    const rightBound    = scrollRect.right;
-
-    const visLeft  = Math.max(barRect.left,  leftBound);
-    const visRight = Math.min(barRect.right, rightBound);
-
-    if (visRight <= visLeft) return null; // bar not visible
-
-    return {
-      centerX : (visLeft + visRight) / 2,
-      bottom  : barRect.bottom,
-      leftBound,
-      rightBound
-    };
-  }
-
-  function positionTooltip(bar) {
-    const vis = getVisibleCenter(bar);
-    if (!vis) { globalTooltip.style.display = 'none'; return; }
-
-    globalTooltip.style.display = 'block';
-    const tw = globalTooltip.offsetWidth;
-
-    let left = vis.centerX - tw / 2;
-    left = Math.max(vis.leftBound, Math.min(left, vis.rightBound - tw));
-
-    globalTooltip.style.left = `${left}px`;
-    globalTooltip.style.top  = `${vis.bottom + 10}px`;
-  }
+// ════════════════════════════════════════════════════════
+//  STICKY LABELS
+// ════════════════════════════════════════════════════════
+function updateStickyLabels() {
+  const scrollLeft = scrollArea.scrollLeft;
+  const visLeft    = scrollLeft + LOGO_COL_W;
+  const visRight   = scrollLeft + scrollArea.clientWidth;
 
   allBars.forEach(bar => {
-    const contentEl = bar.querySelector('.tooltip-content');
-    const text = contentEl ? contentEl.innerHTML : '';
+    const labelEl = bar.querySelector('.bar-label');
+    if (!labelEl) return;
 
-    bar.addEventListener('mouseenter', () => {
-      if (!text) return;
-      globalTooltip.innerHTML = text;
-      positionTooltip(bar);
-    });
+    const barLeft  = parseFloat(bar.style.left)  || 0;
+    const barWidth = parseFloat(bar.style.width) || 0;
+    const absLeft  = LOGO_COL_W + barLeft;
+    const absRight = absLeft + barWidth;
 
-    bar.addEventListener('mouseleave', () => {
-      globalTooltip.style.display = 'none';
-    });
+    const visBarLeft  = Math.max(absLeft,  visLeft);
+    const visBarRight = Math.min(absRight, visRight);
+    if (visBarRight <= visBarLeft) return;
+
+    const labelW        = labelEl.offsetWidth;
+    const visCenterInBar = (visBarLeft + visBarRight) / 2 - absLeft;
+    const desired        = visCenterInBar - labelW / 2;
+    const tx = Math.max(0, Math.min(desired, Math.max(0, barWidth - labelW)));
+    labelEl.style.transform = `translateX(${tx}px)`;
   });
+}
 
-  // Re-position on scroll (handles scroll inside timeline)
-  scrollArea.addEventListener('scroll', () => {
-    const hoveredBar = document.querySelector('.timeline-bar:hover');
-    if (hoveredBar) positionTooltip(hoveredBar);
-    else globalTooltip.style.display = 'none';
+// ════════════════════════════════════════════════════════
+//  PROMOTION OVERLAP
+// ════════════════════════════════════════════════════════
+function applyPromotionOverlap() {
+  document.querySelectorAll('.timeline-bar[data-promotion="true"]').forEach(bar => {
+    const curLeft = parseFloat(bar.style.left) || 0;
+    const curW    = parseFloat(bar.style.width) || 0;
+    if (curLeft > 0) {
+      bar.style.left  = `${curLeft - OVERLAP_PX}px`;
+      bar.style.width = `${curW    + OVERLAP_PX}px`;
+    }
   });
+}
 
-  // ── Sidebar ───────────────────────────────────────────────
-  const hamburger   = document.getElementById('hamburger');
-  const sidebar     = document.getElementById('sidebar');
-  const overlay     = document.getElementById('overlay');
-  const pageWrapper = document.getElementById('page-wrapper');
+// ════════════════════════════════════════════════════════
+//  GRID LINES
+// ════════════════════════════════════════════════════════
+function drawGrid(colPx) {
+  document.querySelectorAll('.timeline-bars').forEach(area => {
+    area.style.backgroundImage = `repeating-linear-gradient(
+      to right,
+      rgba(90,105,115,0.4) 0, rgba(90,105,115,0.4) 1px,
+      transparent 1px, transparent ${colPx}px
+    )`;
+    area.style.backgroundSize     = `${colPx}px 100%`;
+    area.style.backgroundPosition = '0 0';
+  });
+}
 
-  function openSidebar() {
-    sidebar.classList.add('open');
-    hamburger.classList.add('active');
-    overlay.classList.add('active');
-    pageWrapper.style.transform = `translateX(${sidebar.offsetWidth}px)`;
+// ════════════════════════════════════════════════════════
+//  YEAR NOTCHES
+// ════════════════════════════════════════════════════════
+function addYearNotches(yearWidthFn) {
+  topBar.querySelectorAll('.year-notch').forEach(n => n.remove());
+  let cumPx = 0;
+  YEARS_DATA.forEach((y, i) => {
+    cumPx += yearWidthFn(y);
+    if (i < YEARS_DATA.length - 1) {
+      const n = document.createElement('div');
+      n.className  = 'year-notch';
+      n.style.left = `${cumPx}px`;
+      topBar.appendChild(n);
+    }
+  });
+}
+
+// ════════════════════════════════════════════════════════
+//  BUILD: MONTHS
+// ════════════════════════════════════════════════════════
+function buildMonths() {
+  timelineYearsEl.innerHTML = '';
+  const yearColWidths = [];
+  YEARS_DATA.forEach(y => {
+    const span = document.createElement('span');
+    span.textContent = y.year;
+    timelineYearsEl.appendChild(span);
+    yearColWidths.push(`${y.months * MONTH_PX}px`);
+  });
+  timelineYearsEl.style.gridTemplateColumns = yearColWidths.join(' ');
+
+  monthsContainer.innerHTML = '';
+  for (let i = 0; i < TOTAL_MONTHS; i++) {
+    const s = document.createElement('span');
+    s.textContent = MONTH_SHORT[i % 12];
+    monthsContainer.appendChild(s);
   }
+  monthsContainer.style.gridTemplateColumns = `repeat(${TOTAL_MONTHS}, ${MONTH_PX}px)`;
 
-  function closeSidebar() {
-    sidebar.classList.remove('open');
-    hamburger.classList.remove('active');
-    overlay.classList.remove('active');
-    pageWrapper.style.transform = 'translateX(0)';
-  }
-
-  hamburger.addEventListener('click', () => {
-    sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+  allBars.forEach(bar => {
+    const s = parseInt(bar.dataset.start), e = parseInt(bar.dataset.end);
+    bar.style.left  = `${s * MONTH_PX}px`;
+    bar.style.width = `${(e - s) * MONTH_PX}px`;
   });
 
-  overlay.addEventListener('click', closeSidebar);
-  document.querySelectorAll('.sidebar a').forEach(link => {
-    link.addEventListener('click', closeSidebar);
+  // Set exact scroll width — no extra space
+  timelineInner.style.width = `${LOGO_COL_W + TOTAL_MONTHS * MONTH_PX}px`;
+  drawGrid(MONTH_PX);
+  addYearNotches(y => y.months * MONTH_PX);
+  stackBars();
+  applyPromotionOverlap();
+  requestAnimationFrame(postBuild);
+}
+
+// ════════════════════════════════════════════════════════
+//  BUILD: QUARTERS
+// ════════════════════════════════════════════════════════
+function buildQuarters() {
+  timelineYearsEl.innerHTML = '';
+  const yearColWidths = [];
+  YEARS_DATA.forEach(y => {
+    const span = document.createElement('span');
+    span.textContent = y.year;
+    timelineYearsEl.appendChild(span);
+    yearColWidths.push(`${y.quarters * QUARTER_PX}px`);
   });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
+  timelineYearsEl.style.gridTemplateColumns = yearColWidths.join(' ');
+
+  monthsContainer.innerHTML = '';
+  YEARS_DATA.forEach(y => {
+    for (let q = 0; q < y.quarters; q++) {
+      const s = document.createElement('span');
+      s.textContent = `Q${q + 1}`;
+      monthsContainer.appendChild(s);
+    }
+  });
+  monthsContainer.style.gridTemplateColumns = `repeat(${TOTAL_QUARTERS}, ${QUARTER_PX}px)`;
+
+  allBars.forEach(bar => {
+    const s = parseInt(bar.dataset.start), e = parseInt(bar.dataset.end);
+    bar.style.left  = `${(s / 3) * QUARTER_PX}px`;
+    bar.style.width = `${((e - s) / 3) * QUARTER_PX}px`;
+  });
+
+  // Set exact scroll width — no extra space
+  timelineInner.style.width = `${LOGO_COL_W + TOTAL_QUARTERS * QUARTER_PX}px`;
+  drawGrid(QUARTER_PX);
+  addYearNotches(y => y.quarters * QUARTER_PX);
+  stackBars();
+  applyPromotionOverlap();
+  requestAnimationFrame(postBuild);
+}
+
+// ════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════
+function updateTimeline() {
+  timelineToggle.value === 'months' ? buildMonths() : buildQuarters();
+}
+updateTimeline();
+timelineToggle.addEventListener('change', updateTimeline);
+
+// ════════════════════════════════════════════════════════
+//  SCROLL
+// ════════════════════════════════════════════════════════
+scrollArea.addEventListener('scroll', () => {
+  updateStickyLabels();
+  const hovered = document.querySelector('.timeline-bar:hover');
+  if (hovered) positionTooltip(hovered);
+  else         globalTooltip.style.display = 'none';
+});
+
+window.addEventListener('resize', () => requestAnimationFrame(postBuild));
+
+// ════════════════════════════════════════════════════════
+//  TOOLTIP POSITIONING
+// ════════════════════════════════════════════════════════
+function getVisInfo(bar) {
+  const bRect  = bar.getBoundingClientRect();
+  const aRect  = scrollArea.getBoundingClientRect();
+  const lBound = aRect.left + LOGO_COL_W;
+  const rBound = aRect.right;
+  const visL   = Math.max(bRect.left,  lBound);
+  const visR   = Math.min(bRect.right, rBound);
+  if (visR <= visL) return null;
+  return { cx: (visL + visR) / 2, bottom: bRect.bottom, lBound, rBound };
+}
+
+function positionTooltip(bar) {
+  const v = getVisInfo(bar);
+  if (!v) { globalTooltip.style.display = 'none'; return; }
+  globalTooltip.style.display = 'block';
+  const tw = globalTooltip.offsetWidth;
+  let left = v.cx - tw / 2;
+  left = Math.max(v.lBound + 4, Math.min(left, v.rBound - tw - 4));
+  globalTooltip.style.left = `${left}px`;
+  globalTooltip.style.top  = `${v.bottom + 8}px`;
+}
+
+allBars.forEach(bar => {
+  const html = buildTooltipHTML(bar);
+  bar.addEventListener('mouseenter', () => {
+    if (!html) return;
+    globalTooltip.innerHTML = html;
+    positionTooltip(bar);
+  });
+  bar.addEventListener('mouseleave', () => { globalTooltip.style.display = 'none'; });
+});
+
+// ════════════════════════════════════════════════════════
+//  SIDEBAR
+// ════════════════════════════════════════════════════════
+const hamburger   = document.getElementById('hamburger');
+const sidebar     = document.getElementById('sidebar');
+const overlay     = document.getElementById('overlay');
+const pageWrapper = document.getElementById('page-wrapper');
+const openSidebar  = () => { sidebar.classList.add('open'); hamburger.classList.add('active'); overlay.classList.add('active'); pageWrapper.style.transform = `translateX(${sidebar.offsetWidth}px)`; };
+const closeSidebar = () => { sidebar.classList.remove('open'); hamburger.classList.remove('active'); overlay.classList.remove('active'); pageWrapper.style.transform = 'translateX(0)'; };
+hamburger.addEventListener('click', () => sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
+overlay.addEventListener('click', closeSidebar);
+document.querySelectorAll('.sidebar a').forEach(l => l.addEventListener('click', closeSidebar));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
 </script>
-
 </body>
 </html>
