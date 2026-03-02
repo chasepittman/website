@@ -5,6 +5,8 @@
   <title>Chase Pittman | Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="/assets/logos/personal/favicon.ico">
+
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
@@ -17,6 +19,7 @@
 
     body {
       margin: 0;
+      padding-top: 0;
       font-family: 'Poppins', Arial, sans-serif;
       background: radial-gradient(ellipse at center, #4a5660 0%, #384048 50%, #272e34 100%);
       background-attachment: fixed;
@@ -51,6 +54,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
+      justify-self: start;
     }
 
     .logo-link {
@@ -117,7 +121,8 @@
 
     .sidebar {
       position: fixed;
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
       width: var(--sidebar-width);
       height: 100%;
       background-color: #222;
@@ -164,6 +169,7 @@
       bottom: 20px;
       right: 20px;
       width: 340px;
+      height: auto;
       background: #1a1a1a;
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
@@ -182,6 +188,7 @@
       border-radius: 12px;
       display: block;
       transition: opacity 0.5s ease;
+      pointer-events: auto;
       border: none;
     }
 
@@ -200,6 +207,7 @@
       align-items: center;
       justify-content: center;
       padding: 0;
+      line-height: 1;
       cursor: pointer;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       z-index: 1000;
@@ -214,11 +222,17 @@
       height: 40px;
       padding: 0;
       border-radius: 50%;
+      overflow: visible;
       right: 20px;
+      background: #1a1a1a;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
 
-    .spotify-widget.collapsed iframe { opacity: 0; pointer-events: none; display: none; }
+    .spotify-widget.collapsed iframe {
+      opacity: 0;
+      pointer-events: none;
+      display: none;
+    }
 
     .spotify-widget.collapsed #spotify-toggle {
       top: 50%;
@@ -226,7 +240,10 @@
       transform: translate(-50%, -50%) rotate(180deg);
     }
 
-    @media (max-width: 768px) { .logo-link .logo { display: none; } }
+    /* MOBILE: hide navbar text */
+    @media (max-width: 768px) {
+      .logo-link .logo { display: none; }
+    }
 
     /* ── CONTENT WRAPPER ─────────────────────────────────────── */
     .content {
@@ -251,6 +268,7 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
+      gap: 0;
     }
 
     .hero-letter {
@@ -267,7 +285,7 @@
 
     @keyframes letterIn {
       0%   { opacity: 0; transform: translateY(10px); }
-      100% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 1; transform: translateY(0);    }
     }
 
     .hero-sub {
@@ -283,7 +301,7 @@
 
     @keyframes heroSubFadeIn {
       0%   { opacity: 0; transform: translateY(6px); }
-      100% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 1; transform: translateY(0);   }
     }
 
     .hero-dot {
@@ -321,8 +339,8 @@
     }
 
     /*
-      Flex row: [big arrow] [clip] [big arrow]
-      Arrows live outside the clip so overflow:hidden never hides them.
+      Outer flex row: [arrow] [clip] [arrow]
+      Arrows are siblings of the clip so overflow:hidden never hides them.
     */
     .carousel-area {
       display: flex;
@@ -332,13 +350,13 @@
       margin: 0 auto;
     }
 
-    /* ── Big bare arrows ─────────────────────────────────────── */
+    /* ── Arrows — large, bare, no circle ────────────────────── */
     .carousel-arrow {
       flex-shrink: 0;
       width: 54px;
       background: none;
       border: none;
-      color: rgba(255,255,255,0.60);
+      color: rgba(255,255,255,0.55);
       font-size: 48px;
       line-height: 1;
       cursor: pointer;
@@ -355,38 +373,22 @@
     }
 
     /* ── Clip ────────────────────────────────────────────────── */
+    /*
+      overflow:hidden clips the peeking side slides at the edges.
+      NO background is set here — the page background shows through cleanly,
+      which removes the "dark box" effect.
+    */
     .carousel-clip {
       flex: 1;
       position: relative;
-      overflow: hidden;      /* hides the side slides past the peek edges */
-      min-height: 180px;     /* fallback before JS sets track height */
-    }
-
-    /*
-      Gradient fade overlays on left/right edges.
-      They sit on top (z-index 10) and soften the cut-off of peeking slides,
-      giving the impression the side slides are partially hidden in shadow.
-    */
-    .clip-fade {
-      position: absolute;
-      top: 0; bottom: 0;
-      width: 13%;
-      z-index: 10;
-      pointer-events: none;
-    }
-
-    .clip-fade-l {
-      left: 0;
-      background: linear-gradient(to right, rgba(34,40,46,0.95) 0%, transparent 100%);
-    }
-
-    .clip-fade-r {
-      right: 0;
-      background: linear-gradient(to left, rgba(34,40,46,0.95) 0%, transparent 100%);
+      overflow: hidden;
     }
 
     /* ── Track ───────────────────────────────────────────────── */
-    /* Absolute children don't auto-expand parent — height is set by JS */
+    /*
+      Slides are absolutely positioned children, so the track needs its
+      height set explicitly by JS (absolute children don't expand it).
+    */
     .carousel-track {
       position: relative;
       width: 100%;
@@ -396,21 +398,23 @@
     .carousel-slide {
       position: absolute;
       top: 0;
-      /* left / width / transform / z-index / opacity all set by JS */
-      transition: left 0.62s cubic-bezier(0.4,0,0.2,1),
+      /* left, width, transform, z-index, opacity all set by JS */
+      transition: left   0.62s cubic-bezier(0.4,0,0.2,1),
                   transform 0.62s cubic-bezier(0.4,0,0.2,1),
                   opacity 0.5s ease;
     }
 
     /*
-      .slide-img-wrap has overflow:hidden so the hover zoom is clipped
-      cleanly to the image bounds. The title sits BELOW this wrapper
-      and is therefore unaffected by the zoom transform.
+      .slide-img-wrap clips the hover-zoom so it never overflows the
+      slide's own bounds. The box-shadow creates depth without needing
+      any background on a parent container.
+      The .slide-title sits BELOW this wrapper as a sibling, so it is
+      completely unaffected by the zoom transform.
     */
     .slide-img-wrap {
       overflow: hidden;
       border-radius: 12px;
-      box-shadow: 0 22px 60px rgba(0,0,0,0.60);
+      box-shadow: 0 18px 48px rgba(0,0,0,0.50);
     }
 
     .slide-img-wrap img {
@@ -423,13 +427,14 @@
       pointer-events: none;
     }
 
-    /* Zoom only applies to the img — title is outside .slide-img-wrap */
+    /* Hover zoom — only the img scales; title stays still */
     .carousel-slide.c-active:hover .slide-img-wrap img,
     .carousel-slide.c-active.tapped .slide-img-wrap img {
       transform: scale(1.055);
       filter: brightness(1.09);
     }
 
+    /* Slide title — Poppins to match sidebar nav */
     .slide-title {
       margin: 13px 0 0;
       font-family: 'Poppins', sans-serif;
@@ -550,6 +555,11 @@
 </head>
 <body>
 
+  <!--
+    Sidebar and overlay are OUTSIDE page-wrapper so that the translateX
+    applied to page-wrapper doesn't drag them along with the page content.
+  -->
+
   <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <a href="/">Home</a>
@@ -563,13 +573,15 @@
 
   <!-- NAVBAR -->
   <div class="navbar">
-    <div class="nav-left">
+    <div class="nav-left" id="nav-left">
       <div class="hamburger" id="hamburger">
-        <div></div><div></div><div></div>
+        <div></div>
+        <div></div>
+        <div></div>
       </div>
       <a href="/" class="logo-link">
-        <img src="/assets/logos/personal/CRP_logo_white.png" alt="Logo" class="logo-img">
-        <div class="logo">Chase Pittman | Portfolio</div>
+        <img src="/assets/logos/personal/CRP_logo_white.png" alt="Logo" class="logo-img" id="logo-img">
+        <div class="logo" id="logo-text">Chase Pittman | Portfolio</div>
       </a>
     </div>
 
@@ -589,7 +601,11 @@
     </div>
   </div>
 
-  <!-- Spotify Widget -->
+  <!--
+    Spotify Widget — starts with class "hidden" (right: -380px).
+    JS removes "hidden" after 1.4s (slides in), then adds "collapsed"
+    after 5s (shrinks to pill). User's toggle button overrides at any time.
+  -->
   <div class="spotify-widget hidden" id="spotify-widget">
     <iframe
       src="https://open.spotify.com/embed/album/3vhOUOy05eeQwq6EtxwnVW?utm_source=generator"
@@ -600,7 +616,9 @@
     <button id="spotify-toggle" aria-label="Toggle Spotify Player">&#9654;</button>
   </div>
 
+  <!-- Everything that shifts right lives inside page-wrapper -->
   <div class="page-wrapper" id="page-wrapper">
+
     <div class="content">
 
       <!-- ── HERO INTRO ───────────────────────────────────── -->
@@ -618,20 +636,15 @@
       <section class="hero-carousel">
 
         <!--
-          Flex row: big bare arrow | overflow:hidden clip | big bare arrow
-          The clip's overflow:hidden only affects what's inside it.
-          Arrows are siblings, so they're always fully visible.
+          Flex row: [bare arrow] [clip] [bare arrow]
+          clip has overflow:hidden — arrows are outside it so always visible.
+          No background on any carousel container = no dark box.
         -->
         <div class="carousel-area">
 
           <button class="carousel-arrow" id="carousel-prev" aria-label="Previous slide">&#10094;</button>
 
           <div class="carousel-clip" id="carousel-clip">
-            <!-- Dark gradient fades soften the peek edges, simulating depth/shadow -->
-            <div class="clip-fade clip-fade-l"></div>
-            <div class="clip-fade clip-fade-r"></div>
-
-            <!-- Track: position:relative, height set by JS to active slide height -->
             <div class="carousel-track" id="carousel-track">
 
               <div class="carousel-slide">
@@ -662,7 +675,7 @@
 
         </div><!-- /carousel-area -->
 
-        <!-- Dots sit below the full carousel row -->
+        <!-- Dots row — separate from the arrow row, centered below -->
         <div class="carousel-dots-row">
           <div class="carousel-dots" id="carousel-dots"></div>
         </div>
@@ -704,47 +717,59 @@
       </div>
 
     </div><!-- /content -->
+
   </div><!-- /page-wrapper -->
 
   <script>
   document.addEventListener('DOMContentLoaded', () => {
 
-    // ── Hero: letter-by-letter fade-in ─────────────────────────
+    // ── Hero title: letter-by-letter fade-in ──────────────────
     const titleEl   = document.getElementById('hero-title');
     const subEl     = document.getElementById('hero-sub');
     const ctaEl     = document.getElementById('hero-cta');
     const titleText = titleEl.textContent;
-    const LETTER_DELAY = 0.11;
-    const LETTER_DUR   = 0.9;
+    const LETTER_DELAY = 0.11;  // seconds between each letter
+    const LETTER_DUR   = 0.9;   // seconds per letter animation
 
     titleEl.textContent = '';
     let spanCount = 0;
+
     titleText.split('').forEach(char => {
       if (char === ' ') {
-        const s = document.createElement('span');
-        s.classList.add('hero-space');
-        s.setAttribute('aria-hidden', 'true');
-        titleEl.appendChild(s);
+        const space = document.createElement('span');
+        space.classList.add('hero-space');
+        space.setAttribute('aria-hidden', 'true');
+        titleEl.appendChild(space);
       } else {
-        const s = document.createElement('span');
-        s.classList.add('hero-letter');
-        s.textContent = char;
-        s.style.animationDelay = `${spanCount * LETTER_DELAY}s`;
-        titleEl.appendChild(s);
+        const span = document.createElement('span');
+        span.classList.add('hero-letter');
+        span.textContent = char;
+        span.style.animationDelay = `${spanCount * LETTER_DELAY}s`;
+        titleEl.appendChild(span);
         spanCount++;
       }
     });
+
     const subDelay = spanCount * LETTER_DELAY + LETTER_DUR;
     subEl.style.animationDelay = `${subDelay}s`;
     ctaEl.style.animationDelay = `${subDelay + 0.35}s`;
 
 
-    // ── Spotify auto-peek ──────────────────────────────────────
+    // ── Spotify: auto-peek sequence ────────────────────────────
     const spotifyWidget = document.getElementById('spotify-widget');
     const spotifyToggle = document.getElementById('spotify-toggle');
     let userTookControl = false;
-    setTimeout(() => { if (!userTookControl) spotifyWidget.classList.remove('hidden'); }, 1400);
-    setTimeout(() => { if (!userTookControl) spotifyWidget.classList.add('collapsed'); }, 5000);
+
+    setTimeout(() => {
+      if (userTookControl) return;
+      spotifyWidget.classList.remove('hidden');
+    }, 1400);
+
+    setTimeout(() => {
+      if (userTookControl) return;
+      spotifyWidget.classList.add('collapsed');
+    }, 5000);
+
     spotifyToggle.addEventListener('click', () => {
       userTookControl = true;
       spotifyWidget.classList.remove('hidden');
@@ -752,30 +777,37 @@
     });
 
 
-    // ── Sidebar ────────────────────────────────────────────────
+    // ── Sidebar / hamburger ────────────────────────────────────
     const hamburger   = document.getElementById('hamburger');
     const sidebar     = document.getElementById('sidebar');
     const overlay     = document.getElementById('overlay');
     const pageWrapper = document.getElementById('page-wrapper');
 
-    const openSidebar = () => {
+    function openSidebar() {
       sidebar.classList.add('open');
       hamburger.classList.add('active');
       overlay.classList.add('active');
       pageWrapper.style.transform = `translateX(${sidebar.offsetWidth}px)`;
-    };
-    const closeSidebar = () => {
+    }
+
+    function closeSidebar() {
       sidebar.classList.remove('open');
       hamburger.classList.remove('active');
       overlay.classList.remove('active');
       pageWrapper.style.transform = 'translateX(0)';
-    };
+    }
 
-    hamburger.addEventListener('click', () =>
-      sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
+    hamburger.addEventListener('click', () => {
+      sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+    });
+
     overlay.addEventListener('click', closeSidebar);
-    document.querySelectorAll('.sidebar a').forEach(l => l.addEventListener('click', closeSidebar));
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
+    document.querySelectorAll('.sidebar a').forEach(link => {
+      link.addEventListener('click', closeSidebar);
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeSidebar();
+    });
 
 
     // ── Carousel ───────────────────────────────────────────────
@@ -794,14 +826,10 @@
     const RESUME_MS = 3000;
 
     /*
-      PEEK_RATIO: fraction of the clip that each side slide reveals.
-      0.10 = 10% of clip width peeks on each side.
-
-      SIDE_SCALE: side slides are scaled down to this fraction,
-      making them appear shorter/smaller (behind the main slide).
-
-      The transform-origin is set to the VISIBLE EDGE of each side slide
-      so scaling pulls it inward while keeping the peeking portion in place.
+      PEEK_RATIO: fraction of clip width revealed for each side slide.
+      SIDE_SCALE: side slides appear smaller/further away.
+      transform-origin is set to the VISIBLE EDGE so scaling collapses
+      the slide away from view rather than toward the center.
     */
     const PEEK_RATIO = 0.10;
     const SIDE_SCALE = 0.86;
@@ -816,17 +844,14 @@
     });
     const dots = Array.from(dotsContainer.children);
 
-    // ── Position all slides ──────────────────────────────────
+    // ── applyPositions ───────────────────────────────────────
+    // Positions every slide in pixel space relative to the clip.
+    // Active: centered. Prev: right edge at peekPx. Next: left edge at clipW - peekPx.
     function applyPositions(animated) {
       const clipW  = clip.offsetWidth;
       const peekPx = Math.round(clipW * PEEK_RATIO);
-      /*
-        slideW: the width each slide is given.
-        With PEEK_RATIO = 0.10, each side contributes 10%, so active = 80%.
-        Active slide left edge = peekPx (10% in), right edge = clipW - peekPx (10% from right).
-      */
-      const slideW  = clipW - 2 * peekPx;
-      const activeL = peekPx;
+      const slideW = clipW - 2 * peekPx;  // active slide width
+      const activeL = peekPx;             // active slide left edge
 
       const trans = 'left 0.62s cubic-bezier(0.4,0,0.2,1), transform 0.62s cubic-bezier(0.4,0,0.2,1), opacity 0.5s ease';
 
@@ -835,7 +860,6 @@
         slide.style.width = slideW + 'px';
         slide.classList.remove('c-active', 'c-prev', 'c-next', 'c-far');
 
-        // How far this slide is from the current one (circular)
         const diff = ((i - current) + N) % N;
 
         if (diff === 0) {
@@ -849,10 +873,8 @@
 
         } else if (diff === N - 1) {
           // ── Prev: peek from the left ──
-          // Position so right edge (pre-scale) is at peekPx.
-          // left + slideW = peekPx  →  left = peekPx - slideW  (negative)
-          // transform-origin: right center keeps the right (visible) edge fixed
-          // while scale shrinks leftward.
+          // Right edge lands at peekPx: left = peekPx - slideW (negative)
+          // transform-origin: right → scale shrinks leftward, keeps right edge fixed
           slide.style.left            = (peekPx - slideW) + 'px';
           slide.style.transform       = `scale(${SIDE_SCALE})`;
           slide.style.transformOrigin = 'right center';
@@ -862,9 +884,8 @@
 
         } else if (diff === 1) {
           // ── Next: peek from the right ──
-          // Position so left edge (pre-scale) is at (clipW - peekPx).
-          // transform-origin: left center keeps the left (visible) edge fixed
-          // while scale shrinks rightward.
+          // Left edge lands at clipW - peekPx
+          // transform-origin: left → scale shrinks rightward, keeps left edge fixed
           slide.style.left            = (clipW - peekPx) + 'px';
           slide.style.transform       = `scale(${SIDE_SCALE})`;
           slide.style.transformOrigin = 'left center';
@@ -873,9 +894,7 @@
           slide.classList.add('c-next');
 
         } else {
-          // ── Far (hidden) ──
-          // Park off-screen in the appropriate direction so wrap-around
-          // transitions travel the right way.
+          // ── Far: parked off-screen in the correct direction ──
           const goRight = diff <= Math.floor(N / 2);
           slide.style.left            = (goRight ? clipW + slideW : -2 * slideW) + 'px';
           slide.style.transform       = `scale(${SIDE_SCALE})`;
@@ -897,9 +916,9 @@
       updateTrackHeight();
     }
 
-    // ── Track height ─────────────────────────────────────────
-    // Absolute-positioned children don't expand the track automatically.
-    // We measure the active slide's rendered height and apply it to the track.
+    // ── updateTrackHeight ────────────────────────────────────
+    // Absolute children don't expand the track, so we measure the
+    // active slide's full rendered height (image + title) and apply it.
     function updateTrackHeight() {
       const active = slides[current];
       if (active && active.offsetHeight > 0) {
@@ -917,16 +936,24 @@
     nextBtn.addEventListener('click', () => goToSlide(current + 1));
 
     // ── Auto-slide ───────────────────────────────────────────
-    const startAuto = () => { autoTimer = setInterval(() => goToSlide(current + 1), AUTO_MS); };
-    const stopAuto  = () => { clearInterval(autoTimer); clearTimeout(resumeTimer); };
-    const resetAuto = () => { stopAuto(); resumeTimer = setTimeout(startAuto, RESUME_MS); };
+    const startAuto = () => {
+      autoTimer = setInterval(() => goToSlide(current + 1), AUTO_MS);
+    };
+    const stopAuto = () => {
+      clearInterval(autoTimer);
+      clearTimeout(resumeTimer);
+    };
+    const resetAuto = () => {
+      stopAuto();
+      resumeTimer = setTimeout(startAuto, RESUME_MS);
+    };
 
     // ── Drag / Swipe ─────────────────────────────────────────
     /*
-      Thresholds (tuned to feel natural):
-        - Must drag > 65px to advance at all
-        - Multi-slide jump only if velocity > 1.8 px/ms AND drag > 160px
-          (requires a deliberate hard flick, not a quick tap-drag)
+      Thresholds tuned to feel natural:
+        - Must drag > 65px to advance at all (prevents accidental swipes)
+        - Multi-slide jump only if velocity > 1.8 px/ms AND diff > 160px
+          (requires a deliberate hard flick, not just a quick tap-swipe)
         - Maximum jump capped at N-1 slides
     */
     let ptX = 0, ptY = 0, ptT = 0;
@@ -946,17 +973,18 @@
       }
       if (dragAxis !== 'x') return;
 
-      // Live-follow the finger so the drag feels physical
+      // Live-follow the finger/mouse for physical drag feel
       const clipW  = clip.offsetWidth;
       const peekPx = Math.round(clipW * PEEK_RATIO);
       const slideW = clipW - 2 * peekPx;
+
       slides.forEach((slide, i) => {
         const diff = ((i - current) + N) % N;
         if (diff === 0 || diff === N - 1 || diff === 1) {
           slide.style.transition = 'none';
-          const baseLeft = diff === 0       ? peekPx
-                         : diff === N - 1   ? peekPx - slideW
-                         :                    clipW - peekPx;
+          const baseLeft = diff === 0     ? peekPx
+                         : diff === N - 1 ? peekPx - slideW
+                         :                  clipW - peekPx;
           slide.style.left = (baseLeft + dx) + 'px';
         }
       });
@@ -965,9 +993,9 @@
     const onEnd = (x) => {
       if (!dragActive) return;
       dragActive = false;
-      const diff    = ptX - x;                        // positive = swiped left (next)
+      const diff    = ptX - x;                         // positive = swiped left → next
       const elapsed = Math.max(Date.now() - ptT, 1);
-      const vel     = Math.abs(diff) / elapsed;       // px/ms
+      const vel     = Math.abs(diff) / elapsed;        // px/ms
 
       if (Math.abs(diff) > 65) {
         let steps = 1;
@@ -976,24 +1004,35 @@
         }
         goToSlide(diff > 0 ? current + steps : current - steps);
       } else {
-        applyPositions(true);  // snap back
+        applyPositions(true);  // not far enough — snap back
         resetAuto();
       }
     };
 
-    // Touch
-    track.addEventListener('touchstart', e => onStart(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+    // Touch events
+    track.addEventListener('touchstart', e => {
+      onStart(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
+
     track.addEventListener('touchmove', e => {
       onMove(e.touches[0].clientX, e.touches[0].clientY);
       if (dragAxis === 'x') e.preventDefault();
     }, { passive: false });
+
     track.addEventListener('touchend',    e => onEnd(e.changedTouches[0].clientX));
     track.addEventListener('touchcancel', e => onEnd(e.changedTouches[0].clientX));
 
-    // Mouse — listen on window so fast moves don't lose the drag
-    track.addEventListener('mousedown', e => { e.preventDefault(); onStart(e.clientX, e.clientY); });
-    window.addEventListener('mousemove', e => { if (dragActive) onMove(e.clientX, e.clientY); });
-    window.addEventListener('mouseup',   e => { if (dragActive) onEnd(e.clientX); });
+    // Mouse events — on window so fast moves don't lose the pointer
+    track.addEventListener('mousedown', e => {
+      e.preventDefault(); // stops browser native image-drag interception
+      onStart(e.clientX, e.clientY);
+    });
+    window.addEventListener('mousemove', e => {
+      if (dragActive) onMove(e.clientX, e.clientY);
+    });
+    window.addEventListener('mouseup', e => {
+      if (dragActive) onEnd(e.clientX);
+    });
 
     // Mobile tap-hold zoom effect
     slides.forEach(slide => {
@@ -1002,7 +1041,7 @@
       slide.addEventListener('touchcancel', () => slide.classList.remove('tapped'));
     });
 
-    // Update on resize
+    // Recalculate on resize
     let resizeTimer;
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
@@ -1019,7 +1058,7 @@
     applyPositions(false);
     startAuto();
 
-  }); // closes DOMContentLoaded
+  }); // ← closes DOMContentLoaded
   </script>
 
 </body>
