@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <title>Projects | Chase Pittman</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,14 +12,15 @@
 
 <style>
 
-body{
+html,body{
 margin:0;
 font-family:'Poppins',sans-serif;
 background: radial-gradient(ellipse at center,#4a5660 0%,#384048 50%,#272e34 100%);
 color:#f4f4f4;
+overflow-x:hidden;
 }
 
-/* NAVBAR (same as homepage) */
+/* NAVBAR */
 
 .navbar{
 display:flex;
@@ -28,11 +30,24 @@ background:#222;
 position:sticky;
 top:0;
 z-index:1400;
+box-shadow:4px 0 12px rgba(0,0,0,.5);
 }
 
-.nav-left{display:flex;align-items:center;gap:12px}
+.nav-left{
+display:flex;
+align-items:center;
+gap:12px;
+}
 
-.logo-img{height:36px}
+.logo-img{
+height:36px;
+}
+
+.logo{
+font-family:'Cormorant Garamond';
+font-size:20px;
+color:white;
+}
 
 .nav-right{
 margin-left:auto;
@@ -43,11 +58,35 @@ gap:18px;
 .nav-right img{
 width:26px;
 opacity:.85;
+transition:.2s;
+}
+
+.nav-right img:hover{
+opacity:1;
+transform:translateY(-2px);
+}
+
+/* HAMBURGER */
+
+.hamburger{
+display:flex;
+flex-direction:column;
+width:28px;
+height:20px;
+justify-content:space-between;
+cursor:pointer;
+margin-right:18px;
+}
+
+.hamburger div{
+height:3px;
+background:white;
+border-radius:2px;
 }
 
 /* SIDEBAR */
 
-:root{--sidebar-width:260px}
+:root{--sidebar-width:260px;}
 
 .sidebar{
 position:fixed;
@@ -56,29 +95,65 @@ left:0;
 width:var(--sidebar-width);
 height:100%;
 background:#222;
-transform:translateX(-100%);
-transition:.3s;
-padding-top:100px;
 display:flex;
 flex-direction:column;
+padding-top:100px;
 gap:20px;
+transform:translateX(-100%);
+transition:.3s;
 z-index:1300;
 }
 
-.sidebar.open{transform:translateX(0)}
+.sidebar.open{transform:translateX(0);}
 
 .sidebar a{
 color:#f4f4f4;
 text-decoration:none;
 padding:12px 24px;
+font-size:18px;
+}
+
+.sidebar a:hover{
+background:#1abc9c;
+color:#222;
+border-radius:6px;
+}
+
+.overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.4);
+opacity:0;
+pointer-events:none;
+transition:.3s;
+z-index:1050;
+}
+
+.overlay.active{
+opacity:1;
+pointer-events:auto;
 }
 
 /* PAGE */
 
 .page-wrapper{
+transition:transform .3s ease;
 max-width:1200px;
 margin:auto;
-padding:40px 20px;
+padding:70px 20px 120px;
+}
+
+.page-title{
+font-family:'Cormorant Garamond';
+font-size:60px;
+text-align:center;
+margin-bottom:10px;
+}
+
+.page-sub{
+text-align:center;
+color:#9fb0bb;
+margin-bottom:80px;
 }
 
 /* PROJECT SELECTOR */
@@ -86,71 +161,113 @@ padding:40px 20px;
 .projects-selector{
 display:flex;
 justify-content:center;
-gap:40px;
-margin-top:20px;
-margin-bottom:60px;
+gap:50px;
+margin-bottom:80px;
 }
 
 .project-card{
 width:260px;
 cursor:pointer;
-transition:.35s;
 opacity:.45;
+transition:.5s;
 }
 
 .project-card.active{
 opacity:1;
-transform:scale(1.03);
+transform:scale(1.05);
 }
 
-.project-card img{
+/* TALL VISUALS */
+
+.project-image-wrap{
+height:420px;
+overflow:hidden;
+border-radius:12px;
+box-shadow:0 25px 70px rgba(0,0,0,.55);
+}
+
+.project-image-wrap img{
 width:100%;
-border-radius:10px;
-box-shadow:0 15px 40px rgba(0,0,0,.5);
+height:100%;
+object-fit:cover;
+transition:transform .6s,filter .4s;
+}
+
+/* HOVER LIGHTING */
+
+.project-card:hover img{
+transform:scale(1.08);
+filter:brightness(1.15);
 }
 
 .project-title{
 text-align:center;
-margin-top:12px;
-font-size:15px;
+margin-top:14px;
+font-size:14px;
 color:#c0cdd5;
+letter-spacing:.04em;
 }
 
-/* CASE STUDY SECTION */
+/* CASE STUDY */
 
 .case-study{
 display:none;
 max-width:900px;
 margin:auto;
+animation:fadeUp .6s ease;
 }
 
 .case-study.active{
 display:block;
 }
 
+@keyframes fadeUp{
+from{opacity:0;transform:translateY(25px);}
+to{opacity:1;transform:translateY(0);}
+}
+
 .section-box{
 background:#2e3740;
-padding:28px 36px;
+padding:30px 36px;
 border-radius:12px;
-margin-bottom:28px;
-text-align:left;
+margin-bottom:34px;
 }
 
 .section-title{
-font-family:'Cormorant Garamond',serif;
-font-size:28px;
-margin-bottom:14px;
+font-family:'Cormorant Garamond';
+font-size:32px;
+margin-bottom:12px;
 }
 
-/* IMAGE AREAS */
-
 .project-image{
-margin:30px 0;
+margin:50px 0;
 }
 
 .project-image img{
 width:100%;
-border-radius:10px;
+border-radius:12px;
+box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+
+/* SPOTIFY */
+
+.spotify-widget{
+position:fixed;
+bottom:20px;
+right:20px;
+width:40px;
+height:40px;
+background:#1a1a1a;
+border-radius:50%;
+box-shadow:0 4px 12px rgba(0,0,0,.3);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:900;
+}
+
+.spotify-widget iframe{
+display:none;
 }
 
 </style>
@@ -167,6 +284,8 @@ border-radius:10px;
 <a href="/contact.html">Contact</a>
 </div>
 
+<div class="overlay" id="overlay"></div>
+
 <!-- NAVBAR -->
 
 <div class="navbar">
@@ -177,7 +296,7 @@ border-radius:10px;
 <div></div><div></div><div></div>
 </div>
 
-<a href="/" class="logo-link">
+<a href="/" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;">
 <img src="/assets/logos/personal/CRP_logo_white.png" class="logo-img">
 <div class="logo">Chase Pittman | Portfolio</div>
 </a>
@@ -190,23 +309,26 @@ border-radius:10px;
 <img src="/assets/logos/tools/linkedin.png">
 </a>
 
-<a href="https://github.com/chasepittman" target="_blank">
+<a href="https://www.credly.com/users/chase-pittman.017d3434/badges#credly" target="_blank">
+<img src="/assets/logos/skills/credly.png">
+</a>
+
+<a href="https://www.github.com/chasepittman" target="_blank">
 <img src="/assets/logos/tools/github.png">
+</a>
+
+<a href="/contact.html">
+<img src="/assets/logos/tools/gmail.png">
 </a>
 
 </div>
 
 </div>
 
-<div class="page-wrapper">
+<div class="page-wrapper" id="page-wrapper">
 
-<h1 style="text-align:center;font-family:'Cormorant Garamond';font-size:52px;margin-bottom:10px;">
-Projects
-</h1>
-
-<p style="text-align:center;color:#9fb0bb;margin-bottom:40px;">
-Selected product thinking and concept work
-</p>
+<div class="page-title">Projects</div>
+<div class="page-sub">Selected product thinking and concept work</div>
 
 <!-- PROJECT VISUAL SELECTOR -->
 
@@ -214,84 +336,72 @@ Selected product thinking and concept work
 
 <div class="project-card active" data-project="zoom">
 
+<div class="project-image-wrap">
 <img src="/assets/files/slides/Zoom_Office.png">
-
-<div class="project-title">
-Zoom Office | Concept Redesign
 </div>
+
+<div class="project-title">Zoom Office | Concept Redesign</div>
 
 </div>
 
 <div class="project-card" data-project="project2">
 
+<div class="project-image-wrap">
 <img src="/assets/files/slides/Zoom_Office.png">
-
-<div class="project-title">
-Project 2
 </div>
+
+<div class="project-title">Project 2</div>
 
 </div>
 
 <div class="project-card" data-project="project3">
 
+<div class="project-image-wrap">
 <img src="/assets/files/slides/Zoom_Office.png">
+</div>
 
-<div class="project-title">
-Project 3
+<div class="project-title">Project 3</div>
+
 </div>
 
 </div>
 
-</div>
-
-<!-- ZOOM OFFICE CASE STUDY -->
+<!-- CASE STUDY -->
 
 <div class="case-study active" id="zoom">
 
 <div class="section-box">
 
-<div class="section-title">
-The Idea
-</div>
+<div class="section-title">The Idea</div>
 
 <p>
-Zoom Office is a concept product designed to bridge the gap between remote
-and in-person work environments.
-</p>
-
-<p>
-The idea was to create a <b>virtual workplace inside Zoom</b> that recreates the
-spatial awareness and casual collaboration of a real office.
+Zoom Office is a concept product designed to recreate the spatial awareness
+and collaboration of a physical office within Zoom.
 </p>
 
 </div>
 
 <div class="section-box">
 
-<div class="section-title">
-Problem
-</div>
+<div class="section-title">Problem</div>
 
 <ul>
-<li>Remote work can feel isolating</li>
-<li>Hybrid teams struggle with visibility</li>
-<li>Meeting culture creates fatigue</li>
+<li>Remote work reduces spontaneous collaboration</li>
+<li>Zoom fatigue from meeting-heavy culture</li>
+<li>Lack of visibility across hybrid teams</li>
 </ul>
 
 </div>
 
 <div class="section-box">
 
-<div class="section-title">
-Solution
-</div>
+<div class="section-title">Solution</div>
 
 <ul>
-<li>Virtual office floor plans</li>
+<li>Interactive office floorplans</li>
 <li>Real-time employee presence</li>
-<li>Interactive meeting rooms</li>
+<li>Clickable meeting rooms</li>
 <li>Department filtering</li>
-<li>Integrated scheduling</li>
 </ul>
 
 </div>
@@ -304,16 +414,13 @@ Solution
 
 <div class="section-box">
 
-<div class="section-title">
-Key Features
-</div>
+<div class="section-title">Key Features</div>
 
 <ul>
-<li>Click rooms to join meetings</li>
-<li>See who is in the office</li>
-<li>Virtual task boards</li>
-<li>Break rooms and recharge spaces</li>
-<li>VR support for immersive workspaces</li>
+<li>Virtual whiteboards</li>
+<li>Task boards</li>
+<li>Break rooms</li>
+<li>VR collaboration support</li>
 </ul>
 
 </div>
@@ -326,15 +433,13 @@ Key Features
 
 <div class="section-box">
 
-<div class="section-title">
-Measuring Impact
-</div>
+<div class="section-title">Measuring Impact</div>
 
 <ul>
-<li>Employee engagement surveys</li>
-<li>Application usage time</li>
-<li>Turnover rate</li>
-<li>Productivity impact</li>
+<li>Employee satisfaction surveys</li>
+<li>Usage time</li>
+<li>Employee retention</li>
+<li>Productivity improvement</li>
 </ul>
 
 </div>
@@ -343,7 +448,35 @@ Measuring Impact
 
 </div>
 
+<!-- SPOTIFY -->
+
+<div class="spotify-widget">
+<iframe src="https://open.spotify.com/embed/album/3vhOUOy05eeQwq6EtxwnVW"></iframe>
+</div>
+
 <script>
+
+/* SIDEBAR */
+
+const hamburger=document.getElementById('hamburger')
+const sidebar=document.getElementById('sidebar')
+const overlay=document.getElementById('overlay')
+const wrapper=document.getElementById('page-wrapper')
+
+function openSidebar(){
+sidebar.classList.add('open')
+overlay.classList.add('active')
+wrapper.style.transform=`translateX(${sidebar.offsetWidth}px)`
+}
+
+function closeSidebar(){
+sidebar.classList.remove('open')
+overlay.classList.remove('active')
+wrapper.style.transform='translateX(0)'
+}
+
+hamburger.onclick=()=>sidebar.classList.contains('open')?closeSidebar():openSidebar()
+overlay.onclick=closeSidebar
 
 /* PROJECT SWITCHING */
 
@@ -352,16 +485,11 @@ const studies=document.querySelectorAll('.case-study')
 
 cards.forEach(card=>{
 card.addEventListener('click',()=>{
-
 cards.forEach(c=>c.classList.remove('active'))
 studies.forEach(s=>s.classList.remove('active'))
 
 card.classList.add('active')
-
-document
-.getElementById(card.dataset.project)
-.classList.add('active')
-
+document.getElementById(card.dataset.project).classList.add('active')
 })
 })
 
@@ -371,9 +499,7 @@ const params=new URLSearchParams(window.location.search)
 const project=params.get("project")
 
 if(project){
-
 document.querySelector(`[data-project="${project}"]`)?.click()
-
 }
 
 </script>
