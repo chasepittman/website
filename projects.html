@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Projects | Chase Pittman</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="icon" type="image/x-icon" href="/assets/logos/personal/favicon.ico">
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:'Poppins',sans-serif;
+background: radial-gradient(ellipse at center,#4a5660 0%,#384048 50%,#272e34 100%);
+color:#f4f4f4;
+}
+
+/* NAVBAR (same as homepage) */
+
+.navbar{
+display:flex;
+align-items:center;
+padding:14px 24px;
+background:#222;
+position:sticky;
+top:0;
+z-index:1400;
+}
+
+.nav-left{display:flex;align-items:center;gap:12px}
+
+.logo-img{height:36px}
+
+.nav-right{
+margin-left:auto;
+display:flex;
+gap:18px;
+}
+
+.nav-right img{
+width:26px;
+opacity:.85;
+}
+
+/* SIDEBAR */
+
+:root{--sidebar-width:260px}
+
+.sidebar{
+position:fixed;
+top:0;
+left:0;
+width:var(--sidebar-width);
+height:100%;
+background:#222;
+transform:translateX(-100%);
+transition:.3s;
+padding-top:100px;
+display:flex;
+flex-direction:column;
+gap:20px;
+z-index:1300;
+}
+
+.sidebar.open{transform:translateX(0)}
+
+.sidebar a{
+color:#f4f4f4;
+text-decoration:none;
+padding:12px 24px;
+}
+
+/* PAGE */
+
+.page-wrapper{
+max-width:1200px;
+margin:auto;
+padding:40px 20px;
+}
+
+/* PROJECT SELECTOR */
+
+.projects-selector{
+display:flex;
+justify-content:center;
+gap:40px;
+margin-top:20px;
+margin-bottom:60px;
+}
+
+.project-card{
+width:260px;
+cursor:pointer;
+transition:.35s;
+opacity:.45;
+}
+
+.project-card.active{
+opacity:1;
+transform:scale(1.03);
+}
+
+.project-card img{
+width:100%;
+border-radius:10px;
+box-shadow:0 15px 40px rgba(0,0,0,.5);
+}
+
+.project-title{
+text-align:center;
+margin-top:12px;
+font-size:15px;
+color:#c0cdd5;
+}
+
+/* CASE STUDY SECTION */
+
+.case-study{
+display:none;
+max-width:900px;
+margin:auto;
+}
+
+.case-study.active{
+display:block;
+}
+
+.section-box{
+background:#2e3740;
+padding:28px 36px;
+border-radius:12px;
+margin-bottom:28px;
+text-align:left;
+}
+
+.section-title{
+font-family:'Cormorant Garamond',serif;
+font-size:28px;
+margin-bottom:14px;
+}
+
+/* IMAGE AREAS */
+
+.project-image{
+margin:30px 0;
+}
+
+.project-image img{
+width:100%;
+border-radius:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar" id="sidebar">
+<a href="/">Home</a>
+<a href="/projects.html">Projects</a>
+<a href="/about.html">About</a>
+<a href="/contact.html">Contact</a>
+</div>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+<div class="nav-left">
+
+<div class="hamburger" id="hamburger">
+<div></div><div></div><div></div>
+</div>
+
+<a href="/" class="logo-link">
+<img src="/assets/logos/personal/CRP_logo_white.png" class="logo-img">
+<div class="logo">Chase Pittman | Portfolio</div>
+</a>
+
+</div>
+
+<div class="nav-right">
+
+<a href="https://www.linkedin.com/in/chasepittman" target="_blank">
+<img src="/assets/logos/tools/linkedin.png">
+</a>
+
+<a href="https://github.com/chasepittman" target="_blank">
+<img src="/assets/logos/tools/github.png">
+</a>
+
+</div>
+
+</div>
+
+<div class="page-wrapper">
+
+<h1 style="text-align:center;font-family:'Cormorant Garamond';font-size:52px;margin-bottom:10px;">
+Projects
+</h1>
+
+<p style="text-align:center;color:#9fb0bb;margin-bottom:40px;">
+Selected product thinking and concept work
+</p>
+
+<!-- PROJECT VISUAL SELECTOR -->
+
+<div class="projects-selector">
+
+<div class="project-card active" data-project="zoom">
+
+<img src="/assets/files/slides/Zoom_Office.png">
+
+<div class="project-title">
+Zoom Office | Concept Redesign
+</div>
+
+</div>
+
+<div class="project-card" data-project="project2">
+
+<img src="/assets/files/slides/Zoom_Office.png">
+
+<div class="project-title">
+Project 2
+</div>
+
+</div>
+
+<div class="project-card" data-project="project3">
+
+<img src="/assets/files/slides/Zoom_Office.png">
+
+<div class="project-title">
+Project 3
+</div>
+
+</div>
+
+</div>
+
+<!-- ZOOM OFFICE CASE STUDY -->
+
+<div class="case-study active" id="zoom">
+
+<div class="section-box">
+
+<div class="section-title">
+The Idea
+</div>
+
+<p>
+Zoom Office is a concept product designed to bridge the gap between remote
+and in-person work environments.
+</p>
+
+<p>
+The idea was to create a <b>virtual workplace inside Zoom</b> that recreates the
+spatial awareness and casual collaboration of a real office.
+</p>
+
+</div>
+
+<div class="section-box">
+
+<div class="section-title">
+Problem
+</div>
+
+<ul>
+<li>Remote work can feel isolating</li>
+<li>Hybrid teams struggle with visibility</li>
+<li>Meeting culture creates fatigue</li>
+</ul>
+
+</div>
+
+<div class="section-box">
+
+<div class="section-title">
+Solution
+</div>
+
+<ul>
+<li>Virtual office floor plans</li>
+<li>Real-time employee presence</li>
+<li>Interactive meeting rooms</li>
+<li>Department filtering</li>
+<li>Integrated scheduling</li>
+</ul>
+
+</div>
+
+<div class="project-image">
+
+<img src="/assets/files/slides/Zoom_Office_Visual.png">
+
+</div>
+
+<div class="section-box">
+
+<div class="section-title">
+Key Features
+</div>
+
+<ul>
+<li>Click rooms to join meetings</li>
+<li>See who is in the office</li>
+<li>Virtual task boards</li>
+<li>Break rooms and recharge spaces</li>
+<li>VR support for immersive workspaces</li>
+</ul>
+
+</div>
+
+<div class="project-image">
+
+<img src="/assets/files/slides/Zoom_Office_Detail.png">
+
+</div>
+
+<div class="section-box">
+
+<div class="section-title">
+Measuring Impact
+</div>
+
+<ul>
+<li>Employee engagement surveys</li>
+<li>Application usage time</li>
+<li>Turnover rate</li>
+<li>Productivity impact</li>
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* PROJECT SWITCHING */
+
+const cards=document.querySelectorAll('.project-card')
+const studies=document.querySelectorAll('.case-study')
+
+cards.forEach(card=>{
+card.addEventListener('click',()=>{
+
+cards.forEach(c=>c.classList.remove('active'))
+studies.forEach(s=>s.classList.remove('active'))
+
+card.classList.add('active')
+
+document
+.getElementById(card.dataset.project)
+.classList.add('active')
+
+})
+})
+
+/* DEEP LINKING */
+
+const params=new URLSearchParams(window.location.search)
+const project=params.get("project")
+
+if(project){
+
+document.querySelector(`[data-project="${project}"]`)?.click()
+
+}
+
+</script>
+
+</body>
+</html>
