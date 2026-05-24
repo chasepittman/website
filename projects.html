@@ -12,6 +12,12 @@
 
 <style>
 
+:root {
+  --gold: #c2a46d;
+  --gold-dim: rgba(194,164,109,.12);
+  --gold-border: rgba(194,164,109,.35);
+}
+
 html, body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
@@ -150,7 +156,7 @@ html, body {
 .sidebar.open a:nth-child(4) { transition-delay: .20s; }
 
 .sidebar a:hover {
-  background: #1abc9c;
+  background: var(--gold);
   color: #222;
   border-radius: 6px;
   transform: translateX(6px);
@@ -164,7 +170,7 @@ html, body {
   transform: translateY(-50%);
   height: 0%;
   width: 2px;
-  background: #1abc9c;
+  background: var(--gold);
   transition: height .25s ease;
 }
 
@@ -299,8 +305,8 @@ html, body {
 /* ── CONSTRAINT CALLOUT ─────────────────────────────────── */
 
 .constraint-box {
-  background: rgba(26, 188, 156, .08);
-  border-left: 3px solid #1abc9c;
+  background: var(--gold-dim);
+  border-left: 3px solid var(--gold);
   border-radius: 0 8px 8px 0;
   padding: 18px 24px;
   margin: 20px 0 0;
@@ -310,12 +316,161 @@ html, body {
 }
 
 .constraint-box strong {
-  color: #1abc9c;
+  color: var(--gold);
   display: block;
   margin-bottom: 4px;
   font-size: 12px;
   letter-spacing: .08em;
   text-transform: uppercase;
+}
+
+/* ── TRY IT SECTION ─────────────────────────────────────── */
+
+.try-it-box {
+  background: #2e3740;
+  border-radius: 12px;
+  margin-bottom: 34px;
+  overflow: hidden;
+}
+
+.try-it-header {
+  padding: 26px 36px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.try-it-left { flex: 1; }
+
+.try-it-title {
+  font-family: 'Cormorant Garamond';
+  font-size: 32px;
+  margin: 0 0 6px;
+}
+
+.try-it-sub {
+  font-size: 13px;
+  color: #9fb0bb;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.try-it-sub em {
+  font-style: normal;
+  color: var(--gold);
+  opacity: .9;
+}
+
+.launch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: var(--gold-dim);
+  border: 1px solid var(--gold-border);
+  color: var(--gold);
+  padding: 11px 22px;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  letter-spacing: .04em;
+  cursor: pointer;
+  transition: background .25s, border-color .25s, transform .2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.launch-btn:hover {
+  background: rgba(194,164,109,.22);
+  border-color: rgba(194,164,109,.6);
+  transform: translateY(-1px);
+}
+
+.launch-btn svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+/* ── DEMO MODAL ─────────────────────────────────────────── */
+
+#demo-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0,0,0,.72);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease;
+}
+
+#demo-modal.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-inner {
+  width: 92vw;
+  height: 88vh;
+  max-width: 1320px;
+  background: #0B1929;
+  border-radius: 12px;
+  border: 1px solid rgba(194,164,109,.25);
+  box-shadow: 0 40px 120px rgba(0,0,0,.8);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: translateY(24px) scale(.98);
+  transition: transform .35s cubic-bezier(.22,1,.36,1);
+}
+
+#demo-modal.open .modal-inner {
+  transform: translateY(0) scale(1);
+}
+
+.modal-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #0c1e33;
+  border-bottom: 1px solid rgba(194,164,109,.15);
+  flex-shrink: 0;
+}
+
+.modal-bar-label {
+  font-size: 11px;
+  letter-spacing: .1em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: #6b84a3;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: color .2s, background .2s;
+}
+
+.modal-close:hover {
+  color: #f4f4f4;
+  background: rgba(255,255,255,.08);
+}
+
+.modal-frame {
+  flex: 1;
+  width: 100%;
+  border: none;
+  display: block;
 }
 
 /* ── SPOTIFY ────────────────────────────────────────────── */
@@ -342,12 +497,31 @@ html, body {
 @media (max-width: 768px) {
   .logo { display: none; }
   .projects-selector { flex-direction: column; align-items: center; }
+  .try-it-header { flex-direction: column; align-items: flex-start; }
+  #demo-modal .modal-inner { width: 98vw; height: 94vh; }
 }
 
 </style>
 </head>
 
 <body>
+
+<!-- DEMO MODAL -->
+<div id="demo-modal" role="dialog" aria-modal="true" aria-label="The Bridge — Live Demo">
+  <div class="modal-inner">
+    <div class="modal-bar">
+      <span class="modal-bar-label">The Bridge &nbsp;·&nbsp; Demo Mode</span>
+      <button class="modal-close" id="modal-close-btn" aria-label="Close demo">&#x2715;</button>
+    </div>
+    <iframe
+      class="modal-frame"
+      id="demo-iframe"
+      src=""
+      data-src="/assets/files/the-bridge-demo.html"
+      title="The Bridge — Live Demo">
+    </iframe>
+  </div>
+</div>
 
 <!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
@@ -401,7 +575,6 @@ html, body {
   <!-- PROJECT VISUAL SELECTOR -->
   <div class="projects-selector">
 
-    <!-- 1: The Bridge -->
     <div class="project-card active" data-project="the-bridge">
       <div class="project-image-wrap">
         <img src="/assets/files/slides/The Bridge/The_Bridge_Vertical.png">
@@ -409,7 +582,6 @@ html, body {
       <div class="project-title">The Bridge | Merchandising Intelligence Tool</div>
     </div>
 
-    <!-- 2: Placeholder -->
     <div class="project-card" data-project="project2">
       <div class="project-image-wrap">
         <img src="/assets/files/slides/WIP.png">
@@ -417,7 +589,6 @@ html, body {
       <div class="project-title">Project 2 (WIP)</div>
     </div>
 
-    <!-- 3: Zoom Office -->
     <div class="project-card" data-project="zoom-office">
       <div class="project-image-wrap">
         <img src="/assets/files/slides/Zoom Office/Zoom_Office_Vertical.png">
@@ -464,8 +635,9 @@ html, body {
       </div>
     </div>
 
+    <!-- MOCKUP IMAGE — swap src to the SVG when hosted -->
     <div class="project-image">
-      <img src="/assets/files/slides/The Bridge/The_Bridge_Dashboard.png" alt="The Bridge — Merchandising Intelligence Tool">
+      <img src="/assets/files/slides/The Bridge/the-bridge-mockup.svg" alt="The Bridge — Harlow Collection Dashboard">
     </div>
 
     <div class="section-box">
@@ -480,6 +652,25 @@ html, body {
         <li><strong>Metal finish breakdown</strong> for finish-level performance analysis</li>
         <li><strong>Cascading hierarchy filters</strong> — drill from LOB → Group → Class → Type → Subtype in the sidebar</li>
       </ul>
+    </div>
+
+    <!-- TRY IT SECTION -->
+    <div class="try-it-box">
+      <div class="try-it-header">
+        <div class="try-it-left">
+          <div class="try-it-title">Try It</div>
+          <p class="try-it-sub">
+            A working demo with sample data. Search <em>"Harlow"</em> or <em>"Sutton"</em>,
+            or drill down by category using the sidebar filters.
+          </p>
+        </div>
+        <button class="launch-btn" id="launch-demo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+          </svg>
+          Launch Demo
+        </button>
+      </div>
     </div>
 
     <div class="section-box">
@@ -511,7 +702,7 @@ html, body {
   <!-- ═══════════════════════════════════════
        CASE STUDY 3 — ZOOM OFFICE
   ════════════════════════════════════════ -->
-  <div class="case-study" id="zoom">
+  <div class="case-study" id="zoom-office">
 
     <div class="section-box">
       <div class="section-title">The Idea</div>
@@ -565,7 +756,7 @@ html, body {
       </ul>
     </div>
 
-  </div><!-- /#zoom -->
+  </div><!-- /#zoom-office -->
 
 </div><!-- /#page-wrapper -->
 
@@ -610,10 +801,13 @@ document.querySelectorAll('.sidebar a').forEach(link =>
 );
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeSidebar();
+  if (e.key === 'Escape') {
+    closeSidebar();
+    closeModal();
+  }
 });
 
-/* ── CINEMATIC NAVBAR SCROLL ──────────────────────────────── */
+/* ── NAVBAR SCROLL ────────────────────────────────────────── */
 
 const navbar = document.getElementById('navbar');
 
@@ -648,6 +842,37 @@ const project = params.get('project');
 if (project) {
   document.querySelector(`[data-project="${project}"]`)?.click();
 }
+
+/* ── DEMO MODAL ───────────────────────────────────────────── */
+
+const modal     = document.getElementById('demo-modal');
+const iframe    = document.getElementById('demo-iframe');
+const launchBtn = document.getElementById('launch-demo');
+const closeBtn  = document.getElementById('modal-close-btn');
+let   iframeLoaded = false;
+
+function openModal() {
+  // Lazy-load the iframe the first time
+  if (!iframeLoaded) {
+    iframe.src = iframe.dataset.src;
+    iframeLoaded = true;
+  }
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+launchBtn.addEventListener('click', openModal);
+closeBtn.addEventListener('click', closeModal);
+
+// Click the backdrop (not the inner panel) to close
+modal.addEventListener('click', e => {
+  if (e.target === modal) closeModal();
+});
 
 </script>
 </body>
