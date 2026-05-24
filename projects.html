@@ -26,8 +26,6 @@ html, body {
   overflow-x: hidden;
 }
 
-/* ── NAVBAR ─────────────────────────────────────────────── */
-
 .navbar {
   display: flex;
   align-items: center;
@@ -40,464 +38,186 @@ html, body {
   transition: background .35s ease, box-shadow .35s ease;
 }
 
-.nav-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
+.nav-left { display: flex; align-items: center; gap: 12px; }
 .logo-img { height: 36px; }
+.logo { font-family: 'Cormorant Garamond'; font-size: 20px; color: white; }
 
-.logo {
-  font-family: 'Cormorant Garamond';
-  font-size: 20px;
-  color: white;
-}
-
-.nav-right {
-  margin-left: auto;
-  display: flex;
-  gap: 18px;
-}
-
-.nav-right img {
-  width: 26px;
-  opacity: .85;
-  transition: opacity .2s, transform .2s;
-}
-
-.nav-right img:hover {
-  opacity: 1;
-  transform: translateY(-2px);
-}
-
-/* ── HAMBURGER ──────────────────────────────────────────── */
+.nav-right { margin-left: auto; display: flex; gap: 18px; }
+.nav-right img { width: 26px; opacity: .85; transition: opacity .2s, transform .2s; }
+.nav-right img:hover { opacity: 1; transform: translateY(-2px); }
 
 .hamburger {
-  display: flex;
-  flex-direction: column;
-  width: 28px;
-  height: 22px;
-  justify-content: space-between;
-  cursor: pointer;
-  margin-right: 18px;
+  display: flex; flex-direction: column; width: 28px; height: 22px;
+  justify-content: space-between; cursor: pointer; margin-right: 18px;
 }
-
 .hamburger span {
-  height: 2px;
-  width: 100%;
-  background: white;
-  border-radius: 2px;
-  transition: all .35s ease;
-  transform-origin: center;
+  height: 2px; width: 100%; background: white; border-radius: 2px;
+  transition: all .35s ease; transform-origin: center;
 }
-
-.hamburger.active span:nth-child(1) { transform: translateY(10px) rotate(45deg);  }
+.hamburger.active span:nth-child(1) { transform: translateY(10px) rotate(45deg); }
 .hamburger.active span:nth-child(2) { opacity: 0; }
 .hamburger.active span:nth-child(3) { transform: translateY(-10px) rotate(-45deg); }
 
-/* ── OVERLAY ────────────────────────────────────────────── */
-
 .overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.4);
-  backdrop-filter: blur(10px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .35s ease;
-  z-index: 1050;
+  position: fixed; inset: 0; background: rgba(0,0,0,.4);
+  backdrop-filter: blur(10px); opacity: 0; pointer-events: none;
+  transition: opacity .35s ease; z-index: 1050;
 }
-
-.overlay.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* ── SIDEBAR ────────────────────────────────────────────── */
+.overlay.active { opacity: 1; pointer-events: auto; }
 
 :root { --sidebar-width: 260px; }
 
 .sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: var(--sidebar-width);
-  height: 100%;
-  background: #222;
-  display: flex;
-  flex-direction: column;
-  padding-top: 100px;
-  gap: 20px;
-  transform: translateX(-100%);
+  position: fixed; top: 0; left: 0; width: var(--sidebar-width); height: 100%;
+  background: #222; display: flex; flex-direction: column; padding-top: 100px;
+  gap: 20px; transform: translateX(-100%);
   transition: transform .45s cubic-bezier(.22,1,.36,1);
-  z-index: 1300;
-  box-shadow: 20px 0 60px rgba(0,0,0,.6);
+  z-index: 1300; box-shadow: 20px 0 60px rgba(0,0,0,.6);
 }
-
 .sidebar.open { transform: translateX(0); }
-
 .sidebar a {
-  color: #f4f4f4;
-  text-decoration: none;
-  padding: 12px 24px;
-  font-size: 18px;
-  text-align: center;
-  position: relative;
-  opacity: 0;
-  transform: translateX(-20px);
+  color: #f4f4f4; text-decoration: none; padding: 12px 24px; font-size: 18px;
+  text-align: center; position: relative; opacity: 0; transform: translateX(-20px);
   transition: opacity .35s ease, transform .35s ease, background .25s, color .25s;
 }
-
 .sidebar.open a { opacity: 1; transform: translateX(0); }
 .sidebar.open a:nth-child(1) { transition-delay: .08s; }
 .sidebar.open a:nth-child(2) { transition-delay: .12s; }
 .sidebar.open a:nth-child(3) { transition-delay: .16s; }
 .sidebar.open a:nth-child(4) { transition-delay: .20s; }
-
-.sidebar a:hover {
-  background: var(--gold);
-  color: #222;
-  border-radius: 6px;
-  transform: translateX(6px);
-}
-
+.sidebar a:hover { background: var(--gold); color: #222; border-radius: 6px; transform: translateX(6px); }
 .sidebar a::after {
-  content: "";
-  position: absolute;
-  left: 6px;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 0%;
-  width: 2px;
-  background: var(--gold);
-  transition: height .25s ease;
+  content: ""; position: absolute; left: 6px; top: 50%; transform: translateY(-50%);
+  height: 0%; width: 2px; background: var(--gold); transition: height .25s ease;
 }
-
 .sidebar a:hover::after { height: 70%; }
-
-/* ── PAGE WRAPPER ───────────────────────────────────────── */
 
 .page-wrapper {
   transition: transform .4s ease, filter .4s ease;
-  max-width: 1200px;
-  margin: auto;
-  padding: 70px 20px 120px;
+  max-width: 1200px; margin: auto; padding: 70px 20px 120px;
 }
 
-.page-title {
-  font-family: 'Cormorant Garamond';
-  font-size: 60px;
-  text-align: center;
-  margin-bottom: 10px;
-}
+.page-title { font-family: 'Cormorant Garamond'; font-size: 60px; text-align: center; margin-bottom: 10px; }
+.page-sub { text-align: center; color: #9fb0bb; margin-bottom: 80px; }
 
-.page-sub {
-  text-align: center;
-  color: #9fb0bb;
-  margin-bottom: 80px;
-}
+.projects-selector { display: flex; justify-content: center; gap: 50px; margin-bottom: 80px; }
 
-/* ── PROJECT SELECTOR ───────────────────────────────────── */
-
-.projects-selector {
-  display: flex;
-  justify-content: center;
-  gap: 50px;
-  margin-bottom: 80px;
-}
-
-.project-card {
-  width: 260px;
-  cursor: pointer;
-  opacity: .45;
-  transition: .5s;
-}
-
-.project-card.active {
-  opacity: 1;
-  transform: scale(1.05);
-}
+.project-card { width: 260px; cursor: pointer; opacity: .45; transition: .5s; }
+.project-card.active { opacity: 1; transform: scale(1.05); }
 
 .project-image-wrap {
-  height: 420px;
-  overflow: hidden;
-  border-radius: 12px;
+  height: 420px; overflow: hidden; border-radius: 12px;
   box-shadow: 0 25px 70px rgba(0,0,0,.55);
 }
-
 .project-image-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform .6s, filter .4s;
+  width: 100%; height: 100%; object-fit: cover; transition: transform .6s, filter .4s;
 }
+.project-card:hover img { transform: scale(1.08); filter: brightness(1.15); }
 
-.project-card:hover img {
-  transform: scale(1.08);
-  filter: brightness(1.15);
-}
+.project-title { text-align: center; margin-top: 14px; font-size: 14px; color: #c0cdd5; letter-spacing: .04em; }
 
-.project-title {
-  text-align: center;
-  margin-top: 14px;
-  font-size: 14px;
-  color: #c0cdd5;
-  letter-spacing: .04em;
-}
-
-/* ── CASE STUDY ─────────────────────────────────────────── */
-
-.case-study {
-  display: none;
-  max-width: 900px;
-  margin: auto;
-  animation: fadeUp .6s ease;
-}
-
+.case-study { display: none; max-width: 900px; margin: auto; animation: fadeUp .6s ease; }
 .case-study.active { display: block; }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(25px); }
-  to   { opacity: 1; transform: translateY(0);    }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .section-box {
-  background: #2e3740;
-  padding: 30px 36px;
-  border-radius: 12px;
-  margin-bottom: 34px;
+  background: #2e3740; padding: 30px 36px;
+  border-radius: 12px; margin-bottom: 34px;
 }
 
-.section-title {
-  font-family: 'Cormorant Garamond';
-  font-size: 32px;
-  margin-bottom: 12px;
-}
+.section-title { font-family: 'Cormorant Garamond'; font-size: 32px; margin-bottom: 12px; }
 
 .project-image { margin: 50px 0; }
+.project-image img { width: 100%; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,.6); }
 
-.project-image img {
-  width: 100%;
-  border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0,0,0,.6);
-}
-
-/* ── TAG PILLS ──────────────────────────────────────────── */
-
-.tag-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 16px;
-}
-
+.tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 .tag {
-  font-size: 11px;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  padding: 4px 12px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,.15);
-  color: #9fb0bb;
+  font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 20px;
+  border: 1px solid rgba(255,255,255,.15); color: #9fb0bb;
 }
-
-/* ── CONSTRAINT CALLOUT ─────────────────────────────────── */
 
 .constraint-box {
-  background: var(--gold-dim);
-  border-left: 3px solid var(--gold);
-  border-radius: 0 8px 8px 0;
-  padding: 18px 24px;
-  margin: 20px 0 0;
-  font-size: 14px;
-  color: #c0cdd5;
-  line-height: 1.7;
+  background: var(--gold-dim); border-left: 3px solid var(--gold);
+  border-radius: 0 8px 8px 0; padding: 18px 24px; margin: 20px 0 0;
+  font-size: 14px; color: #c0cdd5; line-height: 1.7;
 }
-
 .constraint-box strong {
-  color: var(--gold);
-  display: block;
-  margin-bottom: 4px;
-  font-size: 12px;
-  letter-spacing: .08em;
-  text-transform: uppercase;
+  color: var(--gold); display: block; margin-bottom: 4px;
+  font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
 }
 
-/* ── TRY IT SECTION ─────────────────────────────────────── */
-
-.try-it-box {
-  background: #2e3740;
-  border-radius: 12px;
-  margin-bottom: 34px;
-  overflow: hidden;
+/* ── HERO LAUNCH ── */
+.hero-launch {
+  background: #2e3740; border-radius: 12px; margin-bottom: 34px;
+  padding: 30px 36px; display: flex; align-items: center;
+  justify-content: space-between; gap: 24px;
 }
-
-.try-it-header {
-  padding: 26px 36px 22px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.try-it-left { flex: 1; }
-
-.try-it-title {
-  font-family: 'Cormorant Garamond';
-  font-size: 32px;
-  margin: 0 0 6px;
-}
-
-.try-it-sub {
-  font-size: 13px;
-  color: #9fb0bb;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.try-it-sub em {
-  font-style: normal;
-  color: var(--gold);
-  opacity: .9;
-}
+.hero-launch-left { flex: 1; }
+.hero-launch-title { font-family: 'Cormorant Garamond'; font-size: 32px; margin: 0 0 8px; }
+.hero-launch-sub { font-size: 13px; color: #9fb0bb; line-height: 1.6; margin: 0; }
+.hero-launch-sub em { font-style: normal; color: var(--gold); }
 
 .launch-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  background: var(--gold-dim);
-  border: 1px solid var(--gold-border);
-  color: var(--gold);
-  padding: 11px 22px;
-  border-radius: 8px;
-  font-family: 'Poppins', sans-serif;
-  font-size: 13px;
-  letter-spacing: .04em;
-  cursor: pointer;
-  transition: background .25s, border-color .25s, transform .2s;
-  white-space: nowrap;
-  flex-shrink: 0;
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--gold-dim); border: 1px solid var(--gold-border);
+  color: var(--gold); padding: 12px 24px; border-radius: 8px;
+  font-family: 'Poppins', sans-serif; font-size: 13px; letter-spacing: .04em;
+  cursor: pointer; transition: background .25s, border-color .25s, transform .2s;
+  white-space: nowrap; flex-shrink: 0;
 }
-
 .launch-btn:hover {
-  background: rgba(194,164,109,.22);
-  border-color: rgba(194,164,109,.6);
+  background: rgba(194,164,109,.22); border-color: rgba(194,164,109,.6);
   transform: translateY(-1px);
 }
+.launch-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
 
-.launch-btn svg {
-  width: 15px;
-  height: 15px;
-  flex-shrink: 0;
-}
-
-/* ── DEMO MODAL ─────────────────────────────────────────── */
-
+/* ── DEMO MODAL ── */
 #demo-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 2000;
-  background: rgba(0,0,0,.72);
-  backdrop-filter: blur(8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .3s ease;
+  position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,.72);
+  backdrop-filter: blur(8px); display: flex; align-items: center;
+  justify-content: center; opacity: 0; pointer-events: none; transition: opacity .3s ease;
 }
-
-#demo-modal.open {
-  opacity: 1;
-  pointer-events: auto;
-}
+#demo-modal.open { opacity: 1; pointer-events: auto; }
 
 .modal-inner {
-  width: 92vw;
-  height: 88vh;
-  max-width: 1320px;
-  background: #0B1929;
-  border-radius: 12px;
-  border: 1px solid rgba(194,164,109,.25);
-  box-shadow: 0 40px 120px rgba(0,0,0,.8);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transform: translateY(24px) scale(.98);
+  width: 92vw; height: 88vh; max-width: 1320px; background: #0B1929;
+  border-radius: 12px; border: 1px solid rgba(194,164,109,.25);
+  box-shadow: 0 40px 120px rgba(0,0,0,.8); display: flex; flex-direction: column;
+  overflow: hidden; transform: translateY(24px) scale(.98);
   transition: transform .35s cubic-bezier(.22,1,.36,1);
 }
-
-#demo-modal.open .modal-inner {
-  transform: translateY(0) scale(1);
-}
+#demo-modal.open .modal-inner { transform: translateY(0) scale(1); }
 
 .modal-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 16px;
-  background: #0c1e33;
-  border-bottom: 1px solid rgba(194,164,109,.15);
-  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px; background: #0c1e33;
+  border-bottom: 1px solid rgba(194,164,109,.15); flex-shrink: 0;
 }
-
-.modal-bar-label {
-  font-size: 11px;
-  letter-spacing: .1em;
-  color: var(--gold);
-  text-transform: uppercase;
-}
-
+.modal-bar-label { font-size: 11px; letter-spacing: .1em; color: var(--gold); text-transform: uppercase; }
 .modal-close {
-  background: none;
-  border: none;
-  color: #6b84a3;
-  cursor: pointer;
-  font-size: 22px;
-  line-height: 1;
-  padding: 2px 6px;
-  border-radius: 4px;
+  background: none; border: none; color: #6b84a3; cursor: pointer;
+  font-size: 22px; line-height: 1; padding: 2px 6px; border-radius: 4px;
   transition: color .2s, background .2s;
 }
-
-.modal-close:hover {
-  color: #f4f4f4;
-  background: rgba(255,255,255,.08);
-}
-
-.modal-frame {
-  flex: 1;
-  width: 100%;
-  border: none;
-  display: block;
-}
-
-/* ── SPOTIFY ────────────────────────────────────────────── */
+.modal-close:hover { color: #f4f4f4; background: rgba(255,255,255,.08); }
+.modal-frame { flex: 1; width: 100%; border: none; display: block; }
 
 .spotify-widget {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 40px;
-  height: 40px;
-  background: #1a1a1a;
-  border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(0,0,0,.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 900;
+  position: fixed; bottom: 20px; right: 20px; width: 40px; height: 40px;
+  background: #1a1a1a; border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,.3);
+  display: flex; align-items: center; justify-content: center; z-index: 900;
 }
-
 .spotify-widget iframe { display: none; }
-
-/* ── MOBILE ─────────────────────────────────────────────── */
 
 @media (max-width: 768px) {
   .logo { display: none; }
   .projects-selector { flex-direction: column; align-items: center; }
-  .try-it-header { flex-direction: column; align-items: flex-start; }
+  .hero-launch { flex-direction: column; align-items: flex-start; }
   #demo-modal .modal-inner { width: 98vw; height: 94vh; }
 }
 
@@ -536,20 +256,14 @@ html, body {
 <!-- NAVBAR -->
 <div class="navbar" id="navbar">
   <div class="nav-left">
-
     <div class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </div>
-
     <a href="/" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;">
       <img src="/assets/logos/personal/CRP_logo_white.png" class="logo-img">
       <div class="logo">Chase Pittman | Portfolio</div>
     </a>
-
   </div>
-
   <div class="nav-right">
     <a href="https://www.linkedin.com/in/chasepittman" target="_blank">
       <img src="/assets/logos/tools/linkedin.png" alt="LinkedIn">
@@ -572,7 +286,7 @@ html, body {
   <div class="page-title">Projects</div>
   <div class="page-sub">Selected product thinking and concept work</div>
 
-  <!-- PROJECT VISUAL SELECTOR -->
+  <!-- PROJECT SELECTOR -->
   <div class="projects-selector">
 
     <div class="project-card active" data-project="the-bridge">
@@ -598,133 +312,121 @@ html, body {
 
   </div>
 
-  <!-- ═══════════════════════════════════════
-       CASE STUDY 1 — THE BRIDGE
-  ════════════════════════════════════════ -->
+  <!-- ══════════════════════════════
+       THE BRIDGE
+  ══════════════════════════════ -->
   <div class="case-study active" id="the-bridge">
 
     <div class="section-box">
-      <div class="section-title">The Idea</div>
-      <p>The Bridge is an internal merchandising intelligence tool built for Waterworks' tech support team. It turns a slow, manual data-pulling process into an on-demand dashboard — allowing any team member to look up a style or collection and instantly see revenue, units, margins, and channel performance across 2023–2025.</p>
+      <div class="section-title">The Bridge</div>
+      <p>An internal merchandising intelligence tool that gives Waterworks' tech support team on-demand access to style-level revenue, units, margins, and channel performance — without routing requests through product.</p>
       <div class="tag-row">
         <span class="tag">Internal Tooling</span>
         <span class="tag">Data Visualization</span>
-        <span class="tag">Waterworks</span>
         <span class="tag">HTML / JS</span>
-        <span class="tag">No-Code Deploy</span>
       </div>
+    </div>
+
+    <div class="hero-launch">
+      <div class="hero-launch-left">
+        <div class="hero-launch-title">Launch the Tool</div>
+        <p class="hero-launch-sub">Working demo with sample data. Try searching <em>Harlow</em> or <em>Sutton</em>, or use the sidebar filters to drill down by category.</p>
+      </div>
+      <button class="launch-btn" id="launch-demo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+        </svg>
+        Launch the Tool
+      </button>
     </div>
 
     <div class="section-box">
       <div class="section-title">The Problem</div>
-      <p>The tech support team regularly needed sales data — unit counts, revenue trends, margin visibility — to troubleshoot customer issues and assess the scope of emerging problems. There was no self-serve way to get this information. Every request routed through the product management team, creating a recurring ad hoc reporting burden and slowing down the team's response time.</p>
-      <ul style="margin-top: 14px; line-height: 2;">
-        <li>No self-serve access to style-level performance data</li>
-        <li>Repeated manual requests routed through product team</li>
-        <li>Slow turnaround on scope assessments during live issues</li>
-        <li>No way to compare channel, finish, or year-over-year trends quickly</li>
+      <ul style="line-height: 2.2; margin: 0; padding-left: 20px;">
+        <li>No self-serve access to style-level sales data</li>
+        <li>Every request routed through the product team, slowing response times</li>
+        <li>No way to quickly assess scope during live customer issues</li>
+        <li>No visibility into channel mix, finish trends, or year-over-year performance</li>
       </ul>
     </div>
 
     <div class="section-box">
       <div class="section-title">The Constraint</div>
-      <p>The most obvious solution — a third-party BI tool or cloud dashboard — was immediately off the table. Waterworks' sales data is sensitive and proprietary. Putting it on an external platform without a formal procurement and security review wasn't an option.</p>
+      <p>A third-party BI tool was immediately off the table — Waterworks' sales data is sensitive and proprietary, and any external platform would require a formal procurement and security review.</p>
       <div class="constraint-box">
         <strong>Design Constraint</strong>
-        The tool needed to run entirely client-side — no servers, no external APIs, no data transmission. Everything had to process locally in the browser, making it functionally equivalent to opening a spreadsheet, but purpose-built and far more usable.
+        Built entirely client-side — no servers, no external APIs, no data transmission. Everything processes locally in the browser, making it functionally equivalent to opening a spreadsheet, but purpose-built and far more usable.
       </div>
     </div>
 
-    <!-- MOCKUP IMAGE — swap src to the SVG when hosted -->
     <div class="project-image">
       <img src="/assets/files/slides/The Bridge/The_Bridge_Dashboard.png" alt="The Bridge | Dashboard">
     </div>
 
     <div class="section-box">
       <div class="section-title">The Solution</div>
-      <p>The Bridge is a single HTML file that runs in any browser with no installation required. A user exports a CSV from the company's internal sales system, drags it into the tool, and immediately has access to a full performance dashboard. All data processing happens in the browser — nothing ever leaves the machine.</p>
-      <ul style="margin-top: 14px; line-height: 2;">
-        <li><strong>Style & collection search</strong> with autocomplete across 6-digit style numbers and collection names</li>
-        <li><strong>Multi-style comparison</strong> — tag multiple styles to view their combined performance in one view</li>
-        <li><strong>Year-over-year charts</strong> for revenue and units shipped (2023–2025)</li>
-        <li><strong>Gross margin visibility</strong> calculated live from revenue and COGS in the export</li>
-        <li><strong>Channel breakdown</strong> showing Residential, Commercial, and Other revenue share</li>
-        <li><strong>Metal finish breakdown</strong> for finish-level performance analysis</li>
-        <li><strong>Cascading hierarchy filters</strong> — drill from LOB → Group → Class → Type → Subtype in the sidebar</li>
+      <ul style="line-height: 2.2; margin: 0; padding-left: 20px;">
+        <li><strong>Zero infrastructure</strong> — a single HTML file, runs in any browser, no install required</li>
+        <li><strong>Multi-style comparison</strong> — tag multiple styles to view combined performance in one view</li>
+        <li><strong>Cascading hierarchy filters</strong> — drill from LOB down to Subtype without leaving the page</li>
+        <li><strong>Live margin calculation</strong> — gross margin computed on the fly from revenue and COGS in the export</li>
       </ul>
-    </div>
-
-    <!-- TRY IT SECTION -->
-    <div class="try-it-box">
-      <div class="try-it-header">
-        <div class="try-it-left">
-          <div class="try-it-title">Try It</div>
-          <p class="try-it-sub">
-            A working demo with sample data. Search <em>"Harlow"</em> or <em>"Sutton"</em>,
-            or drill down by category using the sidebar filters.
-          </p>
-        </div>
-        <button class="launch-btn" id="launch-demo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-          </svg>
-          Launch Demo
-        </button>
-      </div>
     </div>
 
     <div class="section-box">
       <div class="section-title">Measuring Impact</div>
-      <ul style="line-height: 2;">
-        <li>Reduction in ad hoc data requests to the product team</li>
-        <li>Time-to-answer for scope assessments during live issues</li>
-        <li>Adoption rate among tech support team members</li>
-        <li>Qualitative feedback on decision confidence during troubleshooting</li>
+      <p style="color: #9fb0bb; font-size: 14px; margin-bottom: 14px;">The tool is in active use. Success looks like:</p>
+      <ul style="line-height: 2.2; margin: 0; padding-left: 20px;">
+        <li>Fewer ad hoc data requests routed to the product team</li>
+        <li>Faster scope assessments during live customer issues</li>
+        <li>Higher decision confidence during troubleshooting</li>
       </ul>
     </div>
 
   </div><!-- /#the-bridge -->
 
 
-  <!-- ═══════════════════════════════════════
-       CASE STUDY 2 — PLACEHOLDER
-  ════════════════════════════════════════ -->
+  <!-- ══════════════════════════════
+       PLACEHOLDER
+  ══════════════════════════════ -->
   <div class="case-study" id="project2">
-
     <div class="section-box">
       <div class="section-title">Coming Soon</div>
       <p>This case study is in progress.</p>
     </div>
+  </div>
 
-  </div><!-- /#project2 -->
 
-
-  <!-- ═══════════════════════════════════════
-       CASE STUDY 3 — ZOOM OFFICE
-  ════════════════════════════════════════ -->
+  <!-- ══════════════════════════════
+       ZOOM OFFICE
+  ══════════════════════════════ -->
   <div class="case-study" id="zoom-office">
 
     <div class="section-box">
-      <div class="section-title">The Idea</div>
-      <p>Zoom Office is a concept product designed to recreate the spatial awareness and collaboration of a physical office within Zoom.</p>
+      <div class="section-title">Zoom Office</div>
+      <p>A concept product redesign exploring how Zoom could recreate the spatial awareness and spontaneous collaboration of a physical office for distributed and hybrid teams.</p>
+      <div class="tag-row">
+        <span class="tag">Product Strategy</span>
+        <span class="tag">Concept Design</span>
+        <span class="tag">UX Thinking</span>
+      </div>
     </div>
 
     <div class="section-box">
-      <div class="section-title">Problem</div>
-      <ul style="line-height: 2;">
-        <li>Remote work reduces spontaneous collaboration</li>
-        <li>Zoom fatigue from meeting-heavy culture</li>
-        <li>Lack of visibility across hybrid teams</li>
+      <div class="section-title">The Problem</div>
+      <ul style="line-height: 2.2; margin: 0; padding-left: 20px;">
+        <li>Remote work erodes the spontaneous collaboration that drives team momentum</li>
+        <li>Meeting-heavy culture creates Zoom fatigue without replacing ambient presence</li>
+        <li>Hybrid teams lack visibility into who's available, where, and doing what</li>
       </ul>
     </div>
 
     <div class="section-box">
-      <div class="section-title">Solution</div>
-      <ul style="line-height: 2;">
-        <li>Interactive office floorplans</li>
-        <li>Real-time employee presence</li>
-        <li>Clickable meeting rooms</li>
-        <li>Department filtering</li>
+      <div class="section-title">The Solution</div>
+      <ul style="line-height: 2.2; margin: 0; padding-left: 20px;">
+        <li>Interactive office floorplans with real-time employee presence</li>
+        <li>Clickable meeting rooms and break spaces to reduce friction for impromptu calls</li>
+        <li>Department filtering to surface the right people without searching</li>
       </ul>
     </div>
 
@@ -734,11 +436,10 @@ html, body {
 
     <div class="section-box">
       <div class="section-title">Key Features</div>
-      <ul style="line-height: 2;">
-        <li>Virtual whiteboards</li>
-        <li>Task boards</li>
-        <li>Break rooms</li>
-        <li>VR collaboration support</li>
+      <ul style="line-height: 2.2; margin: 0; padding-left: 20px;">
+        <li>Virtual whiteboards and task boards embedded in room views</li>
+        <li>Dedicated break rooms to preserve informal culture remotely</li>
+        <li>VR collaboration support for immersive team environments</li>
       </ul>
     </div>
 
@@ -748,11 +449,11 @@ html, body {
 
     <div class="section-box">
       <div class="section-title">Measuring Impact</div>
-      <ul style="line-height: 2;">
-        <li>Employee satisfaction surveys</li>
-        <li>Usage time</li>
-        <li>Employee retention</li>
-        <li>Productivity improvement</li>
+      <p style="color: #9fb0bb; font-size: 14px; margin-bottom: 14px;">Success for a product like this lives in behavioral and cultural signals:</p>
+      <ul style="line-height: 2.2; margin: 0; padding-left: 20px;">
+        <li>Increase in spontaneous, unscheduled interactions</li>
+        <li>Reduction in Zoom fatigue scores on employee surveys</li>
+        <li>Improvement in hybrid team visibility and retention</li>
       </ul>
     </div>
 
@@ -766,8 +467,6 @@ html, body {
 </div>
 
 <script>
-
-/* ── SIDEBAR ──────────────────────────────────────────────── */
 
 const hamburger = document.getElementById('hamburger');
 const sidebar   = document.getElementById('sidebar');
@@ -793,24 +492,13 @@ function closeSidebar() {
 hamburger.addEventListener('click', () =>
   sidebar.classList.contains('open') ? closeSidebar() : openSidebar()
 );
-
 overlay.addEventListener('click', closeSidebar);
-
-document.querySelectorAll('.sidebar a').forEach(link =>
-  link.addEventListener('click', closeSidebar)
-);
-
+document.querySelectorAll('.sidebar a').forEach(l => l.addEventListener('click', closeSidebar));
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    closeSidebar();
-    closeModal();
-  }
+  if (e.key === 'Escape') { closeSidebar(); closeModal(); }
 });
 
-/* ── NAVBAR SCROLL ────────────────────────────────────────── */
-
 const navbar = document.getElementById('navbar');
-
 window.addEventListener('scroll', () => {
   if (window.scrollY > 20) {
     navbar.style.background = 'rgba(20,20,20,.95)';
@@ -821,11 +509,8 @@ window.addEventListener('scroll', () => {
   }
 });
 
-/* ── PROJECT SWITCHING ────────────────────────────────────── */
-
 const cards   = document.querySelectorAll('.project-card');
 const studies = document.querySelectorAll('.case-study');
-
 cards.forEach(card => {
   card.addEventListener('click', () => {
     cards.forEach(c   => c.classList.remove('active'));
@@ -835,15 +520,9 @@ cards.forEach(card => {
   });
 });
 
-/* ── DEEP LINKING ─────────────────────────────────────────── */
-
 const params  = new URLSearchParams(window.location.search);
 const project = params.get('project');
-if (project) {
-  document.querySelector(`[data-project="${project}"]`)?.click();
-}
-
-/* ── DEMO MODAL ───────────────────────────────────────────── */
+if (project) document.querySelector(`[data-project="${project}"]`)?.click();
 
 const modal     = document.getElementById('demo-modal');
 const iframe    = document.getElementById('demo-iframe');
@@ -852,15 +531,10 @@ const closeBtn  = document.getElementById('modal-close-btn');
 let   iframeLoaded = false;
 
 function openModal() {
-  // Lazy-load the iframe the first time
-  if (!iframeLoaded) {
-    iframe.src = iframe.dataset.src;
-    iframeLoaded = true;
-  }
+  if (!iframeLoaded) { iframe.src = iframe.dataset.src; iframeLoaded = true; }
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-
 function closeModal() {
   modal.classList.remove('open');
   document.body.style.overflow = '';
@@ -868,11 +542,7 @@ function closeModal() {
 
 launchBtn.addEventListener('click', openModal);
 closeBtn.addEventListener('click', closeModal);
-
-// Click the backdrop (not the inner panel) to close
-modal.addEventListener('click', e => {
-  if (e.target === modal) closeModal();
-});
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
 
 </script>
 </body>
