@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Bridge — Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --navy:#0B1929;--navy-card:#112240;--navy-border:#1B3560;
+  --gold:#C9A86C;--gold-dim:rgba(201,168,108,.15);
+  --cream:#F0EBE1;--muted:#6B84A3;--text:#D8E4F0;
+  --green:#4ECBA0;--red:#E07070;
+  --sidebar-w:200px;--topbar-h:52px;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Outfit',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:var(--navy);color:var(--text);font-family:var(--sans);font-size:13px}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--navy-border);border-radius:3px}
+#demo-badge{
+  background:rgba(201,168,108,.12);border:1px solid rgba(201,168,108,.4);
+  border-radius:3px;padding:4px 10px;
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);
+  white-space:nowrap;flex-shrink:0;
+}
+#topbar{
+  height:var(--topbar-h);flex-shrink:0;
+  display:flex;align-items:center;gap:14px;padding:0 14px;
+  background:rgba(11,25,41,.96);border-bottom:1px solid var(--navy-border);
+  position:relative;z-index:100;
+}
+.topbar-logo{font-family:var(--serif);font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);white-space:nowrap;flex-shrink:0}
+.search-outer{flex:1;max-width:480px;position:relative}
+.tags-and-input{
+  display:flex;flex-wrap:wrap;align-items:center;gap:4px;
+  background:var(--navy-card);border:1px solid var(--navy-border);border-radius:3px;
+  padding:4px 8px 4px 28px;min-height:32px;cursor:text;position:relative;
+  transition:border-color .2s;
+}
+.tags-and-input:focus-within{border-color:var(--gold)}
+.search-icon-abs{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+.style-tag{display:flex;align-items:center;gap:4px;background:var(--gold-dim);border:1px solid rgba(201,168,108,.35);border-radius:2px;padding:2px 6px;font-size:10px;color:var(--gold);white-space:nowrap}
+.style-tag button{background:none;border:none;color:var(--gold);cursor:pointer;font-size:12px;line-height:1;padding:0;opacity:.65}
+.style-tag button:hover{opacity:1}
+#style-search{background:none;border:none;outline:none;color:var(--cream);font-family:var(--sans);font-size:12px;flex:1;min-width:80px}
+#style-search::placeholder{color:var(--muted)}
+#autocomplete{
+  position:absolute;top:calc(100% + 4px);left:0;right:0;
+  background:var(--navy-card);border:1px solid var(--navy-border);border-radius:3px;
+  max-height:240px;overflow-y:auto;z-index:300;display:none;
+  box-shadow:0 12px 40px rgba(0,0,0,.55);
+}
+.ac-sec{padding:6px 12px 3px;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--navy-border)}
+.ac-item{padding:8px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(27,53,96,.4);transition:background .12s}
+.ac-item:last-child{border-bottom:none}
+.ac-item:hover{background:rgba(201,168,108,.07)}
+.ac-p{font-size:12px;font-weight:500;color:var(--cream)}
+.ac-s{font-size:10px;color:var(--muted);max-width:55%;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#record-count{font-size:10px;color:var(--muted);white-space:nowrap}
+#app{display:flex;flex-direction:column;height:100vh}
+#body-wrap{display:flex;flex:1;overflow:hidden}
+#sidebar{
+  width:var(--sidebar-w);flex-shrink:0;overflow-y:auto;
+  background:rgba(15,28,50,.6);border-right:1px solid var(--navy-border);
+  padding:14px 11px;display:flex;flex-direction:column;gap:16px;
+}
+.fsec-label{font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--navy-border)}
+.frow{margin-bottom:6px}
+.frow label{display:block;font-size:8px;letter-spacing:.08em;color:var(--muted);margin-bottom:3px;text-transform:uppercase}
+select.fs{
+  width:100%;background:var(--navy-card);border:1px solid var(--navy-border);
+  color:var(--text);font-family:var(--sans);font-size:11px;
+  padding:5px 20px 5px 7px;border-radius:3px;outline:none;cursor:pointer;
+  appearance:none;transition:border-color .2s;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236B84A3' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 6px center;
+}
+select.fs:focus{border-color:var(--gold)}
+select.fs option{background:#112240}
+select.fs.active{border-color:rgba(201,168,108,.5);color:var(--gold)}
+.clear-btn{width:100%;background:none;border:1px solid var(--navy-border);color:var(--muted);font-family:var(--sans);font-size:10px;padding:6px;border-radius:3px;cursor:pointer;transition:all .2s}
+.clear-btn:hover{border-color:var(--red);color:var(--red)}
+#content{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+#empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px}
+.empty-hed{font-family:var(--serif);font-size:26px;font-weight:300;color:var(--cream);margin-bottom:6px}
+.empty-sub{font-size:12px;color:var(--muted);line-height:1.7}
+#dashboard{display:none;padding:18px;flex-direction:column;gap:14px}
+.dash-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;padding-bottom:14px;border-bottom:1px solid var(--navy-border)}
+.dash-primary{font-family:var(--serif);font-size:36px;font-weight:300;color:var(--gold);line-height:1;letter-spacing:.02em}
+.dash-secondary{font-size:14px;font-weight:300;color:var(--cream);margin-top:3px}
+.dash-tertiary{font-size:11px;color:var(--muted);margin-top:3px}
+.breadcrumb{display:flex;gap:5px;align-items:center;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:6px}
+.breadcrumb b{color:var(--text);font-weight:500}
+.bc-sep{color:var(--navy-border)}
+.dash-meta{display:flex;flex-direction:column;gap:4px;text-align:right;flex-shrink:0}
+.meta-tag{font-size:10px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+.meta-tag span{color:var(--text);font-weight:500;text-transform:none;letter-spacing:0}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.kpi-card{background:var(--navy-card);border:1px solid var(--navy-border);border-radius:4px;padding:13px 15px;position:relative;overflow:hidden}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.kpi-label{font-size:8px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.kpi-value{font-family:var(--serif);font-size:24px;font-weight:400;color:var(--cream);line-height:1}
+.kpi-sub{font-size:9px;color:var(--muted);margin-top:4px}
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:680px){.charts-grid{grid-template-columns:1fr}}
+.chart-card{background:var(--navy-card);border:1px solid var(--navy-border);border-radius:4px;padding:15px 16px}
+.card-title{font-size:8px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.chart-wrap{position:relative;height:150px}
+.bottom-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.table-card{background:var(--navy-card);border:1px solid var(--navy-border);border-radius:4px;padding:15px 16px}
+.yr-table{width:100%;border-collapse:collapse;font-size:11px}
+.yr-table th{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;text-align:right;padding:0 0 7px 7px}
+.yr-table th:first-child{text-align:left;padding-left:0}
+.yr-table td{padding:6px 0 6px 7px;text-align:right;border-top:1px solid rgba(27,53,96,.5);color:var(--text)}
+.yr-table td:first-child{text-align:left;padding-left:0;color:var(--cream);font-weight:500}
+.pos{color:var(--green)}.neg{color:var(--red)}
+.br-row{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.br-label{font-size:11px;color:var(--text);width:100px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.br-bar-wrap{flex:1;height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden}
+.br-bar{height:100%;border-radius:2px;transition:width .4s ease}
+.br-val{font-size:10px;color:var(--muted);text-align:right;width:48px;flex-shrink:0}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .3s ease both}
+.fu1{animation-delay:.04s}.fu2{animation-delay:.08s}.fu3{animation-delay:.12s}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="topbar">
+    <div class="topbar-logo">Waterworks &nbsp;·&nbsp; <span style="color:var(--cream);letter-spacing:.06em">The Bridge</span></div>
+    <div class="search-outer">
+      <div class="tags-and-input" id="tags-and-input">
+        <svg class="search-icon-abs" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" id="style-search" placeholder='Try "Harlow" or "HAKF01"…' autocomplete="off">
+      </div>
+      <div id="autocomplete"></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;margin-left:auto;flex-shrink:0">
+      <div id="demo-badge">Demo — Sample Data</div>
+      <span id="record-count"></span>
+    </div>
+  </div>
+  <div id="body-wrap">
+    <div id="sidebar">
+      <div>
+        <div class="fsec-label">View</div>
+        <div class="frow"><label>Collection</label><select class="fs" id="f-collection"><option value="">All Collections</option></select></div>
+      </div>
+      <div>
+        <div class="fsec-label">Time</div>
+        <div class="frow"><label>Year</label><select class="fs" id="f-year"><option value="">All Years</option></select></div>
+      </div>
+      <div>
+        <div class="fsec-label">Channel</div>
+        <div class="frow"><label>Channel Rollup</label><select class="fs" id="f-rollup"><option value="">All</option></select></div>
+        <div class="frow"><label>Channel</label><select class="fs" id="f-channel"><option value="">All</option></select></div>
+      </div>
+      <div>
+        <div class="fsec-label">Hierarchy</div>
+        <div class="frow"><label>LOB</label><select class="fs" id="f-lob"><option value="">All</option></select></div>
+        <div class="frow"><label>Group</label><select class="fs" id="f-group"><option value="">All</option></select></div>
+        <div class="frow"><label>Class</label><select class="fs" id="f-class"><option value="">All</option></select></div>
+        <div class="frow"><label>Type</label><select class="fs" id="f-type"><option value="">All</option></select></div>
+        <div class="frow"><label>Subtype</label><select class="fs" id="f-subtype"><option value="">All</option></select></div>
+      </div>
+      <button class="clear-btn" id="clear-btn">✕ Clear All</button>
+    </div>
+    <div id="content">
+      <div id="empty-state">
+        <p class="empty-hed">Search or filter to begin.</p>
+        <p class="empty-sub">Try "Harlow", "Victoria", or "SNBF01" —<br>or pick a collection from the sidebar.</p>
+      </div>
+      <div id="dashboard">
+        <div class="dash-header fu">
+          <div>
+            <div class="dash-primary" id="d-primary">—</div>
+            <div class="dash-secondary" id="d-secondary"></div>
+            <div class="breadcrumb" id="d-breadcrumb"></div>
+            <div class="dash-tertiary" id="d-tertiary"></div>
+          </div>
+          <div class="dash-meta" id="d-meta"></div>
+        </div>
+        <div class="kpi-row fu fu1">
+          <div class="kpi-card"><div class="kpi-label">Total Revenue</div><div class="kpi-value" id="k-rev">—</div><div class="kpi-sub" id="k-rev-s"></div></div>
+          <div class="kpi-card"><div class="kpi-label">Units Shipped</div><div class="kpi-value" id="k-units">—</div><div class="kpi-sub" id="k-units-s"></div></div>
+          <div class="kpi-card"><div class="kpi-label">Gross Margin</div><div class="kpi-value" id="k-margin">—</div><div class="kpi-sub" id="k-margin-s"></div></div>
+          <div class="kpi-card"><div class="kpi-label">Revenue / Unit</div><div class="kpi-value" id="k-rpu">—</div><div class="kpi-sub" id="k-rpu-s"></div></div>
+        </div>
+        <div class="charts-grid fu fu2">
+          <div class="chart-card"><div class="card-title">Revenue by Year</div><div class="chart-wrap"><canvas id="c-revenue"></canvas></div></div>
+          <div class="chart-card"><div class="card-title">Units Shipped by Year</div><div class="chart-wrap"><canvas id="c-units"></canvas></div></div>
+        </div>
+        <div class="bottom-grid fu fu3">
+          <div class="table-card"><div class="card-title">Year Summary</div><table class="yr-table"><thead><tr><th>Year</th><th>Revenue</th><th>Units</th><th>Margin</th></tr></thead><tbody id="yr-tbody"></tbody></table></div>
+          <div class="table-card"><div class="card-title">Revenue by Channel</div><div id="b-channel"></div></div>
+          <div class="table-card"><div class="card-title">Revenue by Finish</div><div id="b-finish"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// SKU FORMAT: 6 characters
+// Prefix (2): HA=Harlow, SN=Sutton, EL=Eleanor, CA=Cascade, VI=Victoria
+// Type (2):   KF=Kitchen Faucet, PD=Pull-Down, FS=Farmhouse Sink,
+//             BF=Bathroom Faucet, TB=Towel Bar, TF=Tub Faucet,
+//             SH=Shower System, PS=Pedestal Sink, TU=Soaking Tub,
+//             OS=Outdoor Shower, GF=Garden Faucet, MI=Mirror,
+//             SD=Soap Dispenser, RH=Robe Hook, BM=Bath Mat, RB=Bathrobe
+// Finish (2): 01=Polished Nickel, 02=Burnished Brass, 03=Matte Black,
+//             04=Polished Chrome, 05=Brushed Stainless, 06=White, 07=Natural
+
+const RAW = [
+  // ══════════════════════════════
+  // HARLOW — Kitchen + Bath
+  // ══════════════════════════════
+
+  // Kitchen Faucets (bridge style)
+  {style:'HAKF01',name:'Harlow Kitchen Faucet',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Faucets',type:'Bridge',subtype:'Two-Handle',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:142800,cogs:74256,units:96},
+  {style:'HAKF01',name:'Harlow Kitchen Faucet',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Faucets',type:'Bridge',subtype:'Two-Handle',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:168400,cogs:86768,units:114},
+  {style:'HAKF01',name:'Harlow Kitchen Faucet',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Faucets',type:'Bridge',subtype:'Two-Handle',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:181200,cogs:91812,units:122},
+  {style:'HAKF01',name:'Harlow Kitchen Faucet',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Faucets',type:'Bridge',subtype:'Two-Handle',year:'2023',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Polished Nickel',color:'Silver',revenue:48600,cogs:25920,units:34},
+  {style:'HAKF01',name:'Harlow Kitchen Faucet',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Faucets',type:'Bridge',subtype:'Two-Handle',year:'2024',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Polished Nickel',color:'Silver',revenue:57200,cogs:30248,units:40},
+  {style:'HAKF01',name:'Harlow Kitchen Faucet',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Faucets',type:'Bridge',subtype:'Two-Handle',year:'2025',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Polished Nickel',color:'Silver',revenue:67200,cogs:35280,units:47},
+  {style:'HAKF02',name:'Harlow Kitchen Faucet',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Faucets',type:'Bridge',subtype:'Two-Handle',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Burnished Brass',color:'Brass',revenue:98400,cogs:51168,units:56},
+  {style:'HAKF02',name:'Harlow Kitchen Faucet',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Faucets',type:'Bridge',subtype:'Two-Handle',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Burnished Brass',color:'Brass',revenue:124600,cogs:64192,units:72},
+  {style:'HAKF02',name:'Harlow Kitchen Faucet',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Faucets',type:'Bridge',subtype:'Two-Handle',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Burnished Brass',color:'Brass',revenue:138800,cogs:70788,units:80},
+  {style:'HAKF02',name:'Harlow Kitchen Faucet',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Faucets',type:'Bridge',subtype:'Two-Handle',year:'2023',channel_rollup:'Commercial',channel:'Boutiques',metal_finish:'Burnished Brass',color:'Brass',revenue:22400,cogs:11648,units:14},
+
+  // Pull-Down Kitchen Faucet
+  {style:'HAPD01',name:'Harlow Pull-Down Kitchen Faucet',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Faucets',type:'Pull-Down',subtype:'Single-Handle',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:87600,cogs:47304,units:72},
+  {style:'HAPD01',name:'Harlow Pull-Down Kitchen Faucet',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Faucets',type:'Pull-Down',subtype:'Single-Handle',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:104200,cogs:55666,units:86},
+  {style:'HAPD01',name:'Harlow Pull-Down Kitchen Faucet',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Faucets',type:'Pull-Down',subtype:'Single-Handle',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:118800,cogs:62964,units:98},
+  {style:'HAPD01',name:'Harlow Pull-Down Kitchen Faucet',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Faucets',type:'Pull-Down',subtype:'Single-Handle',year:'2023',channel_rollup:'Residential',channel:'Direct',metal_finish:'Polished Nickel',color:'Silver',revenue:31200,cogs:17160,units:26},
+  {style:'HAPD03',name:'Harlow Pull-Down Kitchen Faucet',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Faucets',type:'Pull-Down',subtype:'Single-Handle',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Matte Black',color:'Black',revenue:64800,cogs:35640,units:54},
+  {style:'HAPD03',name:'Harlow Pull-Down Kitchen Faucet',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Faucets',type:'Pull-Down',subtype:'Single-Handle',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Matte Black',color:'Black',revenue:82400,cogs:44496,units:68},
+  {style:'HAPD03',name:'Harlow Pull-Down Kitchen Faucet',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Faucets',type:'Pull-Down',subtype:'Single-Handle',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Matte Black',color:'Black',revenue:96200,cogs:51468,units:80},
+
+  // Farmhouse Sink
+  {style:'HAFS06',name:'Harlow Farmhouse Sink',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Sinks',type:'Farmhouse',subtype:'Single Bowl',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'White',color:'White',revenue:224400,cogs:112200,units:88},
+  {style:'HAFS06',name:'Harlow Farmhouse Sink',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Sinks',type:'Farmhouse',subtype:'Single Bowl',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'White',color:'White',revenue:278800,cogs:137412,units:110},
+  {style:'HAFS06',name:'Harlow Farmhouse Sink',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Sinks',type:'Farmhouse',subtype:'Single Bowl',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'White',color:'White',revenue:312400,cogs:153476,units:124},
+  {style:'HAFS06',name:'Harlow Farmhouse Sink',collection:'Harlow',lob:'Fittings',group:'Kitchen',cls:'Sinks',type:'Farmhouse',subtype:'Single Bowl',year:'2023',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'White',color:'White',revenue:56800,cogs:28968,units:22},
+
+  // Bathroom Faucet
+  {style:'HABF01',name:'Harlow Bathroom Faucet',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Widespread',subtype:'Two-Handle',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:118800,cogs:61776,units:108},
+  {style:'HABF01',name:'Harlow Bathroom Faucet',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Widespread',subtype:'Two-Handle',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:142600,cogs:72426,units:130},
+  {style:'HABF01',name:'Harlow Bathroom Faucet',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Widespread',subtype:'Two-Handle',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:164800,cogs:82400,units:150},
+  {style:'HABF02',name:'Harlow Bathroom Faucet',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Widespread',subtype:'Two-Handle',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Burnished Brass',color:'Brass',revenue:84400,cogs:44212,units:76},
+  {style:'HABF02',name:'Harlow Bathroom Faucet',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Widespread',subtype:'Two-Handle',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Burnished Brass',color:'Brass',revenue:102800,cogs:53456,units:94},
+  {style:'HABF02',name:'Harlow Bathroom Faucet',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Widespread',subtype:'Two-Handle',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Burnished Brass',color:'Brass',revenue:118200,cogs:60282,units:108},
+  {style:'HABF02',name:'Harlow Bathroom Faucet',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Widespread',subtype:'Two-Handle',year:'2023',channel_rollup:'Other',channel:'Liquidation',metal_finish:'Burnished Brass',color:'Brass',revenue:8400,cogs:5880,units:12},
+  {style:'HABF02',name:'Harlow Bathroom Faucet',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Widespread',subtype:'Two-Handle',year:'2024',channel_rollup:'Other',channel:'Liquidation',metal_finish:'Burnished Brass',color:'Brass',revenue:6200,cogs:4340,units:9},
+  {style:'HABF02',name:'Harlow Bathroom Faucet',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Widespread',subtype:'Two-Handle',year:'2025',channel_rollup:'Other',channel:'Liquidation',metal_finish:'Burnished Brass',color:'Brass',revenue:3800,cogs:2660,units:5},
+
+  // Towel Bar
+  {style:'HATB01',name:'Harlow Towel Bar',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Accessories',type:'Towel Bar',subtype:'24 Inch',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:42600,cogs:21300,units:142},
+  {style:'HATB01',name:'Harlow Towel Bar',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Accessories',type:'Towel Bar',subtype:'24 Inch',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:54200,cogs:26758,units:182},
+  {style:'HATB01',name:'Harlow Towel Bar',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Accessories',type:'Towel Bar',subtype:'24 Inch',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:61800,cogs:30282,units:208},
+  {style:'HATB02',name:'Harlow Towel Bar',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Accessories',type:'Towel Bar',subtype:'24 Inch',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Burnished Brass',color:'Brass',revenue:36400,cogs:18564,units:122},
+  {style:'HATB02',name:'Harlow Towel Bar',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Accessories',type:'Towel Bar',subtype:'24 Inch',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Burnished Brass',color:'Brass',revenue:44800,cogs:22400,units:150},
+  {style:'HATB02',name:'Harlow Towel Bar',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Accessories',type:'Towel Bar',subtype:'24 Inch',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Burnished Brass',color:'Brass',revenue:52400,cogs:26200,units:176},
+
+  // Robe Hooks
+  {style:'HARH01',name:'Harlow Robe Hook',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Accessories',type:'Robe Hook',subtype:'Single',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:24600,cogs:11808,units:246},
+  {style:'HARH01',name:'Harlow Robe Hook',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Accessories',type:'Robe Hook',subtype:'Single',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:31200,cogs:14976,units:312},
+  {style:'HARH01',name:'Harlow Robe Hook',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Accessories',type:'Robe Hook',subtype:'Single',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:37800,cogs:18144,units:378},
+  {style:'HARH02',name:'Harlow Robe Hook',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Accessories',type:'Robe Hook',subtype:'Single',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Burnished Brass',color:'Brass',revenue:19800,cogs:9702,units:198},
+  {style:'HARH02',name:'Harlow Robe Hook',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Accessories',type:'Robe Hook',subtype:'Single',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Burnished Brass',color:'Brass',revenue:24800,cogs:12152,units:248},
+  {style:'HARH02',name:'Harlow Robe Hook',collection:'Harlow',lob:'Fittings',group:'Bath',cls:'Accessories',type:'Robe Hook',subtype:'Single',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Burnished Brass',color:'Brass',revenue:29600,cogs:14504,units:296},
+
+  // ══════════════════════════════
+  // SUTTON — Bath + Linens
+  // ══════════════════════════════
+
+  // Bathroom Faucet
+  {style:'SNBF01',name:'Sutton Bathroom Faucet',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Bridge',subtype:'Two-Handle',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:164400,cogs:82200,units:132},
+  {style:'SNBF01',name:'Sutton Bathroom Faucet',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Bridge',subtype:'Two-Handle',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:198800,cogs:97412,units:160},
+  {style:'SNBF01',name:'Sutton Bathroom Faucet',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Bridge',subtype:'Two-Handle',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:228600,cogs:110628,units:184},
+  {style:'SNBF01',name:'Sutton Bathroom Faucet',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Bridge',subtype:'Two-Handle',year:'2023',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Polished Nickel',color:'Silver',revenue:62400,cogs:32448,units:50},
+  {style:'SNBF01',name:'Sutton Bathroom Faucet',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Bridge',subtype:'Two-Handle',year:'2024',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Polished Nickel',color:'Silver',revenue:78200,cogs:40264,units:63},
+  {style:'SNBF01',name:'Sutton Bathroom Faucet',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Bridge',subtype:'Two-Handle',year:'2025',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Polished Nickel',color:'Silver',revenue:92600,cogs:47226,units:74},
+  {style:'SNBF03',name:'Sutton Bathroom Faucet',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Bridge',subtype:'Two-Handle',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Matte Black',color:'Black',revenue:88800,cogs:47376,units:72},
+  {style:'SNBF03',name:'Sutton Bathroom Faucet',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Bridge',subtype:'Two-Handle',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Matte Black',color:'Black',revenue:112600,cogs:58652,units:92},
+  {style:'SNBF03',name:'Sutton Bathroom Faucet',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Bridge',subtype:'Two-Handle',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Matte Black',color:'Black',revenue:128400,cogs:65484,units:104},
+
+  // Bathtub Faucet
+  {style:'SNTF01',name:'Sutton Bathtub Faucet',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Freestanding',subtype:'Floor Mount',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:298400,cogs:143232,units:96},
+  {style:'SNTF01',name:'Sutton Bathtub Faucet',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Freestanding',subtype:'Floor Mount',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:364800,cogs:171456,units:118},
+  {style:'SNTF01',name:'Sutton Bathtub Faucet',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Freestanding',subtype:'Floor Mount',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:412200,cogs:191522,units:134},
+  {style:'SNTF02',name:'Sutton Bathtub Faucet',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Freestanding',subtype:'Floor Mount',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Burnished Brass',color:'Brass',revenue:198600,cogs:95328,units:64},
+  {style:'SNTF02',name:'Sutton Bathtub Faucet',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Freestanding',subtype:'Floor Mount',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Burnished Brass',color:'Brass',revenue:248400,cogs:116748,units:80},
+  {style:'SNTF02',name:'Sutton Bathtub Faucet',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Freestanding',subtype:'Floor Mount',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Burnished Brass',color:'Brass',revenue:288800,cogs:133648,units:93},
+
+  // Shower System
+  {style:'SNSH01',name:'Sutton Shower System',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Shower',type:'Thermostatic',subtype:'Trim Only',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:342600,cogs:159942,units:102},
+  {style:'SNSH01',name:'Sutton Shower System',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Shower',type:'Thermostatic',subtype:'Trim Only',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:418400,cogs:190624,units:124},
+  {style:'SNSH01',name:'Sutton Shower System',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Shower',type:'Thermostatic',subtype:'Trim Only',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:482600,cogs:217170,units:144},
+  {style:'SNSH01',name:'Sutton Shower System',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Shower',type:'Thermostatic',subtype:'Trim Only',year:'2023',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Polished Nickel',color:'Silver',revenue:112400,cogs:54272,units:34},
+  {style:'SNSH01',name:'Sutton Shower System',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Shower',type:'Thermostatic',subtype:'Trim Only',year:'2024',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Polished Nickel',color:'Silver',revenue:138800,cogs:65636,units:42},
+  {style:'SNSH01',name:'Sutton Shower System',collection:'Sutton',lob:'Fittings',group:'Bath',cls:'Shower',type:'Thermostatic',subtype:'Trim Only',year:'2025',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Polished Nickel',color:'Silver',revenue:167400,cogs:77841,units:50},
+
+  // Bath Towels
+  {style:'SNBT07',name:'Sutton Bath Towel',collection:'Sutton',lob:'Linens',group:'Bath',cls:'Towels',type:'Bath Towel',subtype:'Standard',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Natural',color:'Natural',revenue:44200,cogs:19890,units:884},
+  {style:'SNBT07',name:'Sutton Bath Towel',collection:'Sutton',lob:'Linens',group:'Bath',cls:'Towels',type:'Bath Towel',subtype:'Standard',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Natural',color:'Natural',revenue:56800,cogs:25560,units:1136},
+  {style:'SNBT07',name:'Sutton Bath Towel',collection:'Sutton',lob:'Linens',group:'Bath',cls:'Towels',type:'Bath Towel',subtype:'Standard',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Natural',color:'Natural',revenue:68400,cogs:30780,units:1368},
+  {style:'SNBT07',name:'Sutton Bath Towel',collection:'Sutton',lob:'Linens',group:'Bath',cls:'Towels',type:'Bath Towel',subtype:'Standard',year:'2023',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Natural',color:'Natural',revenue:28800,cogs:13248,units:576},
+
+  // Bath Mat
+  {style:'SNBM07',name:'Sutton Bath Mat',collection:'Sutton',lob:'Linens',group:'Bath',cls:'Rugs',type:'Bath Mat',subtype:'Standard',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Natural',color:'Natural',revenue:32400,cogs:15552,units:648},
+  {style:'SNBM07',name:'Sutton Bath Mat',collection:'Sutton',lob:'Linens',group:'Bath',cls:'Rugs',type:'Bath Mat',subtype:'Standard',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Natural',color:'Natural',revenue:41600,cogs:19968,units:832},
+  {style:'SNBM07',name:'Sutton Bath Mat',collection:'Sutton',lob:'Linens',group:'Bath',cls:'Rugs',type:'Bath Mat',subtype:'Standard',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Natural',color:'Natural',revenue:48800,cogs:23424,units:976},
+
+  // ══════════════════════════════
+  // ELEANOR — Premium Bath
+  // ══════════════════════════════
+
+  // Pedestal Sink
+  {style:'ELPS01',name:'Eleanor Pedestal Sink',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Sinks',type:'Pedestal',subtype:'Freestanding',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'White',revenue:486400,cogs:218880,units:88},
+  {style:'ELPS01',name:'Eleanor Pedestal Sink',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Sinks',type:'Pedestal',subtype:'Freestanding',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'White',revenue:568200,cogs:249208,units:104},
+  {style:'ELPS01',name:'Eleanor Pedestal Sink',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Sinks',type:'Pedestal',subtype:'Freestanding',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'White',revenue:642800,cogs:277608,units:118},
+  {style:'ELPS01',name:'Eleanor Pedestal Sink',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Sinks',type:'Pedestal',subtype:'Freestanding',year:'2023',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Polished Nickel',color:'White',revenue:128400,cogs:58896,units:23},
+  {style:'ELPS01',name:'Eleanor Pedestal Sink',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Sinks',type:'Pedestal',subtype:'Freestanding',year:'2024',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Polished Nickel',color:'White',revenue:154800,cogs:70070,units:28},
+  {style:'ELPS01',name:'Eleanor Pedestal Sink',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Sinks',type:'Pedestal',subtype:'Freestanding',year:'2025',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Polished Nickel',color:'White',revenue:178600,cogs:80013,units:32},
+
+  // Bathroom Faucet
+  {style:'ELBF01',name:'Eleanor Bathroom Faucet',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Gooseneck',subtype:'Single-Handle',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:188400,cogs:87108,units:124},
+  {style:'ELBF01',name:'Eleanor Bathroom Faucet',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Gooseneck',subtype:'Single-Handle',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:224600,cogs:101070,units:148},
+  {style:'ELBF01',name:'Eleanor Bathroom Faucet',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Gooseneck',subtype:'Single-Handle',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:258800,cogs:114672,units:170},
+  {style:'ELBF02',name:'Eleanor Bathroom Faucet',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Gooseneck',subtype:'Single-Handle',year:'2023',channel_rollup:'Residential',channel:'Direct',metal_finish:'Burnished Brass',color:'Brass',revenue:102400,cogs:48128,units:68},
+  {style:'ELBF02',name:'Eleanor Bathroom Faucet',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Gooseneck',subtype:'Single-Handle',year:'2024',channel_rollup:'Residential',channel:'Direct',metal_finish:'Burnished Brass',color:'Brass',revenue:128600,cogs:58827,units:86},
+  {style:'ELBF02',name:'Eleanor Bathroom Faucet',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Gooseneck',subtype:'Single-Handle',year:'2025',channel_rollup:'Residential',channel:'Direct',metal_finish:'Burnished Brass',color:'Brass',revenue:148400,cogs:66780,units:99},
+
+  // Soaking Tub
+  {style:'ELTU06',name:'Eleanor Soaking Tub',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Tubs',type:'Freestanding',subtype:'Soaking',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'White',color:'White',revenue:684000,cogs:293820,units:76},
+  {style:'ELTU06',name:'Eleanor Soaking Tub',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Tubs',type:'Freestanding',subtype:'Soaking',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'White',color:'White',revenue:828000,cogs:347760,units:92},
+  {style:'ELTU06',name:'Eleanor Soaking Tub',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Tubs',type:'Freestanding',subtype:'Soaking',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'White',color:'White',revenue:954000,cogs:395808,units:106},
+  {style:'ELTU06',name:'Eleanor Soaking Tub',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Tubs',type:'Freestanding',subtype:'Soaking',year:'2023',channel_rollup:'Other',channel:'Liquidation',metal_finish:'White',color:'White',revenue:54000,cogs:27000,units:6},
+  {style:'ELTU06',name:'Eleanor Soaking Tub',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Tubs',type:'Freestanding',subtype:'Soaking',year:'2024',channel_rollup:'Other',channel:'Liquidation',metal_finish:'White',color:'White',revenue:36000,cogs:18000,units:4},
+  {style:'ELTU06',name:'Eleanor Soaking Tub',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Tubs',type:'Freestanding',subtype:'Soaking',year:'2025',channel_rollup:'Other',channel:'Liquidation',metal_finish:'White',color:'White',revenue:18000,cogs:9000,units:2},
+
+  // Bathroom Mirror
+  {style:'ELMI01',name:'Eleanor Bathroom Mirror',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Mirrors',type:'Wall Mirror',subtype:'Rectangular',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:128400,cogs:58572,units:214},
+  {style:'ELMI01',name:'Eleanor Bathroom Mirror',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Mirrors',type:'Wall Mirror',subtype:'Rectangular',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:158600,cogs:71370,units:264},
+  {style:'ELMI01',name:'Eleanor Bathroom Mirror',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Mirrors',type:'Wall Mirror',subtype:'Rectangular',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Nickel',color:'Silver',revenue:184200,cogs:81528,units:307},
+  {style:'ELMI02',name:'Eleanor Bathroom Mirror',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Mirrors',type:'Wall Mirror',subtype:'Rectangular',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Burnished Brass',color:'Brass',revenue:88400,cogs:40924,units:148},
+  {style:'ELMI02',name:'Eleanor Bathroom Mirror',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Mirrors',type:'Wall Mirror',subtype:'Rectangular',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Burnished Brass',color:'Brass',revenue:108600,cogs:49629,units:182},
+  {style:'ELMI02',name:'Eleanor Bathroom Mirror',collection:'Eleanor',lob:'Fittings',group:'Bath',cls:'Mirrors',type:'Wall Mirror',subtype:'Rectangular',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Burnished Brass',color:'Brass',revenue:128800,cogs:58448,units:216},
+
+  // Bathrobe
+  {style:'ELRB07',name:'Eleanor Bathrobe',collection:'Eleanor',lob:'Linens',group:'Bath',cls:'Robes',type:'Bathrobe',subtype:'Full Length',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Natural',color:'White',revenue:68400,cogs:29412,units:228},
+  {style:'ELRB07',name:'Eleanor Bathrobe',collection:'Eleanor',lob:'Linens',group:'Bath',cls:'Robes',type:'Bathrobe',subtype:'Full Length',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Natural',color:'White',revenue:84600,cogs:36378,units:282},
+  {style:'ELRB07',name:'Eleanor Bathrobe',collection:'Eleanor',lob:'Linens',group:'Bath',cls:'Robes',type:'Bathrobe',subtype:'Full Length',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Natural',color:'White',revenue:98200,cogs:42226,units:328},
+  {style:'ELRB07',name:'Eleanor Bathrobe',collection:'Eleanor',lob:'Linens',group:'Bath',cls:'Robes',type:'Bathrobe',subtype:'Full Length',year:'2023',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Natural',color:'White',revenue:42200,cogs:18988,units:140},
+
+  // ══════════════════════════════
+  // CASCADE — Outdoor
+  // ══════════════════════════════
+
+  // Outdoor Shower
+  {style:'CAOS05',name:'Cascade Outdoor Shower',collection:'Cascade',lob:'Fittings',group:'Outdoor',cls:'Shower',type:'Wall Mount',subtype:'Single-Handle',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Brushed Stainless',color:'Silver',revenue:88400,cogs:46168,units:136},
+  {style:'CAOS05',name:'Cascade Outdoor Shower',collection:'Cascade',lob:'Fittings',group:'Outdoor',cls:'Shower',type:'Wall Mount',subtype:'Single-Handle',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Brushed Stainless',color:'Silver',revenue:108600,cogs:55386,units:168},
+  {style:'CAOS05',name:'Cascade Outdoor Shower',collection:'Cascade',lob:'Fittings',group:'Outdoor',cls:'Shower',type:'Wall Mount',subtype:'Single-Handle',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Brushed Stainless',color:'Silver',revenue:124800,cogs:62400,units:192},
+  {style:'CAOS05',name:'Cascade Outdoor Shower',collection:'Cascade',lob:'Fittings',group:'Outdoor',cls:'Shower',type:'Wall Mount',subtype:'Single-Handle',year:'2023',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Brushed Stainless',color:'Silver',revenue:44200,cogs:23394,units:68},
+  {style:'CAOS05',name:'Cascade Outdoor Shower',collection:'Cascade',lob:'Fittings',group:'Outdoor',cls:'Shower',type:'Wall Mount',subtype:'Single-Handle',year:'2024',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Brushed Stainless',color:'Silver',revenue:56800,cogs:29376,units:88},
+  {style:'CAOS05',name:'Cascade Outdoor Shower',collection:'Cascade',lob:'Fittings',group:'Outdoor',cls:'Shower',type:'Wall Mount',subtype:'Single-Handle',year:'2025',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Brushed Stainless',color:'Silver',revenue:68800,cogs:35888,units:104},
+
+  // Garden Faucet (wall spigot)
+  {style:'CAGF05',name:'Cascade Garden Faucet',collection:'Cascade',lob:'Fittings',group:'Outdoor',cls:'Faucets',type:'Wall Mount',subtype:'Single-Handle',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Brushed Stainless',color:'Silver',revenue:42600,cogs:23430,units:284},
+  {style:'CAGF05',name:'Cascade Garden Faucet',collection:'Cascade',lob:'Fittings',group:'Outdoor',cls:'Faucets',type:'Wall Mount',subtype:'Single-Handle',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Brushed Stainless',color:'Silver',revenue:52400,cogs:28192,units:348},
+  {style:'CAGF05',name:'Cascade Garden Faucet',collection:'Cascade',lob:'Fittings',group:'Outdoor',cls:'Faucets',type:'Wall Mount',subtype:'Single-Handle',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Brushed Stainless',color:'Silver',revenue:58800,cogs:31056,units:392},
+  {style:'CAGF05',name:'Cascade Garden Faucet',collection:'Cascade',lob:'Fittings',group:'Outdoor',cls:'Faucets',type:'Wall Mount',subtype:'Single-Handle',year:'2023',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Brushed Stainless',color:'Silver',revenue:18400,cogs:10304,units:122},
+
+  // Outdoor Kitchen Faucet
+  {style:'CAKF05',name:'Cascade Outdoor Kitchen Faucet',collection:'Cascade',lob:'Fittings',group:'Outdoor',cls:'Faucets',type:'Pull-Down',subtype:'Single-Handle',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Brushed Stainless',color:'Silver',revenue:62400,cogs:33696,units:96},
+  {style:'CAKF05',name:'Cascade Outdoor Kitchen Faucet',collection:'Cascade',lob:'Fittings',group:'Outdoor',cls:'Faucets',type:'Pull-Down',subtype:'Single-Handle',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Brushed Stainless',color:'Silver',revenue:78200,cogs:41446,units:120},
+  {style:'CAKF05',name:'Cascade Outdoor Kitchen Faucet',collection:'Cascade',lob:'Fittings',group:'Outdoor',cls:'Faucets',type:'Pull-Down',subtype:'Single-Handle',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Brushed Stainless',color:'Silver',revenue:92400,cogs:47970,units:142},
+
+  // ══════════════════════════════
+  // VICTORIA — Modern Minimalist
+  // ══════════════════════════════
+
+  // Bathroom Faucet
+  {style:'VIBF04',name:'Victoria Bathroom Faucet',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Gooseneck',subtype:'Single-Handle',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Chrome',color:'Silver',revenue:122400,cogs:61200,units:168},
+  {style:'VIBF04',name:'Victoria Bathroom Faucet',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Gooseneck',subtype:'Single-Handle',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Chrome',color:'Silver',revenue:148800,cogs:72912,units:204},
+  {style:'VIBF04',name:'Victoria Bathroom Faucet',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Gooseneck',subtype:'Single-Handle',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Chrome',color:'Silver',revenue:172400,cogs:82752,units:236},
+  {style:'VIBF03',name:'Victoria Bathroom Faucet',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Gooseneck',subtype:'Single-Handle',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Matte Black',color:'Black',revenue:96400,cogs:49164,units:132},
+  {style:'VIBF03',name:'Victoria Bathroom Faucet',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Gooseneck',subtype:'Single-Handle',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Matte Black',color:'Black',revenue:124600,cogs:62300,units:172},
+  {style:'VIBF03',name:'Victoria Bathroom Faucet',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Gooseneck',subtype:'Single-Handle',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Matte Black',color:'Black',revenue:146200,cogs:71438,units:202},
+  {style:'VIBF03',name:'Victoria Bathroom Faucet',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Gooseneck',subtype:'Single-Handle',year:'2023',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Matte Black',color:'Black',revenue:38400,cogs:19968,units:54},
+  {style:'VIBF03',name:'Victoria Bathroom Faucet',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Gooseneck',subtype:'Single-Handle',year:'2024',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Matte Black',color:'Black',revenue:48800,cogs:24888,units:68},
+  {style:'VIBF03',name:'Victoria Bathroom Faucet',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Gooseneck',subtype:'Single-Handle',year:'2025',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Matte Black',color:'Black',revenue:58800,cogs:29694,units:82},
+
+  // Bathtub Faucet (Victoria Falls inspired)
+  {style:'VITF04',name:'Victoria Bathtub Faucet',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Freestanding',subtype:'Floor Mount',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Chrome',color:'Silver',revenue:318400,cogs:146864,units:108},
+  {style:'VITF04',name:'Victoria Bathtub Faucet',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Freestanding',subtype:'Floor Mount',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Chrome',color:'Silver',revenue:388600,cogs:175870,units:132},
+  {style:'VITF04',name:'Victoria Bathtub Faucet',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Freestanding',subtype:'Floor Mount',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Chrome',color:'Silver',revenue:448200,cogs:198649,units:152},
+  {style:'VITF03',name:'Victoria Bathtub Faucet',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Freestanding',subtype:'Floor Mount',year:'2023',channel_rollup:'Residential',channel:'Direct',metal_finish:'Matte Black',color:'Black',revenue:198600,cogs:93642,units:68},
+  {style:'VITF03',name:'Victoria Bathtub Faucet',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Freestanding',subtype:'Floor Mount',year:'2024',channel_rollup:'Residential',channel:'Direct',metal_finish:'Matte Black',color:'Black',revenue:248400,cogs:114264,units:85},
+  {style:'VITF03',name:'Victoria Bathtub Faucet',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Faucets',type:'Freestanding',subtype:'Floor Mount',year:'2025',channel_rollup:'Residential',channel:'Direct',metal_finish:'Matte Black',color:'Black',revenue:288200,cogs:129690,units:98},
+
+  // Shower System
+  {style:'VISH04',name:'Victoria Shower System',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Shower',type:'Thermostatic',subtype:'Trim Only',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Chrome',color:'Silver',revenue:288400,cogs:130048,units:112},
+  {style:'VISH04',name:'Victoria Shower System',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Shower',type:'Thermostatic',subtype:'Trim Only',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Chrome',color:'Silver',revenue:348800,cogs:152472,units:136},
+  {style:'VISH04',name:'Victoria Shower System',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Shower',type:'Thermostatic',subtype:'Trim Only',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Chrome',color:'Silver',revenue:402400,cogs:172832,units:156},
+  {style:'VISH04',name:'Victoria Shower System',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Shower',type:'Thermostatic',subtype:'Trim Only',year:'2023',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Polished Chrome',color:'Silver',revenue:168400,cogs:76952,units:66},
+  {style:'VISH04',name:'Victoria Shower System',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Shower',type:'Thermostatic',subtype:'Trim Only',year:'2024',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Polished Chrome',color:'Silver',revenue:204800,cogs:90912,units:80},
+  {style:'VISH04',name:'Victoria Shower System',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Shower',type:'Thermostatic',subtype:'Trim Only',year:'2025',channel_rollup:'Commercial',channel:'Commercial',metal_finish:'Polished Chrome',color:'Silver',revenue:238400,cogs:103724,units:94},
+
+  // Soap Dispenser
+  {style:'VISD04',name:'Victoria Soap Dispenser',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Accessories',type:'Soap Dispenser',subtype:'Counter Top',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Chrome',color:'Silver',revenue:28400,cogs:13066,units:568},
+  {style:'VISD04',name:'Victoria Soap Dispenser',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Accessories',type:'Soap Dispenser',subtype:'Counter Top',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Chrome',color:'Silver',revenue:36800,cogs:16928,units:736},
+  {style:'VISD04',name:'Victoria Soap Dispenser',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Accessories',type:'Soap Dispenser',subtype:'Counter Top',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Chrome',color:'Silver',revenue:44200,cogs:20332,units:884},
+  {style:'VISD03',name:'Victoria Soap Dispenser',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Accessories',type:'Soap Dispenser',subtype:'Counter Top',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Matte Black',color:'Black',revenue:21600,cogs:10152,units:432},
+  {style:'VISD03',name:'Victoria Soap Dispenser',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Accessories',type:'Soap Dispenser',subtype:'Counter Top',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Matte Black',color:'Black',revenue:28400,cogs:13346,units:568},
+  {style:'VISD03',name:'Victoria Soap Dispenser',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Accessories',type:'Soap Dispenser',subtype:'Counter Top',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Matte Black',color:'Black',revenue:35200,cogs:16544,units:704},
+
+  // Bathroom Mirror
+  {style:'VIMI04',name:'Victoria Bathroom Mirror',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Mirrors',type:'Wall Mirror',subtype:'Rectangular',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Chrome',color:'Silver',revenue:112400,cogs:50580,units:224},
+  {style:'VIMI04',name:'Victoria Bathroom Mirror',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Mirrors',type:'Wall Mirror',subtype:'Rectangular',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Chrome',color:'Silver',revenue:138600,cogs:61677,units:277},
+  {style:'VIMI04',name:'Victoria Bathroom Mirror',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Mirrors',type:'Wall Mirror',subtype:'Rectangular',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Polished Chrome',color:'Silver',revenue:162400,cogs:71456,units:325},
+  {style:'VIMI03',name:'Victoria Bathroom Mirror',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Mirrors',type:'Wall Mirror',subtype:'Rectangular',year:'2023',channel_rollup:'Residential',channel:'Residential',metal_finish:'Matte Black',color:'Black',revenue:78400,cogs:36064,units:157},
+  {style:'VIMI03',name:'Victoria Bathroom Mirror',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Mirrors',type:'Wall Mirror',subtype:'Rectangular',year:'2024',channel_rollup:'Residential',channel:'Residential',metal_finish:'Matte Black',color:'Black',revenue:98600,cogs:44862,units:197},
+  {style:'VIMI03',name:'Victoria Bathroom Mirror',collection:'Victoria',lob:'Fittings',group:'Bath',cls:'Mirrors',type:'Wall Mirror',subtype:'Rectangular',year:'2025',channel_rollup:'Residential',channel:'Residential',metal_finish:'Matte Black',color:'Black',revenue:118800,cogs:53460,units:237},
+];
+
+// ══════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════
+let allRows = RAW.map(r=>({...r, style_name: r.name}));
+let chartRev=null, chartUnits=null;
+let selectedStyles=[];
+const CHANNEL_ORDER=['Residential','Commercial','Other'];
+const F={collection:'',year:'',rollup:'',channel:'',lob:'',group:'',cls:'',type:'',subtype:''};
+
+document.getElementById('record-count').textContent=allRows.length.toLocaleString()+' rows';
+populateFilters();
+setupSearch();
+document.getElementById('clear-btn').addEventListener('click',clearAll);
+document.getElementById('tags-and-input').addEventListener('click',()=>document.getElementById('style-search').focus());
+
+function uniq(arr){return[...new Set(arr.filter(Boolean))].sort()}
+
+function getRows(except=null){
+  return allRows.filter(r=>{
+    if(selectedStyles.length&&!selectedStyles.includes(r.style))return false;
+    if(except!=='collection'&&F.collection&&r.collection!==F.collection)return false;
+    if(except!=='year'&&F.year&&r.year!==F.year)return false;
+    if(except!=='rollup'&&F.rollup&&r.channel_rollup!==F.rollup)return false;
+    if(except!=='channel'&&F.channel&&r.channel!==F.channel)return false;
+    if(except!=='lob'&&F.lob&&r.lob!==F.lob)return false;
+    if(except!=='group'&&F.group&&r.group!==F.group)return false;
+    if(except!=='cls'&&F.cls&&r.cls!==F.cls)return false;
+    if(except!=='type'&&F.type&&r.type!==F.type)return false;
+    if(except!=='subtype'&&F.subtype&&r.subtype!==F.subtype)return false;
+    return true;
+  });
+}
+
+function fillSel(id,vals,placeholder,keepVal){
+  const el=document.getElementById(id);
+  const cur=keepVal!==undefined?keepVal:el.value;
+  el.innerHTML=`<option value="">${placeholder}</option>`;
+  vals.forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;el.appendChild(o)});
+  el.value=vals.includes(cur)?cur:'';
+  el.classList.toggle('active',el.value!=='');
+}
+
+function populateFilters(){
+  fillSel('f-collection',uniq(allRows.map(r=>r.collection)),'All Collections');
+  fillSel('f-year',uniq(allRows.map(r=>r.year)),'All Years');
+  fillSel('f-rollup',uniq(allRows.map(r=>r.channel_rollup)),'All');
+  fillSel('f-channel',uniq(allRows.map(r=>r.channel)),'All');
+  fillSel('f-lob',uniq(allRows.map(r=>r.lob)),'All');
+  fillSel('f-group',uniq(allRows.map(r=>r.group)),'All');
+  fillSel('f-class',uniq(allRows.map(r=>r.cls)),'All');
+  fillSel('f-type',uniq(allRows.map(r=>r.type)),'All');
+  fillSel('f-subtype',uniq(allRows.map(r=>r.subtype)),'All');
+
+  const cfg=[
+    ['f-collection','collection'],['f-year','year'],['f-rollup','rollup'],
+    ['f-channel','channel'],['f-lob','lob'],['f-group','group'],
+    ['f-class','cls'],['f-type','type'],['f-subtype','subtype']
+  ];
+  cfg.forEach(([id,key])=>{
+    document.getElementById(id).addEventListener('change',function(){
+      F[key]=this.value;
+      this.classList.toggle('active',this.value!=='');
+      if(key==='group'){F.cls='';F.type='';F.subtype=''}
+      if(key==='cls'){F.type='';F.subtype=''}
+      if(key==='type'){F.subtype=''}
+      if(key==='rollup'){F.channel=''}
+      refreshCascading();renderDash();
+    });
+  });
+}
+
+function refreshCascading(){
+  fillSel('f-class',uniq(getRows('cls').map(r=>r.cls)),'All',F.cls);
+  fillSel('f-type',uniq(getRows('type').map(r=>r.type)),'All',F.type);
+  fillSel('f-subtype',uniq(getRows('subtype').map(r=>r.subtype)),'All',F.subtype);
+  fillSel('f-channel',uniq(getRows('channel').map(r=>r.channel)),'All',F.channel);
+  F.cls=document.getElementById('f-class').value;
+  F.type=document.getElementById('f-type').value;
+  F.subtype=document.getElementById('f-subtype').value;
+  F.channel=document.getElementById('f-channel').value;
+}
+
+function clearAll(){
+  Object.keys(F).forEach(k=>F[k]='');
+  selectedStyles=[];
+  ['f-collection','f-year','f-rollup','f-channel','f-lob','f-group','f-class','f-type','f-subtype']
+    .forEach(id=>{document.getElementById(id).value='';document.getElementById(id).classList.remove('active')});
+  renderTags();renderDash();
+}
+
+function setupSearch(){
+  const input=document.getElementById('style-search');
+  const ac=document.getElementById('autocomplete');
+  const styleMap={};const colSet=new Set();
+  allRows.forEach(r=>{
+    if(r.style&&!styleMap[r.style])styleMap[r.style]=r.style_name||'';
+    if(r.collection)colSet.add(r.collection);
+  });
+  const styles=Object.entries(styleMap);
+  const collections=[...colSet].sort();
+
+  input.addEventListener('input',()=>{
+    const q=input.value.trim().toLowerCase();
+    if(!q){ac.style.display='none';return}
+    const mS=styles.filter(([s,n])=>(s.toLowerCase().includes(q)||(n&&n.toLowerCase().includes(q)))&&!selectedStyles.includes(s)).slice(0,12);
+    const mC=collections.filter(c=>c.toLowerCase().includes(q)).slice(0,4);
+    if(!mS.length&&!mC.length){ac.style.display='none';return}
+    let html='';
+    if(mC.length){
+      html+=`<div class="ac-sec">Collections</div>`;
+      html+=mC.map(c=>`<div class="ac-item" data-type="collection" data-val="${c}"><span class="ac-p">${c}</span><span class="ac-s">${allRows.filter(r=>r.collection===c).length} rows</span></div>`).join('');
+    }
+    if(mS.length){
+      html+=`<div class="ac-sec">Styles</div>`;
+      html+=mS.map(([s,n])=>`<div class="ac-item" data-type="style" data-val="${s}"><span class="ac-p">${s}</span><span class="ac-s">${n}</span></div>`).join('');
+    }
+    ac.innerHTML=html;ac.style.display='block';
+    ac.querySelectorAll('.ac-item').forEach(el=>{
+      el.addEventListener('click',()=>{
+        if(el.dataset.type==='style'){
+          if(!selectedStyles.includes(el.dataset.val))selectedStyles.push(el.dataset.val);
+          renderTags();
+        }else{
+          F.collection=el.dataset.val;
+          document.getElementById('f-collection').value=el.dataset.val;
+          document.getElementById('f-collection').classList.add('active');
+        }
+        input.value='';ac.style.display='none';renderDash();
+      });
+    });
+  });
+
+  input.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){
+      const q=input.value.trim().toUpperCase();
+      if(q&&!selectedStyles.includes(q)){selectedStyles.push(q);renderTags();input.value='';ac.style.display='none';renderDash();}
+    }
+    if(e.key==='Backspace'&&!input.value&&selectedStyles.length){selectedStyles.pop();renderTags();renderDash();}
+  });
+  document.addEventListener('click',e=>{if(!e.target.closest('.search-outer'))ac.style.display='none'});
+}
+
+function renderTags(){
+  const container=document.getElementById('tags-and-input');
+  container.querySelectorAll('.style-tag').forEach(t=>t.remove());
+  const input=document.getElementById('style-search');
+  selectedStyles.forEach(s=>{
+    const tag=document.createElement('div');
+    tag.className='style-tag';
+    tag.innerHTML=`${s}<button>×</button>`;
+    tag.querySelector('button').addEventListener('click',e=>{
+      e.stopPropagation();
+      selectedStyles=selectedStyles.filter(x=>x!==s);
+      renderTags();renderDash();
+    });
+    container.insertBefore(tag,input);
+  });
+  input.placeholder=selectedStyles.length?'Add another…':'Try "Harlow" or "Victoria"…';
+}
+
+function renderDash(){
+  const rows=getRows();
+  if(!rows.length){
+    document.getElementById('empty-state').style.display='flex';
+    document.getElementById('dashboard').style.display='none';
+    return;
+  }
+  document.getElementById('empty-state').style.display='none';
+  const dash=document.getElementById('dashboard');
+  dash.style.display='flex';
+  dash.querySelectorAll('.fu').forEach(el=>{el.style.animation='none';el.offsetHeight;el.style.animation=''});
+
+  const ref=rows[0];
+  const uStyles=uniq(rows.map(r=>r.style));
+  let primary='',secondary='',tertiary='',breadcrumb='',meta=[];
+
+  if(selectedStyles.length===1){
+    primary=ref.style;
+    secondary=ref.style_name||'';
+    const crumbs=[ref.group,ref.cls,ref.type,ref.subtype].filter(Boolean);
+    breadcrumb=crumbs.map((c,i)=>`${i?'<span class="bc-sep">›</span>':''}<b>${c}</b>`).join(' ');
+    if(ref.collection)meta.push({l:'Collection',v:ref.collection});
+    if(ref.lob)meta.push({l:'LOB',v:ref.lob});
+  }else if(selectedStyles.length>1){
+    primary=`${selectedStyles.length} Styles`;
+    secondary=selectedStyles.join(' · ');
+    tertiary=rows.length.toLocaleString()+' rows combined';
+  }else if(F.collection){
+    primary=F.collection;
+    secondary=`${uStyles.length} style${uStyles.length!==1?'s':''}`;
+    tertiary=rows.length.toLocaleString()+' rows';
+    meta.push({l:'Collection',v:F.collection});
+  }else{
+    const labels=[F.subtype,F.type,F.cls,F.group,F.lob,F.rollup,F.channel,F.year].filter(Boolean);
+    primary=labels[0]||'Filtered View';
+    secondary=labels.slice(1).join(' · ');
+    tertiary=`${uStyles.length} styles · ${rows.length.toLocaleString()} rows`;
+  }
+
+  document.getElementById('d-primary').textContent=primary;
+  document.getElementById('d-secondary').textContent=secondary;
+  document.getElementById('d-tertiary').textContent=tertiary;
+  document.getElementById('d-breadcrumb').innerHTML=breadcrumb;
+  document.getElementById('d-meta').innerHTML=meta.map(m=>`<div class="meta-tag">${m.l}: <span>${m.v}</span></div>`).join('');
+
+  const totRev=rows.reduce((s,r)=>s+r.revenue,0);
+  const totCogs=rows.reduce((s,r)=>s+r.cogs,0);
+  const totUnits=rows.reduce((s,r)=>s+r.units,0);
+  const margin=totRev?((totRev-totCogs)/totRev*100):0;
+  const rpu=totUnits?(totRev/totUnits):0;
+  const years=uniq(rows.map(r=>r.year));
+
+  document.getElementById('k-rev').textContent=fmt$(totRev);
+  document.getElementById('k-rev-s').textContent=years.join(', ');
+  document.getElementById('k-units').textContent=fmtN(totUnits);
+  document.getElementById('k-units-s').textContent='total shipped';
+  document.getElementById('k-margin').textContent=margin.toFixed(1)+'%';
+  document.getElementById('k-margin-s').textContent='COGS: '+fmt$(totCogs);
+  document.getElementById('k-rpu').textContent=fmt$(rpu);
+  document.getElementById('k-rpu-s').textContent='avg per unit';
+
+  const byYear={};
+  rows.forEach(r=>{
+    if(!byYear[r.year])byYear[r.year]={revenue:0,cogs:0,units:0};
+    byYear[r.year].revenue+=r.revenue;byYear[r.year].cogs+=r.cogs;byYear[r.year].units+=r.units;
+  });
+  const sY=Object.keys(byYear).sort();
+
+  makeBar('c-revenue',chartRev,sY,sY.map(y=>byYear[y].revenue),'#C9A86C',c=>chartRev=c,v=>fmt$(v));
+  makeBar('c-units',chartUnits,sY,sY.map(y=>byYear[y].units),'#4ECBA0',c=>chartUnits=c,v=>fmtN(v));
+
+  document.getElementById('yr-tbody').innerHTML=sY.map(y=>{
+    const d=byYear[y];const m=d.revenue?((d.revenue-d.cogs)/d.revenue*100):0;
+    return`<tr><td>${y}</td><td>${fmt$(d.revenue)}</td><td>${fmtN(d.units)}</td><td class="${m>=0?'pos':'neg'}">${m.toFixed(1)}%</td></tr>`;
+  }).join('');
+
+  renderBreakdown('b-channel',rows,'channel_rollup',(a,b)=>{
+    const ai=CHANNEL_ORDER.indexOf(a[0]),bi=CHANNEL_ORDER.indexOf(b[0]);
+    if(ai!==-1&&bi!==-1)return ai-bi;if(ai!==-1)return-1;if(bi!==-1)return 1;return b[1]-a[1];
+  });
+  renderBreakdown('b-finish',rows,'metal_finish');
+}
+
+function makeBar(id,existing,labels,data,color,setter,fmtFn){
+  if(existing)existing.destroy();
+  const ctx=document.getElementById(id).getContext('2d');
+  setter(new Chart(ctx,{type:'bar',
+    data:{labels,datasets:[{data,backgroundColor:color+'33',borderColor:color,borderWidth:1.5,borderRadius:2,hoverBackgroundColor:color+'66'}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'#112240',borderColor:'#1B3560',borderWidth:1,titleColor:'#D8E4F0',bodyColor:'#6B84A3',padding:10,callbacks:{label:ctx=>fmtFn(ctx.raw)}}},
+      scales:{x:{grid:{color:'rgba(27,53,96,.4)'},ticks:{color:'#6B84A3',font:{family:'Outfit',size:10}}},y:{grid:{color:'rgba(27,53,96,.4)'},ticks:{color:'#6B84A3',font:{family:'Outfit',size:10},callback:v=>fmtFn(v)}}}
+    }
+  }));
+}
+
+const BR_COLORS=['#C9A86C','#4ECBA0','#6B9FD4','#E07070','#B07ECE','#E8A87C','#7ECEB0','#A8C9E8'];
+
+function renderBreakdown(id,rows,field,sortFn=null){
+  const by={};
+  rows.forEach(r=>{const k=r[field]||'Unknown';by[k]=(by[k]||0)+r.revenue});
+  const entries=Object.entries(by);
+  if(sortFn)entries.sort(sortFn);else entries.sort((a,b)=>b[1]-a[1]);
+  const max=entries[0]?.[1]||1;
+  document.getElementById(id).innerHTML=entries.slice(0,8).map(([k,v],i)=>`
+    <div class="br-row">
+      <div class="br-label" title="${k}">${k}</div>
+      <div class="br-bar-wrap"><div class="br-bar" style="width:${(v/max*100).toFixed(1)}%;background:${BR_COLORS[i%BR_COLORS.length]}"></div></div>
+      <div class="br-val">${fmt$(v)}</div>
+    </div>`).join('');
+}
+
+function fmt$(n){
+  if(n>=1e6)return'$'+(n/1e6).toFixed(1)+'M';
+  if(n>=1e3)return'$'+(n/1e3).toFixed(1)+'K';
+  return'$'+n.toFixed(0);
+}
+function fmtN(n){
+  if(n>=1e6)return(n/1e6).toFixed(1)+'M';
+  if(n>=1e3)return(n/1e3).toFixed(1)+'K';
+  return n.toLocaleString();
+}
+</script>
+</body>
+</html>
