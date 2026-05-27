@@ -8,6 +8,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
+    
+    :root {
+      --gold: #c2a46d;
+      --gold-dim: rgba(194,164,109,.12);
+      --gold-border: rgba(194,164,109,.35);
+    }
+    
     html { min-height: 100%; }
 
     body {
@@ -47,7 +54,7 @@
     .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-width); height: 100%; background-color: #222; display: flex; flex-direction: column; padding-top: 100px; gap: 20px; transform: translateX(-100%); transition: transform 0.3s ease; z-index: 1300; }
     .sidebar.open { transform: translateX(0); }
     .sidebar a { color: #f4f4f4; text-decoration: none; font-size: 18px; padding: 12px 24px; transition: background 0.3s; }
-    .sidebar a:hover { background-color: #1abc9c; color: #222; border-radius: 6px; }
+    .sidebar a:hover { background-color: var(--gold); color: #222; border-radius: 6px; }
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 1050; }
     .overlay.active { opacity: 1; pointer-events: auto; }
     @media (max-width: 768px) { .logo-link .logo { display: none; } }
@@ -57,9 +64,9 @@
     h1 { font-family: 'Cormorant Garamond', serif; font-size: 42px; margin-bottom: 10px; }
     h2 { font-family: 'Cormorant Garamond', serif; font-size: 28px; margin-top: 50px; margin-bottom: 15px; }
     p { font-size: 18px; line-height: 1.6; color: #e0e0e0; }
-    .profile-pic { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin: 20px auto 10px; display: block; border: 3px solid #1abc9c; }
-    .resume-button { display: inline-block; margin: 20px 10px 40px; padding: 10px 22px; background-color: #1abc9c; color: white; text-decoration: none; border-radius: 25px; font-size: 15px; transition: background-color 0.3s; }
-    .resume-button:hover { background-color: #148f77; }
+    .profile-pic { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin: 20px auto 10px; display: block; border: 3px solid var(--gold); }
+    .resume-button { display: inline-block; margin: 20px 10px 40px; padding: 10px 22px; background: var(--gold-dim); border: 1px solid var(--gold-border); color: var(--gold); text-decoration: none; border-radius: 25px; font-size: 15px; transition: background .25s, border-color .25s, transform .2s; }
+    .resume-button:hover { background: rgba(194,164,109,.22); border-color: rgba(194,164,109,.6); transform: translateY(-1px); }
     .card-box { background-color: #2e3740; padding: 25px; margin: 0 auto; border-radius: 12px; display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; max-width: 900px; }
 
     /* ── Skills ─────────────────────────────────────────── */
@@ -72,7 +79,7 @@
     .credly-wrapper:hover .credly-tooltip { display: block; }
     .dots { display: flex; gap: 4px; margin-top: 4px; }
     .dot { width: 8px; height: 8px; border-radius: 50%; background-color: #555; }
-    .dot.filled { background-color: #1abc9c; }
+    .dot.filled { background-color: var(--gold); }
 
     /* ── Tools ──────────────────────────────────────────── */
     .tools-card { background-color: #2e3740; padding: 25px; margin: 25px auto 0; border-radius: 12px; display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; max-width: 900px; }
@@ -94,7 +101,9 @@
 
     /* ── Timeline ───────────────────────────────────────── */
     .timeline-container {
-      background-color: #2e3740;
+      background: #2e3740;
+      border: 1px solid rgba(194,164,109,.08);
+      box-shadow: 0 20px 60px rgba(0,0,0,.28);
       padding: 0;
       border-radius: 12px;
       margin: 25px auto 40px;
@@ -113,8 +122,8 @@
     }
     .toggle-dropdown {
       background-color: rgba(22, 30, 36, 0.92);
-      color: #f4f4f4;
-      border: 1px solid #1abc9c;
+      border: 1px solid var(--gold-border);
+      color: var(--gold);
       border-radius: 6px;
       padding: 3px 8px;
       font-size: 12px;
@@ -122,6 +131,10 @@
       backdrop-filter: blur(4px);
     }
 
+    .toggle-dropdown:hover {
+      background: rgba(194,164,109,.12);
+    }
+    
     /* Scroll wrapper — clips content to the JS-set inner width */
     .timeline-scroll-area {
       overflow-x: auto;
@@ -191,7 +204,7 @@
 
     .timeline-logo {
       width: 56px; height: 56px; object-fit: contain;
-      border-radius: 8px; border: 2px solid #1abc9c;
+      border-radius: 8px; border: 2px solid var(--gold-border);
       background-color: #222;
       padding: 4px; box-sizing: border-box;
     }
@@ -308,19 +321,19 @@
               <div class="company-name">Waterworks</div>
             </div>
             <div class="timeline-bars">
-              <div class="timeline-bar" data-start="29" data-end="63" data-bg="#16a085"
+              <div class="timeline-bar" data-start="29" data-end="63" data-bg="#7f6741"
                    data-date-start="MAY 2022" data-date-end="MAR 2025">
                 <div class="bar-bg"></div>
                 <span class="bar-label">Product Mgmt Coordinator</span>
                 <span class="tooltip-content">Built dashboards for 20+ product collections, maintaining 100K+ records with 99%+ accuracy.</span>
               </div>
-              <div class="timeline-bar" data-start="63" data-end="present" data-bg="#1abc9c"
+              <div class="timeline-bar" data-start="63" data-end="present" data-bg="#c2a46d"
                    data-promotion="true" data-date-start="MAR 2025">
                 <div class="bar-bg"></div>
                 <span class="bar-label">Associate Product Manager</span>
                 <span class="tooltip-content">Lead weekly business performance reviews across seven categories, contributing to 21% revenue growth.</span>
               </div>
-              <div class="timeline-bar" data-start="51" data-end="present" data-bg="#1abc9c"
+              <div class="timeline-bar" data-start="51" data-end="present" data-bg="#c2a46d"
                    data-date-start="MAR 2024">
                 <div class="bar-bg"></div>
                 <span class="bar-label">Founder — Early Career Group</span>
@@ -336,13 +349,13 @@
               <div class="company-name">University of Michigan</div>
             </div>
             <div class="timeline-bars">
-              <div class="timeline-bar" data-start="0" data-end="27" data-bg="#2980b9"
+              <div class="timeline-bar" data-start="0" data-end="27" data-bg="#4f6d8a"
                    data-date-start="SEP 2018" data-date-end="APR 2022">
                 <div class="bar-bg"></div>
                 <span class="bar-label">B.A. in Economics, Minor in Entrepreneurship</span>
                 <span class="tooltip-content">GPA: 3.8/4.0 · University Honors (3×) · President, Enactus Consulting Club · Published in University of Michigan newsletter</span>
               </div>
-              <div class="timeline-bar" data-start="38" data-end="present" data-bg="#2980b9"
+              <div class="timeline-bar" data-start="38" data-end="present" data-bg="#4f6d8a"
                    data-date-start="MAR 2023">
                 <div class="bar-bg"></div>
                 <span class="bar-label">NYC Alumni Board Member &amp; Sports Chair</span>
@@ -358,26 +371,26 @@
               <div class="company-name">Special Olympics</div>
             </div>
             <div class="timeline-bars">
-              <div class="timeline-bar" data-start="2" data-end="14" data-bg="#6c3483"
+              <div class="timeline-bar" data-start="2" data-end="14" data-bg="#6f587d"
                    data-date-start="MAR 2020" data-date-end="MAR 2021">
                 <div class="bar-bg"></div>
                 <span class="bar-label">UMich Head Coach</span>
                 <span class="tooltip-content">Coached the University of Michigan Special Olympics football team.</span>
               </div>
-              <div class="timeline-bar" data-start="14" data-end="27" data-bg="#8e44ad"
+              <div class="timeline-bar" data-start="14" data-end="27" data-bg="#8a6c9f"
                    data-promotion="true" data-date-start="MAR 2021" data-date-end="APR 2022">
                 <div class="bar-bg"></div>
                 <span class="bar-label">UMich Treasurer</span>
                 <span class="tooltip-content">Served as treasurer for UMich Special Olympics chapter.</span>
               </div>
-              <div class="timeline-bar" data-start="41" data-end="present" data-bg="#8e44ad"
+              <div class="timeline-bar" data-start="41" data-end="present" data-bg="#8a6c9f"
                    data-date-start="JUN 2023">
                 <div class="bar-bg"></div>
                 <span class="bar-label">NYC Leadership Council Member</span>
                 <span class="tooltip-content">Support statewide fundraising and strategic leadership initiatives.</span>
               </div>
               <!-- Renamed: shorter label, same tooltip still has full context -->
-              <div class="timeline-bar" data-start="57" data-end="present" data-bg="#8e44ad"
+              <div class="timeline-bar" data-start="57" data-end="present" data-bg="#8a6c9f"
                    data-date-start="OCT 2024">
                 <div class="bar-bg"></div>
                 <span class="bar-label">NYC Athlete Mentor</span>
@@ -393,7 +406,7 @@
               <div class="company-name">Larta Institute</div>
             </div>
             <div class="timeline-bars">
-              <div class="timeline-bar" data-start="16" data-end="20" data-bg="#c0392b"
+              <div class="timeline-bar" data-start="16" data-end="20" data-bg="#8b4f46"
                    data-date-start="MAY 2021" data-date-end="SEP 2021">
                 <div class="bar-bg"></div>
                 <span class="bar-label">Program Mgmt Intern</span>
@@ -409,7 +422,7 @@
               <div class="company-name">Xpanse AI</div>
             </div>
             <div class="timeline-bars">
-              <div class="timeline-bar" data-start="5" data-end="8" data-bg="#d35400"
+              <div class="timeline-bar" data-start="5" data-end="8" data-bg="#9a6a3a"
                    data-date-start="JUN 2020" data-date-end="SEP 2020">
                 <div class="bar-bg"></div>
                 <span class="bar-label">Business Ops Intern</span>
@@ -804,6 +817,21 @@ allBars.forEach(bar => {
   bar.addEventListener('mouseleave', () => { globalTooltip.style.display = 'none'; });
 });
 
+// ════════════════════════════════════════════════════════
+//  NAVBAR SCROLL EFFECT
+// ════════════════════════════════════════════════════════
+const navbar = document.querySelector('.navbar');
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 20) {
+    navbar.style.background = 'rgba(20,20,20,.95)';
+    navbar.style.boxShadow  = '0 2px 20px rgba(0,0,0,.6)';
+  } else {
+    navbar.style.background = '#222';
+    navbar.style.boxShadow  = '4px 0 12px rgba(0,0,0,.5)';
+  }
+});
+  
 // ════════════════════════════════════════════════════════
 //  SIDEBAR
 // ════════════════════════════════════════════════════════
