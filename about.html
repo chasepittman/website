@@ -328,14 +328,14 @@
                 <span class="tooltip-content">Built dashboards for 20+ product collections, maintaining 100K+ records with 99%+ accuracy.</span>
               </div>
               
-              <div class="timeline-bar" data-start="63" data-end="77" data-bg="#a88b55"
+              <div class="timeline-bar" data-start="63" data-end="76" data-bg="#a88b55"
                    data-promotion="true" data-date-start="MAR 2025" data-date-end="MAY 2026">
                 <div class="bar-bg"></div>
                 <span class="bar-label">Product Specialist</span>
                 <span class="tooltip-content">Led weekly business performance reviews across seven categories, contributing to 21% revenue growth.</span>
               </div>
               
-              <div class="timeline-bar" data-start="77" data-end="present" data-bg="#c2a46d"
+              <div class="timeline-bar" data-start="76" data-end="present" data-bg="#c2a46d"
                    data-promotion="true"
                    data-date-start="MAY 2026">
                 <div class="bar-bg"></div>
@@ -518,7 +518,7 @@ const YEARS_DATA = (() => {
   const endYear = TIMELINE_START_YEAR + Math.floor(PRESENT_IDX / 12);
   for (let y = TIMELINE_START_YEAR; y <= endYear; y++) {
     const yOffset   = (y - TIMELINE_START_YEAR) * 12;
-    const lastMonth = Math.min(yOffset + 11, PRESENT_IDX);
+    const lastMonth = y === now.getFullYear() ? yOffset + 11 : Math.min(yOffset + 11, PRESENT_IDX);
     const months    = lastMonth - yOffset + 1;               // 1–12
     const quarters  = Math.floor((months - 1) / 3) + 1;     // 1–4
     arr.push({ year: y, months, quarters });
