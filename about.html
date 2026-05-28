@@ -249,6 +249,15 @@
 
     .tooltip-content { display: none; }
 
+    /* ── Highlight pulse ────────────────────────────────── */  ← add here
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 4px 1px rgba(194,164,109,0.3); }
+      50%       { box-shadow: 0 0 10px 3px rgba(194,164,109,0.65); }
+    }
+    .bar-highlight .bar-bg {
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    
     @media (max-width: 800px) {
       .timeline-logo-container, .timeline-header-stub { width: 90px; }
     }
@@ -335,7 +344,7 @@
                 <span class="tooltip-content">Led weekly business performance reviews across seven categories, contributing to 21% revenue growth.</span>
               </div>
               
-              <div class="timeline-bar" data-start="76" data-end="present" data-bg="#10a87a"
+              <div class="timeline-bar bar-highlight" data-start="76" data-end="present" data-bg="#10a87a"
                    data-promotion="true"
                    data-date-start="MAY 2026">
                 <div class="bar-bg"></div>
