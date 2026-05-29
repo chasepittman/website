@@ -341,10 +341,6 @@
       user-select: none;
     }
 
-    /*
-      Outer flex row: [arrow] [clip] [arrow]
-      Arrows are siblings of the clip so overflow:hidden never hides them.
-    */
     .carousel-area {
       display: flex;
       align-items: center;
@@ -353,7 +349,7 @@
       margin: 0 auto;
     }
 
-    /* ── Arrows — large, bare, no circle ────────────────────── */
+    /* ── Arrows ──────────────────────────────────────────────── */
     .carousel-arrow {
       flex-shrink: 0;
       width: 54px;
@@ -377,21 +373,17 @@
 
     /* ── Clip ────────────────────────────────────────────────── */
     /*
-      overflow:hidden clips the peeking side slides at the edges.
-      NO background is set here — the page background shows through cleanly,
-      which removes the "dark box" effect.
+      overflow is set to visible so the active slide's image can bleed
+      beyond the clip boundary on hover. The arrows live outside this
+      element so they're never affected.
     */
     .carousel-clip {
       flex: 1;
       position: relative;
-      overflow: hidden;
+      overflow: visible;
     }
 
     /* ── Track ───────────────────────────────────────────────── */
-    /*
-      Slides are absolutely positioned children, so the track needs its
-      height set explicitly by JS (absolute children don't expand it).
-    */
     .carousel-track {
       position: relative;
       width: 100%;
@@ -401,43 +393,80 @@
     .carousel-slide {
       position: absolute;
       top: 0;
-      /* left, width, transform, z-index, opacity all set by JS */
       transition: left   0.62s cubic-bezier(0.4,0,0.2,1),
                   transform 0.62s cubic-bezier(0.4,0,0.2,1),
                   opacity 0.5s ease;
     }
 
+    /* Pointer cursor only on the active slide */
+    .carousel-slide.c-active {
+      cursor: pointer;
+    }
+
     /*
-      .slide-img-wrap clips the hover-zoom so it never overflows the
-      slide's own bounds. The box-shadow creates depth without needing
-      any background on a parent container.
-      The .slide-title sits BELOW this wrapper as a sibling, so it is
-      completely unaffected by the zoom transform.
+      .slide-img-wrap
+      overflow: visible so the zoomed image bleeds freely on the
+      active slide. Border-radius + box-shadow still apply to the
+      wrapper itself; the image inside inherits the visual frame.
     */
     .slide-img-wrap {
-      overflow: hidden;
+      overflow: visible;
       border-radius: 12px;
       box-shadow: 0 18px 48px rgba(0,0,0,0.50);
+      /* Clip is applied via the img's own border-radius at rest,
+         then released on hover via the active-slide rule below */
     }
 
     .slide-img-wrap img {
       width: 100%;
       height: auto;
       display: block;
-      transition: transform 0.42s ease, filter 0.3s ease;
+      border-radius: 12px;
+      transition: transform 0.42s ease, filter 0.3s ease,
+                  border-radius 0.42s ease, box-shadow 0.42s ease;
       -webkit-user-drag: none;
       user-select: none;
       pointer-events: none;
     }
 
-    /* Hover zoom — only the img scales; title stays still */
+    /* ── Active slide: full-bleed hover ─────────────────────── */
+    /*
+      scale(1.08) makes the image grow ~8% beyond its container,
+      overlapping the peeking neighbors. z-index lift ensures it
+      renders on top. border-radius softens slightly so the grown
+      image still looks intentional, not clipped.
+    */
     .carousel-slide.c-active:hover .slide-img-wrap img,
     .carousel-slide.c-active.tapped .slide-img-wrap img {
-      transform: scale(1.055);
-      filter: brightness(1.09);
+      transform: scale(1.08);
+      filter: brightness(1.10);
+      border-radius: 10px;
+      box-shadow: 0 28px 70px rgba(0,0,0,0.65);
     }
 
-    /* Slide title — Poppins to match sidebar nav */
+    .carousel-slide.c-active:hover,
+    .carousel-slide.c-active.tapped {
+      z-index: 10 !important;
+    }
+
+    /* ── Side slides: subtle lift hint ──────────────────────── */
+    /*
+      A gentler scale on the whole slide (image + title) so it feels
+      clickable without competing with the active slide's drama.
+    */
+    .carousel-slide.c-prev:hover,
+    .carousel-slide.c-next:hover {
+      opacity: 0.88 !important;
+      cursor: pointer;
+    }
+
+    .carousel-slide.c-prev:hover .slide-img-wrap img,
+    .carousel-slide.c-next:hover .slide-img-wrap img {
+      transform: scale(1.03);
+      filter: brightness(1.06);
+    }
+
+    /* Slide title */
     .slide-title {
       margin: 13px 0 0;
       font-family: 'Poppins', sans-serif;
@@ -558,11 +587,6 @@
 </head>
 <body>
 
-  <!--
-    Sidebar and overlay are OUTSIDE page-wrapper so that the translateX
-    applied to page-wrapper doesn't drag them along with the page content.
-  -->
-
   <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <a href="/">Home</a>
@@ -604,11 +628,6 @@
     </div>
   </div>
 
-  <!--
-    Spotify Widget — starts with class "hidden" (right: -380px).
-    JS removes "hidden" after 1.4s (slides in), then adds "collapsed"
-    after 5s (shrinks to pill). User's toggle button overrides at any time.
-  -->
   <div class="spotify-widget hidden" id="spotify-widget">
     <iframe
       src="https://open.spotify.com/embed/album/3vhOUOy05eeQwq6EtxwnVW?utm_source=generator"
@@ -619,9 +638,7 @@
     <button id="spotify-toggle" aria-label="Toggle Spotify Player">&#9654;</button>
   </div>
 
-  <!-- Everything that shifts right lives inside page-wrapper -->
   <div class="page-wrapper" id="page-wrapper">
-
     <div class="content">
 
       <!-- ── HERO INTRO ───────────────────────────────────── -->
@@ -638,11 +655,6 @@
       <!-- ── HERO CAROUSEL ─────────────────────────────────── -->
       <section class="hero-carousel">
 
-        <!--
-          Flex row: [bare arrow] [clip] [bare arrow]
-          clip has overflow:hidden — arrows are outside it so always visible.
-          No background on any carousel container = no dark box.
-        -->
         <div class="carousel-area">
 
           <button class="carousel-arrow" id="carousel-prev" aria-label="Previous slide">&#10094;</button>
@@ -650,21 +662,21 @@
           <div class="carousel-clip" id="carousel-clip">
             <div class="carousel-track" id="carousel-track">
 
-              <div class="carousel-slide">
+              <div class="carousel-slide" data-project="the-bridge">
                 <div class="slide-img-wrap">
                   <img src="/assets/files/slides/The Bridge/The_Bridge.png" alt="The Bridge AI Merchandising Tool" draggable="false">
                 </div>
                 <p class="slide-title">The Bridge | AI Merchandising Tool</p>
               </div>
 
-              <div class="carousel-slide">
+              <div class="carousel-slide" data-project="project2">
                 <div class="slide-img-wrap">
                   <img src="/assets/files/slides/Zoom Office/Zoom_Office.png" alt="3D Digital Assets Workflow Automation" draggable="false">
                 </div>
                 <p class="slide-title">3D Digital Assets | Workflow Automation</p>
               </div>
 
-              <div class="carousel-slide">
+              <div class="carousel-slide" data-project="zoom-office">
                 <div class="slide-img-wrap">
                   <img src="/assets/files/slides/Zoom Office/Zoom_Office.png" alt="Zoom Office Concept Redesign" draggable="false">
                 </div>
@@ -678,7 +690,6 @@
 
         </div><!-- /carousel-area -->
 
-        <!-- Dots row — separate from the arrow row, centered below -->
         <div class="carousel-dots-row">
           <div class="carousel-dots" id="carousel-dots"></div>
         </div>
@@ -720,7 +731,6 @@
       </div>
 
     </div><!-- /content -->
-
   </div><!-- /page-wrapper -->
 
   <script>
@@ -731,8 +741,8 @@
     const subEl     = document.getElementById('hero-sub');
     const ctaEl     = document.getElementById('hero-cta');
     const titleText = titleEl.textContent;
-    const LETTER_DELAY = 0.11;  // seconds between each letter
-    const LETTER_DUR   = 0.9;   // seconds per letter animation
+    const LETTER_DELAY = 0.11;
+    const LETTER_DUR   = 0.9;
 
     titleEl.textContent = '';
     let spanCount = 0;
@@ -828,12 +838,6 @@
     const AUTO_MS   = 6000;
     const RESUME_MS = 3000;
 
-    /*
-      PEEK_RATIO: fraction of clip width revealed for each side slide.
-      SIDE_SCALE: side slides appear smaller/further away.
-      transform-origin is set to the VISIBLE EDGE so scaling collapses
-      the slide away from view rather than toward the center.
-    */
     const PEEK_RATIO = 0.10;
     const SIDE_SCALE = 0.86;
 
@@ -847,14 +851,11 @@
     });
     const dots = Array.from(dotsContainer.children);
 
-    // ── applyPositions ───────────────────────────────────────
-    // Positions every slide in pixel space relative to the clip.
-    // Active: centered. Prev: right edge at peekPx. Next: left edge at clipW - peekPx.
     function applyPositions(animated) {
       const clipW  = clip.offsetWidth;
       const peekPx = Math.round(clipW * PEEK_RATIO);
-      const slideW = clipW - 2 * peekPx;  // active slide width
-      const activeL = peekPx;             // active slide left edge
+      const slideW = clipW - 2 * peekPx;
+      const activeL = peekPx;
 
       const trans = 'left 0.62s cubic-bezier(0.4,0,0.2,1), transform 0.62s cubic-bezier(0.4,0,0.2,1), opacity 0.5s ease';
 
@@ -866,7 +867,6 @@
         const diff = ((i - current) + N) % N;
 
         if (diff === 0) {
-          // ── Active: centered ──
           slide.style.left            = activeL + 'px';
           slide.style.transform       = 'scale(1)';
           slide.style.transformOrigin = 'center center';
@@ -875,9 +875,6 @@
           slide.classList.add('c-active');
 
         } else if (diff === N - 1) {
-          // ── Prev: peek from the left ──
-          // Right edge lands at peekPx: left = peekPx - slideW (negative)
-          // transform-origin: right → scale shrinks leftward, keeps right edge fixed
           slide.style.left            = (peekPx - slideW) + 'px';
           slide.style.transform       = `scale(${SIDE_SCALE})`;
           slide.style.transformOrigin = 'right center';
@@ -886,9 +883,6 @@
           slide.classList.add('c-prev');
 
         } else if (diff === 1) {
-          // ── Next: peek from the right ──
-          // Left edge lands at clipW - peekPx
-          // transform-origin: left → scale shrinks rightward, keeps left edge fixed
           slide.style.left            = (clipW - peekPx) + 'px';
           slide.style.transform       = `scale(${SIDE_SCALE})`;
           slide.style.transformOrigin = 'left center';
@@ -897,7 +891,6 @@
           slide.classList.add('c-next');
 
         } else {
-          // ── Far: parked off-screen in the correct direction ──
           const goRight = diff <= Math.floor(N / 2);
           slide.style.left            = (goRight ? clipW + slideW : -2 * slideW) + 'px';
           slide.style.transform       = `scale(${SIDE_SCALE})`;
@@ -908,7 +901,6 @@
         }
       });
 
-      // Re-enable transitions the frame after a no-animation jump
       if (!animated) {
         requestAnimationFrame(() =>
           slides.forEach(s => { s.style.transition = trans; })
@@ -919,9 +911,6 @@
       updateTrackHeight();
     }
 
-    // ── updateTrackHeight ────────────────────────────────────
-    // Absolute children don't expand the track, so we measure the
-    // active slide's full rendered height (image + title) and apply it.
     function updateTrackHeight() {
       const active = slides[current];
       if (active && active.offsetHeight > 0) {
@@ -938,6 +927,23 @@
     prevBtn.addEventListener('click', () => goToSlide(current - 1));
     nextBtn.addEventListener('click', () => goToSlide(current + 1));
 
+    // ── Click handler: advance side slides, navigate active ───
+    track.addEventListener('click', e => {
+      if (didDrag) return;
+
+      const slide = e.target.closest('.carousel-slide');
+      if (!slide) return;
+
+      if (slide.classList.contains('c-active')) {
+        const project = slide.dataset.project;
+        if (project) window.location.href = `/projects.html?project=${project}`;
+      } else if (slide.classList.contains('c-prev')) {
+        goToSlide(current - 1);
+      } else if (slide.classList.contains('c-next')) {
+        goToSlide(current + 1);
+      }
+    });
+
     // ── Auto-slide ───────────────────────────────────────────
     const startAuto = () => {
       autoTimer = setInterval(() => goToSlide(current + 1), AUTO_MS);
@@ -952,20 +958,15 @@
     };
 
     // ── Drag / Swipe ─────────────────────────────────────────
-    /*
-      Thresholds tuned to feel natural:
-        - Must drag > 65px to advance at all (prevents accidental swipes)
-        - Multi-slide jump only if velocity > 1.8 px/ms AND diff > 160px
-          (requires a deliberate hard flick, not just a quick tap-swipe)
-        - Maximum jump capped at N-1 slides
-    */
     let ptX = 0, ptY = 0, ptT = 0;
     let dragActive = false, dragAxis = null;
+    let didDrag = false;
 
     const onStart = (x, y) => {
       stopAuto();
       ptX = x; ptY = y; ptT = Date.now();
       dragActive = true; dragAxis = null;
+      didDrag = false;
     };
 
     const onMove = (x, y) => {
@@ -976,7 +977,8 @@
       }
       if (dragAxis !== 'x') return;
 
-      // Live-follow the finger/mouse for physical drag feel
+      if (Math.abs(dx) > 8) didDrag = true;
+
       const clipW  = clip.offsetWidth;
       const peekPx = Math.round(clipW * PEEK_RATIO);
       const slideW = clipW - 2 * peekPx;
@@ -996,9 +998,9 @@
     const onEnd = (x) => {
       if (!dragActive) return;
       dragActive = false;
-      const diff    = ptX - x;                         // positive = swiped left → next
+      const diff    = ptX - x;
       const elapsed = Math.max(Date.now() - ptT, 1);
-      const vel     = Math.abs(diff) / elapsed;        // px/ms
+      const vel     = Math.abs(diff) / elapsed;
 
       if (Math.abs(diff) > 65) {
         let steps = 1;
@@ -1007,7 +1009,7 @@
         }
         goToSlide(diff > 0 ? current + steps : current - steps);
       } else {
-        applyPositions(true);  // not far enough — snap back
+        applyPositions(true);
         resetAuto();
       }
     };
@@ -1025,9 +1027,9 @@
     track.addEventListener('touchend',    e => onEnd(e.changedTouches[0].clientX));
     track.addEventListener('touchcancel', e => onEnd(e.changedTouches[0].clientX));
 
-    // Mouse events — on window so fast moves don't lose the pointer
+    // Mouse events
     track.addEventListener('mousedown', e => {
-      e.preventDefault(); // stops browser native image-drag interception
+      e.preventDefault();
       onStart(e.clientX, e.clientY);
     });
     window.addEventListener('mousemove', e => {
@@ -1037,7 +1039,7 @@
       if (dragActive) onEnd(e.clientX);
     });
 
-    // Mobile tap-hold zoom effect
+    // Mobile tap-hold zoom
     slides.forEach(slide => {
       slide.addEventListener('touchstart',  () => slide.classList.add('tapped'),    { passive: true });
       slide.addEventListener('touchend',    () => slide.classList.remove('tapped'));
@@ -1051,7 +1053,6 @@
       resizeTimer = setTimeout(() => applyPositions(false), 120);
     });
 
-    // Re-measure track height once each image loads
     slides.forEach(slide => {
       const img = slide.querySelector('img');
       if (img) img.addEventListener('load', updateTrackHeight);
@@ -1061,7 +1062,7 @@
     applyPositions(false);
     startAuto();
 
-  }); // ← closes DOMContentLoaded
+  });
   </script>
 
 </body>
