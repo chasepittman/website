@@ -9,622 +9,330 @@
 
   <style>
     :root {
-      --gold:        #c2a46d;
-      --gold-glow:   rgba(194, 164, 109, 0.45);
-      --gold-glow2:  rgba(194, 164, 109, 0.15);
-      --gold-track:  rgba(194, 164, 109, 0.28);
+      --gold:         #c2a46d;
+      --gold-glow:    rgba(194,164,109,0.40);
+      --gold-dim:     rgba(194,164,109,0.18);
+      --gold-track:   rgba(194,164,109,0.22);
+      --sidebar-width: 260px;
     }
 
     html, body {
-      height: 100%;
-      min-height: 100%;
-      margin: 0;
-      overflow-x: hidden;
+      height: 100%; min-height: 100%;
+      margin: 0; overflow-x: hidden;
     }
 
     body {
-      margin: 0;
-      padding-top: 0;
       font-family: 'Poppins', Arial, sans-serif;
-      background: radial-gradient(ellipse at center, #4a5660 0%, #384048 50%, #272e34 100%);
+      background: radial-gradient(ellipse at center,#4a5660 0%,#384048 50%,#272e34 100%);
       background-attachment: fixed;
       color: #f4f4f4;
       text-align: center;
     }
 
-    h1, h2, h3 {
-      color: #f4f4f4;
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 600;
-    }
+    h1,h2,h3 { color:#f4f4f4; font-family:'Cormorant Garamond',serif; font-weight:600; }
 
-    /* ── NAVBAR ──────────────────────────────────────────────── */
+    /* ── NAVBAR ─────────────────────────────────────────────── */
     .navbar {
-      display: flex;
-      align-items: center;
-      padding: 14px 24px;
-      background: #222;
-      position: sticky;
-      top: 0;
-      z-index: 1400;
-      box-shadow: 4px 0 12px rgba(0,0,0,0.5);
+      display:flex; align-items:center; padding:14px 24px;
+      background:#222; position:sticky; top:0; z-index:1400;
+      box-shadow:4px 0 12px rgba(0,0,0,.5);
     }
+    .page-wrapper { transition:transform .3s ease; min-height:100vh; }
+    .nav-left  { display:flex; align-items:center; gap:12px; }
+    .logo-link { display:flex; align-items:center; gap:12px; text-decoration:none; color:inherit; }
+    .logo-link:hover { opacity:.9; }
+    .nav-left .logo { font-size:20px; font-weight:bold; font-family:'Cormorant Garamond',serif; color:white; white-space:nowrap; }
+    .logo-img  { height:36px; width:auto; }
+    .nav-right { display:flex; justify-content:flex-end; gap:18px; margin-left:auto; }
+    .nav-right img { width:26px; height:auto; opacity:.85; transition:opacity .2s,transform .2s; }
+    .nav-right a:hover img { opacity:1; transform:translateY(-2px); }
 
-    .page-wrapper {
-      transition: transform 0.3s ease;
-      min-height: 100vh;
-    }
+    .hamburger { display:flex; flex-direction:column; justify-content:space-between; width:28px; height:20px; cursor:pointer; margin-right:18px; }
+    .hamburger div { height:3px; background:#fff; border-radius:2px; transition:all .3s ease; }
+    .hamburger.active div:nth-child(1) { transform:translateY(8.5px) rotate(45deg); }
+    .hamburger.active div:nth-child(2) { opacity:0; }
+    .hamburger.active div:nth-child(3) { transform:translateY(-8.5px) rotate(-45deg); }
 
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo-link {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .logo-link:hover { opacity: 0.9; }
-
-    .nav-left .logo {
-      font-size: 20px;
-      font-weight: bold;
-      font-family: 'Cormorant Garamond', serif;
-      color: white;
-      white-space: nowrap;
-    }
-
-    .logo-img { height: 36px; width: auto; }
-
-    .nav-right {
-      display: flex;
-      justify-content: flex-end;
-      gap: 18px;
-      margin-left: auto;
-    }
-
-    .nav-right img {
-      width: 26px;
-      height: auto;
-      opacity: 0.85;
-      transition: opacity 0.2s, transform 0.2s;
-    }
-
-    .nav-right a:hover img {
-      opacity: 1;
-      transform: translateY(-2px);
-    }
-
-    .hamburger {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      width: 28px;
-      height: 20px;
-      cursor: pointer;
-      margin-right: 18px;
-    }
-
-    .hamburger div {
-      height: 3px;
-      background-color: white;
-      border-radius: 2px;
-      transition: all 0.3s ease;
-    }
-
-    .hamburger.active div:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
-    .hamburger.active div:nth-child(2) { opacity: 0; }
-    .hamburger.active div:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
-
-    :root { --sidebar-width: 260px; }
-
+    /* ── SIDEBAR ────────────────────────────────────────────── */
     .sidebar {
-      position: fixed;
-      top: 0; left: 0;
-      width: var(--sidebar-width);
-      height: 100%;
-      background-color: #222;
-      display: flex;
-      flex-direction: column;
-      padding-top: 100px;
-      gap: 20px;
-      transform: translateX(-100%);
-      transition: transform 0.35s cubic-bezier(.22,1,.36,1);
-      z-index: 1300;
-      box-shadow: 18px 0 40px rgba(0,0,0,0.55), 2px 0 0 rgba(255,255,255,0.05);
+      position:fixed; top:0; left:0; width:var(--sidebar-width); height:100%;
+      background:#222; display:flex; flex-direction:column; padding-top:100px; gap:20px;
+      transform:translateX(-100%); transition:transform .35s cubic-bezier(.22,1,.36,1);
+      z-index:1300; box-shadow:18px 0 40px rgba(0,0,0,.55),2px 0 0 rgba(255,255,255,.05);
     }
+    .sidebar.open { transform:translateX(0); }
+    .sidebar a { color:#f4f4f4; text-decoration:none; font-size:18px; padding:12px 24px; transition:background .3s; }
+    .sidebar a:hover { background:var(--gold); color:#222; border-radius:6px; }
 
-    .sidebar.open { transform: translateX(0); }
+    .overlay { position:fixed; inset:0; background:rgba(0,0,0,.4); opacity:0; pointer-events:none; transition:opacity .3s ease; z-index:1050; }
+    .overlay.active { opacity:1; pointer-events:auto; }
 
-    .sidebar a {
-      color: #f4f4f4;
-      text-decoration: none;
-      font-size: 18px;
-      padding: 12px 24px;
-      transition: background 0.3s;
-    }
-
-    .sidebar a:hover {
-      background-color: var(--gold);
-      color: #222;
-      border-radius: 6px;
-    }
-
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-      z-index: 1050;
-    }
-
-    .overlay.active { opacity: 1; pointer-events: auto; }
-
-    /* ── SPOTIFY ─────────────────────────────────────────────── */
+    /* ── SPOTIFY ────────────────────────────────────────────── */
     .spotify-widget {
-      position: fixed;
-      bottom: 20px; right: 20px;
-      width: 340px;
-      background: #1a1a1a;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-      overflow: visible;
-      padding: 16px;
-      transition: width 0.5s ease, height 0.5s ease, right 0.5s ease,
-                  border-radius 0.5s ease, opacity 0.5s ease;
-      z-index: 900;
-
-      /* starts invisible — JS drives the entrance */
-      opacity: 0;
-      transform: translateY(12px);
+      position:fixed; bottom:20px; right:20px;
+      width:340px; background:#1a1a1a; border-radius:20px;
+      box-shadow:0 10px 30px rgba(0,0,0,.6); overflow:visible; padding:16px;
+      transition:width .5s ease,right .5s ease,border-radius .5s ease,opacity .6s ease,transform .6s ease;
+      z-index:900; opacity:0; transform:translateY(10px); pointer-events:none;
     }
-
-    .spotify-widget.hidden { right: -380px; opacity: 0; }
-
-    .spotify-widget.visible {
-      opacity: 1;
-      transform: translateY(0);
-      transition: width 0.5s ease, height 0.5s ease, right 0.5s ease,
-                  border-radius 0.5s ease, opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .spotify-widget iframe {
-      width: 100%;
-      height: 80px;
-      border-radius: 12px;
-      display: block;
-      transition: opacity 0.5s ease;
-      pointer-events: auto;
-      border: none;
-    }
-
+    .spotify-widget.visible  { opacity:1; transform:translateY(0); pointer-events:auto; }
+    .spotify-widget.hidden   { right:-380px; opacity:0; }
+    .spotify-widget iframe   { width:100%; height:80px; border-radius:12px; display:block; border:none; }
     #spotify-toggle {
-      position: absolute;
-      top: 50%; left: -16px;
-      transform: translateY(-50%);
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      background-color: #222;
-      color: #fff;
-      font-size: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      z-index: 1000;
-      transition: left 0.5s ease, transform 0.3s ease;
-      border: none;
+      position:absolute; top:50%; left:-16px; transform:translateY(-50%);
+      width:32px; height:32px; border-radius:50%; background:#222; color:#fff;
+      font-size:16px; display:flex; align-items:center; justify-content:center;
+      padding:0; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,.3);
+      z-index:1000; transition:transform .3s ease; border:none;
     }
+    #spotify-toggle:hover { transform:translateY(-50%) scale(1.1); }
+    .spotify-widget.collapsed { width:40px; height:40px; padding:0; border-radius:50%; overflow:visible; }
+    .spotify-widget.collapsed iframe { opacity:0; pointer-events:none; display:none; }
+    .spotify-widget.collapsed #spotify-toggle { top:50%; left:50%; transform:translate(-50%,-50%) rotate(180deg); }
 
-    #spotify-toggle:hover { transform: translateY(-50%) scale(1.1); }
+    /* ── CONTENT ────────────────────────────────────────────── */
+    .content { max-width:1100px; margin:0 auto; padding:0 20px 60px; text-align:center; }
 
-    .spotify-widget.collapsed {
-      width: 40px; height: 40px;
-      padding: 0;
-      border-radius: 50%;
-      overflow: visible;
-      right: 20px;
-      background: #1a1a1a;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    }
-
-    .spotify-widget.collapsed iframe { opacity: 0; pointer-events: none; display: none; }
-
-    .spotify-widget.collapsed #spotify-toggle {
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%) rotate(180deg);
-    }
-
-    /* ── CONTENT ─────────────────────────────────────────────── */
-    .content {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 20px 60px;
-      text-align: center;
-    }
-
-    /* ── HERO INTRO ──────────────────────────────────────────── */
-    .hero-intro { padding: 36px 20px 26px; }
-
+    /* ── HERO INTRO ─────────────────────────────────────────── */
+    .hero-intro { padding:36px 20px 26px; }
     .hero-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 62px;
-      font-weight: 700;
-      margin: 0 0 12px;
-      color: #f4f4f4;
-      line-height: 1.08;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      font-family:'Cormorant Garamond',serif; font-size:62px; font-weight:700;
+      margin:0 0 12px; color:#f4f4f4; line-height:1.08;
+      display:flex; flex-wrap:wrap; justify-content:center; gap:0;
     }
-
-    .hero-letter {
-      display: inline-block;
-      opacity: 0;
-      transform: translateY(10px);
-      animation: letterIn 0.9s ease forwards;
-    }
-
-    .hero-space { display: inline-block; width: 0.28em; }
-
+    .hero-letter { display:inline-block; opacity:0; transform:translateY(10px); animation:letterIn .9s ease forwards; }
+    .hero-space  { display:inline-block; width:.28em; }
     @keyframes letterIn {
-      0%   { opacity: 0; transform: translateY(10px); }
-      100% { opacity: 1; transform: translateY(0); }
+      0%   { opacity:0; transform:translateY(10px); }
+      100% { opacity:1; transform:translateY(0); }
     }
-
     .hero-sub {
-      font-family: 'Poppins', sans-serif;
-      font-size: 18px;
-      color: #8fa4b2;
-      margin: 0;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      opacity: 0;
-      animation: heroSubFadeIn 0.7s ease forwards;
+      font-family:'Poppins',sans-serif; font-size:18px; color:#8fa4b2;
+      margin:0; letter-spacing:.06em; text-transform:uppercase;
+      opacity:0; animation:fadeUp .7s ease forwards;
     }
-
-    @keyframes heroSubFadeIn {
-      0%   { opacity: 0; transform: translateY(6px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    .hero-dot {
-      font-size: 26px;
-      color: var(--gold);
-      vertical-align: middle;
-      margin: 0 10px;
-      line-height: 1;
-    }
-
+    .hero-dot { font-size:26px; color:var(--gold); vertical-align:middle; margin:0 10px; line-height:1; }
     .hero-cta {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 10px 22px;
-      background-color: var(--gold);
-      color: white;
-      font-family: 'Poppins', sans-serif;
-      font-size: 15px;
-      font-weight: 400;
-      text-decoration: none;
-      border-radius: 25px;
-      border: none;
-      opacity: 0;
-      animation: heroSubFadeIn 0.7s ease forwards;
-      transition: background-color 0.3s;
+      display:inline-block; margin-top:20px; padding:10px 22px;
+      background:var(--gold); color:white; font-family:'Poppins',sans-serif;
+      font-size:15px; font-weight:400; text-decoration:none; border-radius:25px;
+      border:none; opacity:0; animation:fadeUp .7s ease forwards; transition:background-color .3s;
+    }
+    .hero-cta:hover { background:#a07f47; }
+    @keyframes fadeUp {
+      0%   { opacity:0; transform:translateY(6px); }
+      100% { opacity:1; transform:translateY(0); }
     }
 
-    .hero-cta:hover { background-color: #a07f47; }
-
-    /* ── CAROUSEL ────────────────────────────────────────────── */
+    /* ── CAROUSEL SECTION — starts invisible, JS fades in ───── */
     .hero-carousel {
-      width: 100%;
-      margin: 34px 0 16px;
-      user-select: none;
+      width:100%; margin:34px 0 16px; user-select:none;
+      opacity:0; transform:translateY(18px);
+      transition:opacity .75s ease, transform .75s ease;
     }
+    .hero-carousel.visible { opacity:1; transform:translateY(0); }
 
     .carousel-area {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      max-width: 1300px;
-      margin: 0 auto;
+      display:flex; align-items:center;
+      width:100%; max-width:1300px; margin:0 auto;
     }
-
     .carousel-arrow {
-      flex-shrink: 0;
-      width: 54px;
-      background: none;
-      border: none;
-      color: rgba(255,255,255,0.55);
-      font-size: 48px;
-      line-height: 1;
-      cursor: pointer;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: color 0.2s ease, transform 0.2s ease;
+      flex-shrink:0; width:54px; background:none; border:none;
+      color:rgba(255,255,255,.55); font-size:48px; line-height:1;
+      cursor:pointer; padding:0; display:flex; align-items:center; justify-content:center;
+      transition:color .2s ease,transform .2s ease;
     }
+    .carousel-arrow:hover { color:#fff; transform:scale(1.30); }
 
-    .carousel-arrow:hover { color: #fff; transform: scale(1.30); }
+    /* overflow:hidden — keeps peeking slides properly clipped */
+    .carousel-clip { flex:1; position:relative; overflow:hidden; }
+    .carousel-track { position:relative; width:100%; }
 
-    /* overflow:visible so the full-bleed hover zoom isn't clipped */
-    .carousel-clip {
-      flex: 1;
-      position: relative;
-      overflow: visible;
-    }
-
-    .carousel-track {
-      position: relative;
-      width: 100%;
-    }
-
-    /* ── Slides ──────────────────────────────────────────────── */
+    /* ── Slides ─────────────────────────────────────────────── */
     .carousel-slide {
-      position: absolute;
-      top: 0;
-      transition: left   0.62s cubic-bezier(0.4,0,0.2,1),
-                  transform 0.62s cubic-bezier(0.4,0,0.2,1),
-                  opacity 0.5s ease;
+      position:absolute; top:0;
+      transition:left .62s cubic-bezier(.4,0,.2,1),
+                 transform .62s cubic-bezier(.4,0,.2,1),
+                 opacity .5s ease;
     }
+    .carousel-slide.c-active { cursor:pointer; }
 
-    /* Side slide titles hidden — they're mostly off-screen anyway */
-    .carousel-slide.c-prev .slide-title,
-    .carousel-slide.c-next .slide-title,
-    .carousel-slide.c-far  .slide-title {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .carousel-slide.c-active { cursor: pointer; }
-
-    /* ── Image wrapper ───────────────────────────────────────── */
-    /*
-      overflow: visible so the active-slide zoom bleeds freely.
-      Border-radius lives on the img so it travels with the scale.
-    */
+    /* ── Image wrap — overflow:hidden preserves clip + rounded corners ── */
     .slide-img-wrap {
-      overflow: visible;
-      border-radius: 12px;
-      position: relative;
+      overflow:hidden; border-radius:12px;
+      position:relative;
+      box-shadow:0 18px 48px rgba(0,0,0,.50);
     }
-
     .slide-img-wrap img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 12px;
-      transition: transform 0.42s ease, filter 0.3s ease,
-                  box-shadow 0.42s ease;
-      -webkit-user-drag: none;
-      user-select: none;
-      pointer-events: none;
+      width:100%; height:auto; display:block;
+      transition:transform .42s ease, filter .3s ease;
+      -webkit-user-drag:none; user-select:none; pointer-events:none;
     }
 
-    /* ── Gold pulsing border on active slide ─────────────────── */
+    /* ── Running-border sweep then static glow ──────────────── */
     /*
-      Implemented as a box-shadow so it sits outside the image
-      without affecting layout. Two layers:
-        1. A crisp 1.5px inset border — the solid gold outline
-        2. A soft outer glow that breathes via the pulse animation
-      The ::after pseudo-element handles the animated outer ring.
+      Technique: a conic-gradient pseudo-element rotates once (the sweep),
+      then CSS switches to a static soft box-shadow glow on the img.
+      The pseudo sits on .slide-img-wrap with a slight negative inset so
+      it forms a border just outside the image edge.
     */
-    .carousel-slide.c-active .slide-img-wrap img {
+    .carousel-slide.c-active .slide-img-wrap {
+      /* Static base glow — always present on active slide */
       box-shadow:
         0 0 0 1.5px var(--gold),
-        0 18px 48px rgba(0,0,0,0.50);
-      animation: goldPulse 3.2s ease-in-out infinite;
+        0 0 14px 3px var(--gold-dim),
+        0 18px 48px rgba(0,0,0,.50);
     }
 
-    @keyframes goldPulse {
-      0%   { box-shadow: 0 0 0 1.5px var(--gold), 0 0 0 4px var(--gold-glow2), 0 18px 48px rgba(0,0,0,0.50); }
-      50%  { box-shadow: 0 0 0 1.5px var(--gold), 0 0 0 9px  var(--gold-glow2), 0 22px 56px rgba(0,0,0,0.55); }
-      100% { box-shadow: 0 0 0 1.5px var(--gold), 0 0 0 4px var(--gold-glow2), 0 18px 48px rgba(0,0,0,0.50); }
+    /* The sweeping light — pseudo-element behind the image */
+    .carousel-slide.c-active .slide-img-wrap::before {
+      content:'';
+      position:absolute; inset:-3px;
+      border-radius:14px;
+      background: conic-gradient(
+        from 0deg,
+        transparent 0%,
+        transparent 60%,
+        var(--gold) 75%,
+        rgba(255,220,140,0.9) 82%,
+        var(--gold) 90%,
+        transparent 100%
+      );
+      z-index:4;
+      animation: borderSweep 1.1s cubic-bezier(.4,0,.2,1) forwards;
+      pointer-events:none;
     }
 
-    /* On hover: image bleed zoom, z-index lift so it's above dots/neighbors */
+    @keyframes borderSweep {
+      0%   { opacity:1; transform:rotate(0deg); }
+      85%  { opacity:1; transform:rotate(360deg); }
+      100% { opacity:0; transform:rotate(400deg); }
+    }
+
+    /* Re-trigger sweep when slide becomes active — handled by removing/re-adding c-active in JS */
+
+    /* Active slide hover: zoom stays inside clip (overflow:hidden on wrap) */
     .carousel-slide.c-active:hover .slide-img-wrap img,
     .carousel-slide.c-active.tapped .slide-img-wrap img {
-      transform: scale(1.08);
-      filter: brightness(1.10);
+      transform:scale(1.055);
+      filter:brightness(1.09);
+    }
+
+    /* Hover intensifies the glow */
+    .carousel-slide.c-active:hover .slide-img-wrap {
       box-shadow:
         0 0 0 1.5px var(--gold),
-        0 0 18px 6px var(--gold-glow),
-        0 28px 70px rgba(0,0,0,0.65);
-      animation: none; /* pause pulse while hovered — cleaner */
+        0 0 22px 7px var(--gold-glow),
+        0 24px 60px rgba(0,0,0,.60);
     }
 
-    .carousel-slide.c-active:hover,
-    .carousel-slide.c-active.tapped {
-      z-index: 10 !important;
-    }
-
-    /* Side slides: subtle lift on hover */
+    /* Side slides: subtle lift hint */
     .carousel-slide.c-prev:hover,
     .carousel-slide.c-next:hover {
-      opacity: 0.88 !important;
-      cursor: pointer;
+      opacity:.88 !important;
+      cursor:pointer;
     }
-
     .carousel-slide.c-prev:hover .slide-img-wrap img,
     .carousel-slide.c-next:hover .slide-img-wrap img {
-      transform: scale(1.03);
-      filter: brightness(1.06);
+      transform:scale(1.03);
+      filter:brightness(1.06);
     }
 
-    /* ── Slide title ─────────────────────────────────────────── */
+    /* ── Slide title ────────────────────────────────────────── */
     .slide-title {
-      margin: 13px 0 0;
-      font-family: 'Poppins', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      color: #c0cdd5;
-      text-align: center;
-      letter-spacing: 0.025em;
-      transition: font-size 0.3s ease, font-weight 0.3s ease,
-                  color 0.3s ease, opacity 0.3s ease;
+      margin:13px 0 0;
+      font-family:'Poppins',sans-serif; font-size:14px; font-weight:500;
+      color:#c0cdd5; text-align:center; letter-spacing:.025em;
+      transition:color .3s ease, font-weight .3s ease, font-size .3s ease;
     }
+    /* Only shown for active slide — side titles hidden via JS class */
+    .carousel-slide.c-prev .slide-title,
+    .carousel-slide.c-next .slide-title,
+    .carousel-slide.c-far  .slide-title { display:none; }
 
-    /* Title grows slightly and goes bright gold on active slide hover */
+    /* Active slide hover: title goes bold + gold */
     .carousel-slide.c-active:hover .slide-title,
     .carousel-slide.c-active.tapped .slide-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--gold);
+      color:var(--gold);
+      font-weight:700;
+      font-size:15px;
     }
 
-    /* ── Dots row ────────────────────────────────────────────── */
+    /* ── Dots — metaball pill ───────────────────────────────── */
     /*
-      Sits between image and title.
-      z-index: 20 ensures it's never buried under the hover-zoomed image.
+      Outer pill: dark oval container.
+      Inner dots use border-radius transition + scale to morph between states.
+      The "liquid" metaball effect comes from the dot expanding horizontally
+      (border-radius drops to ~30%) as it becomes active, and neighboring
+      dots shift subtly via gap/margin transition.
     */
     .carousel-dots-row {
-      display: flex;
-      justify-content: center;
-      margin-top: 16px;
-      margin-bottom: 0;
-      position: relative;
-      z-index: 20;
+      display:flex; justify-content:center;
+      margin-top:22px; /* extra space so hover zoom never covers dots */
+      position:relative; z-index:30;
     }
 
-    .carousel-dots {
-      display: flex;
-      gap: 0;
-      align-items: center;
-      position: relative;
+    .carousel-dots-pill {
+      display:flex; align-items:center; justify-content:center;
+      gap:8px;
+      background:rgba(30,36,42,0.72);
+      border-radius:40px;
+      padding:9px 18px;
+      backdrop-filter:blur(4px);
     }
 
-    /* Gold track line behind dots */
-    .carousel-dots::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 6px;
-      right: 6px;
-      height: 1.5px;
-      background: var(--gold-track);
-      transform: translateY(-50%);
-      border-radius: 2px;
+    .carousel-dots-pill .dot {
+      width:8px; height:8px;
+      border-radius:50%;
+      background:rgba(255,255,255,.25);
+      cursor:pointer; border:none; padding:0;
+      transition:
+        width .38s cubic-bezier(.4,0,.2,1),
+        border-radius .38s cubic-bezier(.4,0,.2,1),
+        background .38s ease,
+        box-shadow .38s ease,
+        transform .38s cubic-bezier(.4,0,.2,1);
+      flex-shrink:0;
     }
 
-    .carousel-dots .dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: #444;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
-      border: none;
-      padding: 0;
-      margin: 0 10px;
-      position: relative;
-      z-index: 1;
+    /* Active dot morphs into a wide pill — the "metaball" stretch */
+    .carousel-dots-pill .dot.filled {
+      width:22px;
+      border-radius:4px;
+      background:var(--gold);
+      box-shadow:0 0 8px 2px var(--gold-dim);
+      transform:scaleY(1.15);
     }
 
-    .carousel-dots .dot.filled {
-      background: var(--gold);
-      transform: scale(1.45);
-      box-shadow: 0 0 6px 1px var(--gold-glow2);
-    }
-
-    /* ── Carousel entrance animations ───────────────────────── */
-    /* Active slide enters from center (slight scale + fade) */
-    @keyframes slideEnterActive {
-      0%   { opacity: 0; transform: scale(0.92); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-
-    /* Side slides bloom in from their respective edges */
-    @keyframes slideEnterPrev {
-      0%   { opacity: 0; transform: scale(0.80) translateX(30px); }
-      100% { opacity: 0.70; transform: scale(0.86) translateX(0); }
-    }
-
-    @keyframes slideEnterNext {
-      0%   { opacity: 0; transform: scale(0.80) translateX(-30px); }
-      100% { opacity: 0.70; transform: scale(0.86) translateX(0); }
-    }
-
-    .carousel-slide.entrance-active {
-      animation: slideEnterActive 0.7s cubic-bezier(0.22,1,0.36,1) forwards;
-    }
-
-    .carousel-slide.entrance-prev {
-      animation: slideEnterPrev 0.65s cubic-bezier(0.22,1,0.36,1) forwards;
-    }
-
-    .carousel-slide.entrance-next {
-      animation: slideEnterNext 0.65s cubic-bezier(0.22,1,0.36,1) forwards;
-    }
-
-    /* ── MY LEARNINGS ────────────────────────────────────────── */
+    /* ── MY LEARNINGS — starts invisible, fades on scroll ───── */
     .learnings-section {
-      max-width: 900px;
-      margin: 64px auto 20px;
-      text-align: left;
+      max-width:900px; margin:64px auto 20px; text-align:left;
+      opacity:0; transform:translateY(22px);
+      transition:opacity .7s ease, transform .7s ease;
     }
-
+    .learnings-section.visible { opacity:1; transform:translateY(0); }
     .learnings-section h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 36px;
-      font-weight: 600;
-      color: #f4f4f4;
-      text-align: center;
-      margin-bottom: 20px;
+      font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:600;
+      color:#f4f4f4; text-align:center; margin-bottom:20px;
     }
+    .learnings-box { background:#2e3740; padding:28px 36px; border-radius:12px; }
+    .learnings-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:20px; }
+    .learnings-list li { display:flex; align-items:flex-start; gap:14px; font-family:'Poppins',sans-serif; font-size:16px; line-height:1.65; color:#e0e0e0; }
+    .learning-emoji { font-size:22px; flex-shrink:0; margin-top:2px; }
+    .learning-body  { display:flex; flex-direction:column; gap:4px; }
+    .learning-hook   { font-weight:700; color:#f4f4f4; font-size:16px; line-height:1.4; }
+    .learning-detail { font-weight:400; color:#c0cdd5; font-size:15px; line-height:1.7; }
 
-    .learnings-box {
-      background-color: #2e3740;
-      padding: 28px 36px;
-      border-radius: 12px;
-    }
-
-    .learnings-list {
-      list-style: none;
-      margin: 0; padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .learnings-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      font-family: 'Poppins', sans-serif;
-      font-size: 16px;
-      line-height: 1.65;
-      color: #e0e0e0;
-    }
-
-    .learning-emoji { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
-
-    .learning-body { display: flex; flex-direction: column; gap: 4px; }
-
-    .learning-hook { font-weight: 700; color: #f4f4f4; font-size: 16px; line-height: 1.4; }
-
-    .learning-detail { font-weight: 400; color: #c0cdd5; font-size: 15px; line-height: 1.7; }
-
-    /* ── MOBILE ──────────────────────────────────────────────── */
-    @media (max-width: 768px) {
-      .logo-link .logo  { display: none; }
-      .hero-title       { font-size: 44px; }
-      .hero-sub         { font-size: 13px; }
-      .hero-intro       { padding: 26px 16px 20px; }
-      .carousel-arrow   { width: 34px; font-size: 28px; }
-      .learnings-box    { padding: 22px 18px; }
-      .learning-hook    { font-size: 14px; }
-      .learning-detail  { font-size: 13px; }
+    /* ── MOBILE ─────────────────────────────────────────────── */
+    @media (max-width:768px) {
+      .logo-link .logo { display:none; }
+      .hero-title      { font-size:44px; }
+      .hero-sub        { font-size:13px; }
+      .hero-intro      { padding:26px 16px 20px; }
+      .carousel-arrow  { width:34px; font-size:28px; }
+      .learnings-box   { padding:22px 18px; }
+      .learning-hook   { font-size:14px; }
+      .learning-detail { font-size:13px; }
     }
   </style>
 </head>
@@ -636,43 +344,27 @@
     <a href="/about.html">About</a>
     <a href="/contact.html">Contact</a>
   </div>
-
   <div class="overlay" id="overlay"></div>
 
   <div class="navbar">
-    <div class="nav-left" id="nav-left">
-      <div class="hamburger" id="hamburger">
-        <div></div><div></div><div></div>
-      </div>
+    <div class="nav-left">
+      <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
       <a href="/" class="logo-link">
         <img src="/assets/logos/personal/CRP_logo_white.png" alt="Logo" class="logo-img">
         <div class="logo">Chase Pittman | Portfolio</div>
       </a>
     </div>
     <div class="nav-right">
-      <a href="https://www.linkedin.com/in/chasepittman" target="_blank">
-        <img src="/assets/logos/tools/linkedin.png" alt="LinkedIn">
-      </a>
-      <a href="https://www.credly.com/users/chase-pittman.017d3434/badges#credly" target="_blank">
-        <img src="/assets/logos/skills/credly.png" alt="Credly">
-      </a>
-      <a href="https://www.github.com/chasepittman" target="_blank">
-        <img src="/assets/logos/tools/github.png" alt="GitHub">
-      </a>
-      <a href="/contact.html">
-        <img src="/assets/logos/tools/gmail.png" alt="Contact Form">
-      </a>
+      <a href="https://www.linkedin.com/in/chasepittman" target="_blank"><img src="/assets/logos/tools/linkedin.png" alt="LinkedIn"></a>
+      <a href="https://www.credly.com/users/chase-pittman.017d3434/badges#credly" target="_blank"><img src="/assets/logos/skills/credly.png" alt="Credly"></a>
+      <a href="https://www.github.com/chasepittman" target="_blank"><img src="/assets/logos/tools/github.png" alt="GitHub"></a>
+      <a href="/contact.html"><img src="/assets/logos/tools/gmail.png" alt="Contact Form"></a>
     </div>
   </div>
 
-  <!-- Spotify starts hidden, JS sequences it in -->
   <div class="spotify-widget hidden" id="spotify-widget">
-    <iframe
-      src="https://open.spotify.com/embed/album/3vhOUOy05eeQwq6EtxwnVW?utm_source=generator"
-      frameborder="0"
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      loading="lazy">
-    </iframe>
+    <iframe src="https://open.spotify.com/embed/album/3vhOUOy05eeQwq6EtxwnVW?utm_source=generator"
+      frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     <button id="spotify-toggle" aria-label="Toggle Spotify Player">&#9654;</button>
   </div>
 
@@ -691,11 +383,9 @@
       </div>
 
       <!-- CAROUSEL -->
-      <section class="hero-carousel">
+      <section class="hero-carousel" id="hero-carousel">
         <div class="carousel-area">
-
           <button class="carousel-arrow" id="carousel-prev" aria-label="Previous slide">&#10094;</button>
-
           <div class="carousel-clip" id="carousel-clip">
             <div class="carousel-track" id="carousel-track">
 
@@ -703,42 +393,35 @@
                 <div class="slide-img-wrap">
                   <img src="/assets/files/slides/The Bridge/The_Bridge.png" alt="The Bridge AI Merchandising Tool" draggable="false">
                 </div>
+                <p class="slide-title">The Bridge | AI Merchandising Tool</p>
               </div>
 
               <div class="carousel-slide" data-project="project2">
                 <div class="slide-img-wrap">
                   <img src="/assets/files/slides/Zoom Office/Zoom_Office.png" alt="3D Digital Assets Workflow Automation" draggable="false">
                 </div>
+                <p class="slide-title">3D Digital Assets | Workflow Automation</p>
               </div>
 
               <div class="carousel-slide" data-project="zoom-office">
                 <div class="slide-img-wrap">
                   <img src="/assets/files/slides/Zoom Office/Zoom_Office.png" alt="Zoom Office Concept Redesign" draggable="false">
                 </div>
+                <p class="slide-title">Zoom Office | Concept Redesign</p>
               </div>
 
-            </div><!-- /carousel-track -->
-          </div><!-- /carousel-clip -->
-
+            </div>
+          </div>
           <button class="carousel-arrow" id="carousel-next" aria-label="Next slide">&#10095;</button>
-
-        </div><!-- /carousel-area -->
-
-        <!--
-          Dots row sits here — between images and titles.
-          z-index: 20 in CSS keeps it above the hover-zoomed image.
-        -->
-        <div class="carousel-dots-row">
-          <div class="carousel-dots" id="carousel-dots"></div>
         </div>
 
-        <!-- Titles row — one per slide, only active is shown -->
-        <div class="carousel-titles" id="carousel-titles" style="margin-top:10px; min-height:22px;"></div>
-
+        <div class="carousel-dots-row">
+          <div class="carousel-dots-pill" id="carousel-dots"></div>
+        </div>
       </section>
 
       <!-- MY LEARNINGS -->
-      <div class="learnings-section">
+      <div class="learnings-section" id="learnings-section">
         <h2>My Learnings</h2>
         <div class="learnings-box">
           <ul class="learnings-list">
@@ -767,13 +450,13 @@
         </div>
       </div>
 
-    </div><!-- /content -->
-  </div><!-- /page-wrapper -->
+    </div>
+  </div>
 
   <script>
   document.addEventListener('DOMContentLoaded', () => {
 
-    // ── Hero title: letter-by-letter fade-in ──────────────────
+    // ── Hero letter-by-letter ──────────────────────────────────
     const titleEl   = document.getElementById('hero-title');
     const subEl     = document.getElementById('hero-sub');
     const ctaEl     = document.getElementById('hero-cta');
@@ -783,59 +466,50 @@
 
     titleEl.textContent = '';
     let spanCount = 0;
-
     titleText.split('').forEach(char => {
       if (char === ' ') {
-        const space = document.createElement('span');
-        space.classList.add('hero-space');
-        space.setAttribute('aria-hidden', 'true');
-        titleEl.appendChild(space);
+        const s = document.createElement('span');
+        s.classList.add('hero-space');
+        s.setAttribute('aria-hidden','true');
+        titleEl.appendChild(s);
       } else {
-        const span = document.createElement('span');
-        span.classList.add('hero-letter');
-        span.textContent = char;
-        span.style.animationDelay = `${spanCount * LETTER_DELAY}s`;
-        titleEl.appendChild(span);
+        const s = document.createElement('span');
+        s.classList.add('hero-letter');
+        s.textContent = char;
+        s.style.animationDelay = `${spanCount * LETTER_DELAY}s`;
+        titleEl.appendChild(s);
         spanCount++;
       }
     });
 
-    // Time when the last letter finishes animating
-    const subDelay      = spanCount * LETTER_DELAY + LETTER_DUR;
-    const ctaDelay      = subDelay + 0.35;
-    const carouselDelay = ctaDelay + 0.55;   // carousel starts after CTA fades in
-    const spotifyDelay  = carouselDelay + 0.9; // Spotify after carousel settles
+    // Timing anchors (seconds)
+    const subDelay      = spanCount * LETTER_DELAY + LETTER_DUR;  // subtitle starts
+    const ctaDelay      = subDelay + 0.45;                         // CTA starts
+    const carouselDelay = ctaDelay + 0.65;                         // carousel fades in after CTA
+    const spotifyDelay  = carouselDelay + 1.1;                     // Spotify after carousel settles
 
     subEl.style.animationDelay = `${subDelay}s`;
     ctaEl.style.animationDelay = `${ctaDelay}s`;
 
-    // ── Carousel ───────────────────────────────────────────────
-    const clip           = document.getElementById('carousel-clip');
-    const track          = document.getElementById('carousel-track');
-    const slides         = Array.from(track.querySelectorAll('.carousel-slide'));
-    const prevBtn        = document.getElementById('carousel-prev');
-    const nextBtn        = document.getElementById('carousel-next');
-    const dotsContainer  = document.getElementById('carousel-dots');
-    const titlesContainer= document.getElementById('carousel-titles');
-    const N              = slides.length;
+    // ── Carousel setup ─────────────────────────────────────────
+    const carouselSection = document.getElementById('hero-carousel');
+    const clip            = document.getElementById('carousel-clip');
+    const track           = document.getElementById('carousel-track');
+    const slides          = Array.from(track.querySelectorAll('.carousel-slide'));
+    const prevBtn         = document.getElementById('carousel-prev');
+    const nextBtn         = document.getElementById('carousel-next');
+    const dotsContainer   = document.getElementById('carousel-dots');
+    const N               = slides.length;
 
     let current     = 0;
     let autoTimer   = null;
     let resumeTimer = null;
     const AUTO_MS   = 6000;
     const RESUME_MS = 3000;
-
     const PEEK_RATIO = 0.10;
     const SIDE_SCALE = 0.86;
 
-    // Slide metadata
-    const SLIDE_DATA = [
-      { project: 'the-bridge', title: 'The Bridge | AI Merchandising Tool' },
-      { project: 'project2',   title: '3D Digital Assets | Workflow Automation' },
-      { project: 'zoom-office',title: 'Zoom Office | Concept Redesign' },
-    ];
-
-    // Build dots
+    // Build metaball dots
     slides.forEach((_, i) => {
       const dot = document.createElement('button');
       dot.classList.add('dot');
@@ -845,30 +519,28 @@
     });
     const dots = Array.from(dotsContainer.children);
 
-    // Build titles (one element per slide, swap on change)
-    const titleEls = slides.map((_, i) => {
-      const p = document.createElement('p');
-      p.className = 'slide-title';
-      p.textContent = SLIDE_DATA[i].title;
-      p.style.display = 'none';
-      p.style.margin = '0 auto';
-      titlesContainer.appendChild(p);
-      return p;
-    });
+    // ── Trigger sweep animation on newly-active slide ──────────
+    // Removing and re-adding the class forces the ::before animation to replay
+    function triggerSweep(slide) {
+      slide.classList.remove('c-active');
+      void slide.offsetWidth; // force reflow so animation restarts
+      slide.classList.add('c-active');
+    }
 
-    // ── applyPositions ───────────────────────────────────────
-    function applyPositions(animated) {
-      const clipW  = clip.offsetWidth;
-      const peekPx = Math.round(clipW * PEEK_RATIO);
-      const slideW = clipW - 2 * peekPx;
+    // ── applyPositions ─────────────────────────────────────────
+    function applyPositions(animated, triggerAnim) {
+      const clipW   = clip.offsetWidth;
+      const peekPx  = Math.round(clipW * PEEK_RATIO);
+      const slideW  = clipW - 2 * peekPx;
       const activeL = peekPx;
-
-      const trans = 'left 0.62s cubic-bezier(0.4,0,0.2,1), transform 0.62s cubic-bezier(0.4,0,0.2,1), opacity 0.5s ease';
+      const trans   = 'left .62s cubic-bezier(.4,0,.2,1), transform .62s cubic-bezier(.4,0,.2,1), opacity .5s ease';
 
       slides.forEach((slide, i) => {
         slide.style.transition = animated ? trans : 'none';
         slide.style.width = slideW + 'px';
-        slide.classList.remove('c-active', 'c-prev', 'c-next', 'c-far');
+
+        const wasActive = slide.classList.contains('c-active');
+        slide.classList.remove('c-active','c-prev','c-next','c-far');
 
         const diff = ((i - current) + N) % N;
 
@@ -878,26 +550,26 @@
           slide.style.transformOrigin = 'center center';
           slide.style.zIndex          = '3';
           slide.style.opacity         = '1';
-          slide.classList.add('c-active');
-
+          // Trigger sweep only on slide transitions (not initial layout)
+          if (triggerAnim && !wasActive) {
+            triggerSweep(slide);
+          } else {
+            slide.classList.add('c-active');
+          }
         } else if (diff === N - 1) {
-          // Prev — peeking from left
           slide.style.left            = (peekPx - slideW) + 'px';
           slide.style.transform       = `scale(${SIDE_SCALE})`;
           slide.style.transformOrigin = 'right center';
           slide.style.zIndex          = '2';
           slide.style.opacity         = '0.70';
           slide.classList.add('c-prev');
-
         } else if (diff === 1) {
-          // Next — peeking from right
           slide.style.left            = (clipW - peekPx) + 'px';
           slide.style.transform       = `scale(${SIDE_SCALE})`;
           slide.style.transformOrigin = 'left center';
           slide.style.zIndex          = '2';
           slide.style.opacity         = '0.70';
           slide.classList.add('c-next');
-
         } else {
           const goRight = diff <= Math.floor(N / 2);
           slide.style.left            = (goRight ? clipW + slideW : -2 * slideW) + 'px';
@@ -910,47 +582,35 @@
       });
 
       if (!animated) {
-        requestAnimationFrame(() =>
-          slides.forEach(s => { s.style.transition = trans; })
-        );
+        requestAnimationFrame(() => slides.forEach(s => { s.style.transition = trans; }));
       }
 
-      // Update dots
       dots.forEach((d, i) => d.classList.toggle('filled', i === current));
-
-      // Swap visible title
-      titleEls.forEach((el, i) => {
-        el.style.display = i === current ? 'block' : 'none';
-      });
-
       updateTrackHeight();
     }
 
     function updateTrackHeight() {
       const active = slides[current];
-      if (active && active.offsetHeight > 0) {
-        track.style.height = active.offsetHeight + 'px';
-      }
+      if (active && active.offsetHeight > 0) track.style.height = active.offsetHeight + 'px';
     }
 
     function goToSlide(index) {
       current = ((index % N) + N) % N;
-      applyPositions(true);
+      applyPositions(true, true);
       resetAuto();
     }
 
     prevBtn.addEventListener('click', () => goToSlide(current - 1));
     nextBtn.addEventListener('click', () => goToSlide(current + 1));
 
-    // Click: navigate active, advance side slides
+    // Click to navigate (active) or advance (side)
     track.addEventListener('click', e => {
       if (didDrag) return;
       const slide = e.target.closest('.carousel-slide');
       if (!slide) return;
-
       if (slide.classList.contains('c-active')) {
-        const project = slide.dataset.project;
-        if (project) window.location.href = `/projects.html?project=${project}`;
+        const p = slide.dataset.project;
+        if (p) window.location.href = `/projects.html?project=${p}`;
       } else if (slide.classList.contains('c-prev')) {
         goToSlide(current - 1);
       } else if (slide.classList.contains('c-next')) {
@@ -958,79 +618,66 @@
       }
     });
 
-    // ── Auto-slide ───────────────────────────────────────────
+    // Auto-slide
     const startAuto = () => { autoTimer = setInterval(() => goToSlide(current + 1), AUTO_MS); };
     const stopAuto  = () => { clearInterval(autoTimer); clearTimeout(resumeTimer); };
     const resetAuto = () => { stopAuto(); resumeTimer = setTimeout(startAuto, RESUME_MS); };
 
-    // ── Drag / Swipe ─────────────────────────────────────────
+    // Drag / Swipe
     let ptX = 0, ptY = 0, ptT = 0;
     let dragActive = false, dragAxis = null, didDrag = false;
 
     const onStart = (x, y) => {
-      stopAuto();
-      ptX = x; ptY = y; ptT = Date.now();
+      stopAuto(); ptX = x; ptY = y; ptT = Date.now();
       dragActive = true; dragAxis = null; didDrag = false;
     };
-
     const onMove = (x, y) => {
       if (!dragActive) return;
       const dx = x - ptX, dy = y - ptY;
-      if (!dragAxis && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
+      if (!dragAxis && (Math.abs(dx) > 6 || Math.abs(dy) > 6))
         dragAxis = Math.abs(dx) >= Math.abs(dy) ? 'x' : 'y';
-      }
       if (dragAxis !== 'x') return;
       if (Math.abs(dx) > 8) didDrag = true;
-
       const clipW  = clip.offsetWidth;
       const peekPx = Math.round(clipW * PEEK_RATIO);
       const slideW = clipW - 2 * peekPx;
-
       slides.forEach((slide, i) => {
         const diff = ((i - current) + N) % N;
         if (diff === 0 || diff === N - 1 || diff === 1) {
           slide.style.transition = 'none';
-          const baseLeft = diff === 0     ? peekPx
-                         : diff === N - 1 ? peekPx - slideW
-                         :                  clipW - peekPx;
-          slide.style.left = (baseLeft + dx) + 'px';
+          const base = diff === 0 ? peekPx : diff === N-1 ? peekPx - slideW : clipW - peekPx;
+          slide.style.left = (base + dx) + 'px';
         }
       });
     };
-
     const onEnd = (x) => {
       if (!dragActive) return;
       dragActive = false;
-      const diff    = ptX - x;
-      const elapsed = Math.max(Date.now() - ptT, 1);
-      const vel     = Math.abs(diff) / elapsed;
-
+      const diff = ptX - x;
+      const vel  = Math.abs(diff) / Math.max(Date.now() - ptT, 1);
       if (Math.abs(diff) > 65) {
         let steps = 1;
-        if (vel > 1.8 && Math.abs(diff) > 160) {
-          steps = Math.min(1 + Math.floor((vel - 1.8) / 1.2), N - 1);
-        }
+        if (vel > 1.8 && Math.abs(diff) > 160) steps = Math.min(1 + Math.floor((vel-1.8)/1.2), N-1);
         goToSlide(diff > 0 ? current + steps : current - steps);
       } else {
-        applyPositions(true);
+        applyPositions(true, false);
         resetAuto();
       }
     };
 
-    track.addEventListener('touchstart', e => onStart(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+    track.addEventListener('touchstart', e => onStart(e.touches[0].clientX, e.touches[0].clientY), { passive:true });
     track.addEventListener('touchmove',  e => {
       onMove(e.touches[0].clientX, e.touches[0].clientY);
       if (dragAxis === 'x') e.preventDefault();
-    }, { passive: false });
+    }, { passive:false });
     track.addEventListener('touchend',    e => onEnd(e.changedTouches[0].clientX));
     track.addEventListener('touchcancel', e => onEnd(e.changedTouches[0].clientX));
-
-    track.addEventListener('mousedown', e => { e.preventDefault(); onStart(e.clientX, e.clientY); });
-    window.addEventListener('mousemove', e => { if (dragActive) onMove(e.clientX, e.clientY); });
-    window.addEventListener('mouseup',   e => { if (dragActive) onEnd(e.clientX); });
+    track.addEventListener('mousedown',   e => { e.preventDefault(); onStart(e.clientX, e.clientY); });
+    window.addEventListener('mousemove',  e => { if (dragActive) onMove(e.clientX, e.clientY); });
+    window.addEventListener('mouseup',    e => { if (dragActive) onEnd(e.clientX); });
 
     slides.forEach(slide => {
-      slide.addEventListener('touchstart',  () => slide.classList.add('tapped'),    { passive: true });
+      slide.addEventListener('touchstart',  () => slide.classList.add('tapped'),    { passive:true });
       slide.addEventListener('touchend',    () => slide.classList.remove('tapped'));
       slide.addEventListener('touchcancel', () => slide.classList.remove('tapped'));
     });
@@ -1038,64 +685,44 @@
     let resizeTimer;
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => applyPositions(false), 120);
+      resizeTimer = setTimeout(() => applyPositions(false, false), 120);
     });
-
     slides.forEach(slide => {
       const img = slide.querySelector('img');
       if (img) img.addEventListener('load', updateTrackHeight);
     });
 
-    // ── Staggered entrance sequence ───────────────────────────
-    /*
-      1. Hide all slides initially (opacity 0, no position yet)
-      2. After carouselDelay: run applyPositions to lock pixel positions,
-         then immediately re-hide so the entrance animations control reveal
-      3. Fire entrance-active on the center slide
-      4. 140ms later fire entrance-prev + entrance-next together
-      5. Remove entrance classes once animations complete so normal
-         hover/transition rules take over cleanly
-    */
+    // ── Staggered entrance sequence ────────────────────────────
+    // Everything starts invisible via CSS.
+    // 1. CTA fade-in is handled by CSS animation-delay above.
+    // 2. After carouselDelay: carousel section fades in, positions lock,
+    //    active slide gets its sweep, then auto starts.
+    // 3. Spotify slides in after carousel settles.
 
-    // Start hidden
-    slides.forEach(s => { s.style.opacity = '0'; });
+    // Initial layout (no animation, no sweep) — positions locked but invisible
+    applyPositions(false, false);
 
     setTimeout(() => {
-      // Lock positions without animation
-      applyPositions(false);
-
-      // Re-hide slides so entrance animations drive the reveal
-      slides.forEach(s => { s.style.opacity = '0'; });
-
-      // Find active, prev, next at current=0
+      carouselSection.classList.add('visible');
+      // Trigger the initial sweep on the first active slide
       const activeSlide = slides[0];
-      const nextSlide   = slides[1];   // diff === 1
-      const prevSlide   = slides[N-1]; // diff === N-1
-
-      // Entrance: active first
-      requestAnimationFrame(() => {
-        activeSlide.style.opacity = '';
-        activeSlide.classList.add('entrance-active');
-
-        setTimeout(() => {
-          prevSlide.style.opacity = '';
-          nextSlide.style.opacity = '';
-          prevSlide.classList.add('entrance-prev');
-          nextSlide.classList.add('entrance-next');
-        }, 140);
-
-        // Clean up entrance classes after animations finish
-        setTimeout(() => {
-          activeSlide.classList.remove('entrance-active');
-          prevSlide.classList.remove('entrance-prev');
-          nextSlide.classList.remove('entrance-next');
-          startAuto();
-        }, 900);
-      });
-
+      triggerSweep(activeSlide);
+      startAuto();
     }, carouselDelay * 1000);
 
-    // ── Spotify entrance ─────────────────────────────────────
+    // ── Scroll-triggered: My Learnings ────────────────────────
+    const learningsSection = document.getElementById('learnings-section');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          learningsSection.classList.add('visible');
+          observer.unobserve(learningsSection);
+        }
+      });
+    }, { threshold: 0.12 });
+    observer.observe(learningsSection);
+
+    // ── Spotify entrance ──────────────────────────────────────
     const spotifyWidget = document.getElementById('spotify-widget');
     const spotifyToggle = document.getElementById('spotify-toggle');
     let userTookControl = false;
@@ -1104,13 +731,10 @@
       if (userTookControl) return;
       spotifyWidget.classList.remove('hidden');
       spotifyWidget.classList.add('visible');
-
-      // Auto-collapse after 3.6s
       setTimeout(() => {
         if (userTookControl) return;
         spotifyWidget.classList.add('collapsed');
-      }, 3600);
-
+      }, 3800);
     }, spotifyDelay * 1000);
 
     spotifyToggle.addEventListener('click', () => {
@@ -1126,29 +750,15 @@
     const overlay     = document.getElementById('overlay');
     const pageWrapper = document.getElementById('page-wrapper');
 
-    function openSidebar() {
-      sidebar.classList.add('open');
-      hamburger.classList.add('active');
-      overlay.classList.add('active');
-      pageWrapper.style.transform = `translateX(${sidebar.offsetWidth}px)`;
-    }
+    const openSidebar  = () => { sidebar.classList.add('open'); hamburger.classList.add('active'); overlay.classList.add('active'); pageWrapper.style.transform = `translateX(${sidebar.offsetWidth}px)`; };
+    const closeSidebar = () => { sidebar.classList.remove('open'); hamburger.classList.remove('active'); overlay.classList.remove('active'); pageWrapper.style.transform = 'translateX(0)'; };
 
-    function closeSidebar() {
-      sidebar.classList.remove('open');
-      hamburger.classList.remove('active');
-      overlay.classList.remove('active');
-      pageWrapper.style.transform = 'translateX(0)';
-    }
-
-    hamburger.addEventListener('click', () =>
-      sidebar.classList.contains('open') ? closeSidebar() : openSidebar()
-    );
+    hamburger.addEventListener('click', () => sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
     overlay.addEventListener('click', closeSidebar);
     document.querySelectorAll('.sidebar a').forEach(l => l.addEventListener('click', closeSidebar));
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
 
   });
   </script>
-
 </body>
 </html>
