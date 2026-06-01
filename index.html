@@ -170,8 +170,9 @@
     }
     .carousel-arrow:hover { color:#fff; transform:scale(1.30); }
 
-    /* overflow:hidden + border-radius gives peeking slides soft curved edges */
-    .carousel-clip { flex:1; position:relative; overflow:hidden; border-radius:14px; }
+    /* overflow:hidden + border-radius gives peeking slides soft curved edges.
+       padding-top gives room above the active slide for the gold border and SVG sweep. */
+    .carousel-clip { flex:1; position:relative; overflow:hidden; border-radius:14px; padding-top:8px; }
     .carousel-track { position:relative; width:100%; }
 
     /* FLASH FIX: opacity:0 in CSS — browser never paints slides before JS */
@@ -195,7 +196,7 @@
       /* Breathing static glow — only on active slide, set below */
     }
 
-    /* Static gold outline + soft glow on active slide */
+    /* Static gold outline + soft glow — always on active slide */
     .carousel-slide.c-active .slide-border-wrap {
       box-shadow:
         0 0 0 1.5px var(--gold),
@@ -203,43 +204,10 @@
         0 18px 48px rgba(0,0,0,.50);
     }
 
-    /* Sweep pseudo — lives on the OUTER wrapper, behind the image */
-    .carousel-slide.c-active .slide-border-wrap::before {
-      content:'';
-      position:absolute;
-      inset:-2px;
-      border-radius:14px;
-      z-index:0;           /* behind .slide-img-wrap (z-index:1) */
-      pointer-events:none;
-      background:conic-gradient(
-        from 0deg,
-        transparent                  0%,
-        transparent                 78%,
-        rgba(194,164,109,0.15)      82%,
-        rgba(194,164,109,0.55)      86%,
-        var(--gold)                 89%,
-        rgba(255,235,170,0.95)      91%,
-        var(--gold)                 93%,
-        rgba(194,164,109,0.55)      96%,
-        rgba(194,164,109,0.10)      99%,
-        transparent                100%
-      );
-      animation:borderSweep 4.5s cubic-bezier(.28,0,.72,1) forwards;
-    }
-
-    @keyframes borderSweep {
-      0%   { opacity:1; transform:rotate(0deg); }
-      80%  { opacity:1; transform:rotate(360deg); }
-      100% { opacity:0; transform:rotate(390deg); }
-    }
-
-    /* Inner image wrapper — sits ABOVE sweep via z-index:1 */
+    /* Inner image wrapper */
     .slide-img-wrap {
-      overflow:hidden;
-      border-radius:12px;
-      position:relative;
-      z-index:1;
-      box-shadow:none; /* shadow lives on .slide-border-wrap for active */
+      overflow:hidden; border-radius:12px;
+      position:relative; z-index:1; box-shadow:none;
     }
 
     /* Non-active slides keep their own shadow */
@@ -248,6 +216,9 @@
     .carousel-slide.c-far  .slide-border-wrap {
       box-shadow:0 18px 48px rgba(0,0,0,.50);
     }
+
+    /* SVG sweep injected by JS */
+    .sweep-svg { transition:opacity .8s ease; }
 
     .slide-img-wrap img {
       width:100%; height:auto; display:block; border-radius:12px;
@@ -346,6 +317,8 @@
     .scroll-indicator-2 {
       margin-top:32px; margin-bottom:8px;
       opacity:0; transform:translateY(6px);
+      /* Override the fadeUp animation inherited from .scroll-indicator */
+      animation:none !important;
       transition:opacity .7s ease, transform .7s ease;
     }
     .scroll-indicator-2.visible { opacity:1; transform:translateY(0); }
@@ -647,11 +620,99 @@
       }, 170);
     }
 
-    // Force CSS animation to restart by removing/re-adding the class
+    // ── SVG border sweep ───────────────────────────────────────
+    // Injects an absolutely-positioned SVG over .slide-border-wrap.
+    // Uses stroke-dashoffset animation on a <rect> — the SVG stroke
+    // draws ONLY the border line (fill:none), so slide content is
+    // never touched regardless of z-index or overflow.
+    // Three layered arcs (outer glow → mid → sharp) travel once
+    // around the perimeter, then the SVG fades out.
     function triggerSweep(slide) {
+      // Remove any existing sweep first
+      slide.querySelectorAll('.sweep-svg').forEach(s => s.remove());
+
+      // Re-apply c-active (needed if called from goToSlide)
       slide.classList.remove('c-active');
-      void slide.offsetWidth; // force reflow
+      void slide.offsetWidth;
       slide.classList.add('c-active');
+
+      const borderWrap = slide.querySelector('.slide-border-wrap');
+      const imgWrap    = slide.querySelector('.slide-img-wrap');
+      if (!borderWrap || !imgWrap) return;
+
+      const doInject = () => {
+        const w = imgWrap.offsetWidth;
+        const h = imgWrap.offsetHeight;
+        if (!w || !h) {
+          // Images not yet laid out — retry once they load
+          const img = imgWrap.querySelector('img');
+          if (img && !img.complete) { img.addEventListener('load', doInject, {once:true}); }
+          return;
+        }
+
+        const r     = 12;  // matches border-radius on .slide-img-wrap
+        const perim = 2*(w - 2*r) + 2*(h - 2*r) + 2*Math.PI*r;
+        const arc   = Math.round(perim * 0.12); // ~12% = nice travelling point of light
+        const DUR   = 4.5; // seconds
+        const NS    = 'http://www.w3.org/2000/svg';
+
+        const svg = document.createElementNS(NS, 'svg');
+        svg.classList.add('sweep-svg');
+        svg.setAttribute('width',  w + 10);
+        svg.setAttribute('height', h + 10);
+        // Positioned so the rect stroke sits exactly on the image border
+        svg.style.cssText = 'position:absolute;top:-5px;left:-5px;pointer-events:none;z-index:6;overflow:visible;';
+
+        // Helper: create one travelling-arc <rect>
+        // stroke-dasharray: arc visible, then gap of 2×perim (only one arc ever visible)
+        // stroke-dashoffset: start at +perim (arc before path start = invisible)
+        //                    end at  -perim (arc past path end   = invisible)
+        // → arc appears at path start, sweeps fully around, disappears off the end
+        const makeArc = (sw, stroke, opacity) => {
+          const rect = document.createElementNS(NS, 'rect');
+          rect.setAttribute('x', 5);
+          rect.setAttribute('y', 5);
+          rect.setAttribute('width',  w);
+          rect.setAttribute('height', h);
+          rect.setAttribute('rx', r);
+          rect.setAttribute('ry', r);
+          rect.setAttribute('fill',            'none');
+          rect.setAttribute('stroke',          stroke);
+          rect.setAttribute('stroke-width',    sw);
+          rect.setAttribute('stroke-linecap',  'round');
+          rect.setAttribute('stroke-dasharray', `${arc} ${perim * 2}`);
+          rect.setAttribute('stroke-dashoffset', perim);
+          rect.setAttribute('opacity', opacity);
+
+          const anim = document.createElementNS(NS, 'animate');
+          anim.setAttribute('attributeName',   'stroke-dashoffset');
+          anim.setAttribute('from',            perim);
+          anim.setAttribute('to',              -perim);
+          anim.setAttribute('dur',             `${DUR}s`);
+          anim.setAttribute('calcMode',        'spline');
+          anim.setAttribute('keySplines',      '0.3 0 0.7 1'); // ease-in-out
+          anim.setAttribute('fill',            'freeze');
+          rect.appendChild(anim);
+          return rect;
+        };
+
+        // Layer 1 — wide soft outer glow
+        svg.appendChild(makeArc(10, '#c2a46d', '0.18'));
+        // Layer 2 — medium mid-glow
+        svg.appendChild(makeArc(4,  '#d4b678', '0.55'));
+        // Layer 3 — sharp bright centerline
+        svg.appendChild(makeArc(1.5,'#f5dfa0', '1.00'));
+
+        borderWrap.appendChild(svg);
+
+        // Fade out once the animation completes
+        setTimeout(() => {
+          svg.style.opacity = '0';
+          setTimeout(() => svg.remove(), 900);
+        }, DUR * 1000);
+      };
+
+      requestAnimationFrame(doInject);
     }
 
     // ── applyPositions ─────────────────────────────────────────
