@@ -18,11 +18,16 @@
   --gold-border: rgba(194,164,109,.35);
 }
 
+html {
+  min-height: 100%;
+}
+
 html, body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   background: radial-gradient(ellipse at center, #4a5660 0%, #384048 50%, #272e34 100%);
-  color: #f4f4f4;
+  background-attachment: fixed;
+  color: #e0e0e0;
   overflow-x: hidden;
 }
 
@@ -98,7 +103,7 @@ font-feature-settings: "lnum" 1; }
   max-width: 1200px; margin: auto; padding: 70px 20px 120px;
 }
 
-.page-title { font-family: 'Cormorant Garamond'; font-size: 60px; text-align: center; margin-bottom: 10px; font-variant-numeric: lining-nums;
+.page-title { font-family: 'Cormorant Garamond'; font-size: 42px; text-align: center; margin-bottom: 10px; font-variant-numeric: lining-nums;
 font-feature-settings: "lnum" 1; }
 .page-sub { text-align: center; color: #9fb0bb; margin-bottom: 80px; }
 
@@ -126,13 +131,18 @@ font-feature-settings: "lnum" 1; }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.section-box {
-  background: #2e3740; padding: 30px 36px;
-  border-radius: 12px; margin-bottom: 34px;
+/* Section title now sits outside the box */
+.section-title {
+  font-family: 'Cormorant Garamond'; font-size: 28px;
+  margin-top: 50px; margin-bottom: 15px;
+  font-variant-numeric: lining-nums;
+  font-feature-settings: "lnum" 1;
 }
 
-.section-title { font-family: 'Cormorant Garamond'; font-size: 32px; margin-bottom: 12px; font-variant-numeric: lining-nums;
-font-feature-settings: "lnum" 1; }
+.section-box {
+  background: #2e3740; padding: 25px;
+  border-radius: 12px; margin-bottom: 34px;
+}
 
 .project-image { margin: 50px 0; }
 .project-image img { width: 100%; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,.6); }
@@ -157,11 +167,11 @@ font-feature-settings: "lnum" 1; }
 /* ── HERO LAUNCH ── */
 .hero-launch {
   background: #2e3740; border-radius: 12px; margin-bottom: 34px;
-  padding: 30px 36px; display: flex; align-items: center;
+  padding: 25px; display: flex; align-items: center;
   justify-content: space-between; gap: 24px;
 }
 .hero-launch-left { flex: 1; }
-.hero-launch-title { font-family: 'Cormorant Garamond'; font-size: 32px; margin: 0 0 8px; font-variant-numeric: lining-nums;
+.hero-launch-title { font-family: 'Cormorant Garamond'; font-size: 28px; margin: 0 0 8px; font-variant-numeric: lining-nums;
 font-feature-settings: "lnum" 1; }
 .hero-launch-sub { font-size: 13px; color: #9fb0bb; line-height: 1.6; margin: 0; }
 .hero-launch-sub em { font-style: normal; color: var(--gold); }
@@ -321,8 +331,8 @@ font-feature-settings: "lnum" 1; }
   ══════════════════════════════ -->
   <div class="case-study active" id="the-bridge">
 
+    <h2 class="section-title">The Bridge</h2>
     <div class="section-box">
-      <div class="section-title">The Bridge</div>
       <p>An internal merchandising intelligence tool that gives Waterworks' tech support team on-demand access to style-level revenue, units, margins, and channel performance — without routing requests through product.</p>
       <div class="tag-row">
         <span class="tag">Internal Tooling</span>
@@ -344,8 +354,8 @@ font-feature-settings: "lnum" 1; }
       </button>
     </div>
 
+    <h2 class="section-title">The Problem</h2>
     <div class="section-box">
-      <div class="section-title">The Problem</div>
       <ul style="line-height: 2.2; margin: 0; padding-left: 20px;">
         <li>No self-serve access to style-level sales data</li>
         <li>Every request routed through the product team, slowing response times</li>
@@ -354,8 +364,8 @@ font-feature-settings: "lnum" 1; }
       </ul>
     </div>
 
+    <h2 class="section-title">The Constraint</h2>
     <div class="section-box">
-      <div class="section-title">The Constraint</div>
       <p>A third-party BI tool was immediately off the table — Waterworks' sales data is sensitive and proprietary, and any external platform would require a formal procurement and security review.</p>
       <div class="constraint-box">
         <strong>Design Constraint</strong>
@@ -367,8 +377,8 @@ font-feature-settings: "lnum" 1; }
       <img src="/assets/files/slides/The Bridge/The_Bridge_Dashboard.png" alt="The Bridge | Dashboard">
     </div>
 
+    <h2 class="section-title">The Solution</h2>
     <div class="section-box">
-      <div class="section-title">The Solution</div>
       <ul style="line-height: 2.2; margin: 0; padding-left: 20px;">
         <li><strong>Zero infrastructure</strong> — a single HTML file, runs in any browser, no install required</li>
         <li><strong>Multi-style comparison</strong> — tag multiple styles to view combined performance in one view</li>
@@ -377,8 +387,8 @@ font-feature-settings: "lnum" 1; }
       </ul>
     </div>
 
+    <h2 class="section-title">Measuring Impact</h2>
     <div class="section-box">
-      <div class="section-title">Measuring Impact</div>
       <p style="color: #9fb0bb; font-size: 14px; margin-bottom: 14px;">The tool is in active use. Success looks like:</p>
       <ul style="line-height: 2.2; margin: 0; padding-left: 20px;">
         <li>Fewer ad hoc data requests routed to the product team</li>
@@ -394,8 +404,8 @@ font-feature-settings: "lnum" 1; }
        PLACEHOLDER
   ══════════════════════════════ -->
   <div class="case-study" id="project2">
+    <h2 class="section-title">Coming Soon</h2>
     <div class="section-box">
-      <div class="section-title">Coming Soon</div>
       <p>This case study is in progress.</p>
     </div>
   </div>
@@ -406,8 +416,8 @@ font-feature-settings: "lnum" 1; }
   ══════════════════════════════ -->
   <div class="case-study" id="zoom-office">
 
+    <h2 class="section-title">Zoom Office</h2>
     <div class="section-box">
-      <div class="section-title">Zoom Office</div>
       <p>A concept product redesign exploring how Zoom could recreate the spatial awareness and spontaneous collaboration of a physical office for distributed and hybrid teams.</p>
       <div class="tag-row">
         <span class="tag">Product Strategy</span>
@@ -416,8 +426,8 @@ font-feature-settings: "lnum" 1; }
       </div>
     </div>
 
+    <h2 class="section-title">The Problem</h2>
     <div class="section-box">
-      <div class="section-title">The Problem</div>
       <ul style="line-height: 2.2; margin: 0; padding-left: 20px;">
         <li>Remote work erodes the spontaneous collaboration that drives team momentum</li>
         <li>Meeting-heavy culture creates Zoom fatigue without replacing ambient presence</li>
@@ -425,8 +435,8 @@ font-feature-settings: "lnum" 1; }
       </ul>
     </div>
 
+    <h2 class="section-title">The Solution</h2>
     <div class="section-box">
-      <div class="section-title">The Solution</div>
       <ul style="line-height: 2.2; margin: 0; padding-left: 20px;">
         <li>Interactive office floorplans with real-time employee presence</li>
         <li>Clickable meeting rooms and break spaces to reduce friction for impromptu calls</li>
@@ -438,8 +448,8 @@ font-feature-settings: "lnum" 1; }
       <img src="/assets/files/slides/Zoom Office/Zoom_Office_Visual.png">
     </div>
 
+    <h2 class="section-title">Key Features</h2>
     <div class="section-box">
-      <div class="section-title">Key Features</div>
       <ul style="line-height: 2.2; margin: 0; padding-left: 20px;">
         <li>Virtual whiteboards and task boards embedded in room views</li>
         <li>Dedicated break rooms to preserve informal culture remotely</li>
@@ -451,8 +461,8 @@ font-feature-settings: "lnum" 1; }
       <img src="/assets/files/slides/Zoom Office/Zoom_Office_Detail.png">
     </div>
 
+    <h2 class="section-title">Measuring Impact</h2>
     <div class="section-box">
-      <div class="section-title">Measuring Impact</div>
       <p style="color: #9fb0bb; font-size: 14px; margin-bottom: 14px;">Success for a product like this lives in behavioral and cultural signals:</p>
       <ul style="line-height: 2.2; margin: 0; padding-left: 20px;">
         <li>Increase in spontaneous, unscheduled interactions</li>
