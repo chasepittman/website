@@ -6,388 +6,216 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="/assets/logos/personal/favicon.ico">
 
-  <!-- OG / Twitter meta -->
-  <meta property="og:title"       content="Chase Pittman | Product Manager Portfolio">
-  <meta property="og:description" content="Product Manager · Builder · Problem Solver. Selected product thinking and concept work.">
-  <meta property="og:image"       content="/assets/logos/personal/og-image.png">
-  <meta property="og:url"         content="https://chasepittman.com">
-  <meta property="og:type"        content="website">
-  <meta name="twitter:card"       content="summary_large_image">
-  <meta name="twitter:title"      content="Chase Pittman | Product Manager Portfolio">
+  <meta property="og:title"        content="Chase Pittman | Product Manager Portfolio">
+  <meta property="og:description"  content="Product Manager · Builder · Problem Solver. Selected product thinking and concept work.">
+  <meta property="og:image"        content="/assets/logos/personal/og-image.png">
+  <meta property="og:url"          content="https://chasepittman.com">
+  <meta property="og:type"         content="website">
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Chase Pittman | Product Manager Portfolio">
   <meta name="twitter:description" content="Product Manager · Builder · Problem Solver.">
-  <meta name="twitter:image"      content="/assets/logos/personal/og-image.png">
+  <meta name="twitter:image"       content="/assets/logos/personal/og-image.png">
 
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/global.css">
+
+  <script>
+    (function() {
+      if (localStorage.getItem('cp-theme') === 'light')
+        document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
 
   <style>
     :root {
-      --gold:         #c2a46d;
-      --gold-glow:    rgba(194,164,109,0.45);
-      --gold-dim:     rgba(194,164,109,0.18);
-      --sidebar-width: 260px;
+      --gold-glow: rgba(194,164,109,0.45);
     }
 
-    html, body { height:100%; min-height:100%; margin:0; overflow-x:hidden; }
-    body {
-      font-family:'Poppins',Arial,sans-serif;
-      background:radial-gradient(ellipse at center,#4a5660 0%,#384048 50%,#272e34 100%);
-      background-attachment:fixed;
-      color:#f4f4f4;
-      text-align:center;
-    }
-    h1,h2,h3 { color:#f4f4f4; font-family:'Cormorant Garamond',serif; font-weight:600; }
+    html, body { height: 100%; min-height: 100%; }
+    body { text-align: center; }
+    h1, h2, h3 { color: var(--text-primary); font-family: 'Cormorant Garamond', serif; font-weight: 600; }
 
-    /* ── NAVBAR ───────────────────────────────────────────────── */
-    .navbar {
-      display:flex; align-items:center; padding:14px 24px;
-      background:#222; position:sticky; top:0; z-index:1400;
-      box-shadow:4px 0 12px rgba(0,0,0,.5);
-      border-bottom:1.5px solid transparent;
-      transition:border-color .35s ease, background .35s ease;
-    }
-    /* Gold bottom border appears on scroll — JS adds .scrolled */
-    .navbar.scrolled {
-      border-bottom-color: var(--gold);
-      background:rgba(26,26,26,0.97);
-    }
-    .page-wrapper { transition:transform .3s ease; min-height:100vh; }
-    .nav-left  { display:flex; align-items:center; gap:12px; }
-    .logo-link { display:flex; align-items:center; gap:12px; text-decoration:none; color:inherit; }
-    .logo-link:hover { opacity:.9; }
-    .nav-left .logo { font-size:20px; font-weight:bold; font-family:'Cormorant Garamond',serif; color:white; white-space:nowrap; }
-    .logo-img  { height:36px; width:auto; }
-    .nav-right { display:flex; justify-content:flex-end; gap:18px; margin-left:auto; }
-    .nav-right img { width:26px; height:auto; opacity:.85; transition:opacity .2s,transform .2s; }
-    .nav-right a:hover img { opacity:1; transform:translateY(-2px); }
-    .hamburger { display:flex; flex-direction:column; justify-content:space-between; width:28px; height:20px; cursor:pointer; margin-right:18px; }
-    .hamburger div { height:3px; background:#fff; border-radius:2px; transition:all .3s ease; }
-    .hamburger.active div:nth-child(1) { transform:translateY(8.5px) rotate(45deg); }
-    .hamburger.active div:nth-child(2) { opacity:0; }
-    .hamburger.active div:nth-child(3) { transform:translateY(-8.5px) rotate(-45deg); }
+    /* ── CONTENT ── */
+    .content { max-width: 1100px; margin: 0 auto; padding: 0 20px 60px; text-align: center; }
 
-    /* ── SIDEBAR ──────────────────────────────────────────────── */
-    .sidebar {
-      position:fixed; top:0; left:0; width:var(--sidebar-width); height:100%;
-      background:#222; display:flex; flex-direction:column; padding-top:100px; gap:20px;
-      transform:translateX(-100%); transition:transform .35s cubic-bezier(.22,1,.36,1);
-      z-index:1300; box-shadow:18px 0 40px rgba(0,0,0,.55),2px 0 0 rgba(255,255,255,.05);
-    }
-    .sidebar.open { transform:translateX(0); }
-    .sidebar a { color:#f4f4f4; text-decoration:none; font-size:18px; padding:12px 24px; transition:background .3s; }
-    .sidebar a:hover { background:var(--gold); color:#222; border-radius:6px; }
-    .overlay { position:fixed; inset:0; background:rgba(0,0,0,.4); opacity:0; pointer-events:none; transition:opacity .3s ease; z-index:1050; }
-    .overlay.active { opacity:1; pointer-events:auto; }
-
-    /* ── SPOTIFY ──────────────────────────────────────────────── */
-    .spotify-widget {
-      position:fixed; bottom:20px; right:20px; width:340px;
-      background:#1a1a1a; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,.6);
-      overflow:visible; padding:16px; z-index:900;
-      opacity:0; transform:translateY(10px); pointer-events:none;
-      transition:width .5s,right .5s,border-radius .5s,opacity .6s,transform .6s;
-    }
-    .spotify-widget.visible  { opacity:1; transform:translateY(0); pointer-events:auto; }
-    .spotify-widget.hidden   { right:-380px; opacity:0; }
-    .spotify-widget iframe   { width:100%; height:80px; border-radius:12px; display:block; border:none; }
-    #spotify-toggle {
-      position:absolute; top:50%; left:-16px; transform:translateY(-50%);
-      width:32px; height:32px; border-radius:50%; background:#222; color:#fff;
-      font-size:16px; display:flex; align-items:center; justify-content:center;
-      padding:0; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,.3);
-      z-index:1000; border:none; transition:transform .3s;
-    }
-    #spotify-toggle:hover { transform:translateY(-50%) scale(1.1); }
-    .spotify-widget.collapsed { width:40px; height:40px; padding:0; border-radius:50%; overflow:visible; }
-    .spotify-widget.collapsed iframe { opacity:0; pointer-events:none; display:none; }
-    .spotify-widget.collapsed #spotify-toggle { top:50%; left:50%; transform:translate(-50%,-50%) rotate(180deg); }
-
-    /* ── CONTENT ──────────────────────────────────────────────── */
-    .content { max-width:1100px; margin:0 auto; padding:0 20px 60px; text-align:center; }
-
-    /* ── HERO INTRO ───────────────────────────────────────────── */
-    .hero-intro { padding:36px 20px 26px; }
+    /* ── HERO ── */
+    .hero-intro { padding: 36px 20px 26px; }
     .hero-title {
-      font-family:'Cormorant Garamond',serif; font-size:62px; font-weight:700;
-      margin:0 0 12px; color:#f4f4f4; line-height:1.08;
-      display:flex; flex-wrap:wrap; justify-content:center; gap:0;
+      font-family: 'Cormorant Garamond', serif; font-size: 62px; font-weight: 700;
+      margin: 0 0 12px; color: var(--text-primary); line-height: 1.08;
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 0;
     }
-    .hero-letter { display:inline-block; opacity:0; transform:translateY(10px); animation:letterIn .9s ease forwards; }
-    .hero-space  { display:inline-block; width:.28em; }
+    .hero-letter { display: inline-block; opacity: 0; transform: translateY(10px); animation: letterIn .9s ease forwards; }
+    .hero-space  { display: inline-block; width: .28em; }
     @keyframes letterIn { 0%{opacity:0;transform:translateY(10px)} 100%{opacity:1;transform:translateY(0)} }
-    .hero-sub {
-      font-family:'Poppins',sans-serif; font-size:18px; color:#8fa4b2;
-      margin:0; letter-spacing:.06em; text-transform:uppercase;
-      opacity:0; animation:fadeUp .7s ease forwards;
-    }
-    .hero-dot { font-size:26px; color:var(--gold); vertical-align:middle; margin:0 10px; line-height:1; }
 
-    /* CTA — gold border appears on hover, background fades out */
-    .hero-cta {
-      display:inline-block; margin-top:20px; padding:10px 22px;
-      background:var(--gold); color:white;
-      font-family:'Poppins',sans-serif; font-size:15px; font-weight:400;
-      text-decoration:none; border-radius:25px;
-      border:1.5px solid var(--gold);
-      opacity:0; animation:fadeUp .7s ease forwards;
-      transition:background .3s ease, color .3s ease;
+    .hero-sub {
+      font-family: 'Poppins', sans-serif; font-size: 18px; color: #8fa4b2;
+      margin: 0; letter-spacing: .06em; text-transform: uppercase;
+      opacity: 0; animation: fadeUp .7s ease forwards;
     }
-    .hero-cta:hover { background:transparent; color:var(--gold); }
+    .hero-dot { font-size: 26px; color: var(--gold); vertical-align: middle; margin: 0 10px; line-height: 1; }
+
+    .hero-cta {
+      display: inline-block; margin-top: 20px; padding: 10px 22px;
+      background: var(--gold); color: white;
+      font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 400;
+      text-decoration: none; border-radius: 25px; border: 1.5px solid var(--gold);
+      opacity: 0; animation: fadeUp .7s ease forwards;
+      transition: background .3s ease, color .3s ease;
+    }
+    .hero-cta:hover { background: transparent; color: var(--gold); }
+
     @keyframes fadeUp { 0%{opacity:0;transform:translateY(6px)} 100%{opacity:1;transform:translateY(0)} }
 
-    /* ── SCROLL INDICATOR ─────────────────────────────────────── */
+    /* ── SCROLL INDICATORS ── */
     .scroll-indicator {
-      margin-top:18px;
-      opacity:0; animation:fadeUp .7s ease forwards;
-      transition:opacity .5s ease;
+      margin-top: 18px; opacity: 0; animation: fadeUp .7s ease forwards;
+      transition: opacity .5s ease;
     }
-    .scroll-indicator.hidden { opacity:0 !important; pointer-events:none; }
+    .scroll-indicator.hidden { opacity: 0 !important; pointer-events: none; }
+    .scroll-indicator-2 {
+      margin-top: 32px; margin-bottom: 8px;
+      opacity: 0; transform: translateY(6px);
+      animation: none !important;
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .scroll-indicator-2.visible { opacity: 1; transform: translateY(0); }
     .scroll-chevron {
-      display:inline-block;
-      color:rgba(194,164,109,0.55);
-      font-size:26px;
-      animation:chevronBounce 1.8s ease-in-out infinite;
-      line-height:1;
+      display: inline-block; color: rgba(194,164,109,0.55); font-size: 26px;
+      animation: chevronBounce 1.8s ease-in-out infinite; line-height: 1;
     }
     @keyframes chevronBounce {
-      0%,100% { transform:translateY(0); opacity:0.55; }
-      50%      { transform:translateY(6px); opacity:0.9; }
+      0%,100% { transform: translateY(0); opacity: .55; }
+      50%      { transform: translateY(6px); opacity: .9; }
     }
 
-    /* ── CAROUSEL — starts invisible, JS fades in ─────────────── */
+    /* ── CAROUSEL ── */
     .hero-carousel {
-      width:100%; margin:34px 0 16px; user-select:none;
-      opacity:0; transform:translateY(16px);
-      transition:opacity .8s ease,transform .8s ease;
+      width: 100%; margin: 34px 0 16px; user-select: none;
+      opacity: 0; transform: translateY(16px);
+      transition: opacity .8s ease, transform .8s ease;
     }
-    .hero-carousel.visible { opacity:1; transform:translateY(0); }
+    .hero-carousel.visible { opacity: 1; transform: translateY(0); }
 
-    .carousel-area { display:flex; align-items:center; width:100%; max-width:1300px; margin:0 auto; }
+    .carousel-area { display: flex; align-items: center; width: 100%; max-width: 1300px; margin: 0 auto; }
     .carousel-arrow {
-      flex-shrink:0; width:54px; background:none; border:none;
-      color:rgba(255,255,255,.55); font-size:48px; line-height:1;
-      cursor:pointer; padding:0; display:flex; align-items:center; justify-content:center;
-      transition:color .2s,transform .2s;
+      flex-shrink: 0; width: 54px; background: none; border: none;
+      color: rgba(255,255,255,.55); font-size: 48px; line-height: 1;
+      cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center;
+      transition: color .2s, transform .2s;
     }
-    .carousel-arrow:hover { color:#fff; transform:scale(1.30); }
+    .carousel-arrow:hover { color: #fff; transform: scale(1.30); }
 
-    /* overflow:hidden + border-radius gives peeking slides soft curved edges.
-       padding-top gives room above the active slide for the gold border and SVG sweep. */
-    .carousel-clip { flex:1; position:relative; overflow:hidden; border-radius:14px; padding-top:8px; }
-    .carousel-track { position:relative; width:100%; }
+    .carousel-clip { flex: 1; position: relative; overflow: hidden; border-radius: 14px; padding-top: 8px; }
+    .carousel-track { position: relative; width: 100%; }
 
-    /* FLASH FIX: opacity:0 in CSS — browser never paints slides before JS */
     .carousel-slide {
-      position:absolute; top:0; opacity:0;
-      transition:left .62s cubic-bezier(.4,0,.2,1),
-                 transform .62s cubic-bezier(.4,0,.2,1),
-                 opacity .5s ease;
+      position: absolute; top: 0; opacity: 0;
+      transition: left .62s cubic-bezier(.4,0,.2,1),
+                  transform .62s cubic-bezier(.4,0,.2,1),
+                  opacity .5s ease;
     }
-    .carousel-slide.c-active { cursor:pointer; }
+    .carousel-slide.c-active { cursor: pointer; }
 
-    /* ── SWEEP FIX: two-wrapper structure ────────────────────────
-       .slide-border-wrap  — outer; holds the sweep ::before at z-index:0
-       .slide-img-wrap     — inner; overflow:hidden at z-index:1
-       The image physically covers the center so the sweep is only
-       ever visible in the ~2px border ring. No masking needed.
-    ── */
-    .slide-border-wrap {
-      position:relative;
-      border-radius:12px;
-      /* Breathing static glow — only on active slide, set below */
-    }
-
-    /* Static gold outline + soft glow — always on active slide */
+    .slide-border-wrap { position: relative; border-radius: 12px; }
     .carousel-slide.c-active .slide-border-wrap {
-      box-shadow:
-        0 0 0 1.5px var(--gold),
-        0 0 14px 4px var(--gold-dim),
-        0 18px 48px rgba(0,0,0,.50);
+      box-shadow: 0 0 0 1.5px var(--gold), 0 0 14px 4px var(--gold-dim), 0 18px 48px rgba(0,0,0,.50);
     }
-
-    /* Inner image wrapper */
-    .slide-img-wrap {
-      overflow:hidden; border-radius:12px;
-      position:relative; z-index:1; box-shadow:none;
-    }
-
-    /* Non-active slides keep their own shadow */
+    .slide-img-wrap { overflow: hidden; border-radius: 12px; position: relative; z-index: 1; }
     .carousel-slide.c-prev .slide-border-wrap,
     .carousel-slide.c-next .slide-border-wrap,
-    .carousel-slide.c-far  .slide-border-wrap {
-      box-shadow:0 18px 48px rgba(0,0,0,.50);
-    }
-
-    /* SVG sweep injected by JS */
-    .sweep-svg { transition:opacity .8s ease; }
-
+    .carousel-slide.c-far  .slide-border-wrap { box-shadow: 0 18px 48px rgba(0,0,0,.50); }
+    .sweep-svg { transition: opacity .8s ease; }
     .slide-img-wrap img {
-      width:100%; height:auto; display:block; border-radius:12px;
-      transition:transform .42s ease,filter .3s ease;
-      -webkit-user-drag:none; user-select:none; pointer-events:none;
+      width: 100%; height: auto; display: block; border-radius: 12px;
+      transition: transform .42s ease, filter .3s ease;
+      -webkit-user-drag: none; user-select: none; pointer-events: none;
     }
-
-    /* Active slide hover: intensify glow + zoom */
     .carousel-slide.c-active:hover .slide-border-wrap,
     .carousel-slide.c-active.tapped .slide-border-wrap {
-      box-shadow:
-        0 0 0 1.5px var(--gold),
-        0 0 22px 8px var(--gold-glow),
-        0 24px 60px rgba(0,0,0,.60);
+      box-shadow: 0 0 0 1.5px var(--gold), 0 0 22px 8px var(--gold-glow), 0 24px 60px rgba(0,0,0,.60);
     }
     .carousel-slide.c-active:hover .slide-img-wrap img,
-    .carousel-slide.c-active.tapped .slide-img-wrap img {
-      transform:scale(1.055);
-      filter:brightness(1.09);
-    }
-    /* Hide sweep on hover — static glow takes over */
+    .carousel-slide.c-active.tapped .slide-img-wrap img { transform: scale(1.055); filter: brightness(1.09); }
     .carousel-slide.c-active:hover .slide-border-wrap::before,
-    .carousel-slide.c-active.tapped .slide-border-wrap::before {
-      opacity:0 !important;
-      animation-play-state:paused;
-    }
-
-    /* Side slides: subtle hover lift */
+    .carousel-slide.c-active.tapped .slide-border-wrap::before { opacity: 0 !important; animation-play-state: paused; }
     .carousel-slide.c-prev:hover,
-    .carousel-slide.c-next:hover { opacity:.88 !important; cursor:pointer; }
+    .carousel-slide.c-next:hover { opacity: .88 !important; cursor: pointer; }
     .carousel-slide.c-prev:hover .slide-img-wrap img,
-    .carousel-slide.c-next:hover .slide-img-wrap img { transform:scale(1.03); filter:brightness(1.06); }
+    .carousel-slide.c-next:hover .slide-img-wrap img { transform: scale(1.03); filter: brightness(1.06); }
 
-    /* ── Slide title ──────────────────────────────────────────── */
     .slide-title {
-      margin:13px 0 0;
-      font-family:'Poppins',sans-serif; font-size:14px; font-weight:500;
-      color:#c0cdd5; text-align:center; letter-spacing:.025em;
-      transition:color .3s ease, font-size .3s ease;
+      margin: 13px 0 0; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500;
+      color: #c0cdd5; text-align: center; letter-spacing: .025em;
+      transition: color .3s ease, font-size .3s ease;
     }
     .carousel-slide.c-prev .slide-title,
     .carousel-slide.c-next .slide-title,
-    .carousel-slide.c-far  .slide-title { visibility:hidden; }
+    .carousel-slide.c-far  .slide-title { visibility: hidden; }
     .carousel-slide.c-active:hover .slide-title,
-    .carousel-slide.c-active.tapped .slide-title {
-      color:var(--gold) !important;
-      font-weight:700 !important;
-      font-size:15px !important;
-    }
+    .carousel-slide.c-active.tapped .slide-title { color: var(--gold) !important; font-weight: 700 !important; font-size: 15px !important; }
 
-    /* ── "View Project →" hover CTA ──────────────────────────── */
     .slide-view-cta {
-      margin:7px 0 0;
-      font-family:'Poppins',sans-serif; font-size:11px; font-weight:500;
-      letter-spacing:.10em; text-transform:uppercase;
-      color:var(--gold);
-      opacity:0; transform:translateY(4px);
-      transition:opacity .3s ease, transform .3s ease;
+      margin: 7px 0 0; font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 500;
+      letter-spacing: .10em; text-transform: uppercase; color: var(--gold);
+      opacity: 0; transform: translateY(4px);
+      transition: opacity .3s ease, transform .3s ease;
     }
     .carousel-slide.c-prev .slide-view-cta,
     .carousel-slide.c-next .slide-view-cta,
-    .carousel-slide.c-far  .slide-view-cta { display:none; }
+    .carousel-slide.c-far  .slide-view-cta { display: none; }
     .carousel-slide.c-active:hover .slide-view-cta,
-    .carousel-slide.c-active.tapped .slide-view-cta {
-      opacity:1;
-      transform:translateY(0);
-    }
+    .carousel-slide.c-active.tapped .slide-view-cta { opacity: 1; transform: translateY(0); }
 
-    /* ── Dots — dark pill with morphing indicator ─────────────── */
-    .carousel-dots-row {
-      display:flex; justify-content:center;
-      margin-top:22px; position:relative; z-index:30;
-    }
+    /* ── DOTS ── */
+    .carousel-dots-row { display: flex; justify-content: center; margin-top: 22px; position: relative; z-index: 30; }
     .carousel-dots-pill {
-      display:inline-flex; align-items:center; gap:12px;
-      background:rgba(22,28,34,0.78);
-      border-radius:40px;
-      padding:9px 18px;
-      position:relative;
+      display: inline-flex; align-items: center; gap: 12px;
+      background: rgba(22,28,34,0.78); border-radius: 40px; padding: 9px 18px; position: relative;
     }
-    .dot {
-      width:8px; height:8px; border-radius:50%;
-      background:rgba(255,255,255,.22);
-      cursor:pointer; border:none; padding:0; flex-shrink:0;
-      position:relative; z-index:1;
-    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.22); cursor: pointer; border: none; padding: 0; flex-shrink: 0; position: relative; z-index: 1; }
     .dot-indicator {
-      position:absolute; top:50%; height:8px;
-      transform:translateY(-50%);
-      background:var(--gold); border-radius:50%;
-      pointer-events:none; z-index:2;
-      box-shadow:0 0 8px 2px rgba(194,164,109,.38);
+      position: absolute; top: 50%; height: 8px; transform: translateY(-50%);
+      background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 2;
+      box-shadow: 0 0 8px 2px rgba(194,164,109,.38);
     }
 
-    /* Second scroll indicator — between carousel and learnings */
-    .scroll-indicator-2 {
-      margin-top:32px; margin-bottom:8px;
-      opacity:0; transform:translateY(6px);
-      /* Override the fadeUp animation inherited from .scroll-indicator */
-      animation:none !important;
-      transition:opacity .7s ease, transform .7s ease;
-    }
-    .scroll-indicator-2.visible { opacity:1; transform:translateY(0); }
-
-    /* ── MY LEARNINGS — scroll-triggered ─────────────────────── */
+    /* ── LEARNINGS ── */
     .learnings-section {
-      max-width:900px; margin:64px auto 20px; text-align:left;
-      opacity:0; transform:translateY(20px);
-      transition:opacity .7s ease,transform .7s ease;
+      max-width: 900px; margin: 64px auto 20px; text-align: left;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity .7s ease, transform .7s ease;
     }
-    .learnings-section.visible { opacity:1; transform:translateY(0); }
-    .learnings-section h2 { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:600; color:#f4f4f4; text-align:center; margin-bottom:20px; }
-    .learnings-box { background:#2e3740; padding:28px 36px; border-radius:12px; }
-    .learnings-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:20px; }
-    .learnings-list li { display:flex; align-items:flex-start; gap:14px; font-family:'Poppins',sans-serif; font-size:16px; line-height:1.65; color:#e0e0e0; }
-    .learning-emoji { font-size:22px; flex-shrink:0; margin-top:2px; }
-    .learning-body  { display:flex; flex-direction:column; gap:4px; }
-    .learning-hook   { font-weight:700; color:#f4f4f4; font-size:16px; line-height:1.4; }
-    .learning-detail { font-weight:400; color:#c0cdd5; font-size:15px; line-height:1.7; }
+    .learnings-section.visible { opacity: 1; transform: translateY(0); }
+    .learnings-section h2 { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 600; color: var(--text-primary); text-align: center; margin-bottom: 20px; }
+    .learnings-box { background: var(--card-bg); padding: 28px 36px; border-radius: 12px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid transparent; transition: background .3s ease, border-color .3s ease; }
+    [data-theme="light"] .learnings-box { border-color: rgba(255,255,255,0.6); box-shadow: 0 4px 24px rgba(100,140,160,.10); }
+    .learnings-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 20px; }
+    .learnings-list li { display: flex; align-items: flex-start; gap: 14px; font-family: 'Poppins', sans-serif; font-size: 16px; line-height: 1.65; color: var(--text-primary); }
+    .learning-emoji { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+    .learning-body  { display: flex; flex-direction: column; gap: 4px; }
+    .learning-hook   { font-weight: 700; color: var(--text-primary); font-size: 16px; line-height: 1.4; }
+    .learning-detail { font-weight: 400; color: var(--text-card-sub); font-size: 15px; line-height: 1.7; }
 
-    /* ── MOBILE ───────────────────────────────────────────────── */
-    @media (max-width:768px) {
-      .logo-link .logo { display:none; }
-      .hero-title      { font-size:44px; }
-      .hero-sub        { font-size:13px; }
-      .hero-intro      { padding:26px 16px 20px; }
-      .carousel-arrow  { width:34px; font-size:28px; }
-      .learnings-box   { padding:22px 18px; }
-      .learning-hook   { font-size:14px; }
-      .learning-detail { font-size:13px; }
+    @media (max-width: 768px) {
+      .hero-title     { font-size: 44px; }
+      .hero-sub       { font-size: 13px; }
+      .hero-intro     { padding: 26px 16px 20px; }
+      .carousel-arrow { width: 34px; font-size: 28px; }
+      .learnings-box  { padding: 22px 18px; }
+      .learning-hook  { font-size: 14px; }
+      .learning-detail { font-size: 13px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="sidebar" id="sidebar">
-    <a href="/">Home</a>
-    <a href="/projects.html">Projects</a>
-    <a href="/about.html">About</a>
-    <a href="/contact.html">Contact</a>
-  </div>
-  <div class="overlay" id="overlay"></div>
-
-  <div class="navbar" id="navbar">
-    <div class="nav-left">
-      <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
-      <a href="/" class="logo-link">
-        <img src="/assets/logos/personal/CRP_logo_white.png" alt="Logo" class="logo-img">
-        <div class="logo">Chase Pittman | Portfolio</div>
-      </a>
-    </div>
-    <div class="nav-right">
-      <a href="https://www.linkedin.com/in/chasepittman" target="_blank"><img src="/assets/logos/tools/linkedin.png" alt="LinkedIn"></a>
-      <a href="https://www.credly.com/users/chase-pittman.017d3434/badges#credly" target="_blank"><img src="/assets/logos/skills/credly.png" alt="Credly"></a>
-      <a href="https://www.github.com/chasepittman" target="_blank"><img src="/assets/logos/tools/github.png" alt="GitHub"></a>
-      <a href="/contact.html"><img src="/assets/logos/tools/gmail.png" alt="Contact Form"></a>
-    </div>
-  </div>
-
-  <div class="spotify-widget hidden" id="spotify-widget">
-    <iframe src="https://open.spotify.com/embed/album/3vhOUOy05eeQwq6EtxwnVW?utm_source=generator"
-      frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-    <button id="spotify-toggle" aria-label="Toggle Spotify Player">&#9654;</button>
-  </div>
+  <div id="sidebar-placeholder"></div>
+  <div id="navbar-placeholder"></div>
 
   <div class="page-wrapper" id="page-wrapper">
     <div class="content">
 
-      <!-- HERO INTRO -->
       <div class="hero-intro">
         <h1 class="hero-title" id="hero-title">Hi, I'm Chase</h1>
         <p class="hero-sub" id="hero-sub">
@@ -401,7 +229,6 @@
         </div>
       </div>
 
-      <!-- CAROUSEL -->
       <section class="hero-carousel" id="hero-carousel">
         <div class="carousel-area">
           <button class="carousel-arrow" id="carousel-prev" aria-label="Previous slide">&#10094;</button>
@@ -442,18 +269,15 @@
           </div>
           <button class="carousel-arrow" id="carousel-next" aria-label="Next slide">&#10095;</button>
         </div>
-
         <div class="carousel-dots-row">
           <div class="carousel-dots-pill" id="carousel-dots"></div>
         </div>
       </section>
 
-      <!-- SCROLL INDICATOR 2: between carousel and learnings -->
       <div class="scroll-indicator scroll-indicator-2" id="scroll-indicator-2">
         <span class="scroll-chevron">&#8964;</span>
       </div>
 
-      <!-- MY LEARNINGS -->
       <div class="learnings-section" id="learnings-section">
         <h2>My Learnings</h2>
         <div class="learnings-box">
@@ -486,78 +310,57 @@
     </div>
   </div>
 
+  <div id="theme-toggle-placeholder"></div>
+  <div id="spotify-placeholder"></div>
+
+  <script src="/js/components.js"></script>
+
   <script>
   document.addEventListener('DOMContentLoaded', () => {
 
-    // ── Hero letter animation ──────────────────────────────────
-    const titleEl  = document.getElementById('hero-title');
-    const subEl    = document.getElementById('hero-sub');
-    const ctaEl    = document.getElementById('hero-cta');
+    const titleEl   = document.getElementById('hero-title');
+    const subEl     = document.getElementById('hero-sub');
+    const ctaEl     = document.getElementById('hero-cta');
     const scrollEl  = document.getElementById('scroll-indicator');
     const scrollEl2 = document.getElementById('scroll-indicator-2');
 
-    // First chevron: scrolls so the carousel is centered in the viewport
     scrollEl.addEventListener('click', () => {
       const carousel = document.getElementById('hero-carousel');
-      const carouselRect = carousel.getBoundingClientRect();
-      const carouselCenter = carouselRect.top + window.scrollY + carouselRect.height / 2;
-      const targetY = carouselCenter - window.innerHeight / 2;
-      window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+      const rect = carousel.getBoundingClientRect();
+      const center = rect.top + window.scrollY + rect.height / 2;
+      window.scrollTo({ top: Math.max(0, center - window.innerHeight / 2), behavior: 'smooth' });
     });
-
-    // Second chevron: scrolls to My Learnings
     scrollEl2.addEventListener('click', () => {
-      document.getElementById('learnings-section')
-        .scrollIntoView({ behavior:'smooth', block:'start' });
+      document.getElementById('learnings-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
-    const raw      = titleEl.textContent;
-    const LD = 0.11, LDur = 0.9;
 
+    const raw = titleEl.textContent;
+    const LD = 0.11, LDur = 0.9;
     titleEl.textContent = '';
     let spanCount = 0;
     raw.split('').forEach(char => {
       if (char === ' ') {
-        const s = document.createElement('span');
-        s.classList.add('hero-space');
-        s.setAttribute('aria-hidden','true');
-        titleEl.appendChild(s);
+        const s = document.createElement('span'); s.classList.add('hero-space'); s.setAttribute('aria-hidden','true'); titleEl.appendChild(s);
       } else {
-        const s = document.createElement('span');
-        s.classList.add('hero-letter');
-        s.textContent = char;
-        s.style.animationDelay = `${spanCount * LD}s`;
-        titleEl.appendChild(s);
-        spanCount++;
+        const s = document.createElement('span'); s.classList.add('hero-letter'); s.textContent = char; s.style.animationDelay = `${spanCount * LD}s`; titleEl.appendChild(s); spanCount++;
       }
     });
 
-    // Timing anchors (seconds)
     const subDelay      = spanCount * LD + LDur;
     const ctaDelay      = subDelay + 0.45;
     const scrollDelay   = ctaDelay + 0.55;
     const carouselDelay = ctaDelay + 0.65;
-    const spotifyDelay  = carouselDelay + 1.0;
 
     subEl.style.animationDelay    = `${subDelay}s`;
     ctaEl.style.animationDelay    = `${ctaDelay}s`;
     scrollEl.style.animationDelay = `${scrollDelay}s`;
 
-    // Hide scroll indicator on first scroll
     let scrollHidden = false;
     window.addEventListener('scroll', () => {
-      if (!scrollHidden && window.scrollY > 30) {
-        scrollHidden = true;
-        scrollEl.classList.add('hidden');
-      }
-    }, { passive:true });
+      if (!scrollHidden && window.scrollY > 30) { scrollHidden = true; scrollEl.classList.add('hidden'); }
+    }, { passive: true });
 
-    // ── Navbar scroll behavior ─────────────────────────────────
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 20);
-    }, { passive:true });
-
-    // ── Carousel setup ─────────────────────────────────────────
+    // ── Carousel ──────────────────────────────────────────────
     const carouselEl    = document.getElementById('hero-carousel');
     const clip          = document.getElementById('carousel-clip');
     const track         = document.getElementById('carousel-track');
@@ -571,378 +374,104 @@
     const AUTO_MS = 6000, RESUME_MS = 3000;
     const PEEK_RATIO = 0.10, SIDE_SCALE = 0.86;
 
-    // Build dots + morphing indicator
     slides.forEach((_, i) => {
-      const dot = document.createElement('button');
-      dot.classList.add('dot');
-      dot.setAttribute('aria-label', `Slide ${i+1}`);
-      dot.addEventListener('click', () => goToSlide(i));
-      dotsContainer.appendChild(dot);
+      const dot = document.createElement('button'); dot.classList.add('dot'); dot.setAttribute('aria-label', `Slide ${i+1}`);
+      dot.addEventListener('click', () => goToSlide(i)); dotsContainer.appendChild(dot);
     });
     const dots = Array.from(dotsContainer.querySelectorAll('.dot'));
-
-    const indicator = document.createElement('span');
-    indicator.className = 'dot-indicator';
-    dotsContainer.appendChild(indicator);
+    const indicator = document.createElement('span'); indicator.className = 'dot-indicator'; dotsContainer.appendChild(indicator);
     let indicatorIdx = 0;
 
     function snapIndicator(idx) {
-      const d = dots[idx];
-      if (!d) return;
-      indicator.style.transition  = 'none';
-      indicator.style.left        = d.offsetLeft + 'px';
-      indicator.style.width       = d.offsetWidth + 'px';
-      indicator.style.borderRadius = '50%';
-      void indicator.offsetWidth;
+      const d = dots[idx]; if (!d) return;
+      indicator.style.transition = 'none'; indicator.style.left = d.offsetLeft + 'px'; indicator.style.width = d.offsetWidth + 'px'; indicator.style.borderRadius = '50%'; void indicator.offsetWidth;
     }
-
     function morphIndicator(toIdx) {
-      const fromDot = dots[indicatorIdx];
-      const toDot   = dots[toIdx];
-      if (!fromDot || !toDot || indicatorIdx === toIdx) {
-        snapIndicator(toIdx); indicatorIdx = toIdx; return;
-      }
-      const fromL = fromDot.offsetLeft;
-      const toL   = toDot.offsetLeft;
-      const dSize = toDot.offsetWidth;
-      // Phase 1: stretch to bridge both dots
-      indicator.style.transition  = 'left .17s ease-in,width .17s ease-in,border-radius .12s ease-in';
-      indicator.style.left        = Math.min(fromL,toL) + 'px';
-      indicator.style.width       = (Math.abs(toL-fromL) + dSize) + 'px';
-      indicator.style.borderRadius = (dSize/2) + 'px';
-      // Phase 2: contract to circle at new dot
-      setTimeout(() => {
-        indicator.style.transition  = 'left .17s ease-out,width .17s ease-out,border-radius .17s ease-out';
-        indicator.style.left        = toL + 'px';
-        indicator.style.width       = dSize + 'px';
-        indicator.style.borderRadius = '50%';
-        indicatorIdx = toIdx;
-      }, 170);
+      const fromDot = dots[indicatorIdx], toDot = dots[toIdx];
+      if (!fromDot || !toDot || indicatorIdx === toIdx) { snapIndicator(toIdx); indicatorIdx = toIdx; return; }
+      const fromL = fromDot.offsetLeft, toL = toDot.offsetLeft, dSize = toDot.offsetWidth;
+      indicator.style.transition = 'left .17s ease-in,width .17s ease-in,border-radius .12s ease-in';
+      indicator.style.left = Math.min(fromL,toL) + 'px'; indicator.style.width = (Math.abs(toL-fromL) + dSize) + 'px'; indicator.style.borderRadius = (dSize/2) + 'px';
+      setTimeout(() => { indicator.style.transition = 'left .17s ease-out,width .17s ease-out,border-radius .17s ease-out'; indicator.style.left = toL + 'px'; indicator.style.width = dSize + 'px'; indicator.style.borderRadius = '50%'; indicatorIdx = toIdx; }, 170);
     }
 
-    // ── SVG border sweep ───────────────────────────────────────
-    // Injects an absolutely-positioned SVG over .slide-border-wrap.
-    // Uses stroke-dashoffset animation on a <rect> — the SVG stroke
-    // draws ONLY the border line (fill:none), so slide content is
-    // never touched regardless of z-index or overflow.
-    // Three layered arcs (outer glow → mid → sharp) travel once
-    // around the perimeter, then the SVG fades out.
     function triggerSweep(slide) {
-      // Remove any existing sweep first
       slide.querySelectorAll('.sweep-svg').forEach(s => s.remove());
-
-      // Re-apply c-active (needed if called from goToSlide)
-      slide.classList.remove('c-active');
-      void slide.offsetWidth;
-      slide.classList.add('c-active');
-
-      const borderWrap = slide.querySelector('.slide-border-wrap');
-      const imgWrap    = slide.querySelector('.slide-img-wrap');
+      slide.classList.remove('c-active'); void slide.offsetWidth; slide.classList.add('c-active');
+      const borderWrap = slide.querySelector('.slide-border-wrap'), imgWrap = slide.querySelector('.slide-img-wrap');
       if (!borderWrap || !imgWrap) return;
-
       const doInject = () => {
-        const w = imgWrap.offsetWidth;
-        const h = imgWrap.offsetHeight;
-        if (!w || !h) {
-          // Images not yet laid out — retry once they load
-          const img = imgWrap.querySelector('img');
-          if (img && !img.complete) { img.addEventListener('load', doInject, {once:true}); }
-          return;
-        }
-
-        const r     = 12;  // matches border-radius on .slide-img-wrap
-        const perim = 2*(w - 2*r) + 2*(h - 2*r) + 2*Math.PI*r;
-        const arc   = Math.round(perim * 0.12); // ~12% = nice travelling point of light
-        const DUR   = 4.5; // seconds
-        const NS    = 'http://www.w3.org/2000/svg';
-
-        const svg = document.createElementNS(NS, 'svg');
-        svg.classList.add('sweep-svg');
-        svg.setAttribute('width',  w + 10);
-        svg.setAttribute('height', h + 10);
-        // Positioned so the rect stroke sits exactly on the image border
-        svg.style.cssText = 'position:absolute;top:-5px;left:-5px;pointer-events:none;z-index:6;overflow:visible;';
-
-        // Helper: create one travelling-arc <rect>
-        // stroke-dasharray: arc visible, then gap of 2×perim (only one arc ever visible)
-        // stroke-dashoffset: start at +perim (arc before path start = invisible)
-        //                    end at  -perim (arc past path end   = invisible)
-        // → arc appears at path start, sweeps fully around, disappears off the end
-        const makeArc = (sw, stroke, opacity) => {
-          const rect = document.createElementNS(NS, 'rect');
-          rect.setAttribute('x', 5);
-          rect.setAttribute('y', 5);
-          rect.setAttribute('width',  w);
-          rect.setAttribute('height', h);
-          rect.setAttribute('rx', r);
-          rect.setAttribute('ry', r);
-          rect.setAttribute('fill',            'none');
-          rect.setAttribute('stroke',          stroke);
-          rect.setAttribute('stroke-width',    sw);
-          rect.setAttribute('stroke-linecap',  'round');
-          rect.setAttribute('stroke-dasharray', `${arc} ${perim * 2}`);
-          rect.setAttribute('stroke-dashoffset', perim);
-          rect.setAttribute('opacity', opacity);
-
-          const anim = document.createElementNS(NS, 'animate');
-          anim.setAttribute('attributeName',   'stroke-dashoffset');
-          anim.setAttribute('from',            perim);
-          anim.setAttribute('to',              -perim);
-          anim.setAttribute('dur',             `${DUR}s`);
-          anim.setAttribute('calcMode',        'spline');
-          anim.setAttribute('keySplines',      '0.3 0 0.7 1'); // ease-in-out
-          anim.setAttribute('fill',            'freeze');
-          rect.appendChild(anim);
-          return rect;
-        };
-
-        // Layer 1 — wide soft outer glow
-        svg.appendChild(makeArc(10, '#c2a46d', '0.18'));
-        // Layer 2 — medium mid-glow
-        svg.appendChild(makeArc(4,  '#d4b678', '0.55'));
-        // Layer 3 — sharp bright centerline
-        svg.appendChild(makeArc(1.5,'#f5dfa0', '1.00'));
-
-        borderWrap.appendChild(svg);
-
-        // Fade out once the animation completes
-        setTimeout(() => {
-          svg.style.opacity = '0';
-          setTimeout(() => svg.remove(), 900);
-        }, DUR * 1000);
+        const w = imgWrap.offsetWidth, h = imgWrap.offsetHeight;
+        if (!w || !h) { const img = imgWrap.querySelector('img'); if (img && !img.complete) { img.addEventListener('load', doInject, {once:true}); } return; }
+        const r = 12, perim = 2*(w-2*r) + 2*(h-2*r) + 2*Math.PI*r, arc = Math.round(perim*.12), DUR = 4.5, NS = 'http://www.w3.org/2000/svg';
+        const svg = document.createElementNS(NS,'svg'); svg.classList.add('sweep-svg'); svg.setAttribute('width',w+10); svg.setAttribute('height',h+10); svg.style.cssText='position:absolute;top:-5px;left:-5px;pointer-events:none;z-index:6;overflow:visible;';
+        const makeArc = (sw,stroke,opacity) => { const rect=document.createElementNS(NS,'rect'); rect.setAttribute('x',5);rect.setAttribute('y',5);rect.setAttribute('width',w);rect.setAttribute('height',h);rect.setAttribute('rx',r);rect.setAttribute('ry',r);rect.setAttribute('fill','none');rect.setAttribute('stroke',stroke);rect.setAttribute('stroke-width',sw);rect.setAttribute('stroke-linecap','round');rect.setAttribute('stroke-dasharray',`${arc} ${perim*2}`);rect.setAttribute('stroke-dashoffset',perim);rect.setAttribute('opacity',opacity);const anim=document.createElementNS(NS,'animate');anim.setAttribute('attributeName','stroke-dashoffset');anim.setAttribute('from',perim);anim.setAttribute('to',-perim);anim.setAttribute('dur',`${DUR}s`);anim.setAttribute('calcMode','spline');anim.setAttribute('keySplines','0.3 0 0.7 1');anim.setAttribute('fill','freeze');rect.appendChild(anim);return rect; };
+        svg.appendChild(makeArc(10,'#c2a46d','0.18')); svg.appendChild(makeArc(4,'#d4b678','0.55')); svg.appendChild(makeArc(1.5,'#f5dfa0','1.00'));
+        borderWrap.appendChild(svg); setTimeout(() => { svg.style.opacity='0'; setTimeout(()=>svg.remove(),900); }, DUR*1000);
       };
-
       requestAnimationFrame(doInject);
     }
 
-    // ── applyPositions ─────────────────────────────────────────
     function applyPositions(animated, sweep) {
-      const clipW  = clip.offsetWidth;
-      const peekPx = Math.round(clipW * PEEK_RATIO);
-      const slideW = clipW - 2 * peekPx;
-      const trans  = 'left .62s cubic-bezier(.4,0,.2,1),transform .62s cubic-bezier(.4,0,.2,1),opacity .5s ease';
-
-      slides.forEach((slide, i) => {
-        slide.style.transition = animated ? trans : 'none';
-        slide.style.width = slideW + 'px';
-        const wasActive = slide.classList.contains('c-active');
-        slide.classList.remove('c-active','c-prev','c-next','c-far');
-        const diff = ((i - current) + N) % N;
-
-        if (diff === 0) {
-          slide.style.left            = peekPx + 'px';
-          slide.style.transform       = 'scale(1)';
-          slide.style.transformOrigin = 'center center';
-          slide.style.zIndex          = '3';
-          slide.style.opacity         = '1';
-          if (sweep && !wasActive) triggerSweep(slide);
-          else slide.classList.add('c-active');
-
-        } else if (diff === N - 1) {
-          // Prev: left edge anchored at 0 — shows the LEFT side of the card peeking
-          slide.style.left            = '0px';
-          slide.style.transform       = `scale(${SIDE_SCALE})`;
-          slide.style.transformOrigin = 'left center';
-          slide.style.zIndex          = '2';
-          slide.style.opacity         = '0.70';
-          slide.classList.add('c-prev');
-
-        } else if (diff === 1) {
-          // Next: right edge anchored at clipW — shows the RIGHT side of the card peeking
-          slide.style.left            = (clipW - slideW) + 'px';
-          slide.style.transform       = `scale(${SIDE_SCALE})`;
-          slide.style.transformOrigin = 'right center';
-          slide.style.zIndex          = '2';
-          slide.style.opacity         = '0.70';
-          slide.classList.add('c-next');
-
-        } else {
-          const goRight = diff <= Math.floor(N / 2);
-          slide.style.left            = (goRight ? clipW + slideW : -2 * slideW) + 'px';
-          slide.style.transform       = `scale(${SIDE_SCALE})`;
-          slide.style.transformOrigin = 'center center';
-          slide.style.zIndex          = '1';
-          slide.style.opacity         = '0';
-          slide.classList.add('c-far');
-        }
+      const clipW = clip.offsetWidth, peekPx = Math.round(clipW*PEEK_RATIO), slideW = clipW-2*peekPx;
+      const trans = 'left .62s cubic-bezier(.4,0,.2,1),transform .62s cubic-bezier(.4,0,.2,1),opacity .5s ease';
+      slides.forEach((slide,i) => {
+        slide.style.transition = animated ? trans : 'none'; slide.style.width = slideW+'px';
+        const wasActive = slide.classList.contains('c-active'); slide.classList.remove('c-active','c-prev','c-next','c-far');
+        const diff = ((i-current)+N)%N;
+        if (diff===0) { slide.style.left=peekPx+'px'; slide.style.transform='scale(1)'; slide.style.transformOrigin='center center'; slide.style.zIndex='3'; slide.style.opacity='1'; if(sweep&&!wasActive) triggerSweep(slide); else slide.classList.add('c-active'); }
+        else if (diff===N-1) { slide.style.left='0px'; slide.style.transform=`scale(${SIDE_SCALE})`; slide.style.transformOrigin='left center'; slide.style.zIndex='2'; slide.style.opacity='0.70'; slide.classList.add('c-prev'); }
+        else if (diff===1) { slide.style.left=(clipW-slideW)+'px'; slide.style.transform=`scale(${SIDE_SCALE})`; slide.style.transformOrigin='right center'; slide.style.zIndex='2'; slide.style.opacity='0.70'; slide.classList.add('c-next'); }
+        else { const goRight=diff<=Math.floor(N/2); slide.style.left=(goRight?clipW+slideW:-2*slideW)+'px'; slide.style.transform=`scale(${SIDE_SCALE})`; slide.style.transformOrigin='center center'; slide.style.zIndex='1'; slide.style.opacity='0'; slide.classList.add('c-far'); }
       });
-
-      if (!animated) requestAnimationFrame(() => slides.forEach(s => { s.style.transition = trans; }));
+      if (!animated) requestAnimationFrame(()=>slides.forEach(s=>{s.style.transition=trans;}));
       updateTrackHeight();
     }
+    function updateTrackHeight() { const a=slides[current]; if(a&&a.offsetHeight>0) track.style.height=a.offsetHeight+'px'; }
+    function goToSlide(index) { const prev=current; current=((index%N)+N)%N; applyPositions(true,true); if(prev!==current) morphIndicator(current); resetAuto(); }
+    prevBtn.addEventListener('click',()=>goToSlide(current-1));
+    nextBtn.addEventListener('click',()=>goToSlide(current+1));
+    document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')goToSlide(current-1);if(e.key==='ArrowRight')goToSlide(current+1);});
 
-    function updateTrackHeight() {
-      const a = slides[current];
-      if (a && a.offsetHeight > 0) track.style.height = a.offsetHeight + 'px';
-    }
+    let dotsDragStartX=0,dotsDragging=false,dotsDragFired=false;
+    const dotsOnStart=(x)=>{dotsDragStartX=x;dotsDragging=true;dotsDragFired=false;};
+    const dotsOnEnd=(x)=>{if(!dotsDragging)return;dotsDragging=false;const dx=x-dotsDragStartX;if(Math.abs(dx)>30&&!dotsDragFired){dotsDragFired=true;goToSlide(dx<0?current+1:current-1);}};
+    dotsContainer.addEventListener('touchstart',e=>dotsOnStart(e.touches[0].clientX),{passive:true});
+    dotsContainer.addEventListener('touchend',e=>dotsOnEnd(e.changedTouches[0].clientX));
+    dotsContainer.addEventListener('mousedown',e=>dotsOnStart(e.clientX));
+    dotsContainer.addEventListener('mouseup',e=>dotsOnEnd(e.clientX));
 
-    function goToSlide(index) {
-      const prev = current;
-      current = ((index % N) + N) % N;
-      applyPositions(true, true);
-      if (prev !== current) morphIndicator(current);
-      resetAuto();
-    }
+    track.addEventListener('click',e=>{if(didDrag)return;const slide=e.target.closest('.carousel-slide');if(!slide)return;if(slide.classList.contains('c-active')){const p=slide.dataset.project;if(p)window.location.href=`/projects.html?project=${p}`;}else if(slide.classList.contains('c-prev'))goToSlide(current-1);else if(slide.classList.contains('c-next'))goToSlide(current+1);});
+    const startAuto=()=>{autoTimer=setInterval(()=>goToSlide(current+1),AUTO_MS);};
+    const stopAuto=()=>{clearInterval(autoTimer);clearTimeout(resumeTimer);};
+    const resetAuto=()=>{stopAuto();resumeTimer=setTimeout(startAuto,RESUME_MS);};
 
-    prevBtn.addEventListener('click', () => goToSlide(current - 1));
-    nextBtn.addEventListener('click', () => goToSlide(current + 1));
-
-    // Keyboard navigation
-    document.addEventListener('keydown', e => {
-      if (e.key === 'ArrowLeft')  goToSlide(current - 1);
-      if (e.key === 'ArrowRight') goToSlide(current + 1);
-    });
-
-    // ── Dots swipe (touch + mouse) ─────────────────────────────
-    // Swiping left/right on the dots pill advances the carousel
-    // and triggers the morph effect, giving users another gesture target.
-    let dotsDragStartX = 0, dotsDragging = false, dotsDragFired = false;
-
-    const dotsOnStart = (x) => {
-      dotsDragStartX = x;
-      dotsDragging   = true;
-      dotsDragFired  = false;
-    };
-    const dotsOnEnd = (x) => {
-      if (!dotsDragging) return;
-      dotsDragging = false;
-      const dx = x - dotsDragStartX;
-      // 30px threshold — lower than the carousel so it feels responsive on a small target
-      if (Math.abs(dx) > 30 && !dotsDragFired) {
-        dotsDragFired = true;
-        goToSlide(dx < 0 ? current + 1 : current - 1);
-      }
-    };
-
-    dotsContainer.addEventListener('touchstart', e => dotsOnStart(e.touches[0].clientX),       { passive:true });
-    dotsContainer.addEventListener('touchend',   e => dotsOnEnd(e.changedTouches[0].clientX));
-    dotsContainer.addEventListener('mousedown',  e => dotsOnStart(e.clientX));
-    dotsContainer.addEventListener('mouseup',    e => dotsOnEnd(e.clientX));
-
-    // Click: navigate active, advance side slides
-    track.addEventListener('click', e => {
-      if (didDrag) return;
-      const slide = e.target.closest('.carousel-slide');
-      if (!slide) return;
-      if      (slide.classList.contains('c-active')) {
-        const p = slide.dataset.project;
-        if (p) window.location.href = `/projects.html?project=${p}`;
-      }
-      else if (slide.classList.contains('c-prev')) goToSlide(current - 1);
-      else if (slide.classList.contains('c-next')) goToSlide(current + 1);
-    });
-
-    const startAuto = () => { autoTimer = setInterval(() => goToSlide(current + 1), AUTO_MS); };
-    const stopAuto  = () => { clearInterval(autoTimer); clearTimeout(resumeTimer); };
-    const resetAuto = () => { stopAuto(); resumeTimer = setTimeout(startAuto, RESUME_MS); };
-
-    // ── Drag / Swipe ───────────────────────────────────────────
     let ptX=0,ptY=0,ptT=0,dragActive=false,dragAxis=null,didDrag=false;
-    const onStart = (x,y) => { stopAuto(); ptX=x; ptY=y; ptT=Date.now(); dragActive=true; dragAxis=null; didDrag=false; };
-    const onMove  = (x,y) => {
-      if (!dragActive) return;
-      const dx=x-ptX, dy=y-ptY;
-      if (!dragAxis&&(Math.abs(dx)>6||Math.abs(dy)>6)) dragAxis=Math.abs(dx)>=Math.abs(dy)?'x':'y';
-      if (dragAxis!=='x') return;
-      if (Math.abs(dx)>8) didDrag=true;
-      const clipW=clip.offsetWidth, peekPx=Math.round(clipW*PEEK_RATIO), slideW=clipW-2*peekPx;
-      slides.forEach((slide,i) => {
-        const diff=((i-current)+N)%N;
-        if (diff===0||diff===N-1||diff===1) {
-          slide.style.transition='none';
-          const base=diff===0?peekPx:diff===N-1?0:clipW-slideW;
-          slide.style.left=(base+dx)+'px';
-        }
-      });
-    };
-    const onEnd = (x) => {
-      if (!dragActive) return;
-      dragActive=false;
-      const diff=ptX-x, vel=Math.abs(diff)/Math.max(Date.now()-ptT,1);
-      if (Math.abs(diff)>65) {
-        let steps=1;
-        if (vel>1.8&&Math.abs(diff)>160) steps=Math.min(1+Math.floor((vel-1.8)/1.2),N-1);
-        goToSlide(diff>0?current+steps:current-steps);
-      } else { applyPositions(true,false); resetAuto(); }
-    };
-
-    track.addEventListener('touchstart', e=>onStart(e.touches[0].clientX,e.touches[0].clientY),{passive:true});
-    track.addEventListener('touchmove',  e=>{ onMove(e.touches[0].clientX,e.touches[0].clientY); if(dragAxis==='x')e.preventDefault(); },{passive:false});
-    track.addEventListener('touchend',    e=>onEnd(e.changedTouches[0].clientX));
-    track.addEventListener('touchcancel', e=>onEnd(e.changedTouches[0].clientX));
-    track.addEventListener('mousedown',   e=>{ e.preventDefault(); onStart(e.clientX,e.clientY); });
-    window.addEventListener('mousemove',  e=>{ if(dragActive) onMove(e.clientX,e.clientY); });
-    window.addEventListener('mouseup',    e=>{ if(dragActive) onEnd(e.clientX); });
-
-    slides.forEach(slide => {
-      slide.addEventListener('touchstart',  ()=>slide.classList.add('tapped'),   {passive:true});
-      slide.addEventListener('touchend',    ()=>slide.classList.remove('tapped'));
-      slide.addEventListener('touchcancel', ()=>slide.classList.remove('tapped'));
-    });
+    const onStart=(x,y)=>{stopAuto();ptX=x;ptY=y;ptT=Date.now();dragActive=true;dragAxis=null;didDrag=false;};
+    const onMove=(x,y)=>{if(!dragActive)return;const dx=x-ptX,dy=y-ptY;if(!dragAxis&&(Math.abs(dx)>6||Math.abs(dy)>6))dragAxis=Math.abs(dx)>=Math.abs(dy)?'x':'y';if(dragAxis!=='x')return;if(Math.abs(dx)>8)didDrag=true;const clipW=clip.offsetWidth,peekPx=Math.round(clipW*PEEK_RATIO),slideW=clipW-2*peekPx;slides.forEach((slide,i)=>{const diff=((i-current)+N)%N;if(diff===0||diff===N-1||diff===1){slide.style.transition='none';const base=diff===0?peekPx:diff===N-1?0:clipW-slideW;slide.style.left=(base+dx)+'px';}});};
+    const onEnd=(x)=>{if(!dragActive)return;dragActive=false;const diff=ptX-x,vel=Math.abs(diff)/Math.max(Date.now()-ptT,1);if(Math.abs(diff)>65){let steps=1;if(vel>1.8&&Math.abs(diff)>160)steps=Math.min(1+Math.floor((vel-1.8)/1.2),N-1);goToSlide(diff>0?current+steps:current-steps);}else{applyPositions(true,false);resetAuto();}};
+    track.addEventListener('touchstart',e=>onStart(e.touches[0].clientX,e.touches[0].clientY),{passive:true});
+    track.addEventListener('touchmove',e=>{onMove(e.touches[0].clientX,e.touches[0].clientY);if(dragAxis==='x')e.preventDefault();},{passive:false});
+    track.addEventListener('touchend',e=>onEnd(e.changedTouches[0].clientX));
+    track.addEventListener('touchcancel',e=>onEnd(e.changedTouches[0].clientX));
+    track.addEventListener('mousedown',e=>{e.preventDefault();onStart(e.clientX,e.clientY);});
+    window.addEventListener('mousemove',e=>{if(dragActive)onMove(e.clientX,e.clientY);});
+    window.addEventListener('mouseup',e=>{if(dragActive)onEnd(e.clientX);});
+    slides.forEach(slide=>{slide.addEventListener('touchstart',()=>slide.classList.add('tapped'),{passive:true});slide.addEventListener('touchend',()=>slide.classList.remove('tapped'));slide.addEventListener('touchcancel',()=>slide.classList.remove('tapped'));});
 
     let resizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(()=>applyPositions(false,false), 120);
-    });
-    slides.forEach(slide => {
-      const img = slide.querySelector('img');
-      if (img) img.addEventListener('load', updateTrackHeight);
-    });
+    window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>applyPositions(false,false),120);});
+    slides.forEach(slide=>{const img=slide.querySelector('img');if(img)img.addEventListener('load',updateTrackHeight);});
 
-    // ── Staggered entrance ─────────────────────────────────────
-    // Lock positions silently (slides stay opacity:0 from CSS — no flash)
-    applyPositions(false, false);
+    applyPositions(false,false);
+    setTimeout(()=>{carouselEl.classList.add('visible');triggerSweep(slides[0]);requestAnimationFrame(()=>{snapIndicator(0);startAuto();});},carouselDelay*1000);
 
-    setTimeout(() => {
-      carouselEl.classList.add('visible');
-      triggerSweep(slides[0]);
-      requestAnimationFrame(() => { snapIndicator(0); startAuto(); });
-    }, carouselDelay * 1000);
-
-    // ── My Learnings + second chevron: appear after carousel settles ──
     const learningsEl = document.getElementById('learnings-section');
-    setTimeout(() => {
-      // Fade in second chevron
+    setTimeout(()=>{
       scrollEl2.classList.add('visible');
-
-      const obs = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
-          learningsEl.classList.add('visible');
-          obs.disconnect();
-        }
-      }, { threshold:0.12 });
+      const obs=new IntersectionObserver(entries=>{if(entries[0].isIntersecting){learningsEl.classList.add('visible');obs.disconnect();}},{threshold:0.12});
       obs.observe(learningsEl);
-    }, (carouselDelay + 1.4) * 1000);
-
-    // ── Spotify ────────────────────────────────────────────────
-    const spotifyWidget = document.getElementById('spotify-widget');
-    const spotifyToggle = document.getElementById('spotify-toggle');
-    let userTookControl = false;
-    setTimeout(() => {
-      if (userTookControl) return;
-      spotifyWidget.classList.remove('hidden');
-      spotifyWidget.classList.add('visible');
-      setTimeout(() => { if (!userTookControl) spotifyWidget.classList.add('collapsed'); }, 3800);
-    }, spotifyDelay * 1000);
-    spotifyToggle.addEventListener('click', () => {
-      userTookControl = true;
-      spotifyWidget.classList.remove('hidden');
-      spotifyWidget.classList.add('visible');
-      spotifyWidget.classList.toggle('collapsed');
-    });
-
-    // ── Sidebar ────────────────────────────────────────────────
-    const hamburger   = document.getElementById('hamburger');
-    const sidebar     = document.getElementById('sidebar');
-    const overlay     = document.getElementById('overlay');
-    const pageWrapper = document.getElementById('page-wrapper');
-    const openSidebar  = () => { sidebar.classList.add('open'); hamburger.classList.add('active'); overlay.classList.add('active'); pageWrapper.style.transform=`translateX(${sidebar.offsetWidth}px)`; };
-    const closeSidebar = () => { sidebar.classList.remove('open'); hamburger.classList.remove('active'); overlay.classList.remove('active'); pageWrapper.style.transform='translateX(0)'; };
-    hamburger.addEventListener('click', ()=>sidebar.classList.contains('open')?closeSidebar():openSidebar());
-    overlay.addEventListener('click', closeSidebar);
-    document.querySelectorAll('.sidebar a').forEach(l=>l.addEventListener('click',closeSidebar));
-    document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeSidebar(); });
+    },(carouselDelay+1.4)*1000);
 
   });
   </script>
