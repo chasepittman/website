@@ -1,0 +1,368 @@
+/* ═══════════════════════════════════════════════════
+   GLOBAL.CSS — Chase Pittman Portfolio
+   Shared across all pages: theme variables, navbar,
+   sidebar, overlay, theme toggle, spotify widget
+═══════════════════════════════════════════════════ */
+
+/* ── Google Fonts ───────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Poppins:wght@400;500;700&display=swap');
+
+
+/* ══════════════════════════════════════════════════
+   THEME VARIABLES
+══════════════════════════════════════════════════ */
+
+/* Dark mode (default) */
+:root {
+  --gold:          #c2a46d;
+  --gold-dim:      rgba(194,164,109,.12);
+  --gold-border:   rgba(194,164,109,.35);
+
+  --bg-gradient:   radial-gradient(ellipse at center, #4a5660 0%, #384048 50%, #272e34 100%);
+  --card-bg:       #2e3740;
+  --navbar-bg:     #222;
+  --navbar-scroll: rgba(26,26,26,0.97);
+  --sidebar-bg:    #222;
+
+  --text-primary:   #e0e0e0;
+  --text-secondary: #9fb0bb;
+  --text-nav:       #f4f4f4;
+  --text-card-sub:  #c0cdd5;
+
+  --toggle-bg:           rgba(255,255,255,.08);
+  --toggle-border:       rgba(255,255,255,.15);
+  --toggle-color:        #9fb0bb;
+  --toggle-hover-bg:     rgba(255,255,255,.14);
+  --toggle-hover-color:  #e0e0e0;
+
+  --spotify-bg:    #1a1a1a;
+  --sidebar-width: 260px;
+}
+
+/* Light mode */
+[data-theme="light"] {
+  --bg-gradient:   radial-gradient(ellipse at center, #dce8f0 0%, #c8d8e4 50%, #b8ccd8 100%);
+  --card-bg:       rgba(255,255,255,0.55);
+  --navbar-bg:     rgba(240,246,250,0.92);
+  --navbar-scroll: rgba(225,235,243,0.97);
+  --sidebar-bg:    rgba(240,246,250,0.97);
+
+  --text-primary:   #1e2a32;
+  --text-secondary: #4a6070;
+  --text-nav:       #1e2a32;
+  --text-card-sub:  #3a5060;
+
+  --toggle-bg:           rgba(0,0,0,.06);
+  --toggle-border:       rgba(0,0,0,.12);
+  --toggle-color:        #4a6070;
+  --toggle-hover-bg:     rgba(0,0,0,.1);
+  --toggle-hover-color:  #1e2a32;
+
+  --spotify-bg:    rgba(240,246,250,0.95);
+}
+
+
+/* ══════════════════════════════════════════════════
+   BASE RESET
+══════════════════════════════════════════════════ */
+
+html { min-height: 100%; }
+
+html, body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  overflow-x: hidden;
+  transition: background .4s ease, color .3s ease;
+}
+
+a { text-decoration: none; color: inherit; }
+
+
+/* ══════════════════════════════════════════════════
+   NAVBAR
+══════════════════════════════════════════════════ */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  padding: 14px 24px;
+  background: var(--navbar-bg);
+  position: sticky;
+  top: 0;
+  z-index: 1400;
+  box-shadow: 4px 0 12px rgba(0,0,0,.5);
+  border-bottom: 1.5px solid transparent;
+  transition: border-color .35s ease, background .35s ease, box-shadow .35s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Gold bottom border + bg tint on scroll — JS adds .scrolled */
+.navbar.scrolled {
+  border-bottom-color: var(--gold);
+  background: var(--navbar-scroll);
+  box-shadow: 0 2px 20px rgba(0,0,0,.6);
+}
+
+.nav-left { display: flex; align-items: center; gap: 12px; }
+
+.logo-img { height: 36px; width: auto; }
+
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  color: var(--text-nav);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: "lnum" 1;
+  white-space: nowrap;
+  transition: color .3s ease;
+}
+
+.logo-link {
+  display: flex; align-items: center; gap: 12px;
+  text-decoration: none; color: inherit;
+}
+.logo-link:hover { opacity: .9; }
+
+.nav-right { margin-left: auto; display: flex; gap: 18px; align-items: center; }
+
+.nav-right img {
+  width: 26px; height: auto;
+  opacity: .85;
+  transition: opacity .2s, transform .2s;
+}
+.nav-right a:hover img { opacity: 1; transform: translateY(-2px); }
+
+/* Light mode: tint nav icons */
+[data-theme="light"] .nav-right img {
+  filter: invert(1) sepia(1) saturate(0) brightness(0.3);
+}
+[data-theme="light"] .nav-right a:hover img {
+  filter: invert(1) sepia(1) saturate(2) hue-rotate(5deg) brightness(0.55);
+}
+[data-theme="light"] .logo-img {
+  filter: invert(1) sepia(1) saturate(0) brightness(0.15);
+}
+
+
+/* ══════════════════════════════════════════════════
+   HAMBURGER
+══════════════════════════════════════════════════ */
+
+.hamburger {
+  display: flex; flex-direction: column;
+  width: 28px; height: 22px;
+  justify-content: space-between;
+  cursor: pointer; margin-right: 18px;
+}
+
+/* projects.html uses <span>, index/about/contact use <div> — style both */
+.hamburger span,
+.hamburger div {
+  height: 2px; width: 100%;
+  background: var(--text-nav);
+  border-radius: 2px;
+  transition: all .35s ease, background .3s ease;
+  transform-origin: center;
+  display: block;
+}
+
+/* span variant (projects) */
+.hamburger.active span:nth-child(1) { transform: translateY(10px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: translateY(-10px) rotate(-45deg); }
+
+/* div variant (index / about / contact) */
+.hamburger.active div:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
+.hamburger.active div:nth-child(2) { opacity: 0; }
+.hamburger.active div:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
+
+
+/* ══════════════════════════════════════════════════
+   SIDEBAR & OVERLAY
+══════════════════════════════════════════════════ */
+
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.4);
+  backdrop-filter: blur(10px);
+  opacity: 0; pointer-events: none;
+  transition: opacity .35s ease;
+  z-index: 1050;
+}
+.overlay.active { opacity: 1; pointer-events: auto; }
+
+.sidebar {
+  position: fixed; top: 0; left: 0;
+  width: var(--sidebar-width); height: 100%;
+  background: var(--sidebar-bg);
+  display: flex; flex-direction: column;
+  padding-top: 100px; gap: 20px;
+  transform: translateX(-100%);
+  transition: transform .45s cubic-bezier(.22,1,.36,1), background .3s ease;
+  z-index: 1300;
+  box-shadow: 20px 0 60px rgba(0,0,0,.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.sidebar.open { transform: translateX(0); }
+
+.sidebar a {
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: 12px 24px;
+  font-size: 18px;
+  text-align: center;
+  position: relative;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity .35s ease, transform .35s ease, background .25s, color .25s;
+}
+.sidebar.open a { opacity: 1; transform: translateX(0); }
+.sidebar.open a:nth-child(1) { transition-delay: .08s; }
+.sidebar.open a:nth-child(2) { transition-delay: .12s; }
+.sidebar.open a:nth-child(3) { transition-delay: .16s; }
+.sidebar.open a:nth-child(4) { transition-delay: .20s; }
+
+.sidebar a:hover {
+  background: var(--gold);
+  color: #fff;
+  border-radius: 6px;
+  transform: translateX(6px);
+}
+.sidebar a::after {
+  content: "";
+  position: absolute; left: 6px; top: 50%;
+  transform: translateY(-50%);
+  height: 0%; width: 2px;
+  background: var(--gold);
+  transition: height .25s ease;
+}
+.sidebar a:hover::after { height: 70%; }
+
+
+/* ══════════════════════════════════════════════════
+   THEME TOGGLE  (bottom-left fixed button)
+══════════════════════════════════════════════════ */
+
+.theme-toggle {
+  position: fixed;
+  bottom: 20px; left: 20px;
+  z-index: 900;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--toggle-border);
+  background: var(--toggle-bg);
+  color: var(--toggle-color);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .25s, border-color .25s, color .25s, transform .2s;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.theme-toggle:hover {
+  background: var(--toggle-hover-bg);
+  color: var(--toggle-hover-color);
+  transform: translateY(-2px);
+}
+
+.theme-toggle .icon-sun  { display: none; }
+.theme-toggle .icon-moon { display: block; }
+[data-theme="light"] .theme-toggle .icon-sun  { display: block; }
+[data-theme="light"] .theme-toggle .icon-moon { display: none; }
+.theme-toggle svg { width: 16px; height: 16px; }
+
+
+/* ══════════════════════════════════════════════════
+   SPOTIFY WIDGET  (bottom-right, all pages)
+══════════════════════════════════════════════════ */
+
+.spotify-widget {
+  position: fixed; bottom: 20px; right: 20px;
+  width: 340px;
+  background: var(--spotify-bg);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.6);
+  overflow: visible; padding: 16px;
+  z-index: 900;
+  opacity: 0; transform: translateY(10px);
+  pointer-events: none;
+  transition: width .5s, right .5s, border-radius .5s,
+              opacity .6s, transform .6s, background .3s;
+}
+.spotify-widget.visible  { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.spotify-widget.hidden   { right: -380px; opacity: 0; }
+
+.spotify-widget iframe {
+  width: 100%; height: 80px;
+  border-radius: 12px; display: block; border: none;
+}
+
+#spotify-toggle {
+  position: absolute; top: 50%; left: -16px;
+  transform: translateY(-50%);
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--navbar-bg);
+  color: var(--text-nav);
+  font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0; cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,.3);
+  z-index: 1000; border: none;
+  transition: transform .3s, background .3s, color .3s;
+}
+#spotify-toggle:hover { transform: translateY(-50%) scale(1.1); }
+
+.spotify-widget.collapsed {
+  width: 40px; height: 40px;
+  padding: 0; border-radius: 50%; overflow: visible;
+}
+.spotify-widget.collapsed iframe {
+  opacity: 0; pointer-events: none; display: none;
+}
+.spotify-widget.collapsed #spotify-toggle {
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(180deg);
+}
+.spotify-widget.collapsed #spotify-toggle:hover {
+  transform: translate(-50%, -50%) rotate(180deg) scale(1.1);
+}
+
+
+/* ══════════════════════════════════════════════════
+   PAGE WRAPPER
+══════════════════════════════════════════════════ */
+
+.page-wrapper { transition: transform .4s ease, filter .4s ease; }
+
+
+/* ══════════════════════════════════════════════════
+   CARD / SECTION BOX  (shared base)
+══════════════════════════════════════════════════ */
+
+.section-box {
+  background: var(--card-bg);
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid transparent;
+  transition: background .3s ease, border-color .3s ease;
+}
+
+[data-theme="light"] .section-box {
+  border-color: rgba(255,255,255,0.6);
+  box-shadow: 0 4px 24px rgba(100,140,160,.10);
+}
+
+
+/* ══════════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .logo { display: none; }
+}
