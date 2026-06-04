@@ -5,293 +5,139 @@
   <title>About | Chase Pittman</title>
   <link rel="icon" type="image/x-icon" href="/assets/logos/personal/favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
-
+  <link rel="stylesheet" href="/css/global.css">
+  <script>
+    (function() {
+      if (localStorage.getItem('cp-theme') === 'light')
+        document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
   <style>
-    
-    :root {
-      --gold: #c2a46d;
-      --gold-dim: rgba(194,164,109,.12);
-      --gold-border: rgba(194,164,109,.35);
-    }
-    
-    html { min-height: 100%; }
-
-    body {
-      margin: 0;
-      font-family: 'Poppins', Arial, sans-serif;
-      background: radial-gradient(ellipse at center, #4a5660 0%, #384048 50%, #272e34 100%);
-      background-attachment: fixed;
-      color: #f4f4f4;
-      text-align: center;
-    }
-
-    a { text-decoration: none; color: inherit; }
-
-    /* ── Navbar ─────────────────────────────────────────── */
-    .navbar {
-      display: flex; align-items: center; padding: 14px 24px;
-      background: #222; position: sticky; top: 0; z-index: 1400;
-      box-shadow: 4px 0 12px rgba(0,0,0,0.5);
-    }
     .page-wrapper { transition: transform 0.3s ease; min-height: 100vh; }
-    .nav-left { display: flex; align-items: center; gap: 12px; }
-    .logo-link { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
-    .logo-link:hover { opacity: 0.9; }
-    .logo { font-size: 20px; font-weight: bold; font-family: 'Cormorant Garamond', serif; color: white; white-space: nowrap; }
-    .logo-img { height: 36px; width: auto; }
-    .nav-right { display: flex; justify-content: flex-end; gap: 18px; margin-left: auto; }
-    .nav-right img { width: 26px; height: auto; opacity: 0.85; transition: opacity 0.2s, transform 0.2s; }
-    .nav-right a:hover img { opacity: 1; transform: translateY(-2px); }
+    .content { max-width: 900px; margin: 80px auto; padding: 0 20px; text-align: center; }
 
-    .hamburger { display: flex; flex-direction: column; justify-content: space-between; width: 28px; height: 20px; cursor: pointer; margin-right: 18px; }
-    .hamburger div { height: 3px; background-color: white; border-radius: 2px; transition: all 0.3s ease; }
-    .hamburger.active div:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
-    .hamburger.active div:nth-child(2) { opacity: 0; }
-    .hamburger.active div:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
+    h1 { font-family: 'Cormorant Garamond', serif; font-size: 42px; margin-bottom: 10px; color: var(--text-primary); }
+    h2 { font-family: 'Cormorant Garamond', serif; font-size: 28px; margin-top: 50px; margin-bottom: 15px; color: var(--text-primary); }
+    p  { font-size: 18px; line-height: 1.6; color: var(--text-primary); }
 
-    :root { --sidebar-width: 260px; }
-    .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-width); height: 100%; background-color: #222; display: flex; flex-direction: column; padding-top: 100px; gap: 20px; transform: translateX(-100%); transition: transform 0.3s ease; z-index: 1300; }
-    .sidebar.open { transform: translateX(0); }
-    .sidebar a { color: #f4f4f4; text-decoration: none; font-size: 18px; padding: 12px 24px; transition: background 0.3s; }
-    .sidebar a:hover { background-color: var(--gold); color: #222; border-radius: 6px; }
-    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 1050; }
-    .overlay.active { opacity: 1; pointer-events: auto; }
-    @media (max-width: 768px) { .logo-link .logo { display: none; } }
-
-    /* ── Page content ───────────────────────────────────── */
-    .content { max-width: 900px; margin: 80px auto; padding: 0 20px; }
-    h1 { font-family: 'Cormorant Garamond', serif; font-size: 42px; margin-bottom: 10px; }
-    h2 { font-family: 'Cormorant Garamond', serif; font-size: 28px; margin-top: 50px; margin-bottom: 15px; }
-    p { font-size: 18px; line-height: 1.6; color: #e0e0e0; }
     .profile-pic { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin: 20px auto 10px; display: block; border: 3px solid var(--gold); }
-    .resume-button { display: inline-block; margin: 20px 10px 40px; padding: 10px 22px; background: var(--gold-dim); border: 1px solid var(--gold-border); color: var(--gold); text-decoration: none; border-radius: 25px; font-size: 15px; transition: background .25s, border-color .25s, transform .2s; }
-    .resume-button:hover { background: rgba(194,164,109,.22); border-color: rgba(194,164,109,.6); transform: translateY(-1px); }
-    .card-box { background-color: #2e3740; padding: 25px; margin: 0 auto; border-radius: 12px; display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; max-width: 900px; }
 
-    /* ── Skills ─────────────────────────────────────────── */
+    .resume-button {
+      display: inline-block; margin: 20px 10px 40px; padding: 10px 22px;
+      background: var(--gold-dim); border: 1px solid var(--gold-border);
+      color: var(--gold); text-decoration: none; border-radius: 25px; font-size: 15px;
+      transition: background .25s, border-color .25s, transform .2s;
+    }
+    .resume-button:hover { background: rgba(194,164,109,.22); border-color: rgba(194,164,109,.6); transform: translateY(-1px); }
+
+    .card-box {
+      background: var(--card-bg); padding: 25px; margin: 0 auto; border-radius: 12px;
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; max-width: 900px;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid transparent; transition: background .3s ease, border-color .3s ease;
+    }
+    [data-theme="light"] .card-box { border-color: rgba(255,255,255,0.6); box-shadow: 0 4px 24px rgba(100,140,160,.10); }
+
     .skills { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; margin-top: 25px; }
-    .skill { display: flex; flex-direction: column; align-items: center; width: 100px; text-align: center; position: relative; }
+    .skill  { display: flex; flex-direction: column; align-items: center; width: 100px; text-align: center; position: relative; color: var(--text-primary); }
     .skill img { width: 40px; height: 40px; margin-bottom: 6px; }
-    .credly-badge { position: absolute; top: -16px; right: 4px; width: 22px; height: 22px; background: none; }
+
+    .credly-badge   { position: absolute; top: -16px; right: 4px; width: 22px; height: 22px; background: none; }
     .credly-badge img { width: 100%; height: 100%; object-fit: contain; }
     .credly-tooltip { position: absolute; top: -38px; right: -10px; background: #222; color: #f4f4f4; font-size: 11px; padding: 4px 6px; border-radius: 5px; white-space: nowrap; display: none; z-index: 5; }
     .credly-wrapper:hover .credly-tooltip { display: block; }
-    .dots { display: flex; gap: 4px; margin-top: 4px; }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background-color: #555; }
-    .dot.filled { background-color: var(--gold); }
 
-    /* ── Tools ──────────────────────────────────────────── */
-    .tools-card { background-color: #2e3740; padding: 25px; margin: 25px auto 0; border-radius: 12px; display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; max-width: 900px; }
-    .tool { display: flex; flex-direction: column; align-items: center; width: 100px; text-align: center; font-size: 14px; color: #e0e0e0; }
+    .dots { display: flex; gap: 4px; margin-top: 4px; }
+    .dot  { width: 8px; height: 8px; border-radius: 50%; background-color: #555; }
+    .dot.filled { background-color: var(--gold); }
+    [data-theme="light"] .dot { background-color: #bbb; }
+
+    .tools-card {
+      background: var(--card-bg); padding: 25px; margin: 25px auto 0; border-radius: 12px;
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; max-width: 900px;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid transparent; transition: background .3s ease, border-color .3s ease;
+    }
+    [data-theme="light"] .tools-card { border-color: rgba(255,255,255,0.6); box-shadow: 0 4px 24px rgba(100,140,160,.10); }
+    .tool { display: flex; flex-direction: column; align-items: center; width: 100px; text-align: center; font-size: 14px; color: var(--text-primary); }
     .tool img { width: 40px; height: 40px; margin-bottom: 6px; }
 
-    /* ── Global tooltip ─────────────────────────────────── */
     #global-tooltip {
-      display: none; position: fixed;
-      background-color: #1a2228; color: #f4f4f4;
-      padding: 8px 12px; border-radius: 8px;
-      font-size: 13px; max-width: 260px;
-      white-space: normal; z-index: 9999;
-      pointer-events: none;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.55);
-      border: 1px solid #3a4e5a;
-      line-height: 1.6;
+      display: none; position: fixed; background-color: #1a2228; color: #f4f4f4;
+      padding: 8px 12px; border-radius: 8px; font-size: 13px; max-width: 260px;
+      white-space: normal; z-index: 9999; pointer-events: none;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.55); border: 1px solid #3a4e5a; line-height: 1.6;
     }
+    [data-theme="light"] #global-tooltip { background-color: #1e2a32; border-color: #2a3a48; }
 
-    /* ── Timeline ───────────────────────────────────────── */
     .timeline-container {
-      background: #2e3740;
-      border: 1px solid rgba(194,164,109,.08);
-      box-shadow: 0 20px 60px rgba(0,0,0,.28);
-      padding: 0;
-      border-radius: 12px;
-      margin: 25px auto 40px;
-      max-width: 900px;
-      width: 100%;
-      box-sizing: border-box;
-      position: relative;
+      background: var(--card-bg); border: 1px solid transparent;
+      box-shadow: 0 20px 60px rgba(0,0,0,.28); padding: 0; border-radius: 12px;
+      margin: 25px auto 40px; max-width: 900px; width: 100%; box-sizing: border-box; position: relative;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      transition: background .3s ease, border-color .3s ease;
     }
+    [data-theme="light"] .timeline-container { border-color: rgba(255,255,255,0.6); box-shadow: 0 4px 24px rgba(100,140,160,.10); }
 
-    /* Floating toggle */
-    .timeline-toggle-float {
-      position: absolute;
-      bottom: 32px;
-      right: 12px;
-      z-index: 30;
-    }
+    .timeline-toggle-float { position: absolute; bottom: 32px; right: 12px; z-index: 30; }
     .toggle-dropdown {
-      background-color: rgba(22, 30, 36, 0.92);
-      border: 1px solid var(--gold-border);
-      color: var(--gold);
-      border-radius: 6px;
-      padding: 3px 8px;
-      font-size: 12px;
-      cursor: pointer;
-      backdrop-filter: blur(4px);
+      background-color: rgba(22,30,36,0.92); border: 1px solid var(--gold-border);
+      color: var(--gold); border-radius: 6px; padding: 3px 8px; font-size: 12px; cursor: pointer; backdrop-filter: blur(4px);
     }
+    .toggle-dropdown:hover { background: rgba(194,164,109,.12); }
+    [data-theme="light"] .toggle-dropdown { background-color: rgba(240,246,250,0.92); }
 
-    .toggle-dropdown:hover {
-      background: rgba(194,164,109,.12);
-    }
-    
-    /* Scroll wrapper — clips content to the JS-set inner width */
-    .timeline-scroll-area {
-      overflow-x: auto;
-      border-radius: 12px;
-      width: 100%;
-      box-sizing: border-box;
-    }
+    .timeline-scroll-area { overflow-x: auto; border-radius: 12px; width: 100%; box-sizing: border-box; }
+    .timeline-inner { display: flex; flex-direction: column; min-width: 100%; overflow: hidden; }
 
-    .timeline-inner {
-      display: flex;
-      flex-direction: column;
-      min-width: 100%;
-      /* overflow hidden here is the key fix:
-         prevents bar labels that overflow their parent bar
-         from silently extending the scroll container width. */
-      overflow: hidden;
-    }
-
-    /* Header */
     .timeline-header-row { display: flex; align-items: stretch; }
+    .timeline-header-stub { position: sticky; left: 0; z-index: 12; flex-shrink: 0; width: 130px; background-color: #252d33; border-radius: 12px 0 0 0; }
+    [data-theme="light"] .timeline-header-stub { background-color: rgba(220,232,240,0.9); }
 
-    .timeline-header-stub {
-      position: sticky; left: 0; z-index: 12;
-      flex-shrink: 0; width: 130px;
-      background-color: #252d33;
-      border-radius: 12px 0 0 0;
-    }
-
-    .timeline-top-bar {
-      display: flex; flex-direction: column;
-      background-color: #1e262c;
-      padding: 6px 0;
-      border-radius: 0 12px 0 0;
-      flex-grow: 1;
-      position: relative;
-      overflow: hidden;
-    }
+    .timeline-top-bar { display: flex; flex-direction: column; background-color: #1e262c; padding: 6px 0; border-radius: 0 12px 0 0; flex-grow: 1; position: relative; overflow: hidden; }
+    [data-theme="light"] .timeline-top-bar { background-color: rgba(200,216,228,0.9); }
 
     .timeline-years, .timeline-months { display: grid; grid-auto-flow: column; }
-    .timeline-years { font-weight: 600; font-size: 13px; color: #bbb; }
+    .timeline-years  { font-weight: 600; font-size: 13px; color: var(--text-secondary); }
     .timeline-years span, .timeline-months span { text-align: center; }
-    .timeline-months { margin-top: 4px; font-size: 10px; color: #888; }
+    .timeline-months { margin-top: 4px; font-size: 10px; color: var(--text-secondary); opacity: .7; }
 
-    .year-notch {
-      position: absolute;
-      top: 10%; height: 80%; width: 2px;
-      background: #4a5a68;
-      pointer-events: none; z-index: 2;
-    }
+    .year-notch { position: absolute; top: 10%; height: 80%; width: 2px; background: #4a5a68; pointer-events: none; z-index: 2; }
+    [data-theme="light"] .year-notch { background: rgba(100,140,160,.4); }
 
-    /* Data rows */
-    .timeline-row {
-      display: flex; align-items: stretch; position: relative;
-      border-top: 2px solid #4a5560;
-    }
+    .timeline-row { display: flex; align-items: stretch; position: relative; border-top: 2px solid #4a5560; }
     .timeline-row:last-child { border-bottom: 2px solid #4a5560; }
+    [data-theme="light"] .timeline-row { border-top-color: rgba(100,140,160,.25); }
+    [data-theme="light"] .timeline-row:last-child { border-bottom-color: rgba(100,140,160,.25); }
 
-    /* Sticky logo column */
-    .timeline-logo-container {
-      position: sticky; left: 0; z-index: 10;
-      flex-shrink: 0; width: 130px;
-      background-color: #252d33;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 12px 8px; box-sizing: border-box;
-    }
+    .timeline-logo-container { position: sticky; left: 0; z-index: 10; flex-shrink: 0; width: 130px; background-color: #252d33; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px 8px; box-sizing: border-box; }
+    [data-theme="light"] .timeline-logo-container { background-color: rgba(220,232,240,0.9); }
 
-    .timeline-logo {
-      width: 56px; height: 56px; object-fit: contain;
-      border-radius: 8px; border: 2px solid var(--gold-border);
-      background-color: #222;
-      padding: 4px; box-sizing: border-box;
-    }
+    .timeline-logo { width: 56px; height: 56px; object-fit: contain; border-radius: 8px; border: 2px solid var(--gold-border); background-color: #222; padding: 4px; box-sizing: border-box; }
+    [data-theme="light"] .timeline-logo { background-color: #fff; }
 
-    .company-name { margin-top: 6px; font-size: 11px; color: #bbb; text-align: center; line-height: 1.3; }
+    .company-name { margin-top: 6px; font-size: 11px; color: var(--text-secondary); text-align: center; line-height: 1.3; }
 
-    /* Bars area
-       overflow: hidden  →  labels are clipped at the bars-area boundary,
-       which exactly matches the timeline's total content width.
-       This is what stops labels from widening the scrollbar. */
-    .timeline-bars {
-      position: relative;
-      flex-grow: 1;
-      min-height: 58px;
-      overflow: hidden;
-    }
-
-    /* Bar — overflow visible removed; label clipping now happens on .timeline-bars */
-    .timeline-bar {
-      position: absolute;
-      height: 34px;
-      border-radius: 6px;
-      display: flex; align-items: center;
-      padding: 0;
-      cursor: pointer;
-      overflow: visible; /* label can still show over other bars in the same area */
-    }
-
-    /* Colored bg block, clipped to bar width */
-    .bar-bg { position: absolute; inset: 0; border-radius: 6px; z-index: 0; }
-
-    /* Label — translateX driven by sticky-label JS */
-    .bar-label {
-      position: relative; z-index: 1;
-      padding: 0 8px;
-      white-space: nowrap;
-      font-size: 11px; font-weight: 500; color: #fff;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.55);
-      pointer-events: none;
-      will-change: transform;
-    }
-
+    .timeline-bars { position: relative; flex-grow: 1; min-height: 58px; overflow: hidden; }
+    .timeline-bar  { position: absolute; height: 34px; border-radius: 6px; display: flex; align-items: center; padding: 0; cursor: pointer; overflow: visible; }
+    .bar-bg        { position: absolute; inset: 0; border-radius: 6px; z-index: 0; }
+    .bar-label     { position: relative; z-index: 1; padding: 0 8px; white-space: nowrap; font-size: 11px; font-weight: 500; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.55); pointer-events: none; will-change: transform; }
     .tooltip-content { display: none; }
 
-    /* ── Highlight pulse ────────────────────────────────── */  ← add here
     @keyframes pulse-glow {
-      0%, 100% { box-shadow: 0 0 4px 1px rgba(194,164,109,0.3); }
-      50%       { box-shadow: 0 0 10px 3px rgba(194,164,109,0.65); }
+      0%,100% { box-shadow: 0 0 4px 1px rgba(194,164,109,0.3); }
+      50%      { box-shadow: 0 0 10px 3px rgba(194,164,109,0.65); }
     }
-    .bar-highlight .bar-bg {
-      animation: pulse-glow 2s ease-in-out infinite;
-    }
-    
-    @media (max-width: 800px) {
-      .timeline-logo-container, .timeline-header-stub { width: 90px; }
-    }
+    .bar-highlight .bar-bg { animation: pulse-glow 2s ease-in-out infinite; }
+
+    @media (max-width: 800px) { .timeline-logo-container, .timeline-header-stub { width: 90px; } }
   </style>
 </head>
 <body>
 
 <div id="global-tooltip"></div>
-
-<!-- Sidebar -->
-<div class="sidebar" id="sidebar">
-  <a href="/">Home</a>
-  <a href="/projects.html">Projects</a>
-  <a href="/about.html">About</a>
-  <a href="/contact.html">Contact</a>
-</div>
-<div class="overlay" id="overlay"></div>
-
-<!-- Navbar -->
-<div class="navbar">
-  <div class="nav-left">
-    <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
-    <a href="/" class="logo-link">
-      <img src="/assets/logos/personal/CRP_logo_white.png" alt="Logo" class="logo-img">
-      <div class="logo">Chase Pittman | Portfolio</div>
-    </a>
-  </div>
-  <div class="nav-right">
-    <a href="https://www.linkedin.com/in/chasepittman" target="_blank"><img src="/assets/logos/tools/linkedin.png" alt="LinkedIn"></a>
-    <a href="https://www.credly.com/users/chase-pittman.017d3434/badges#credly" target="_blank"><img src="/assets/logos/skills/credly.png" alt="Credly"></a>
-    <a href="https://www.github.com/chasepittman" target="_blank"><img src="/assets/logos/tools/github.png" alt="GitHub"></a>
-    <a href="/contact.html"><img src="/assets/logos/tools/gmail.png" alt="Contact Form"></a>
-  </div>
-</div>
+<div id="sidebar-placeholder"></div>
+<div id="navbar-placeholder"></div>
 
 <div class="page-wrapper" id="page-wrapper">
   <div class="content">
@@ -306,15 +152,12 @@
 
     <h2>Experience &amp; Leadership</h2>
     <div class="timeline-container" id="timeline-container">
-
       <select id="timeline-toggle" class="toggle-dropdown timeline-toggle-float">
         <option value="quarters" selected>Quarters</option>
         <option value="months">Months</option>
       </select>
-
       <div class="timeline-scroll-area" id="timeline-scroll-area">
         <div class="timeline-inner" id="timeline-inner">
-
           <div class="timeline-header-row">
             <div class="timeline-header-stub"></div>
             <div class="timeline-top-bar" id="timeline-top-bar">
@@ -322,139 +165,52 @@
               <div class="timeline-months" id="timeline-months"></div>
             </div>
           </div>
-
           <!-- WATERWORKS -->
           <div class="timeline-row">
-            <div class="timeline-logo-container">
-              <img src="/assets/logos/timeline/waterworks.png" class="timeline-logo" alt="Waterworks">
-              <div class="company-name">Waterworks</div>
-            </div>
+            <div class="timeline-logo-container"><img src="/assets/logos/timeline/waterworks.png" class="timeline-logo" alt="Waterworks"><div class="company-name">Waterworks</div></div>
             <div class="timeline-bars">
-              <div class="timeline-bar" data-start="29" data-end="63" data-bg="#0b6e4f"
-                   data-date-start="MAY 2022" data-date-end="MAR 2025">
-                <div class="bar-bg"></div>
-                <span class="bar-label">Product Mgmt Coordinator</span>
-                <span class="tooltip-content">Built dashboards for 20+ product collections, maintaining 100K+ records with 99%+ accuracy.</span>
-              </div>
-              
-              <div class="timeline-bar" data-start="63" data-end="76" data-bg="#0d8a62"
-                   data-promotion="true" data-date-start="MAR 2025" data-date-end="MAY 2026">
-                <div class="bar-bg"></div>
-                <span class="bar-label">Product Specialist</span>
-                <span class="tooltip-content">Led weekly business performance reviews across seven categories, contributing to 21% revenue growth.</span>
-              </div>
-              
-              <div class="timeline-bar bar-highlight" data-start="76" data-end="present" data-bg="#10a87a"
-                   data-promotion="true"
-                   data-date-start="MAY 2026">
-                <div class="bar-bg"></div>
-                <span class="bar-label">APM</span>
-                <span class="tooltip-content">Spearheading AI implementation with Copilot, creating workflows leading to 40% gains in day-to-day efficiency.</span>
-              </div>
-              
-              <div class="timeline-bar" data-start="51" data-end="present" data-bg="#10a87a"
-                   data-date-start="MAR 2024">
-                <div class="bar-bg"></div>
-                <span class="bar-label">Founder — Early Career Group</span>
-                <span class="tooltip-content">Founded internal early-career community, launched mentorship program, and organized speaker events.</span>
-              </div>
+              <div class="timeline-bar" data-start="29" data-end="63" data-bg="#0b6e4f" data-date-start="MAY 2022" data-date-end="MAR 2025"><div class="bar-bg"></div><span class="bar-label">Product Mgmt Coordinator</span><span class="tooltip-content">Built dashboards for 20+ product collections, maintaining 100K+ records with 99%+ accuracy.</span></div>
+              <div class="timeline-bar" data-start="63" data-end="76" data-bg="#0d8a62" data-promotion="true" data-date-start="MAR 2025" data-date-end="MAY 2026"><div class="bar-bg"></div><span class="bar-label">Product Specialist</span><span class="tooltip-content">Led weekly business performance reviews across seven categories, contributing to 21% revenue growth.</span></div>
+              <div class="timeline-bar bar-highlight" data-start="76" data-end="present" data-bg="#10a87a" data-promotion="true" data-date-start="MAY 2026"><div class="bar-bg"></div><span class="bar-label">APM</span><span class="tooltip-content">Spearheading AI implementation with Copilot, creating workflows leading to 40% gains in day-to-day efficiency.</span></div>
+              <div class="timeline-bar" data-start="51" data-end="present" data-bg="#10a87a" data-date-start="MAR 2024"><div class="bar-bg"></div><span class="bar-label">Founder — Early Career Group</span><span class="tooltip-content">Founded internal early-career community, launched mentorship program, and organized speaker events.</span></div>
             </div>
           </div>
-
           <!-- UNIVERSITY OF MICHIGAN -->
           <div class="timeline-row">
-            <div class="timeline-logo-container">
-              <img src="/assets/logos/timeline/umich.png" class="timeline-logo" alt="University of Michigan">
-              <div class="company-name">University of Michigan</div>
-            </div>
+            <div class="timeline-logo-container"><img src="/assets/logos/timeline/umich.png" class="timeline-logo" alt="University of Michigan"><div class="company-name">University of Michigan</div></div>
             <div class="timeline-bars">
-              <div class="timeline-bar" data-start="0" data-end="27" data-bg="#1a4f7a"
-                   data-date-start="SEP 2018" data-date-end="APR 2022">
-                <div class="bar-bg"></div>
-                <span class="bar-label">B.A. in Economics, Minor in Entrepreneurship</span>
-                <span class="tooltip-content">GPA: 3.8/4.0 · University Honors (3×) · President, Enactus Consulting Club · Published in University of Michigan newsletter</span>
-              </div>
-              <div class="timeline-bar" data-start="38" data-end="present" data-bg="#1a4f7a"
-                   data-date-start="MAR 2023">
-                <div class="bar-bg"></div>
-                <span class="bar-label">NYC Alumni Board Member &amp; Sports Chair</span>
-                <span class="tooltip-content">Lead NYC alumni sports programming and partnerships.</span>
-              </div>
+              <div class="timeline-bar" data-start="0" data-end="27" data-bg="#1a4f7a" data-date-start="SEP 2018" data-date-end="APR 2022"><div class="bar-bg"></div><span class="bar-label">B.A. in Economics, Minor in Entrepreneurship</span><span class="tooltip-content">GPA: 3.8/4.0 · University Honors (3×) · President, Enactus Consulting Club · Published in University of Michigan newsletter</span></div>
+              <div class="timeline-bar" data-start="38" data-end="present" data-bg="#1a4f7a" data-date-start="MAR 2023"><div class="bar-bg"></div><span class="bar-label">NYC Alumni Board Member &amp; Sports Chair</span><span class="tooltip-content">Lead NYC alumni sports programming and partnerships.</span></div>
             </div>
           </div>
-
           <!-- SPECIAL OLYMPICS -->
           <div class="timeline-row">
-            <div class="timeline-logo-container">
-              <img src="/assets/logos/timeline/specialolympics.png" class="timeline-logo" alt="Special Olympics">
-              <div class="company-name">Special Olympics</div>
-            </div>
+            <div class="timeline-logo-container"><img src="/assets/logos/timeline/specialolympics.png" class="timeline-logo" alt="Special Olympics"><div class="company-name">Special Olympics</div></div>
             <div class="timeline-bars">
-              <div class="timeline-bar" data-start="2" data-end="14" data-bg="#4a235a"
-                   data-date-start="MAR 2020" data-date-end="MAR 2021">
-                <div class="bar-bg"></div>
-                <span class="bar-label">UMich Head Coach</span>
-                <span class="tooltip-content">Coached the University of Michigan Special Olympics football team.</span>
-              </div>
-              <div class="timeline-bar" data-start="14" data-end="27" data-bg="#6c2fa0"
-                   data-promotion="true" data-date-start="MAR 2021" data-date-end="APR 2022">
-                <div class="bar-bg"></div>
-                <span class="bar-label">UMich Treasurer</span>
-                <span class="tooltip-content">Served as treasurer for UMich Special Olympics chapter.</span>
-              </div>
-              <div class="timeline-bar" data-start="41" data-end="present" data-bg="#6c2fa0"
-                   data-date-start="JUN 2023">
-                <div class="bar-bg"></div>
-                <span class="bar-label">NYC Leadership Council Member</span>
-                <span class="tooltip-content">Support statewide fundraising and strategic leadership initiatives.</span>
-              </div>
-              <!-- Renamed: shorter label, same tooltip still has full context -->
-              <div class="timeline-bar" data-start="57" data-end="present" data-bg="#6c2fa0"
-                   data-date-start="OCT 2024">
-                <div class="bar-bg"></div>
-                <span class="bar-label">NYC Athlete Mentor</span>
-                <span class="tooltip-content">Mentor an athlete 1:1 alongside ongoing Leadership Council work as Downstate NY Athlete Mentor &amp; Leadership Council Member.</span>
-              </div>
+              <div class="timeline-bar" data-start="2" data-end="14" data-bg="#4a235a" data-date-start="MAR 2020" data-date-end="MAR 2021"><div class="bar-bg"></div><span class="bar-label">UMich Head Coach</span><span class="tooltip-content">Coached the University of Michigan Special Olympics football team.</span></div>
+              <div class="timeline-bar" data-start="14" data-end="27" data-bg="#6c2fa0" data-promotion="true" data-date-start="MAR 2021" data-date-end="APR 2022"><div class="bar-bg"></div><span class="bar-label">UMich Treasurer</span><span class="tooltip-content">Served as treasurer for UMich Special Olympics chapter.</span></div>
+              <div class="timeline-bar" data-start="41" data-end="present" data-bg="#6c2fa0" data-date-start="JUN 2023"><div class="bar-bg"></div><span class="bar-label">NYC Leadership Council Member</span><span class="tooltip-content">Support statewide fundraising and strategic leadership initiatives.</span></div>
+              <div class="timeline-bar" data-start="57" data-end="present" data-bg="#6c2fa0" data-date-start="OCT 2024"><div class="bar-bg"></div><span class="bar-label">NYC Athlete Mentor</span><span class="tooltip-content">Mentor an athlete 1:1 alongside ongoing Leadership Council work as Downstate NY Athlete Mentor &amp; Leadership Council Member.</span></div>
             </div>
           </div>
-
           <!-- LARTA -->
           <div class="timeline-row">
-            <div class="timeline-logo-container">
-              <img src="/assets/logos/timeline/larta.png" class="timeline-logo" alt="Larta Institute">
-              <div class="company-name">Larta Institute</div>
-            </div>
+            <div class="timeline-logo-container"><img src="/assets/logos/timeline/larta.png" class="timeline-logo" alt="Larta Institute"><div class="company-name">Larta Institute</div></div>
             <div class="timeline-bars">
-              <div class="timeline-bar" data-start="16" data-end="20" data-bg="#8b1a14"
-                   data-date-start="MAY 2021" data-date-end="SEP 2021">
-                <div class="bar-bg"></div>
-                <span class="bar-label">Program Mgmt Intern</span>
-                <span class="tooltip-content">Tracked KPIs for 1,000+ startups and streamlined reporting.</span>
-              </div>
+              <div class="timeline-bar" data-start="16" data-end="20" data-bg="#8b1a14" data-date-start="MAY 2021" data-date-end="SEP 2021"><div class="bar-bg"></div><span class="bar-label">Program Mgmt Intern</span><span class="tooltip-content">Tracked KPIs for 1,000+ startups and streamlined reporting.</span></div>
             </div>
           </div>
-
           <!-- XPANSE -->
           <div class="timeline-row">
-            <div class="timeline-logo-container">
-              <img src="/assets/logos/timeline/xpanse.png" class="timeline-logo" alt="Xpanse AI">
-              <div class="company-name">Xpanse AI</div>
-            </div>
+            <div class="timeline-logo-container"><img src="/assets/logos/timeline/xpanse.png" class="timeline-logo" alt="Xpanse AI"><div class="company-name">Xpanse AI</div></div>
             <div class="timeline-bars">
-              <div class="timeline-bar" data-start="5" data-end="8" data-bg="#6b1c2e"
-                   data-date-start="JUN 2020" data-date-end="SEP 2020">
-                <div class="bar-bg"></div>
-                <span class="bar-label">Business Ops Intern</span>
-                <span class="tooltip-content">Researched predictive analytics across sports organizations.</span>
-              </div>
+              <div class="timeline-bar" data-start="5" data-end="8" data-bg="#6b1c2e" data-date-start="JUN 2020" data-date-end="SEP 2020"><div class="bar-bg"></div><span class="bar-label">Business Ops Intern</span><span class="tooltip-content">Researched predictive analytics across sports organizations.</span></div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
 
-        </div><!-- /timeline-inner -->
-      </div><!-- /timeline-scroll-area -->
-    </div><!-- /timeline-container -->
-
-    <!-- SKILLS -->
     <h2>Skills</h2>
     <div class="card-box skills">
       <div class="skill">
@@ -462,33 +218,16 @@
           <div class="credly-tooltip">Core Product Certified</div>
           <div class="credly-badge"><img src="/assets/logos/skills/credly.png" alt="Core Product Certified (Credly)"></div>
         </a>
-        <img src="/assets/logos/skills/smartsheet.png" alt="Smartsheet">
-        <span>Smartsheet</span>
+        <img src="/assets/logos/skills/smartsheet.png" alt="Smartsheet"><span>Smartsheet</span>
         <div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span></div>
       </div>
-      <div class="skill">
-        <img src="/assets/logos/skills/office.png" alt="MS Office"><span>MS Office</span>
-        <div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span></div>
-      </div>
-      <div class="skill">
-        <img src="/assets/logos/skills/ga4.png" alt="GA4"><span>GA4</span>
-        <div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span></div>
-      </div>
-      <div class="skill">
-        <img src="/assets/logos/skills/sql.png" alt="SQL"><span>SQL</span>
-        <div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-      </div>
-      <div class="skill">
-        <img src="/assets/logos/skills/asana.png" alt="Asana"><span>Asana</span>
-        <div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span></div>
-      </div>
-      <div class="skill">
-        <img src="/assets/logos/skills/sap.png" alt="SAP BO"><span>SAP BO</span>
-        <div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span></div>
-      </div>
+      <div class="skill"><img src="/assets/logos/skills/office.png" alt="MS Office"><span>MS Office</span><div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span></div></div>
+      <div class="skill"><img src="/assets/logos/skills/ga4.png" alt="GA4"><span>GA4</span><div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span></div></div>
+      <div class="skill"><img src="/assets/logos/skills/sql.png" alt="SQL"><span>SQL</span><div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>
+      <div class="skill"><img src="/assets/logos/skills/asana.png" alt="Asana"><span>Asana</span><div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span></div></div>
+      <div class="skill"><img src="/assets/logos/skills/sap.png" alt="SAP BO"><span>SAP BO</span><div class="dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span></div></div>
     </div>
 
-    <!-- TOOLS -->
     <h2>Tools Used</h2>
     <div class="tools-card">
       <div class="tool"><img src="/assets/logos/tools/chatgpt.png" alt="ChatGPT"><span>ChatGPT</span></div>
@@ -499,371 +238,40 @@
       <div class="tool"><img src="/assets/logos/tools/figma.png" alt="Figma"><span>Figma</span></div>
     </div>
 
-  </div><!-- /content -->
-</div><!-- /page-wrapper -->
+  </div>
+</div>
 
+<div id="theme-toggle-placeholder"></div>
+<div id="spotify-placeholder"></div>
+
+<script src="/js/components.js"></script>
 <script>
-// ════════════════════════════════════════════════════════
-//  CONFIG
-// ════════════════════════════════════════════════════════
-const TIMELINE_START_YEAR = 2020;
-const BAR_HEIGHT  = 34;
-const ROW_GAP     = 6;
-const V_PAD       = 12;
-const MONTH_PX    = 40;
-const QUARTER_PX  = 40;
-const LOGO_COL_W  = 130;
-const OVERLAP_PX  = 8;
-
-// ════════════════════════════════════════════════════════
-//  DYNAMIC EXTENT  — recalculated every page load
-// ════════════════════════════════════════════════════════
-const now         = new Date();
-const PRESENT_IDX = (now.getFullYear() - TIMELINE_START_YEAR) * 12 + now.getMonth();
-
-// One entry per year in the timeline, with how many months/quarters are visible
-const YEARS_DATA = (() => {
-  const arr     = [];
-  const endYear = TIMELINE_START_YEAR + Math.floor(PRESENT_IDX / 12);
-  for (let y = TIMELINE_START_YEAR; y <= endYear; y++) {
-    const yOffset   = (y - TIMELINE_START_YEAR) * 12;
-    const lastMonth = y === now.getFullYear() ? yOffset + 11 : Math.min(yOffset + 11, PRESENT_IDX);
-    const months    = lastMonth - yOffset + 1;               // 1–12
-    const quarters  = Math.floor((months - 1) / 3) + 1;     // 1–4
-    arr.push({ year: y, months, quarters });
-  }
-  return arr;
-})();
-
-const TOTAL_MONTHS   = YEARS_DATA.reduce((s, y) => s + y.months,   0);
-const TOTAL_QUARTERS = YEARS_DATA.reduce((s, y) => s + y.quarters, 0);
-
-// ════════════════════════════════════════════════════════
-//  DOM
-// ════════════════════════════════════════════════════════
-const scrollArea      = document.getElementById('timeline-scroll-area');
-const timelineInner   = document.getElementById('timeline-inner');
-const timelineYearsEl = document.getElementById('timeline-years');
-const monthsContainer = document.getElementById('timeline-months');
-const topBar          = document.getElementById('timeline-top-bar');
-const timelineToggle  = document.getElementById('timeline-toggle');
-const globalTooltip   = document.getElementById('global-tooltip');
-
-const MONTH_SHORT = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-const MONTH_CAPS  = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
-
-const allBars = document.querySelectorAll('.timeline-bar');
-
-// Resolve "present" and paint bar backgrounds
-allBars.forEach(bar => {
-  if (bar.dataset.end === 'present') {
-    bar.dataset.isPresent = 'true';
-    bar.dataset.end = PRESENT_IDX;
-  }
-  const bgEl = bar.querySelector('.bar-bg');
-  if (bgEl && bar.dataset.bg) bgEl.style.backgroundColor = bar.dataset.bg;
-});
-
-// ════════════════════════════════════════════════════════
-//  TOOLTIP HTML
-// ════════════════════════════════════════════════════════
-function idxToLabel(idx) {
-  const mi = ((idx % 12) + 12) % 12;
-  return `${MONTH_CAPS[mi]} ${TIMELINE_START_YEAR + Math.floor(idx / 12)}`;
-}
-
-function buildTooltipHTML(bar) {
-  const contentEl  = bar.querySelector('.tooltip-content');
-  const body       = contentEl ? contentEl.innerHTML.trim() : '';
-  const startLabel = bar.dataset.dateStart || idxToLabel(parseInt(bar.dataset.start));
-  const endLabel   = bar.dataset.dateEnd   ||
-                     (bar.dataset.isPresent === 'true' ? 'PRESENT' : idxToLabel(parseInt(bar.dataset.end)));
-  const dateLine = `<div style="text-align:center;font-weight:700;margin-bottom:4px;">${startLabel} – ${endLabel}</div>`;
-  return body ? `${dateLine}<div style="text-align:left;">${body}</div>` : dateLine;
-}
-
-// ════════════════════════════════════════════════════════
-//  STACK BARS
-// ════════════════════════════════════════════════════════
-function stackBars() {
-  document.querySelectorAll('.timeline-row').forEach(row => {
-    const bars     = row.querySelectorAll('.timeline-bar');
-    const barsArea = row.querySelector('.timeline-bars');
-    const placed   = [];
-    let maxRow     = 0;
-
-    bars.forEach(bar => {
-      const s = parseFloat(bar.dataset.start);
-      const e = parseFloat(bar.dataset.end);
-      let r = 0;
-      while (placed.some(p => p.r === r && s < p.e && e > p.s)) r++;
-      maxRow = Math.max(maxRow, r);
-      bar.style.top    = `${V_PAD + r * (BAR_HEIGHT + ROW_GAP)}px`;
-      bar.style.zIndex = bar.dataset.promotion === 'true' ? '3' : '1';
-      placed.push({ s, e, r });
-    });
-
-    if (barsArea) {
-      const contentH = (maxRow + 1) * BAR_HEIGHT + maxRow * ROW_GAP;
-      barsArea.style.minHeight   = `${V_PAD + contentH + V_PAD}px`;
-      barsArea.dataset.singleRow = maxRow === 0 ? 'true' : 'false';
-    }
-  });
-}
-
-// ════════════════════════════════════════════════════════
-//  POST-BUILD  (runs after layout paints)
-//  1. Vertically center single-row swim lanes
-//  2. Seed sticky label positions
-// ════════════════════════════════════════════════════════
-function postBuild() {
-  document.querySelectorAll('.timeline-row').forEach(row => {
-    const barsArea = row.querySelector('.timeline-bars');
-    if (!barsArea || barsArea.dataset.singleRow !== 'true') return;
-    const laneH      = barsArea.offsetHeight;
-    const centeredTop = Math.round((laneH - BAR_HEIGHT) / 2);
-    row.querySelectorAll('.timeline-bar').forEach(bar => {
-      bar.style.top = `${centeredTop}px`;
-    });
-  });
-  updateStickyLabels();
-}
-
-// ════════════════════════════════════════════════════════
-//  STICKY LABELS
-// ════════════════════════════════════════════════════════
-function updateStickyLabels() {
-  const scrollLeft = scrollArea.scrollLeft;
-  const visLeft    = scrollLeft + LOGO_COL_W;
-  const visRight   = scrollLeft + scrollArea.clientWidth;
-
-  allBars.forEach(bar => {
-    const labelEl = bar.querySelector('.bar-label');
-    if (!labelEl) return;
-
-    const barLeft  = parseFloat(bar.style.left)  || 0;
-    const barWidth = parseFloat(bar.style.width) || 0;
-    const absLeft  = LOGO_COL_W + barLeft;
-    const absRight = absLeft + barWidth;
-
-    const visBarLeft  = Math.max(absLeft,  visLeft);
-    const visBarRight = Math.min(absRight, visRight);
-    if (visBarRight <= visBarLeft) return;
-
-    const labelW        = labelEl.offsetWidth;
-    const visCenterInBar = (visBarLeft + visBarRight) / 2 - absLeft;
-    const desired        = visCenterInBar - labelW / 2;
-    const tx = Math.max(0, Math.min(desired, Math.max(0, barWidth - labelW)));
-    labelEl.style.transform = `translateX(${tx}px)`;
-  });
-}
-
-// ════════════════════════════════════════════════════════
-//  PROMOTION OVERLAP
-// ════════════════════════════════════════════════════════
-function applyPromotionOverlap() {
-  document.querySelectorAll('.timeline-bar[data-promotion="true"]').forEach(bar => {
-    const curLeft = parseFloat(bar.style.left) || 0;
-    const curW    = parseFloat(bar.style.width) || 0;
-    if (curLeft > 0) {
-      bar.style.left  = `${curLeft - OVERLAP_PX}px`;
-      bar.style.width = `${curW    + OVERLAP_PX}px`;
-    }
-  });
-}
-
-// ════════════════════════════════════════════════════════
-//  GRID LINES
-// ════════════════════════════════════════════════════════
-function drawGrid(colPx) {
-  document.querySelectorAll('.timeline-bars').forEach(area => {
-    area.style.backgroundImage = `repeating-linear-gradient(
-      to right,
-      rgba(90,105,115,0.4) 0, rgba(90,105,115,0.4) 1px,
-      transparent 1px, transparent ${colPx}px
-    )`;
-    area.style.backgroundSize     = `${colPx}px 100%`;
-    area.style.backgroundPosition = '0 0';
-  });
-}
-
-// ════════════════════════════════════════════════════════
-//  YEAR NOTCHES
-// ════════════════════════════════════════════════════════
-function addYearNotches(yearWidthFn) {
-  topBar.querySelectorAll('.year-notch').forEach(n => n.remove());
-  let cumPx = 0;
-  YEARS_DATA.forEach((y, i) => {
-    cumPx += yearWidthFn(y);
-    if (i < YEARS_DATA.length - 1) {
-      const n = document.createElement('div');
-      n.className  = 'year-notch';
-      n.style.left = `${cumPx}px`;
-      topBar.appendChild(n);
-    }
-  });
-}
-
-// ════════════════════════════════════════════════════════
-//  BUILD: MONTHS
-// ════════════════════════════════════════════════════════
-function buildMonths() {
-  timelineYearsEl.innerHTML = '';
-  const yearColWidths = [];
-  YEARS_DATA.forEach(y => {
-    const span = document.createElement('span');
-    span.textContent = y.year;
-    timelineYearsEl.appendChild(span);
-    yearColWidths.push(`${y.months * MONTH_PX}px`);
-  });
-  timelineYearsEl.style.gridTemplateColumns = yearColWidths.join(' ');
-
-  monthsContainer.innerHTML = '';
-  for (let i = 0; i < TOTAL_MONTHS; i++) {
-    const s = document.createElement('span');
-    s.textContent = MONTH_SHORT[i % 12];
-    monthsContainer.appendChild(s);
-  }
-  monthsContainer.style.gridTemplateColumns = `repeat(${TOTAL_MONTHS}, ${MONTH_PX}px)`;
-
-  allBars.forEach(bar => {
-    const s = parseInt(bar.dataset.start), e = parseInt(bar.dataset.end);
-    bar.style.left  = `${s * MONTH_PX}px`;
-    bar.style.width = `${(e - s) * MONTH_PX}px`;
-  });
-
-  // Set exact scroll width — no extra space
-  timelineInner.style.width = `${LOGO_COL_W + TOTAL_MONTHS * MONTH_PX}px`;
-  drawGrid(MONTH_PX);
-  addYearNotches(y => y.months * MONTH_PX);
-  stackBars();
-  applyPromotionOverlap();
-  requestAnimationFrame(postBuild);
-}
-
-// ════════════════════════════════════════════════════════
-//  BUILD: QUARTERS
-// ════════════════════════════════════════════════════════
-function buildQuarters() {
-  timelineYearsEl.innerHTML = '';
-  const yearColWidths = [];
-  YEARS_DATA.forEach(y => {
-    const span = document.createElement('span');
-    span.textContent = y.year;
-    timelineYearsEl.appendChild(span);
-    yearColWidths.push(`${y.quarters * QUARTER_PX}px`);
-  });
-  timelineYearsEl.style.gridTemplateColumns = yearColWidths.join(' ');
-
-  monthsContainer.innerHTML = '';
-  YEARS_DATA.forEach(y => {
-    for (let q = 0; q < y.quarters; q++) {
-      const s = document.createElement('span');
-      s.textContent = `Q${q + 1}`;
-      monthsContainer.appendChild(s);
-    }
-  });
-  monthsContainer.style.gridTemplateColumns = `repeat(${TOTAL_QUARTERS}, ${QUARTER_PX}px)`;
-
-  allBars.forEach(bar => {
-    const s = parseInt(bar.dataset.start), e = parseInt(bar.dataset.end);
-    bar.style.left  = `${(s / 3) * QUARTER_PX}px`;
-    bar.style.width = `${((e - s) / 3) * QUARTER_PX}px`;
-  });
-
-  // Set exact scroll width — no extra space
-  timelineInner.style.width = `${LOGO_COL_W + TOTAL_QUARTERS * QUARTER_PX}px`;
-  drawGrid(QUARTER_PX);
-  addYearNotches(y => y.quarters * QUARTER_PX);
-  stackBars();
-  applyPromotionOverlap();
-  requestAnimationFrame(postBuild);
-}
-
-// ════════════════════════════════════════════════════════
-//  INIT
-// ════════════════════════════════════════════════════════
-function updateTimeline() {
-  timelineToggle.value === 'months' ? buildMonths() : buildQuarters();
-}
+const TIMELINE_START_YEAR=2020,BAR_HEIGHT=34,ROW_GAP=6,V_PAD=12,MONTH_PX=40,QUARTER_PX=40,LOGO_COL_W=130,OVERLAP_PX=8;
+const now=new Date(),PRESENT_IDX=(now.getFullYear()-TIMELINE_START_YEAR)*12+now.getMonth();
+const YEARS_DATA=(()=>{const arr=[],endYear=TIMELINE_START_YEAR+Math.floor(PRESENT_IDX/12);for(let y=TIMELINE_START_YEAR;y<=endYear;y++){const yOffset=(y-TIMELINE_START_YEAR)*12,lastMonth=y===now.getFullYear()?yOffset+11:Math.min(yOffset+11,PRESENT_IDX),months=lastMonth-yOffset+1,quarters=Math.floor((months-1)/3)+1;arr.push({year:y,months,quarters});}return arr;})();
+const TOTAL_MONTHS=YEARS_DATA.reduce((s,y)=>s+y.months,0),TOTAL_QUARTERS=YEARS_DATA.reduce((s,y)=>s+y.quarters,0);
+const scrollArea=document.getElementById('timeline-scroll-area'),timelineInner=document.getElementById('timeline-inner'),timelineYearsEl=document.getElementById('timeline-years'),monthsContainer=document.getElementById('timeline-months'),topBar=document.getElementById('timeline-top-bar'),timelineToggle=document.getElementById('timeline-toggle'),globalTooltip=document.getElementById('global-tooltip');
+const MONTH_SHORT=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],MONTH_CAPS=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+const allBars=document.querySelectorAll('.timeline-bar');
+allBars.forEach(bar=>{if(bar.dataset.end==='present'){bar.dataset.isPresent='true';bar.dataset.end=PRESENT_IDX;}const bgEl=bar.querySelector('.bar-bg');if(bgEl&&bar.dataset.bg)bgEl.style.backgroundColor=bar.dataset.bg;});
+function idxToLabel(idx){const mi=((idx%12)+12)%12;return`${MONTH_CAPS[mi]} ${TIMELINE_START_YEAR+Math.floor(idx/12)}`;}
+function buildTooltipHTML(bar){const contentEl=bar.querySelector('.tooltip-content'),body=contentEl?contentEl.innerHTML.trim():'',startLabel=bar.dataset.dateStart||idxToLabel(parseInt(bar.dataset.start)),endLabel=bar.dataset.dateEnd||(bar.dataset.isPresent==='true'?'PRESENT':idxToLabel(parseInt(bar.dataset.end))),dateLine=`<div style="text-align:center;font-weight:700;margin-bottom:4px;">${startLabel} – ${endLabel}</div>`;return body?`${dateLine}<div style="text-align:left;">${body}</div>`:dateLine;}
+function stackBars(){document.querySelectorAll('.timeline-row').forEach(row=>{const bars=row.querySelectorAll('.timeline-bar'),barsArea=row.querySelector('.timeline-bars'),placed=[];let maxRow=0;bars.forEach(bar=>{const s=parseFloat(bar.dataset.start),e=parseFloat(bar.dataset.end);let r=0;while(placed.some(p=>p.r===r&&s<p.e&&e>p.s))r++;maxRow=Math.max(maxRow,r);bar.style.top=`${V_PAD+r*(BAR_HEIGHT+ROW_GAP)}px`;bar.style.zIndex=bar.dataset.promotion==='true'?'3':'1';placed.push({s,e,r});});if(barsArea){const contentH=(maxRow+1)*BAR_HEIGHT+maxRow*ROW_GAP;barsArea.style.minHeight=`${V_PAD+contentH+V_PAD}px`;barsArea.dataset.singleRow=maxRow===0?'true':'false';}});}
+function postBuild(){document.querySelectorAll('.timeline-row').forEach(row=>{const barsArea=row.querySelector('.timeline-bars');if(!barsArea||barsArea.dataset.singleRow!=='true')return;const laneH=barsArea.offsetHeight,centeredTop=Math.round((laneH-BAR_HEIGHT)/2);row.querySelectorAll('.timeline-bar').forEach(bar=>{bar.style.top=`${centeredTop}px`;});});updateStickyLabels();}
+function updateStickyLabels(){const scrollLeft=scrollArea.scrollLeft,visLeft=scrollLeft+LOGO_COL_W,visRight=scrollLeft+scrollArea.clientWidth;allBars.forEach(bar=>{const labelEl=bar.querySelector('.bar-label');if(!labelEl)return;const barLeft=parseFloat(bar.style.left)||0,barWidth=parseFloat(bar.style.width)||0,absLeft=LOGO_COL_W+barLeft,absRight=absLeft+barWidth,visBarLeft=Math.max(absLeft,visLeft),visBarRight=Math.min(absRight,visRight);if(visBarRight<=visBarLeft)return;const labelW=labelEl.offsetWidth,visCenterInBar=(visBarLeft+visBarRight)/2-absLeft,desired=visCenterInBar-labelW/2,tx=Math.max(0,Math.min(desired,Math.max(0,barWidth-labelW)));labelEl.style.transform=`translateX(${tx}px)`;});}
+function applyPromotionOverlap(){document.querySelectorAll('.timeline-bar[data-promotion="true"]').forEach(bar=>{const curLeft=parseFloat(bar.style.left)||0,curW=parseFloat(bar.style.width)||0;if(curLeft>0){bar.style.left=`${curLeft-OVERLAP_PX}px`;bar.style.width=`${curW+OVERLAP_PX}px`;}});}
+function drawGrid(colPx){document.querySelectorAll('.timeline-bars').forEach(area=>{area.style.backgroundImage=`repeating-linear-gradient(to right,rgba(90,105,115,0.4) 0,rgba(90,105,115,0.4) 1px,transparent 1px,transparent ${colPx}px)`;area.style.backgroundSize=`${colPx}px 100%`;area.style.backgroundPosition='0 0';});}
+function addYearNotches(yearWidthFn){topBar.querySelectorAll('.year-notch').forEach(n=>n.remove());let cumPx=0;YEARS_DATA.forEach((y,i)=>{cumPx+=yearWidthFn(y);if(i<YEARS_DATA.length-1){const n=document.createElement('div');n.className='year-notch';n.style.left=`${cumPx}px`;topBar.appendChild(n);}});}
+function buildMonths(){timelineYearsEl.innerHTML='';const yearColWidths=[];YEARS_DATA.forEach(y=>{const span=document.createElement('span');span.textContent=y.year;timelineYearsEl.appendChild(span);yearColWidths.push(`${y.months*MONTH_PX}px`);});timelineYearsEl.style.gridTemplateColumns=yearColWidths.join(' ');monthsContainer.innerHTML='';for(let i=0;i<TOTAL_MONTHS;i++){const s=document.createElement('span');s.textContent=MONTH_SHORT[i%12];monthsContainer.appendChild(s);}monthsContainer.style.gridTemplateColumns=`repeat(${TOTAL_MONTHS},${MONTH_PX}px)`;allBars.forEach(bar=>{const s=parseInt(bar.dataset.start),e=parseInt(bar.dataset.end);bar.style.left=`${s*MONTH_PX}px`;bar.style.width=`${(e-s)*MONTH_PX}px`;});timelineInner.style.width=`${LOGO_COL_W+TOTAL_MONTHS*MONTH_PX}px`;drawGrid(MONTH_PX);addYearNotches(y=>y.months*MONTH_PX);stackBars();applyPromotionOverlap();requestAnimationFrame(postBuild);}
+function buildQuarters(){timelineYearsEl.innerHTML='';const yearColWidths=[];YEARS_DATA.forEach(y=>{const span=document.createElement('span');span.textContent=y.year;timelineYearsEl.appendChild(span);yearColWidths.push(`${y.quarters*QUARTER_PX}px`);});timelineYearsEl.style.gridTemplateColumns=yearColWidths.join(' ');monthsContainer.innerHTML='';YEARS_DATA.forEach(y=>{for(let q=0;q<y.quarters;q++){const s=document.createElement('span');s.textContent=`Q${q+1}`;monthsContainer.appendChild(s);}});monthsContainer.style.gridTemplateColumns=`repeat(${TOTAL_QUARTERS},${QUARTER_PX}px)`;allBars.forEach(bar=>{const s=parseInt(bar.dataset.start),e=parseInt(bar.dataset.end);bar.style.left=`${(s/3)*QUARTER_PX}px`;bar.style.width=`${((e-s)/3)*QUARTER_PX}px`;});timelineInner.style.width=`${LOGO_COL_W+TOTAL_QUARTERS*QUARTER_PX}px`;drawGrid(QUARTER_PX);addYearNotches(y=>y.quarters*QUARTER_PX);stackBars();applyPromotionOverlap();requestAnimationFrame(postBuild);}
+function updateTimeline(){timelineToggle.value==='months'?buildMonths():buildQuarters();}
 updateTimeline();
-timelineToggle.addEventListener('change', updateTimeline);
-
-// ════════════════════════════════════════════════════════
-//  SCROLL
-// ════════════════════════════════════════════════════════
-scrollArea.addEventListener('scroll', () => {
-  updateStickyLabels();
-  const hovered = document.querySelector('.timeline-bar:hover');
-  if (hovered) positionTooltip(hovered);
-  else         globalTooltip.style.display = 'none';
-});
-
-window.addEventListener('resize', () => requestAnimationFrame(postBuild));
-
-// ════════════════════════════════════════════════════════
-//  TOOLTIP POSITIONING
-// ════════════════════════════════════════════════════════
-function getVisInfo(bar) {
-  const bRect  = bar.getBoundingClientRect();
-  const aRect  = scrollArea.getBoundingClientRect();
-  const lBound = aRect.left + LOGO_COL_W;
-  const rBound = aRect.right;
-  const visL   = Math.max(bRect.left,  lBound);
-  const visR   = Math.min(bRect.right, rBound);
-  if (visR <= visL) return null;
-  return { cx: (visL + visR) / 2, bottom: bRect.bottom, lBound, rBound };
-}
-
-function positionTooltip(bar) {
-  const v = getVisInfo(bar);
-  if (!v) { globalTooltip.style.display = 'none'; return; }
-  globalTooltip.style.display = 'block';
-  const tw = globalTooltip.offsetWidth;
-  let left = v.cx - tw / 2;
-  left = Math.max(v.lBound + 4, Math.min(left, v.rBound - tw - 4));
-  globalTooltip.style.left = `${left}px`;
-  globalTooltip.style.top  = `${v.bottom + 8}px`;
-}
-
-allBars.forEach(bar => {
-  const html = buildTooltipHTML(bar);
-  bar.addEventListener('mouseenter', () => {
-    if (!html) return;
-    globalTooltip.innerHTML = html;
-    positionTooltip(bar);
-  });
-  bar.addEventListener('mouseleave', () => { globalTooltip.style.display = 'none'; });
-});
-
-// ════════════════════════════════════════════════════════
-//  NAVBAR SCROLL EFFECT
-// ════════════════════════════════════════════════════════
-const navbar = document.querySelector('.navbar');
-
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 20) {
-    navbar.style.background = 'rgba(20,20,20,.95)';
-    navbar.style.boxShadow  = '0 2px 20px rgba(0,0,0,.6)';
-  } else {
-    navbar.style.background = '#222';
-    navbar.style.boxShadow  = '4px 0 12px rgba(0,0,0,.5)';
-  }
-});
-  
-// ════════════════════════════════════════════════════════
-//  SIDEBAR
-// ════════════════════════════════════════════════════════
-const hamburger   = document.getElementById('hamburger');
-const sidebar     = document.getElementById('sidebar');
-const overlay     = document.getElementById('overlay');
-const pageWrapper = document.getElementById('page-wrapper');
-const openSidebar  = () => { sidebar.classList.add('open'); hamburger.classList.add('active'); overlay.classList.add('active'); pageWrapper.style.transform = `translateX(${sidebar.offsetWidth}px)`; };
-const closeSidebar = () => { sidebar.classList.remove('open'); hamburger.classList.remove('active'); overlay.classList.remove('active'); pageWrapper.style.transform = 'translateX(0)'; };
-hamburger.addEventListener('click', () => sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
-overlay.addEventListener('click', closeSidebar);
-document.querySelectorAll('.sidebar a').forEach(l => l.addEventListener('click', closeSidebar));
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
+timelineToggle.addEventListener('change',updateTimeline);
+scrollArea.addEventListener('scroll',()=>{updateStickyLabels();const hovered=document.querySelector('.timeline-bar:hover');if(hovered)positionTooltip(hovered);else globalTooltip.style.display='none';});
+window.addEventListener('resize',()=>requestAnimationFrame(postBuild));
+function getVisInfo(bar){const bRect=bar.getBoundingClientRect(),aRect=scrollArea.getBoundingClientRect(),lBound=aRect.left+LOGO_COL_W,rBound=aRect.right,visL=Math.max(bRect.left,lBound),visR=Math.min(bRect.right,rBound);if(visR<=visL)return null;return{cx:(visL+visR)/2,bottom:bRect.bottom,lBound,rBound};}
+function positionTooltip(bar){const v=getVisInfo(bar);if(!v){globalTooltip.style.display='none';return;}globalTooltip.style.display='block';const tw=globalTooltip.offsetWidth;let left=v.cx-tw/2;left=Math.max(v.lBound+4,Math.min(left,v.rBound-tw-4));globalTooltip.style.left=`${left}px`;globalTooltip.style.top=`${v.bottom+8}px`;}
+allBars.forEach(bar=>{const html=buildTooltipHTML(bar);bar.addEventListener('mouseenter',()=>{if(!html)return;globalTooltip.innerHTML=html;positionTooltip(bar);});bar.addEventListener('mouseleave',()=>{globalTooltip.style.display='none';});});
 </script>
 </body>
 </html>
